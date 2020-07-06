@@ -1,5 +1,5 @@
-#ifndef _MATRIX_4_H
-#define _MATRIX_4_H
+#ifndef _GE_MATRIX_4_H
+#define _GE_MATRIX_4_H
 
 #include <array>
 #include <cstddef>

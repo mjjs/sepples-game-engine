@@ -1,5 +1,5 @@
-#ifndef _WINDOW_H
-#define _WINDOW_H
+#ifndef _GE_WINDOW_H
+#define _GE_WINDOW_H
 
 #include <cstddef>
 #include <string>
@@ -23,5 +23,6 @@ public:
 
     void clear();
     void fill(float r, float g, float b, float a) const;
+    void flip();
 };
 #endif

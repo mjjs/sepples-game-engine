@@ -1,6 +1,9 @@
 #include "game/game.h"
 #include "input/input.h"
-#include "matrix4.h"
+#include "mesh.h"
+#include "shader.h"
+#include "resourceloader.h"
+#include "vector3.h"
 #include "window.h"
 
 #define GL3_PROTOTYPES = 1;
@@ -10,20 +13,20 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_timer.h>
 
-#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 // GLOBALS -- MOVE TO OWN ENGINE CLASS
 std::unique_ptr<Window> window;
 std::unique_ptr<Input> input;
 
 // Move these to engine class as well
-void render();
+void render(const Mesh& m, Shader& s);
 void main_loop();
 void update(double delta);
 
@@ -65,6 +68,19 @@ void main_loop()
 {
     bool exit = false;
 
+    std::vector<Math::Vector3> vertices{
+        {-1.0, -1.0, 0.0},
+            {0.0, 1.0, 0.0},
+            {1.0, -1.0, 0.0}
+    };
+
+    Mesh m{vertices};
+
+    Shader s{};
+    s.add_vertex_shader(load_shader("basic_vertex.gsls"));
+    s.add_fragment_shader(load_shader("basic_fragment.gsls"));
+    s.compile_shader();
+
     // TODO: Fix this to a fixed update time step, variable rendering
     // see: http://gameprogrammingpatterns.com/game-loop.html#play-catch-up
     std::uint32_t previous_time = SDL_GetTicks();
@@ -90,15 +106,16 @@ void main_loop()
         handle_input();
         input->update();
 
-        render();
-
-        // input->clear_state();
+        render(m, s);
     }
 }
 
-void render()
+void render(const Mesh& m, Shader& s)
 {
-    window->fill(1.0, 0.0, 0.0, 1.0);
+    window->fill(1.0, 0.0, 1.0, 1.0);
+    s.bind();
+    m.draw();
+    window->flip();
 }
 
 int main()
@@ -113,7 +130,7 @@ int main()
 
         start();
     } catch (const std::runtime_error& e) {
-        std::cout << "Game could not be run: " << e.what() << '\n';
+        std::cout << "Engine crashed: " << e.what() << '\n';
     }
 
     return 0;

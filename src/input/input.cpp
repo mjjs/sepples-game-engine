@@ -30,10 +30,10 @@ void Input::key_event(const SDL_Event& event)
         current_mouse_keys.erase(mouse_button_code);
         break;
     case SDL_MOUSEMOTION:
-        mouse_position = Math::Vector2(
+        mouse_position = Math::Vector2{
                 static_cast<float>(event.motion.x),
                 static_cast<float>(event.motion.y)
-                );
+                };
         break;
     }
 }

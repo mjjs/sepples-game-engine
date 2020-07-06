@@ -18,11 +18,9 @@ Window::Window(const size_t width, const size_t height, const std::string& title
         throw std::runtime_error("Could not create SDL window");
     }
 
-    context = SDL_GL_CreateContext(window);
-
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     glFrontFace(GL_CW);
@@ -33,14 +31,28 @@ Window::Window(const size_t width, const size_t height, const std::string& title
 
     SDL_GL_SetSwapInterval(1);
 
+    context = SDL_GL_CreateContext(window);
+	glewExperimental = GL_TRUE;
+
+    if (glewInit() != GLEW_OK) {
+        throw std::runtime_error("Could not init GLEW");
+    }
+
     clear();
 }
+
+
 
 Window::~Window()
 {
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
     SDL_Quit();
+}
+
+void Window::flip()
+{
+    SDL_GL_SwapWindow(window);
 }
 
 void Window::clear()
@@ -51,6 +63,5 @@ void Window::clear()
 void Window::fill(const float r, const float g, const float b, const float a) const
 {
     glClearColor(r, g, b, a);
-    glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapWindow(window);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

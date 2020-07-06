@@ -1,5 +1,5 @@
-#ifndef _GAME_H
-#define _GAME_H
+#ifndef _GE_GAME_H
+#define _GE_GAME_H
 
 namespace Game {
 class Game {
