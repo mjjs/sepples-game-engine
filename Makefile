@@ -1,5 +1,5 @@
 CXX = clang++
-CPPFLAGS ?= $(INC_FLAGS) -Wall -Wextra -Wpedantic -std=c++17
+CPPFLAGS ?= $(INC_FLAGS) -Wall -Wextra -Wpedantic -std=c++17 -g
 LDFLAGS = -lGL -lGLEW -lSDL2
 
 TARGET ?= game_engine
