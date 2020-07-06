@@ -116,3 +116,34 @@ std::pair<bool, std::string> Shader::check_shader_error(ShaderErrorCheckType che
 
     return std::pair<bool, std::string>{true, std::string(error_message)};
 }
+
+void Shader::add_uniform(const std::string& variable_name)
+{
+    const GLint uniform_location = glGetUniformLocation(shader_program, variable_name.c_str());
+    if (uniform_location == -1) {
+        throw std::runtime_error("Uniform variable " + variable_name + " not found in the shader program");
+    }
+
+    uniform_variables[variable_name] = uniform_location;
+}
+
+void Shader::set_uniform(const std::string& variable_name, int value)
+{
+    glUniform1i(uniform_variables[variable_name], value);
+}
+
+void Shader::set_uniform(const std::string& variable_name, float value)
+{
+    glUniform1f(uniform_variables[variable_name], value);
+}
+
+void Shader::set_uniform(const std::string& variable_name, const Math::Vector3& vector)
+{
+    glUniform3f(uniform_variables[variable_name], vector.x, vector.y, vector.z);
+}
+
+void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& matrix)
+{
+    glUniformMatrix4fv(uniform_variables[variable_name], 1, GL_TRUE, &(matrix[0][0]));
+}
+

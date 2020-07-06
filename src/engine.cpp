@@ -6,8 +6,11 @@
 #include "mesh.h"
 #include "resourceloader.h"
 #include "shader.h"
+#include "transform.h"
 #include "vector3.h"
 #include "window.h"
+
+#include <cmath>
 
 #include <SDL2/SDL.h>
 
@@ -41,15 +44,21 @@ void Engine::main_loop()
     shader.add_fragment_shader(load_shader("basic_fragment.gsls"));
     shader.compile_shader();
 
+    shader.add_uniform("transform");
+
     // TODO: Fix this to a fixed update time step, variable rendering
     // see: http://gameprogrammingpatterns.com/game-loop.html#play-catch-up
     std::uint32_t previous_time = SDL_GetTicks();
 
     SDL_Event event;
 
+    float temp = 0.0F;
+
     while (exit_requested == false) {
         std::uint32_t current_time = SDL_GetTicks();
-        std::uint32_t elapsed = SDL_TICKS_PASSED(previous_time, current_time);
+        std::uint32_t elapsed = current_time - previous_time;
+        previous_time = current_time;
+
         double delta = static_cast<double>(elapsed);
 
         while (SDL_PollEvent(&event) == 1) {
@@ -62,6 +71,11 @@ void Engine::main_loop()
                 input.key_event(event);
             }
         }
+
+        temp += static_cast<float>(delta);
+        Math::Transform transform{Math::Vector3{std::sin(temp), 0, 0}};
+
+        shader.set_uniform("transform", transform.get_transformation());
 
         // Handle game input before input.update();
         input.update();
