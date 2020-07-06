@@ -122,13 +122,14 @@ int main()
 {
     const std::size_t width = 550;
     const std::size_t height = 550;
-    const std::string title = "Game engine!";
+    const std::string title = "Game engine";
 
     try {
         input = std::make_unique<Input>();
         window = std::make_unique<Window>(width, height, title);
 
         start();
+        window->cleanup();
     } catch (const std::runtime_error& e) {
         std::cout << "Engine crashed: " << e.what() << '\n';
     }

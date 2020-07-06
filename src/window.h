@@ -14,7 +14,8 @@ private:
 
 public:
     Window(size_t width, size_t height, const std::string& title);
-    ~Window();
+
+    void cleanup();
 
     Window(const Window&) = delete;
     Window(const Window&&) = delete;

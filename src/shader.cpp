@@ -12,6 +12,11 @@ Shader::Shader() :
     }
 }
 
+Shader::~Shader()
+{
+    glDeleteProgram(shader_program);
+}
+
 void Shader::add_vertex_shader(const std::string& shader_code)
 {
     add_program(shader_code, GL_VERTEX_SHADER);
@@ -51,6 +56,7 @@ void Shader::add_program(const std::string& shader_code, GLenum shader_type)
     }
 
     glAttachShader(shader_program, shader);
+    attached_shaders.push_back(shader);
 }
 
 void Shader::compile_shader()
@@ -71,6 +77,10 @@ void Shader::compile_shader()
 
     if (error.first == true) {
         throw std::runtime_error("Shader not valid: " + error.second);
+    }
+
+    for (const GLuint shader : attached_shaders) {
+        glDetachShader(shader_program, shader);
     }
 }
 
