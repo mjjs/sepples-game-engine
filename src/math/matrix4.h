@@ -16,6 +16,8 @@ class Matrix4 {
         explicit Matrix4(const std::array<std::array<float, 4>, 4>& columns_and_rows);
         static Matrix4 identity();
         static Matrix4 translation(const Vector3& translation_vector);
+        static Matrix4 rotation(const Vector3& rotation_vector);
+        static Matrix4 scale(const Vector3& scale_vector);
 
     std::array<float, 4>& operator[](std::size_t i);
     const std::array<float, 4>& operator[](std::size_t i) const;

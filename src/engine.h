@@ -1,6 +1,7 @@
 #ifndef _GE_ENGINE_H
 #define _GE_ENGINE_H
 
+#include "game.h"
 #include "input.h"
 #include "window.h"
 
@@ -18,6 +19,11 @@ class Engine {
 
         Input input;
         Window window;
+
+        void render();
+
+        // For testing the engine
+        Game::Game game_;
 
     public:
         Engine();

@@ -8,6 +8,6 @@ uniform mat4 transform;
 
 void main()
 {
-    color = vec4(position, 1.0);
+    color = transform * vec4(clamp(5*position, 0.0, 1.0), 1.0);
     gl_Position = transform * vec4(position, 1.0);
 }

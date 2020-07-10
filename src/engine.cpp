@@ -2,6 +2,7 @@
 #define GL3_PROTOTYPES = 1;
 
 #include "engine.h"
+#include "game.h"
 #include "input.h"
 #include "mesh.h"
 #include "resourceloader.h"
@@ -10,7 +11,9 @@
 #include "vector3.h"
 #include "window.h"
 
+#include <chrono>
 #include <cmath>
+#include <iostream>
 
 #include <SDL2/SDL.h>
 
@@ -29,37 +32,29 @@ void Engine::cleanup()
     window.cleanup();
 }
 
+void Engine::render()
+{
+    window.clear();
+    game_.render();
+    window.flip();
+}
+
 void Engine::main_loop()
 {
-    // TODO: Load shaders and meshes from asset files
-    const std::vector<Math::Vector3> triangle_vertices{
-        {-1.0, -1.0, 0.0},
-            {0.0, 1.0, 0.0},
-            {1.0, -1.0, 0.0}
-    };
-
-    Mesh triangle{triangle_vertices};
-    Shader shader{};
-    shader.add_vertex_shader(load_shader("basic_vertex.gsls"));
-    shader.add_fragment_shader(load_shader("basic_fragment.gsls"));
-    shader.compile_shader();
-
-    shader.add_uniform("transform");
-
-    // TODO: Fix this to a fixed update time step, variable rendering
-    // see: http://gameprogrammingpatterns.com/game-loop.html#play-catch-up
-    std::uint32_t previous_time = SDL_GetTicks();
-
     SDL_Event event;
 
-    float temp = 0.0F;
+    int rendered_frames = 0;
+    int frame_counter = 0;
 
-    while (exit_requested == false) {
-        std::uint32_t current_time = SDL_GetTicks();
-        std::uint32_t elapsed = current_time - previous_time;
+    auto previous_time = std::chrono::steady_clock::now();
+    double lag = 0.0F;
+
+    while (!exit_requested) {
+        auto current_time = std::chrono::steady_clock::now();
+        auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(current_time - previous_time);
         previous_time = current_time;
 
-        double delta = static_cast<double>(elapsed);
+        lag += static_cast<double>(delta.count());
 
         while (SDL_PollEvent(&event) == 1) {
             if (event.type == SDL_QUIT) {
@@ -72,19 +67,26 @@ void Engine::main_loop()
             }
         }
 
-        temp += static_cast<float>(delta);
-        Math::Transform transform{Math::Vector3{std::sin(temp), 0, 0}};
+        frame_counter += delta.count();
 
-        shader.set_uniform("transform", transform.get_transformation());
+        game_.input();
+
+        while (lag >= 16) {
+            game_.update();
+            lag -= 16;
+
+            if (frame_counter >= 1000) {
+                std::cout << "FPS: " << rendered_frames << '\n';
+                rendered_frames = 0;
+                frame_counter = 0;
+            }
+        }
+
+        render();
+        rendered_frames++;
 
         // Handle game input before input.update();
         input.update();
-
-        // TODO: Move to a render method
-        window.fill(1.0, 0.0, 1.0, 1.0);
-        shader.bind();
-        triangle.draw();
-        window.flip();
     }
 }
 

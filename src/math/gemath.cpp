@@ -24,7 +24,7 @@ Math::Vector2 Math::normalize(const Math::Vector2& vec)
 
 Math::Vector2 Math::rotate(const Math::Vector2& vec, float degrees)
 {
-    const float radians = degrees * (static_cast<float>(M_PI)/180);
+    const float radians = Math::to_radians(degrees);
     const float cos = std::cos(radians);
     const float sin = std::sin(radians);
 
@@ -79,4 +79,9 @@ Math::Quaternion Math::normalize(const Math::Quaternion& q)
 Math::Quaternion Math::conjugate(const Math::Quaternion& q)
 {
     return Math::Quaternion{-q.x, -q.y, -q.z, -q.w};
+}
+
+float Math::to_radians(const float degrees)
+{
+    return static_cast<float>(degrees * (M_PI / 180));
 }

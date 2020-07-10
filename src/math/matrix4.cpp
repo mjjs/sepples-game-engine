@@ -1,8 +1,10 @@
+#include "gemath.h"
 #include "matrix4.h"
 #include "vector3.h"
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <sstream>
 #include <stdexcept>
@@ -38,6 +40,45 @@ Math::Matrix4 Math::Matrix4::translation(const Math::Vector3& translation_vector
     translation_matrix[1][3] = translation_vector.y;
     translation_matrix[2][3] = translation_vector.z;
     return translation_matrix;
+}
+
+Math::Matrix4 Math::Matrix4::rotation(const Math::Vector3& rotation_vector)
+{
+    Math::Matrix4 rotate_x = Math::Matrix4::identity();
+    Math::Matrix4 rotate_y = Math::Matrix4::identity();
+    Math::Matrix4 rotate_z = Math::Matrix4::identity();
+
+    const float x_rads = Math::to_radians(rotation_vector.x);
+    const float y_rads = Math::to_radians(rotation_vector.y);
+    const float z_rads = Math::to_radians(rotation_vector.z);
+
+    rotate_x[1][1] = std::cos(x_rads);
+    rotate_x[1][2] = -std::sin(x_rads);
+    rotate_x[2][1] = std::sin(x_rads);
+    rotate_x[2][2] = std::cos(x_rads);
+
+    rotate_y[0][0] = std::cos(y_rads);
+    rotate_y[0][2] = std::sin(y_rads);
+    rotate_y[2][0] = -std::sin(y_rads);
+    rotate_y[2][2] = std::cos(y_rads);
+
+    rotate_z[0][0] = std::cos(z_rads);
+    rotate_z[0][1] = -std::sin(z_rads);
+    rotate_z[1][0] = std::sin(z_rads);
+    rotate_z[1][1] = std::cos(z_rads);
+
+    return rotate_x * rotate_y * rotate_z;
+}
+
+Math::Matrix4 Math::Matrix4::scale(const Math::Vector3& scale_vector)
+{
+    Math::Matrix4 scale_matrix = Math::Matrix4::identity();
+
+    scale_matrix[0][0] = scale_vector.x;
+    scale_matrix[1][1] = scale_vector.y;
+    scale_matrix[2][2] = scale_vector.z;
+
+    return scale_matrix;
 }
 
 Math::Matrix4 operator*(const Math::Matrix4& lhs, const Math::Matrix4& rhs)
