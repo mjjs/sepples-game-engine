@@ -11,7 +11,7 @@
 class Engine {
     private:
         // TODO: Get these from config file
-        const std::size_t window_width = 800;
+        const std::size_t window_width = 600;
         const std::size_t window_height = 600;
         const std::string window_title = "Sepples game engine";
 

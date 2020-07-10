@@ -8,23 +8,9 @@
 #include <cmath>
 #include <vector>
 
-Game::Game::Game()
+Game::Game::Game() :
+    mesh_{load_mesh("box.obj")}
 {
-    const std::vector<Math::Vector3> pyramid{
-        {-1.0, -1.0, 0.0},
-            {0.0, 1.0, 0.0},
-            {1.0, -1.0, 0.0},
-            {0.0, -1.0, 1.0}
-    };
-
-    const std::vector<int> indices{
-        0,1,3,
-            3,1,2,
-            2,1,0,
-            0,2,3};
-
-    mesh_.set_vertices(pyramid, indices);
-
     shader_.add_vertex_shader(load_shader("basic_vertex.glsl"));
     shader_.add_fragment_shader(load_shader("basic_fragment.glsl"));
     shader_.compile_shader();
@@ -39,8 +25,8 @@ void Game::Game::update()
 {
     ++temp_;
     // transformer_.set_translation({std::sin(temp_), 0, 0});
-    transformer_.set_rotation({0, temp_, 0});
-    // transformer_.set_scale({asd, asd, asd});
+    transformer_.set_rotation({temp_, temp_, temp_});
+    transformer_.set_scale({.5, .5, .5});
 }
 
 void Game::Game::render()
