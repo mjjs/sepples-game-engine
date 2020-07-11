@@ -53,9 +53,15 @@ Mesh load_mesh(const std::string& filename)
         }
 
         if (tokens[0] == "f") {
-            indices.push_back(std::stoi(tokens[1], nullptr, 10) - 1);
-            indices.push_back(std::stoi(tokens[2], nullptr, 10) - 1);
-            indices.push_back(std::stoi(tokens[3], nullptr, 10) - 1);
+            indices.push_back(std::stoi(split(tokens[1], '/')[0], nullptr, 10) - 1);
+            indices.push_back(std::stoi(split(tokens[2], '/')[0], nullptr, 10) - 1);
+            indices.push_back(std::stoi(split(tokens[3], '/')[0], nullptr, 10) - 1);
+
+            if (tokens.size() > 4) {
+                indices.push_back(std::stoi(split(tokens[1], '/')[0], nullptr, 10) - 1);
+                indices.push_back(std::stoi(split(tokens[3], '/')[0], nullptr, 10) - 1);
+                indices.push_back(std::stoi(split(tokens[4], '/')[0], nullptr, 10) - 1);
+            }
             continue;
         }
     }
