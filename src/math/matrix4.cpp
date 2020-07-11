@@ -96,9 +96,9 @@ Math::Matrix4 Math::Matrix4::projection(
     projection_matrix[0][0] = 1.0F / (tan_half_fov * aspect_ratio);
     projection_matrix[1][1] = 1.0F / tan_half_fov;
     projection_matrix[2][2] = (-z_near - z_far) / z_range;
-    projection_matrix[2][3] = 2 * z_far * z_near / z_range;
-    projection_matrix[3][2] = 1;
-    projection_matrix[3][3] = 0;
+    projection_matrix[2][3] = 2.0F * z_far * z_near / z_range;
+    projection_matrix[3][2] = 1.0F;
+    projection_matrix[3][3] = 0.0F;
 
     return projection_matrix;
 }
