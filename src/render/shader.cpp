@@ -1,7 +1,6 @@
 #include "shader.h"
 #include <stdexcept>
 #include <string>
-#include <iostream>
 #include <utility>
 
 Shader::Shader() :
