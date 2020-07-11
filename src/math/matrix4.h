@@ -18,9 +18,10 @@ class Matrix4 {
         static Matrix4 translation(const Vector3& translation_vector);
         static Matrix4 rotation(const Vector3& rotation_vector);
         static Matrix4 scale(const Vector3& scale_vector);
+        static Matrix4 projection(float fov, float width, float height, float z_near, float z_far);
 
-    std::array<float, 4>& operator[](std::size_t i);
-    const std::array<float, 4>& operator[](std::size_t i) const;
+        std::array<float, 4>& operator[](std::size_t i);
+        const std::array<float, 4>& operator[](std::size_t i) const;
 };
 } // namespace Math
 

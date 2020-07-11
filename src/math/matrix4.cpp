@@ -67,7 +67,7 @@ Math::Matrix4 Math::Matrix4::rotation(const Math::Vector3& rotation_vector)
     rotate_z[1][0] = std::sin(z_rads);
     rotate_z[1][1] = std::cos(z_rads);
 
-    return rotate_x * rotate_y * rotate_z;
+    return rotate_z * rotate_y * rotate_x;
 }
 
 Math::Matrix4 Math::Matrix4::scale(const Math::Vector3& scale_vector)
@@ -79,6 +79,28 @@ Math::Matrix4 Math::Matrix4::scale(const Math::Vector3& scale_vector)
     scale_matrix[2][2] = scale_vector.z;
 
     return scale_matrix;
+}
+
+Math::Matrix4 Math::Matrix4::projection(
+        const float fov,
+        const float width,
+        const float height,
+        const float z_near,
+        const float z_far)
+{
+    const float aspect_ratio = width / height;
+    const float tan_half_fov = std::tan(Math::to_radians(fov / 2));
+    const float z_range = z_near - z_far;
+
+    Math::Matrix4 projection_matrix = Math::Matrix4::identity();
+    projection_matrix[0][0] = 1.0F / (tan_half_fov * aspect_ratio);
+    projection_matrix[1][1] = 1.0F / tan_half_fov;
+    projection_matrix[2][2] = (-z_near - z_far) / z_range;
+    projection_matrix[2][3] = 2 * z_far * z_near / z_range;
+    projection_matrix[3][2] = 1;
+    projection_matrix[3][3] = 0;
+
+    return projection_matrix;
 }
 
 Math::Matrix4 operator*(const Math::Matrix4& lhs, const Math::Matrix4& rhs)
