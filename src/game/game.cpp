@@ -17,6 +17,7 @@ Game::Game::Game() :
     shader_.add_uniform("transform");
 
     transformer_.set_projection(70, 800, 600, .1, 1000);
+    transformer_.set_camera(camera_);
 }
 
 void Game::Game::input()
@@ -29,6 +30,9 @@ void Game::Game::update()
     transformer_.set_translation({0, 0, 5});
     transformer_.set_rotation({temp_, temp_, -temp_});
     // transformer_.set_scale({.5, .5, .5});
+
+    //transformer_.get_camera().rotate_x(temp_);
+    //transformer_.get_camera().move(transformer_.get_camera().get_up(), 0.1);
 }
 
 void Game::Game::render()

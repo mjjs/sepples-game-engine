@@ -103,6 +103,30 @@ Math::Matrix4 Math::Matrix4::projection(
     return projection_matrix;
 }
 
+Math::Matrix4 Math::Matrix4::camera(const Math::Vector3& forward, const Math::Vector3& up)
+{
+    Math::Vector3 normalized_forward = Math::normalize(forward);
+    Math::Vector3 normalized_right = Math::normalize(up);
+    normalized_right = Math::cross(normalized_right, normalized_forward);
+
+    Math::Vector3 normalized_up = Math::cross(normalized_forward, normalized_right);
+
+    Math::Matrix4 camera_matrix = Math::Matrix4::identity();
+    camera_matrix[0][0] = normalized_right.x;
+    camera_matrix[0][1] = normalized_right.y;
+    camera_matrix[0][2] = normalized_right.z;
+
+    camera_matrix[1][0] = normalized_up.x;
+    camera_matrix[1][1] = normalized_up.y;
+    camera_matrix[1][2] = normalized_up.z;
+
+    camera_matrix[2][0] = normalized_forward.x;
+    camera_matrix[2][1] = normalized_forward.y;
+    camera_matrix[2][2] = normalized_forward.z;
+
+    return camera_matrix;
+}
+
 Math::Matrix4 operator*(const Math::Matrix4& lhs, const Math::Matrix4& rhs)
 {
     Math::Matrix4 result{};

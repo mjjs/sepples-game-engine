@@ -1,6 +1,7 @@
 #ifndef _GE_GAME_H
 #define _GE_GAME_H
 
+#include "camera.h"
 #include "mesh.h"
 #include "shader.h"
 #include "transform.h"
@@ -9,6 +10,7 @@
 namespace Game {
 class Game {
     private:
+        Camera camera_;
         Shader shader_;
         Mesh mesh_;
         Math::Transform transformer_;

@@ -65,6 +65,29 @@ Math::Vector3 Math::cross(const Math::Vector3& vec_a, const Math::Vector3 vec_b)
     };
 }
 
+Math::Vector3 Math::rotate(const Math::Vector3& vec, float degrees, const Vector3& axis)
+{
+    float sin_half_angle = std::sin(Math::to_radians(degrees / 2));
+    float cos_half_angle = std::cos(Math::to_radians(degrees / 2));
+
+    Math::Quaternion rotation{
+        axis.x * sin_half_angle,
+            axis.y * sin_half_angle,
+            axis.z * sin_half_angle,
+            cos_half_angle
+    };
+
+    Math::Quaternion conjugate = Math::conjugate(rotation);
+
+    Math::Quaternion rotated = rotation * vec * conjugate;
+
+    return Math::Vector3{
+        rotated.x,
+            rotated.y,
+            rotated.z
+    };
+}
+
 float Math::length(const Math::Quaternion& q)
 {
     return std::sqrt(q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
@@ -78,7 +101,7 @@ Math::Quaternion Math::normalize(const Math::Quaternion& q)
 
 Math::Quaternion Math::conjugate(const Math::Quaternion& q)
 {
-    return Math::Quaternion{-q.x, -q.y, -q.z, -q.w};
+    return Math::Quaternion{-q.x, -q.y, -q.z, q.w};
 }
 
 float Math::to_radians(const float degrees)

@@ -19,6 +19,7 @@ namespace Math {
     float dot(const Vector3& vec_a, const Vector3& vec_b);
     Vector3 normalize(const Vector3& vec);
     Vector3 cross(const Vector3& vec_a, const Vector3 vec_b);
+    Vector3 rotate(const Vector3& vec, float degrees, const Vector3& axis);
 
     // Quaternion
     float length(const Quaternion& q);

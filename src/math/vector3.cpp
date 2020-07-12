@@ -15,3 +15,13 @@ Math::Vector3 operator+(const Math::Vector3& lhs, const Math::Vector3& rhs)
             lhs.z+rhs.z
     };
 }
+
+Math::Vector3 operator*(int scalar, const Math::Vector3& vector)
+{
+    return Math::Vector3{vector.x * scalar, vector.y * scalar, vector.z * scalar};
+}
+
+Math::Vector3 operator*(float scalar, const Math::Vector3& vector)
+{
+    return Math::Vector3{vector.x * scalar, vector.y * scalar, vector.z * scalar};
+}
