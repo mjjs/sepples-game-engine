@@ -20,10 +20,6 @@ Game::Game::Game() :
     transformer_.set_camera(camera_);
 }
 
-void Game::Game::input()
-{
-}
-
 void Game::Game::update()
 {
     ++temp_;

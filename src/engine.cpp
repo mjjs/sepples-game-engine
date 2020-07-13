@@ -4,6 +4,7 @@
 #include "engine.h"
 #include "game.h"
 #include "input.h"
+#include "inputaction.h"
 #include "mesh.h"
 #include "resourceloader.h"
 #include "shader.h"
@@ -25,6 +26,8 @@ Engine::Engine() :
 
 void Engine::init()
 {
+    input.register_event_handler(SDLK_1, key_event_type::SINGLE, [](){std::cout << "1 pressed\n";});
+    input.register_event_handler(SDLK_2, key_event_type::HELD, [](){std::cout << "2 held\n";});
 }
 
 void Engine::cleanup()
@@ -69,7 +72,8 @@ void Engine::main_loop()
 
         frame_counter += delta.count();
 
-        game_.input();
+        // Handle game input before input.update();
+        input.update();
 
         while (lag >= 16) {
             game_.update();
@@ -85,8 +89,6 @@ void Engine::main_loop()
         render();
         rendered_frames++;
 
-        // Handle game input before input.update();
-        input.update();
     }
 }
 
