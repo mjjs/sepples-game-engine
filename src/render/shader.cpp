@@ -1,14 +1,24 @@
+#include "resourceloader.h"
 #include "shader.h"
+#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <utility>
 
-Shader::Shader() :
+Shader::Shader(const std::string& vertex_path, const std::string& fragment_path) :
     shader_program{glCreateProgram()}
 {
     if (shader_program == 0) {
         throw std::runtime_error{"Shader creation failed"};
     }
+
+    std::string vertex_shader_code = load_shader(vertex_path);
+    std::string fragment_shader_code = load_shader(fragment_path);
+
+    add_vertex_shader(vertex_shader_code);
+    add_fragment_shader(fragment_shader_code);
+
+    compile_shader();
 }
 
 Shader::~Shader()
@@ -120,7 +130,8 @@ void Shader::add_uniform(const std::string& variable_name)
 {
     const GLint uniform_location = glGetUniformLocation(shader_program, variable_name.c_str());
     if (uniform_location == -1) {
-        throw std::runtime_error("Uniform variable " + variable_name + " not found in the shader program");
+        std::cerr << "Uniform variable " << variable_name << " not found in the shader program\n";
+        return;
     }
 
     uniform_variables[variable_name] = uniform_location;

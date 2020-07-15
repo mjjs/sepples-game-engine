@@ -2,7 +2,7 @@
 #define _GE_GAME_H
 
 #include "camera.h"
-#include "mesh.h"
+#include "model.h"
 #include "shader.h"
 #include "transform.h"
 #include "vector3.h"
@@ -12,7 +12,7 @@ class Game {
     private:
         Camera camera_;
         Shader shader_;
-        Mesh mesh_;
+        Model model_;
         Math::Transform transformer_;
 
         // For transform demonstrations

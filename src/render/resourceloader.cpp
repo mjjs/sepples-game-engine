@@ -1,12 +1,20 @@
 #include "mesh.h"
 #include "resourceloader.h"
 #include "sgestrings.h"
+#include "texture.h"
+#include "vector2.h"
 #include "vector3.h"
+#include "vertex.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#include <cstdint>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 std::string load_shader(const std::string& filename)
 {
@@ -14,57 +22,50 @@ std::string load_shader(const std::string& filename)
     std::stringstream ss{};
     ss << shader_file.rdbuf();
 
+    shader_file.close();
+
     return ss.str();
 }
 
-Mesh load_mesh(const std::string& filename)
+std::uint32_t load_texture(const std::string& filename, const std::string& directory)
 {
-    const std::vector<std::string> filename_parts = split(filename, '.');
-    if (filename_parts.empty()) {
-        throw std::runtime_error("Mesh object file " + filename + " has no extension");
+    std::string file_location = directory + '/' + filename;
+
+    std::uint32_t texture_id;
+    glGenTextures(1, &texture_id);
+
+    int width;
+    int height;
+    int channel_amount;
+
+    unsigned char* image_bytes = stbi_load(file_location.c_str(), &width, &height, &channel_amount, 0);
+
+    if (image_bytes == nullptr) {
+        stbi_image_free(image_bytes);
+        throw std::runtime_error("Could not load texture " + file_location);
     }
 
-    const std::string extension = filename_parts[filename_parts.size() - 1];
-
-    if (extension != "obj") {
-        throw std::runtime_error("Unsupported mesh file extension: " + extension);
+    GLenum format;
+    if (channel_amount == 1) {
+        format = GL_RED;
+    } else if (channel_amount == 3) {
+        format = GL_RGB;
+    } else if (channel_amount == 4) {
+        format = GL_RGBA;
+    } else {
+        throw std::runtime_error("Mystery channel amount in load_shader function");
     }
 
-    std::vector<Math::Vector3> vertices{};
-    std::vector<int> indices{};
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, image_bytes);
+    glGenerateMipmap(GL_TEXTURE_2D);
 
-    std::ifstream mesh_file{"./res/models/" + filename, std::ios_base::in};
-    std::string line{};
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    while (std::getline(mesh_file, line)) {
-        const std::vector<std::string> tokens = split(line, ' ');
+    stbi_image_free(image_bytes);
 
-        if (tokens.empty() || tokens[0] == "#") {
-            continue;
-        }
-
-        if (tokens[0] == "v") {
-            vertices.emplace_back(Math::Vector3{
-                    std::stof(tokens[1], nullptr),
-                    std::stof(tokens[2], nullptr),
-                    std::stof(tokens[3], nullptr)
-                    });
-            continue;
-        }
-
-        if (tokens[0] == "f") {
-            indices.push_back(std::stoi(split(tokens[1], '/')[0], nullptr, 10) - 1);
-            indices.push_back(std::stoi(split(tokens[2], '/')[0], nullptr, 10) - 1);
-            indices.push_back(std::stoi(split(tokens[3], '/')[0], nullptr, 10) - 1);
-
-            if (tokens.size() > 4) {
-                indices.push_back(std::stoi(split(tokens[1], '/')[0], nullptr, 10) - 1);
-                indices.push_back(std::stoi(split(tokens[3], '/')[0], nullptr, 10) - 1);
-                indices.push_back(std::stoi(split(tokens[4], '/')[0], nullptr, 10) - 1);
-            }
-            continue;
-        }
-    }
-
-    return Mesh{vertices, indices};
+    return texture_id;
 }

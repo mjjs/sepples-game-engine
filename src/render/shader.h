@@ -24,19 +24,21 @@ class Shader {
         void add_program(const std::string& shader_name, GLenum shader_type);
         static std::pair<bool, std::string> check_shader_error(ShaderErrorCheckType check_type,
                 GLenum check_name, GLuint to_check);
+
+        void add_vertex_shader(const std::string& shader_name);
+        void add_geometry_shader(const std::string& shader_name);
+        void add_fragment_shader(const std::string& shader_name);
+
+        void compile_shader();
+
     public:
-        Shader();
+        Shader(const std::string& vertex_path, const std::string& fragment_path);
         ~Shader();
 
         Shader(const Shader&) = delete;
         Shader(const Shader&&) = delete;
         Shader& operator=(const Shader&) = delete;
         Shader& operator=(const Shader&&) = delete;
-
-        void add_vertex_shader(const std::string& shader_name);
-        void add_geometry_shader(const std::string& shader_name);
-        void add_fragment_shader(const std::string& shader_name);
-        void compile_shader();
 
         void add_uniform(const std::string& variable_name);
         void set_uniform(const std::string& variable_name, int value);
