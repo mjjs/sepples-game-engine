@@ -67,7 +67,7 @@ Math::Matrix4 Math::Matrix4::rotation(const Math::Vector3& rotation_vector)
     rotate_z[1][0] = std::sin(z_rads);
     rotate_z[1][1] = std::cos(z_rads);
 
-    return rotate_z * rotate_y * rotate_x;
+    return rotate_x * rotate_y * rotate_z;
 }
 
 Math::Matrix4 Math::Matrix4::scale(const Math::Vector3& scale_vector)

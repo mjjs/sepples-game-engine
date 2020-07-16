@@ -23,12 +23,6 @@ Window::Window(const size_t width, const size_t height, const std::string& title
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-    glFrontFace(GL_CW);
-    glCullFace(GL_BACK);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_FRAMEBUFFER_SRGB);
-
     SDL_GL_SetSwapInterval(1);
 
     context = SDL_GL_CreateContext(window);
@@ -37,6 +31,11 @@ Window::Window(const size_t width, const size_t height, const std::string& title
     if (glewInit() != GLEW_OK) {
         throw std::runtime_error("Could not init GLEW");
     }
+
+    glFrontFace(GL_CW);
+    glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 
     clear();
 }

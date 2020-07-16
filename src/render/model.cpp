@@ -27,7 +27,8 @@ void Model::load_model(const std::string& path)
     const aiScene* scene = importer.ReadFile(path,
             aiProcess_Triangulate | aiProcess_FlipUVs);
 
-    if (scene == nullptr || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || scene->mRootNode == nullptr){
+    if (scene == nullptr || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
+            scene->mRootNode == nullptr) {
         throw std::runtime_error("Error loading model: " + std::string(importer.GetErrorString()));
     }
 
@@ -86,17 +87,15 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
         }
     }
 
-    if (mesh->mMaterialIndex > 0) {
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+    aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-        std::vector<Texture> diffuse_maps = load_material_textures(material,
-                aiTextureType_DIFFUSE, "texture_diffuse");
-        textures.insert(textures.end(), diffuse_maps.begin(), diffuse_maps.end());
+    std::vector<Texture> diffuse_maps = load_material_textures(material,
+            aiTextureType_DIFFUSE, "texture_diffuse");
+    textures.insert(textures.end(), diffuse_maps.begin(), diffuse_maps.end());
 
-        std::vector<Texture> specular_maps = load_material_textures(material,
-                aiTextureType_SPECULAR, "texture_specular");
-        textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
-    }
+    std::vector<Texture> specular_maps = load_material_textures(material,
+            aiTextureType_SPECULAR, "texture_specular");
+    textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
 
     return Mesh{vertices, indices, textures};
 }

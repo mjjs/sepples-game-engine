@@ -9,6 +9,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#include <GL/glew.h>
+
 #include <cstdint>
 #include <fstream>
 #include <sstream>
@@ -31,7 +33,7 @@ std::uint32_t load_texture(const std::string& filename, const std::string& direc
 {
     std::string file_location = directory + '/' + filename;
 
-    std::uint32_t texture_id;
+    GLuint texture_id;
     glGenTextures(1, &texture_id);
 
     int width;

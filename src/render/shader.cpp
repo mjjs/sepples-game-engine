@@ -130,7 +130,7 @@ void Shader::add_uniform(const std::string& variable_name)
 {
     const GLint uniform_location = glGetUniformLocation(shader_program, variable_name.c_str());
     if (uniform_location == -1) {
-        std::cerr << "Uniform variable " << variable_name << " not found in the shader program\n";
+        // std::cerr << "Uniform variable " << variable_name << " not found in the shader program\n";
         return;
     }
 

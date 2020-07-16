@@ -14,8 +14,6 @@
 
 class Input {
 private:
-    std::unordered_map<SDL_KeyCode, std::vector<InputAction>> event_handlers{};
-
     // Keyboard
     std::unordered_set<SDL_Keycode> last_keys;
     std::unordered_set<SDL_Keycode> current_keys;
@@ -26,14 +24,9 @@ private:
 
     Math::Vector2 mouse_position;
 
-    void run_handlers() const;
-
 public:
     void key_event(const SDL_Event&);
-    void clear_state();
     void update();
-
-    void register_event_handler(SDL_KeyCode, key_event_type, const event_handler&);
 
     bool is_key_down(SDL_KeyCode) const;
     bool is_key_up(SDL_KeyCode) const;

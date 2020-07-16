@@ -21,25 +21,23 @@
 bool is_input_event(const SDL_Event& event);
 
 Engine::Engine() :
-    window{window_width, window_height, window_title}
+    window_{window_width, window_height, window_title}
 {}
 
 void Engine::init()
 {
-    input.register_event_handler(SDLK_1, key_event_type::SINGLE, [](){std::cout << "1 pressed\n";});
-    input.register_event_handler(SDLK_2, key_event_type::HELD, [](){std::cout << "2 held\n";});
 }
 
 void Engine::cleanup()
 {
-    window.cleanup();
+    window_.cleanup();
 }
 
 void Engine::render()
 {
-    window.clear();
+    window_.clear();
     game_.render();
-    window.flip();
+    window_.flip();
 }
 
 void Engine::main_loop()
@@ -66,14 +64,15 @@ void Engine::main_loop()
             }
 
             if (is_input_event(event)) {
-                input.key_event(event);
+                input_.key_event(event);
             }
         }
 
         frame_counter += delta.count();
 
         // Handle game input before input.update();
-        input.update();
+        game_.input(input_);
+        input_.update();
 
         while (lag >= 16) {
             game_.update();
@@ -88,7 +87,6 @@ void Engine::main_loop()
 
         render();
         rendered_frames++;
-
     }
 }
 
