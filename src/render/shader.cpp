@@ -21,6 +21,7 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
     compile_shader();
 
     add_uniform("transform");
+    add_uniform("projection");
     add_uniform("material.ambient");
     add_uniform("material.diffuse");
     add_uniform("material.speular");
@@ -164,7 +165,8 @@ void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& 
 void Shader::set_transformations(const Math::Matrix4& transformation,
         const Math::Matrix4& projection)
 {
-    set_uniform("transform", projection);
+    set_uniform("transform", transformation);
+    set_uniform("projection", projection);
 }
 
 void Shader::set_material(const Material& material)

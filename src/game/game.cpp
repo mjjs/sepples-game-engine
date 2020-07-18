@@ -18,7 +18,6 @@ Game::Game::Game() :
 {
     transformer_.set_projection(70, 800, 600, .1, 1000);
     transformer_.set_camera(camera_);
-
 }
 
 void Game::Game::update()
@@ -39,7 +38,9 @@ void Game::Game::render()
             transformer_.get_transformation(),
             transformer_.get_projected_transformation()
             );
-    shader_.set_ambient_light_strength(Math::Vector3{0.1F, 0.1F, 0.1F});
+    shader_.set_ambient_light_strength(Math::Vector3{0.2F, 0.2F, 0.2F});
+    shader_.set_diffuse_light_position(Math::Vector3{1.0F, 1.0F, 1.0F});
+    shader_.set_view_position(transformer_.get_camera().get_position());
 
     model_.draw(shader_);
 }
