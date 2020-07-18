@@ -2,3 +2,4 @@ build
 .clangd
 core
 compile_commands.json
+res/models/notrack

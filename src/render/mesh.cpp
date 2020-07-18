@@ -16,9 +16,9 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices,
 
 void Mesh::init()
 {
-    glGenBuffers(1, &vao_);
     glGenBuffers(1, &vbo_);
     glGenBuffers(1, &ibo_);
+    glGenVertexArrays(1, &vao_);
 
     glBindVertexArray(vao_);
 
@@ -51,6 +51,10 @@ void Mesh::init()
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coordinate));
 
     glBindVertexArray(0);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
 }
 
 void Mesh::draw(Shader& shader) const
@@ -82,6 +86,4 @@ void Mesh::draw(Shader& shader) const
     glBindVertexArray(vao_);
     glDrawElements(GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
-
-    glActiveTexture(GL_TEXTURE0);
 }

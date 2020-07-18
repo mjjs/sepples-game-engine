@@ -24,8 +24,12 @@ Model::Model(const std::string& path)
 void Model::load_model(const std::string& path)
 {
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(path,
-            aiProcess_Triangulate | aiProcess_FlipUVs);
+    const aiScene* scene = importer.ReadFile(
+            path,
+            aiProcess_JoinIdenticalVertices |
+            aiProcess_Triangulate |
+            aiProcess_FlipUVs
+            );
 
     if (scene == nullptr || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
             scene->mRootNode == nullptr) {
@@ -59,20 +63,22 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
         Vertex vertex;
         vertex.position = Math::Vector3{
             mesh->mVertices[i].x,
-            mesh->mVertices[i].y,
-            mesh->mVertices[i].z
+                mesh->mVertices[i].y,
+                mesh->mVertices[i].z
         };
 
-        vertex.normal = Math::Vector3{
-            mesh->mNormals[i].x,
-            mesh->mNormals[i].y,
-            mesh->mNormals[i].z
-        };
+        if (mesh->HasNormals()) {
+            vertex.normal = Math::Vector3{
+                mesh->mNormals[i].x,
+                    mesh->mNormals[i].y,
+                    mesh->mNormals[i].z
+            };
+        }
 
-        if (mesh->mTextureCoords[0]) {
+        if (mesh->HasTextureCoords(0)) {
             vertex.texture_coordinate = Math::Vector2{
                 mesh->mTextureCoords[0][i].x,
-                mesh->mTextureCoords[0][i].y,
+                mesh->mTextureCoords[0][i].y
             };
         }
 
@@ -89,13 +95,15 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-    std::vector<Texture> diffuse_maps = load_material_textures(material,
-            aiTextureType_DIFFUSE, "texture_diffuse");
-    textures.insert(textures.end(), diffuse_maps.begin(), diffuse_maps.end());
+    if (material != nullptr) {
+        std::vector<Texture> diffuse_maps = load_material_textures(material,
+                aiTextureType_DIFFUSE, "texture_diffuse");
+        textures.insert(textures.end(), diffuse_maps.begin(), diffuse_maps.end());
 
-    std::vector<Texture> specular_maps = load_material_textures(material,
-            aiTextureType_SPECULAR, "texture_specular");
-    textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
+        std::vector<Texture> specular_maps = load_material_textures(material,
+                aiTextureType_SPECULAR, "texture_specular");
+        textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
+    }
 
     return Mesh{vertices, indices, textures};
 }
