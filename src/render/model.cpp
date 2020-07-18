@@ -1,3 +1,4 @@
+#include "material.h"
 #include "mesh.h"
 #include "model.h"
 #include "resourceloader.h"
@@ -16,6 +17,8 @@
 #include <string>
 #include <vector>
 
+#include <iostream>
+
 Model::Model(const std::string& path)
 {
     load_model(path);
@@ -30,7 +33,8 @@ void Model::load_model(const std::string& path)
             aiProcess_Triangulate
             );
 
-    if (scene == nullptr || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
+    if (scene == nullptr ||
+            scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
             scene->mRootNode == nullptr) {
         throw std::runtime_error("Error loading model: " + std::string(importer.GetErrorString()));
     }
@@ -94,19 +98,40 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
         }
     }
 
-    aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+    aiMaterial* assimp_material = scene->mMaterials[mesh->mMaterialIndex];
+    Material material;
 
-    if (material != nullptr) {
-        std::vector<Texture> diffuse_maps = load_material_textures(material,
+    if (assimp_material != nullptr) {
+        std::vector<Texture> diffuse_maps = load_material_textures(assimp_material,
                 aiTextureType_DIFFUSE, "texture_diffuse");
         textures.insert(textures.end(), diffuse_maps.begin(), diffuse_maps.end());
 
-        std::vector<Texture> specular_maps = load_material_textures(material,
+        std::vector<Texture> specular_maps = load_material_textures(assimp_material,
                 aiTextureType_SPECULAR, "texture_specular");
         textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
+
+        aiColor3D diffuse_colour{};
+        aiColor3D specular_colour{};
+        aiColor3D ambient_colour{};
+
+        assimp_material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_colour);
+        assimp_material->Get(AI_MATKEY_COLOR_SPECULAR, specular_colour);
+        assimp_material->Get(AI_MATKEY_COLOR_AMBIENT, ambient_colour);
+
+        material.set_ambient(
+                Math::Vector3{ambient_colour.r, ambient_colour.g, ambient_colour.b}
+                );
+        material.set_diffuse(
+                Math::Vector3{diffuse_colour.r, diffuse_colour.g, diffuse_colour.b}
+                );
+        material.set_specular(
+                Math::Vector3{specular_colour.r, specular_colour.g, specular_colour.b}
+                );
+
+        material.set_textures(textures);
     }
 
-    return Mesh{vertices, indices, textures};
+    return Mesh{vertices, indices, material};
 }
 
 std::vector<Texture> Model::load_material_textures(aiMaterial* material, aiTextureType type,

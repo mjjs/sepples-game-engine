@@ -1,3 +1,4 @@
+#include "material.h"
 #include "mesh.h"
 #include "shader.h"
 #include "vector3.h"
@@ -6,10 +7,10 @@
 
 // TODO: Pass by value and std::move
 Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices,
-                const std::vector<Texture>& textures) :
+                const Material& material) :
     vertices_{vertices},
     indices_{indices},
-    textures_{textures}
+    material_{material}
 {
     init();
 }
@@ -62,11 +63,13 @@ void Mesh::draw(Shader& shader) const
     std::uint32_t diffuse_i = 1;
     std::uint32_t specular_i = 1;
 
-    for (std::size_t i = 0; i < textures_.size(); ++i) {
+    std::vector<Texture> textures = material_.textures();
+
+    for (std::size_t i = 0; i < textures.size(); ++i) {
         glActiveTexture(GL_TEXTURE0 + i);
 
         std::string number;
-        std::string name = textures_[i].type;
+        std::string name = textures[i].type;
 
         if (name == "texture_diffuse") {
             number = std::to_string(diffuse_i++);
@@ -78,8 +81,17 @@ void Mesh::draw(Shader& shader) const
 
         shader.add_uniform(uniform_name);
         shader.set_uniform(uniform_name, static_cast<int>(i));
-        glBindTexture(GL_TEXTURE_2D, textures_[i].id);
+        glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
+
+    shader.add_uniform("ambient_colour");
+    shader.set_uniform("ambient_colour", material_.ambient_colour());
+
+    shader.add_uniform("diffuse_colour");
+    shader.set_uniform("diffuse_colour", material_.diffuse_colour());
+
+    shader.add_uniform("speular_colour");
+    shader.set_uniform("speular_colour", material_.specular_colour());
 
     glActiveTexture(GL_TEXTURE0);
 
