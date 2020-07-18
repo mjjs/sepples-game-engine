@@ -19,6 +19,10 @@
 
 #include <iostream>
 
+constexpr char const * COLOUR_AMBIENT = "AMBIENT";
+constexpr char const * COLOUR_DIFFUSE = "DIFFUSE";
+constexpr char const * COLOUR_SPECULAR = "SPECULAR";
+
 Model::Model(const std::string& path)
 {
     load_model(path);
@@ -110,23 +114,9 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
                 aiTextureType_SPECULAR, "texture_specular");
         textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
 
-        aiColor3D diffuse_colour{};
-        aiColor3D specular_colour{};
-        aiColor3D ambient_colour{};
-
-        assimp_material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse_colour);
-        assimp_material->Get(AI_MATKEY_COLOR_SPECULAR, specular_colour);
-        assimp_material->Get(AI_MATKEY_COLOR_AMBIENT, ambient_colour);
-
-        material.set_ambient(
-                Math::Vector3{ambient_colour.r, ambient_colour.g, ambient_colour.b}
-                );
-        material.set_diffuse(
-                Math::Vector3{diffuse_colour.r, diffuse_colour.g, diffuse_colour.b}
-                );
-        material.set_specular(
-                Math::Vector3{specular_colour.r, specular_colour.g, specular_colour.b}
-                );
+        material.set_ambient(get_colour(*assimp_material, COLOUR_AMBIENT));
+        material.set_diffuse(get_colour(*assimp_material, COLOUR_DIFFUSE));
+        material.set_specular(get_colour(*assimp_material, COLOUR_SPECULAR));
 
         material.set_textures(textures);
     }
@@ -174,4 +164,19 @@ void Model::draw(Shader& shader) const
     for (const Mesh& mesh : meshes_) {
         mesh.draw(shader);
     }
+}
+
+Math::Vector3 get_colour(const aiMaterial& material, const std::string& type)
+{
+    aiColor3D colour{};
+
+    if (type == COLOUR_AMBIENT) {
+        material.Get(AI_MATKEY_COLOR_AMBIENT, colour);
+    } else if (type == COLOUR_DIFFUSE) {
+        material.Get(AI_MATKEY_COLOR_DIFFUSE, colour);
+    } else if (type == COLOUR_SPECULAR) {
+        material.Get(AI_MATKEY_COLOR_SPECULAR, colour);
+    }
+
+    return Math::Vector3{colour.r, colour.g, colour.b};
 }

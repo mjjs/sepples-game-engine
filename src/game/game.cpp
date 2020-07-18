@@ -15,7 +15,7 @@
 
 Game::Game::Game() :
     shader_{"basic_vertex.glsl", "basic_fragment.glsl"},
-    model_{"res/models/notrack/trees/tree_oak.obj"}
+    model_{"res/models/notrack/trees/crop_melon.obj"}
 {
     shader_.add_uniform("transform");
 

@@ -2,6 +2,7 @@
 #define _SGE_MODEL_H
 #include "mesh.h"
 #include "shader.h"
+#include "vector3.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
@@ -26,4 +27,7 @@ class Model {
         explicit Model(const std::string& path);
         void draw(Shader& shader) const;
 };
+
+Math::Vector3 get_colour(const aiMaterial& material, const std::string& colour_key);
+
 #endif
