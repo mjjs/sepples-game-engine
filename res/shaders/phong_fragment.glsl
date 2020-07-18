@@ -6,6 +6,7 @@ struct Material {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+    float shininess;
 };
 
 in vec2 texture_coordinate_i;
@@ -29,7 +30,7 @@ vec3 calculate_diffuse_colour(vec3 normal, vec3 light_direction, vec3 material_c
 vec3 calculate_specular_colour(vec3 view_direction, vec3 reflect_direction, vec3 material_colour)
 {
     float specular_strength = 0.5;
-    float spec = pow(max(dot(view_direction, reflect_direction), 0.0), 32);
+    float spec = pow(max(dot(view_direction, reflect_direction), 0.0), material.shininess);
 
     return specular_strength * spec * material_colour;
 }

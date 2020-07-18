@@ -17,8 +17,6 @@
 #include <string>
 #include <vector>
 
-#include <iostream>
-
 constexpr char const * COLOUR_AMBIENT = "AMBIENT";
 constexpr char const * COLOUR_DIFFUSE = "DIFFUSE";
 constexpr char const * COLOUR_SPECULAR = "SPECULAR";
@@ -117,6 +115,7 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
         material.set_ambient(get_colour(*assimp_material, COLOUR_AMBIENT));
         material.set_diffuse(get_colour(*assimp_material, COLOUR_DIFFUSE));
         material.set_specular(get_colour(*assimp_material, COLOUR_SPECULAR));
+        material.set_shininess(get_shininess(*assimp_material));
 
         material.set_textures(textures);
     }
@@ -179,4 +178,11 @@ Math::Vector3 get_colour(const aiMaterial& material, const std::string& type)
     }
 
     return Math::Vector3{colour.r, colour.g, colour.b};
+}
+
+float get_shininess(const aiMaterial& material)
+{
+    float shininess = 1.0;
+    material.Get(AI_MATKEY_SHININESS, shininess);
+    return shininess;
 }

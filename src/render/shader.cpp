@@ -25,6 +25,7 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
     add_uniform("material.ambient");
     add_uniform("material.diffuse");
     add_uniform("material.speular");
+    add_uniform("material.shininess");
 }
 
 Shader::~Shader()
@@ -174,4 +175,5 @@ void Shader::set_material(const Material& material)
     set_uniform("material.ambient", material.ambient_colour());
     set_uniform("material.diffuse", material.diffuse_colour());
     set_uniform("material.speular", material.specular_colour());
+    set_uniform("material.shininess", material.shininess());
 }

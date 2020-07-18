@@ -29,5 +29,6 @@ class Model {
 };
 
 Math::Vector3 get_colour(const aiMaterial& material, const std::string& colour_key);
+float get_shininess(const aiMaterial& material);
 
 #endif

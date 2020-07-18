@@ -34,6 +34,11 @@ Math::Vector3 Material::specular_colour() const
     return specular_colour_;
 }
 
+float Material::shininess() const
+{
+    return shininess_;
+}
+
 void Material::set_ambient(const Math::Vector3& colour)
 {
     ambient_colour_ = colour;
@@ -52,4 +57,9 @@ void Material::set_specular(const Math::Vector3& colour)
 void Material::set_textures(const std::vector<Texture>& textures)
 {
     textures_ = textures;
+}
+
+void Material::set_shininess(const float shininess)
+{
+    shininess_ = shininess;
 }
