@@ -14,13 +14,11 @@
 #include <iostream>
 
 Game::Game::Game() :
-    shader_{"basic_vertex.glsl", "basic_fragment.glsl"},
-    model_{"res/models/notrack/trees/crop_melon.obj"}
+    model_{"res/models/backpack.obj"}
 {
-    shader_.add_uniform("transform");
-
     transformer_.set_projection(70, 800, 600, .1, 1000);
     transformer_.set_camera(camera_);
+
 }
 
 void Game::Game::update()
@@ -37,7 +35,11 @@ void Game::Game::update()
 void Game::Game::render()
 {
     shader_.bind();
-    shader_.set_uniform("transform", transformer_.get_projected_transformation());
+    shader_.set_transformations(
+            transformer_.get_transformation(),
+            transformer_.get_projected_transformation()
+            );
+    shader_.set_ambient_light_strength(Math::Vector3{0.1F, 0.1F, 0.1F});
 
     model_.draw(shader_);
 }
@@ -46,12 +48,7 @@ void Game::Game::input(const Input& inputs)
 {
     Camera *camera = &transformer_.get_camera();
 
-    float modifier = 1;
-    if (inputs.is_key_down(SDLK_LSHIFT)) {
-        modifier = .2;
-    }
-
-    float move_speed = modifier * 0.1;
+    float move_speed = .025;
 
     if (inputs.is_key_down(SDLK_d)) {
         camera->move(camera->get_right(), move_speed);

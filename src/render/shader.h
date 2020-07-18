@@ -2,6 +2,7 @@
 #define _GE_SHADER_H
 
 #include "vector3.h"
+#include "material.h"
 #include "matrix4.h"
 
 #include <GL/glew.h>
@@ -47,5 +48,8 @@ class Shader {
         void set_uniform(const std::string& variable_name, const Math::Matrix4& matrix);
 
         void bind();
+        void set_material(const Material& material);
+        void set_transformations(const Math::Matrix4& transformation,
+                const Math::Matrix4& projection);
 };
 #endif

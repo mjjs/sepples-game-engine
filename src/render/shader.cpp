@@ -19,6 +19,11 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
     add_fragment_shader(fragment_shader_code);
 
     compile_shader();
+
+    add_uniform("transform");
+    add_uniform("material.ambient");
+    add_uniform("material.diffuse");
+    add_uniform("material.speular");
 }
 
 Shader::~Shader()
@@ -156,4 +161,15 @@ void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& 
 {
     glUniformMatrix4fv(uniform_variables[variable_name], 1, GL_TRUE, &(matrix[0][0]));
 }
+void Shader::set_transformations(const Math::Matrix4& transformation,
+        const Math::Matrix4& projection)
+{
+    set_uniform("transform", projection);
+}
 
+void Shader::set_material(const Material& material)
+{
+    set_uniform("material.ambient", material.ambient_colour());
+    set_uniform("material.diffuse", material.diffuse_colour());
+    set_uniform("material.speular", material.specular_colour());
+}

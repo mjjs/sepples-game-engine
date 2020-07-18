@@ -4,7 +4,7 @@
 #include "camera.h"
 #include "input.h"
 #include "model.h"
-#include "shader.h"
+#include "phongshader.h"
 #include "transform.h"
 #include "vector3.h"
 
@@ -12,7 +12,7 @@ namespace Game {
 class Game {
     private:
         Camera camera_;
-        Shader shader_;
+        PhongShader shader_;
         Model model_;
         Math::Transform transformer_;
 

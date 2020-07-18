@@ -84,14 +84,7 @@ void Mesh::draw(Shader& shader) const
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
 
-    shader.add_uniform("ambient_colour");
-    shader.set_uniform("ambient_colour", material_.ambient_colour());
-
-    shader.add_uniform("diffuse_colour");
-    shader.set_uniform("diffuse_colour", material_.diffuse_colour());
-
-    shader.add_uniform("speular_colour");
-    shader.set_uniform("speular_colour", material_.specular_colour());
+    shader.set_material(material_);
 
     glActiveTexture(GL_TEXTURE0);
 
