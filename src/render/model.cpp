@@ -27,8 +27,7 @@ void Model::load_model(const std::string& path)
     const aiScene* scene = importer.ReadFile(
             path,
             aiProcess_JoinIdenticalVertices |
-            aiProcess_Triangulate |
-            aiProcess_FlipUVs
+            aiProcess_Triangulate
             );
 
     if (scene == nullptr || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
@@ -80,6 +79,8 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
                 mesh->mTextureCoords[0][i].x,
                 mesh->mTextureCoords[0][i].y
             };
+        } else {
+            vertex.texture_coordinate = Math::Vector2{0.0F, 0.0F};
         }
 
         vertices.push_back(vertex);
