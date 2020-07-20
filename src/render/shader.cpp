@@ -20,12 +20,12 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
 
     compile_shader();
 
-    add_uniform("transform");
-    add_uniform("projection");
-    add_uniform("material.ambient");
-    add_uniform("material.diffuse");
-    add_uniform("material.speular");
-    add_uniform("material.shininess");
+    add_uniform("transform_u");
+    add_uniform("projection_u");
+    add_uniform("material_u.ambient");
+    add_uniform("material_u.diffuse");
+    add_uniform("material_u.speular");
+    add_uniform("material_u.shininess");
 }
 
 Shader::~Shader()
@@ -133,7 +133,7 @@ std::pair<bool, std::string> Shader::check_shader_error(ShaderErrorCheckType che
     return std::pair<bool, std::string>{true, std::string(error_message)};
 }
 
-void Shader::add_uniform(const std::string& variable_name)
+void Shader::add_uniform(const std::string& variable_name) const
 {
     if (uniform_variables.find(variable_name) != uniform_variables.end()) {
         return;
@@ -170,14 +170,14 @@ void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& 
 void Shader::set_transformations(const Math::Matrix4& transformation,
         const Math::Matrix4& projection)
 {
-    set_uniform("transform", transformation);
-    set_uniform("projection", projection);
+    set_uniform("transform_u", transformation);
+    set_uniform("projection_u", projection);
 }
 
 void Shader::set_material(const Material& material)
 {
-    set_uniform("material.ambient", material.ambient_colour());
-    set_uniform("material.diffuse", material.diffuse_colour());
-    set_uniform("material.speular", material.specular_colour());
-    set_uniform("material.shininess", material.shininess());
+    set_uniform("material_u.ambient", material.ambient_colour());
+    set_uniform("material_u.diffuse", material.diffuse_colour());
+    set_uniform("material_u.speular", material.specular_colour());
+    set_uniform("material_u.shininess", material.shininess());
 }

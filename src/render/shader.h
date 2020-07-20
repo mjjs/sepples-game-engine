@@ -20,7 +20,7 @@ class Shader {
     private:
         GLuint shader_program;
         std::vector<GLuint> attached_shaders{};
-        std::unordered_map<std::string, GLint> uniform_variables{};
+        mutable std::unordered_map<std::string, GLint> uniform_variables{};
 
         void add_program(const std::string& shader_name, GLenum shader_type);
         static std::pair<bool, std::string> check_shader_error(ShaderErrorCheckType check_type,
@@ -41,7 +41,7 @@ class Shader {
         Shader& operator=(const Shader&) = delete;
         Shader& operator=(const Shader&&) = delete;
 
-        void add_uniform(const std::string& variable_name);
+        void add_uniform(const std::string& variable_name) const;
         void set_uniform(const std::string& variable_name, int value);
         void set_uniform(const std::string& variable_name, float value);
         void set_uniform(const std::string& variable_name, const Math::Vector3& vector);

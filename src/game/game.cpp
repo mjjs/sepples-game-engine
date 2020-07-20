@@ -30,11 +30,6 @@ void Game::Game::update()
 {
     ++temp_;
     transformer_.set_translation({0, 0, 5});
-    //transformer_.set_rotation({0, temp_, 0});
-    // transformer_.set_scale({.5, .5, .5});
-
-    //transformer_.get_camera().rotate_x(temp_);
-    //transformer_.get_camera().move(transformer_.get_camera().get_up(), 0.1);
 }
 
 void Game::Game::render()

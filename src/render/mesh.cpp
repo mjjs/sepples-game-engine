@@ -77,7 +77,7 @@ void Mesh::draw(Shader& shader) const
             number = std::to_string(specular_i++);
         }
 
-        const std::string uniform_name{name + number};
+        const std::string uniform_name{name + number + "_u"};
 
         shader.add_uniform(uniform_name);
         shader.set_uniform(uniform_name, static_cast<int>(i));
