@@ -24,24 +24,6 @@ Game::Game::Game() :
 {
     transformer_.set_projection(70, 800, 600, .1, 1000);
     transformer_.set_camera(camera_);
-
-    shader_.add_uniform("directional_light.direction");
-    shader_.add_uniform("directional_light.colour");
-
-    shader_.add_uniform("point_light.position");
-    shader_.add_uniform("point_light.colour");
-    shader_.add_uniform("point_light.constant");
-    shader_.add_uniform("point_light.linear");
-    shader_.add_uniform("point_light.quadratic");
-
-    shader_.add_uniform("spot_light.position");
-    shader_.add_uniform("spot_light.direction");
-    shader_.add_uniform("spot_light.colour");
-    shader_.add_uniform("spot_light.cut_off");
-    shader_.add_uniform("spot_light.outer_cut_off");
-    shader_.add_uniform("spot_light.constant");
-    shader_.add_uniform("spot_light.linear");
-    shader_.add_uniform("spot_light.quadratic");
 }
 
 void Game::Game::update()
@@ -62,17 +44,13 @@ void Game::Game::render()
             transformer_.get_transformation(),
             transformer_.get_projected_transformation()
             );
-    //shader_.set_ambient_light_strength(Math::Vector3{0.2F, 0.2F, 0.2F});
-    //shader_.set_diffuse_light_position(Math::Vector3{1.0F, 1.0F, 1.0F});
+
     shader_.set_view_position(transformer_.get_camera().get_position());
 
     DirectionalLight dl{
         Math::Vector3{1.0F, 1.0F, 1.0F},
             Math::Vector3{.5F, .5F, .5F},
     };
-
-    shader_.set_uniform("directional_light.direction", dl.direction);
-    shader_.set_uniform("directional_light.colour", dl.colour);
 
     PointLight pl{
         Math::Vector3{1.7F, 0.2F, 2.0F},
@@ -81,12 +59,6 @@ void Game::Game::render()
             0.09F,
             0.032F
     };
-
-    shader_.set_uniform("point_light.position", pl.position);
-    shader_.set_uniform("point_light.colour", pl.colour);
-    shader_.set_uniform("point_light.constant", pl.constant);
-    shader_.set_uniform("point_light.linear", pl.linear);
-    shader_.set_uniform("point_light.quadratic", pl.quadratic);
 
     SpotLight flashlight{
         transformer_.get_camera().get_position(),
@@ -99,14 +71,9 @@ void Game::Game::render()
             std::cos(Math::to_radians(15.0f))
     };
 
-    shader_.set_uniform("spot_light.position", flashlight.position);
-    shader_.set_uniform("spot_light.direction", flashlight.direction);
-    shader_.set_uniform("spot_light.colour", flashlight.colour);
-    shader_.set_uniform("spot_light.constant", flashlight.constant);
-    shader_.set_uniform("spot_light.linear", flashlight.linear);
-    shader_.set_uniform("spot_light.quadratic", flashlight.quadratic);
-    shader_.set_uniform("spot_light.cut_off", flashlight.cut_off);
-    shader_.set_uniform("spot_light.outer_cut_off", flashlight.outer_cut_off);
+    shader_.set_uniform(flashlight);
+    shader_.set_uniform(pl);
+    shader_.set_uniform(dl);
 
     model_.draw(shader_);
 }
