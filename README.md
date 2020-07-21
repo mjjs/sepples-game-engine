@@ -7,9 +7,8 @@ A 3D game engine purely for learning purposes.
 
 ## Building/running
 ```bash
-mkdir build
-cd build
 make
+./build/game_engine
 ```
 
 ## Attribution
