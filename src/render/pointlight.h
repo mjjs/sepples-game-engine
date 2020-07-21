@@ -4,11 +4,23 @@
 #include "vector3.h"
 
 struct PointLight {
-    Math::Vector3 position{};
-    Math::Vector3 colour{};
+    Math::Vector3 position;
+    Math::Vector3 colour;
 
-    float constant = 1.0F;
-    float linear = 0.0F;
-    float quadratic = 0.0F;
+    float intensity;
+
+    float constant;
+    float linear;
+    float quadratic;
+
+    PointLight() = default;
+    explicit PointLight(
+            const Math::Vector3& position,
+            const Math::Vector3& colour,
+            float intensity,
+            float constant,
+            float linear,
+            float quadratic
+            );
 };
 #endif

@@ -6,6 +6,10 @@
 struct DirectionalLight {
     Math::Vector3 direction;
     Math::Vector3 colour;
+    float intensity;
+
+    DirectionalLight() = default;
+    explicit DirectionalLight(const Math::Vector3& direction, const Math::Vector3& colour, float intensity);
 };
 
 #endif

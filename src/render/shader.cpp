@@ -24,7 +24,7 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
     add_uniform("projection_u");
     add_uniform("material_u.ambient");
     add_uniform("material_u.diffuse");
-    add_uniform("material_u.speular");
+    add_uniform("material_u.specular");
     add_uniform("material_u.shininess");
 }
 
@@ -141,7 +141,7 @@ void Shader::add_uniform(const std::string& variable_name) const
 
     const GLint uniform_location = glGetUniformLocation(shader_program, variable_name.c_str());
     if (uniform_location == -1) {
-        // std::cerr << "Uniform variable " << variable_name << " not found in the shader program\n";
+        std::cerr << "Uniform variable " << variable_name << " not found in the shader program\n";
         return;
     }
 
@@ -178,6 +178,6 @@ void Shader::set_material(const Material& material)
 {
     set_uniform("material_u.ambient", material.ambient_colour());
     set_uniform("material_u.diffuse", material.diffuse_colour());
-    set_uniform("material_u.speular", material.specular_colour());
+    set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 }
