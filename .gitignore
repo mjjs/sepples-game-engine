@@ -3,3 +3,4 @@ build
 core
 compile_commands.json
 res/models/notrack
+res/textures/WolfCollection.png
