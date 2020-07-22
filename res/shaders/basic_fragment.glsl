@@ -2,7 +2,7 @@
 
 precision highp float;
 
-in vec2 out_texture_coordinate_i;
+in vec2 texture_coordinate_i;
 out vec4 frag_color_i;
 
 uniform sampler2D texture_diffuse1_u;
@@ -12,7 +12,7 @@ uniform vec3 specular_colour_u;
 
 void main()
 {
-    vec4 texture = texture(texture_diffuse1_u, out_texture_coordinate_i);
+    vec4 texture = texture(texture_diffuse1_u, texture_coordinate_i);
 
     vec3 result_colour = ambient_colour_u + diffuse_colour_u + specular_colour_u;
 

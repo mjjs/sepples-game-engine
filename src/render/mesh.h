@@ -23,7 +23,7 @@ class Mesh {
         void init();
 
     public:
-        Mesh() = delete;
+        Mesh() = default;
         explicit Mesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices,
                 const Material& material);
 
