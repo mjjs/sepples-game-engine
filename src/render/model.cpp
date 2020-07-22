@@ -105,11 +105,11 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 
     if (assimp_material != nullptr) {
         std::vector<Texture> diffuse_maps = load_material_textures(assimp_material,
-                aiTextureType_DIFFUSE, "texture_diffuse");
+                aiTextureType_DIFFUSE);
         textures.insert(textures.end(), diffuse_maps.begin(), diffuse_maps.end());
 
         std::vector<Texture> specular_maps = load_material_textures(assimp_material,
-                aiTextureType_SPECULAR, "texture_specular");
+                aiTextureType_SPECULAR);
         textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
 
         material.set_ambient(get_colour(*assimp_material, COLOUR_AMBIENT));
@@ -123,14 +123,13 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
     return Mesh{vertices, indices, material};
 }
 
-std::vector<Texture> Model::load_material_textures(aiMaterial* material, aiTextureType type,
-        const std::string& type_name)
+std::vector<Texture> Model::load_material_textures(aiMaterial* material, aiTextureType texture_type)
 {
     std::vector<Texture> textures;
 
-    for (std::size_t i = 0; i < material->GetTextureCount(type); ++i) {
+    for (std::size_t i = 0; i < material->GetTextureCount(texture_type); ++i) {
         aiString tmp_path;
-        material->GetTexture(type, i, &tmp_path);
+        material->GetTexture(texture_type, i, &tmp_path);
         std::string path{tmp_path.C_Str()};
 
         bool already_loaded = false;
@@ -146,7 +145,7 @@ std::vector<Texture> Model::load_material_textures(aiMaterial* material, aiTextu
         if (!already_loaded) {
             Texture texture{
                 load_texture(path, directory_),
-                    type_name,
+                    texture_type,
                     path
             };
 

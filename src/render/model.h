@@ -2,6 +2,7 @@
 #define _SGE_MODEL_H
 #include "mesh.h"
 #include "shader.h"
+#include "texture.h"
 #include "vector3.h"
 
 #include <assimp/Importer.hpp>
@@ -21,7 +22,7 @@ class Model {
         void process_node(aiNode* node, const aiScene* scene);
         Mesh process_mesh(aiMesh* mesh, const aiScene* scene);
         std::vector<Texture> load_material_textures(aiMaterial* material,
-                aiTextureType type, const std::string& type_name);
+                aiTextureType texture_type);
 
     public:
         explicit Model(const std::string& path);

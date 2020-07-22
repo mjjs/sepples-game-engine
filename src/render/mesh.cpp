@@ -2,6 +2,8 @@
 #include "mesh.h"
 #include "shader.h"
 #include "vector3.h"
+
+#include <assimp/material.h>
 #include <GL/glew.h>
 #include <vector>
 
@@ -68,19 +70,18 @@ void Mesh::draw(Shader& shader) const
     for (std::size_t i = 0; i < textures.size(); ++i) {
         glActiveTexture(GL_TEXTURE0 + i);
 
-        std::string number;
-        std::string name = textures[i].type;
+        std::string uniform_name{};
+        aiTextureType texture_type = textures[i].type;
 
-        if (name == "texture_diffuse") {
-            number = std::to_string(diffuse_i++);
-        } else if (name == "texture_specular") {
-            number = std::to_string(specular_i++);
+        if (texture_type == aiTextureType_DIFFUSE) {
+            uniform_name = "texture_diffuse" + std::to_string(diffuse_i++) + "_u";
+        } else if (texture_type == aiTextureType_SPECULAR) {
+            uniform_name = "texture_specular" + std::to_string(specular_i++) + "_u";
         }
-
-        const std::string uniform_name{name + number + "_u"};
 
         shader.add_uniform(uniform_name);
         shader.set_uniform(uniform_name, static_cast<int>(i));
+
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
 
