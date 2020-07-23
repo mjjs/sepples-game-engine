@@ -5,10 +5,12 @@
 #include "matrix4.h"
 #include "vector3.h"
 
+#include <memory>
+
 namespace Math {
     class Transform {
         private:
-            Camera camera_;
+            std::shared_ptr<Camera> camera_;
             Vector3 translation_;
             Vector3 rotation_;
             Vector3 scale_{1,1,1};
@@ -23,8 +25,8 @@ namespace Math {
             void set_translation(const Vector3& translation_vector);
             void set_rotation(const Vector3& rotation_vector);
             void set_scale(const Vector3& scale_vector);
-            void set_camera(const Camera& camera);
-            Camera& get_camera();
+            void set_camera(std::shared_ptr<Camera> camera);
+            std::shared_ptr<Camera> get_camera();
             static void set_projection(float fov, float width, float height, float z_near, float z_far);
             Matrix4 get_transformation() const;
             Matrix4 get_projected_transformation() const;

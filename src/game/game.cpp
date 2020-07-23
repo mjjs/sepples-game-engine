@@ -18,8 +18,10 @@
 #include <SDL2/SDL_keycode.h>
 
 Game::Game::Game() :
-    level_{"res/levels/testlevel.png", "res/textures/WolfCollection.png"}
+    level_{"res/levels/testlevel.png", "res/textures/WolfCollection.png"},
+    player_{Math::Vector3{0.0F, 0.4375F, 0.0F}}
 {
+    level_.transform().set_camera(player_.camera());
 }
 
 void Game::Game::update()
@@ -34,5 +36,6 @@ void Game::Game::render()
 
 void Game::Game::input(const Input& inputs)
 {
+    player_.input(inputs);
     level_.input(inputs);
 }

@@ -3,11 +3,13 @@
 
 #include "input.h"
 #include "level.h"
+#include "player.h"
 
 namespace Game {
 class Game {
     private:
         Level level_;
+        Player player_;
 
     public:
         Game();

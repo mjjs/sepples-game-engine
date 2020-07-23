@@ -38,6 +38,7 @@ class Level {
         void input(const Input& inputs);
         void update();
         void render();
+        Math::Transform& transform();
 
 };
 } // namespace Game

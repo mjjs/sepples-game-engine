@@ -42,29 +42,6 @@ void Game::Level::render()
 
 void Game::Level::input(const Input& inputs)
 {
-    if (inputs.is_key_down(SDLK_s)) {
-        transform_.get_camera().move(transform_.get_camera().get_forward(), -.08);
-    }
-
-    if (inputs.is_key_down(SDLK_w)) {
-        transform_.get_camera().move(transform_.get_camera().get_forward(), .08);
-    }
-
-    if (inputs.is_key_down(SDLK_DOWN)) {
-        transform_.get_camera().rotate_x(1);
-    }
-
-    if (inputs.is_key_down(SDLK_UP)) {
-        transform_.get_camera().rotate_x(-1);
-    }
-
-    if (inputs.is_key_down(SDLK_LEFT)) {
-        transform_.get_camera().rotate_y(-1);
-    }
-
-    if (inputs.is_key_down(SDLK_RIGHT)) {
-        transform_.get_camera().rotate_y(1);
-    }
 }
 
 void Game::Level::add_face(std::vector<int>& indices, int start, bool flip) const
@@ -179,4 +156,9 @@ void Game::Level::generate_map(const Material& material)
     }
 
     mesh_ = Mesh(vertices, indices, material);
+}
+
+Math::Transform& Game::Level::transform()
+{
+    return transform_;
 }
