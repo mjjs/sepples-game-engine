@@ -1,11 +1,14 @@
 #include "bitmap.h"
 #include "colour.h"
+#include "gemath.h"
 #include "input.h"
 #include "level.h"
 #include "material.h"
 #include "mesh.h"
 #include "resourceloader.h"
 #include "texture.h"
+#include "vector2.h"
+#include "vector3.h"
 #include "vertex.h"
 
 #include <assimp/material.h>
@@ -161,4 +164,58 @@ void Game::Level::generate_map(const Material& material)
 Math::Transform& Game::Level::transform()
 {
     return transform_;
+}
+
+Math::Vector3 Game::Level::check_collision(const Math::Vector3& old_position, const Math::Vector3& new_position,
+        const float width, const float length) const
+{
+    Math::Vector2 collision_vector{1.0F, 1.0F};
+    Math::Vector3 movement_vector = new_position - old_position;
+
+    if (Math::length(movement_vector) > 0) {
+
+        Math::Vector2 block_size{SPOT_WIDTH_, SPOT_LENGTH_};
+        Math::Vector2 object_size{width, length};
+
+        Math::Vector2 old_position_2{old_position.x, old_position.z};
+        Math::Vector2 new_position_2{new_position.x, new_position.z};
+
+        for (int i = 0; i < map_.height(); ++i) {
+            for (int j = 0; j < map_.width(); ++j) {
+                if (Colour c = map_.get_pixel(i, j); c.r == 0 && c.g == 0 && c.b == 0) {
+                    collision_vector = collision_vector * rectangle_collide(
+                            old_position_2,
+                            new_position_2,
+                            object_size,
+                            block_size,
+                            block_size * Math::Vector2{static_cast<float>(i),static_cast<float>(j)}
+                            );
+                }
+            }
+        }
+    }
+
+    return Math::Vector3{collision_vector.x, 0, collision_vector.y};
+}
+
+Math::Vector2 Game::Level::rectangle_collide(const Math::Vector2& old_position, const Math::Vector2& new_position,
+        const Math::Vector2& size1, const Math::Vector2& size2, const Math::Vector2& pos2) const
+{
+    Math::Vector2 result{0.0F, 0.0F};
+
+    if (new_position.x + size1.x < pos2.x ||
+            new_position.x - size1.x > pos2.x + size2.x * size2.x ||
+            old_position.y + size1.y < pos2.y ||
+            old_position.y - size1.y > pos2.y + size2.y * size2.y) {
+        result.x = 1;
+    }
+
+    if (old_position.x + size1.x < pos2.x ||
+            old_position.x - size1.x > pos2.x + size2.x * size2.x ||
+            new_position.y + size1.y < pos2.y ||
+            new_position.y - size1.y > pos2.y + size2.y * size2.y) {
+        result.y = 1;
+    }
+
+    return result;
 }

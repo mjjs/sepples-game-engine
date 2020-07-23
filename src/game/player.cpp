@@ -10,27 +10,20 @@ Game::Player::Player(const Math::Vector3& initial_position) :
 
 void Game::Player::input(const Input& inputs)
 {
-    Math::Vector3 movement_vector{0.0F, 0.0F, 0.0F};
-
     if (inputs.is_key_down(SDLK_w)) {
-        movement_vector = movement_vector + camera_->get_forward();
+        movement_vector_ = movement_vector_ + camera_->get_forward();
     }
 
     if (inputs.is_key_down(SDLK_s)) {
-        movement_vector = movement_vector + (-1.0F * camera_->get_forward());
+        movement_vector_ = movement_vector_ + (-1.0F * camera_->get_forward());
     }
 
     if (inputs.is_key_down(SDLK_d)) {
-        movement_vector = movement_vector + camera_->get_right();
+        movement_vector_ = movement_vector_ + camera_->get_right();
     }
 
     if (inputs.is_key_down(SDLK_a)) {
-        movement_vector = movement_vector + camera_->get_left();
-    }
-
-    if (Math::length(movement_vector) > 0) {
-        movement_vector.y = 0;
-        camera_->move(Math::normalize(movement_vector), speed_);
+        movement_vector_ = movement_vector_ + camera_->get_left();
     }
 
     if (inputs.is_key_down(SDLK_DOWN)) {
@@ -50,7 +43,33 @@ void Game::Player::input(const Input& inputs)
     }
 }
 
+void Game::Player::update()
+{
+    movement_vector_.y = 0;
+
+    if (Math::length(movement_vector_) > 0) {
+        movement_vector_ = Math::normalize(movement_vector_);
+    }
+
+    Math::Vector3 old_position = camera_->get_position();
+    Math::Vector3 new_position = old_position + speed_ * movement_vector_;
+
+    Math::Vector3 collision_vector = level_->check_collision(old_position, new_position, size_, size_);
+    movement_vector_ = movement_vector_ * collision_vector;
+
+    camera_->move(movement_vector_, speed_);
+
+    movement_vector_.x = 0;
+    movement_vector_.y = 0;
+    movement_vector_.z = 0;
+}
+
 std::shared_ptr<Camera> Game::Player::camera() const
 {
     return camera_;
+}
+
+void Game::Player::set_level(std::shared_ptr<Level> level)
+{
+    level_ = level;
 }

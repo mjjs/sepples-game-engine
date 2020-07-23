@@ -5,10 +5,12 @@
 #include "level.h"
 #include "player.h"
 
+#include <memory>
+
 namespace Game {
 class Game {
     private:
-        Level level_;
+        std::shared_ptr<Level> level_;
         Player player_;
 
     public:

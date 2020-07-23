@@ -7,6 +7,8 @@
 #include "material.h"
 #include "mesh.h"
 #include "transform.h"
+#include "vector2.h"
+#include "vector3.h"
 #include "vertex.h"
 
 #include <string>
@@ -32,6 +34,8 @@ class Level {
         void add_vertices(std::vector<Vertex>& vertices, int i, int j, bool x, bool y, bool z, float offset, const std::vector<float>& texture_coordinates) const;
         std::vector<float> calculate_texture_coordinates(int colour) const;
 
+        Math::Vector2 rectangle_collide(const Math::Vector2& old_position, const Math::Vector2& new_position,
+                const Math::Vector2& size1, const Math::Vector2& size2, const Math::Vector2& pos2) const;
 
     public:
         explicit Level(const std::string& level_path, const std::string& texture_path);
@@ -39,7 +43,8 @@ class Level {
         void update();
         void render();
         Math::Transform& transform();
-
+        Math::Vector3 check_collision(const Math::Vector3& old_position, const Math::Vector3& new_position,
+                float width, float length) const;
 };
 } // namespace Game
 #endif
