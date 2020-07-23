@@ -2,12 +2,12 @@
 #define _GE_GAME_H
 
 #include "input.h"
-#include "basicshader.h"
+#include "level.h"
 
 namespace Game {
 class Game {
     private:
-        BasicShader shader_;
+        Level level_;
 
     public:
         Game();
