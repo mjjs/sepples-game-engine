@@ -7,11 +7,7 @@ Camera::Camera() :
     forward_{Math::Vector3{0,0,1}},
     up_{Math::Vector3{0,1,0}}
 {
-}
-
-Camera::Camera(const Math::Vector3& position, const Math::Vector3& forward, const Math::Vector3& up) :
-    position_{position},
-    forward_{Math::normalize(forward)},
+} Camera::Camera(const Math::Vector3& position, const Math::Vector3& forward, const Math::Vector3& up) : position_{position}, forward_{Math::normalize(forward)},
     up_{Math::normalize(up)}
 {
 }
@@ -62,4 +58,9 @@ void Camera::rotate_y(float degrees)
     forward_ = Math::normalize(Math::rotate(forward_, degrees, world_up_));
 
     up_ = Math::normalize(Math::cross(forward_, horizontal_axis));
+}
+
+void Camera::set_position(const Math::Vector3& position)
+{
+    position_ = position;
 }

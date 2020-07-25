@@ -3,6 +3,7 @@
 
 #include "basicshader.h"
 #include "bitmap.h"
+#include "door.h"
 #include "input.h"
 #include "material.h"
 #include "mesh.h"
@@ -28,6 +29,7 @@ class Level {
         Mesh mesh_;
         Math::Transform transform_;
         BasicShader shader_;
+        Material material_;
 
         void generate_map(const Material& material);
         void add_face(std::vector<int>& indices, int start, bool flip) const;
@@ -35,7 +37,12 @@ class Level {
         std::vector<float> calculate_texture_coordinates(int colour) const;
 
         Math::Vector2 rectangle_collide(const Math::Vector2& old_position, const Math::Vector2& new_position,
-                const Math::Vector2& size1, const Math::Vector2& size2, const Math::Vector2& pos2) const;
+                const Math::Vector2& size1, const Math::Vector2& size2, const Math::Vector2& pos2);
+
+        void add_special(int blue_value, int x, int y);
+        void add_door(int x, int y);
+
+        std::vector<Door> doors_;
 
     public:
         explicit Level(const std::string& level_path, const std::string& texture_path);
@@ -44,7 +51,7 @@ class Level {
         void render();
         Math::Transform& transform();
         Math::Vector3 check_collision(const Math::Vector3& old_position, const Math::Vector3& new_position,
-                float width, float length) const;
+                float width, float length);
 };
 } // namespace Game
 #endif

@@ -58,3 +58,13 @@ std::shared_ptr<Camera> Math::Transform::get_camera()
 {
     return camera_;
 }
+
+Math::Vector3 Math::Transform::translation() const
+{
+    return translation_;
+}
+
+Math::Vector3 Math::Transform::rotation() const
+{
+    return rotation_;
+}

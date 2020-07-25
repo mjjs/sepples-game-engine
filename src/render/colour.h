@@ -8,6 +8,8 @@ struct Colour {
     int g = 0;
     int b = 0;
     int a = 255;
+
+    bool is_black();
 };
 
 std::ostream& operator<<(std::ostream& os, const Colour& colour);

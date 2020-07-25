@@ -58,8 +58,8 @@ Math::Matrix4 Math::Matrix4::rotation(const Math::Vector3& rotation_vector)
     rotate_x[2][2] = std::cos(x_rads);
 
     rotate_y[0][0] = std::cos(y_rads);
-    rotate_y[0][2] = std::sin(y_rads);
-    rotate_y[2][0] = -std::sin(y_rads);
+    rotate_y[0][2] = -std::sin(y_rads);
+    rotate_y[2][0] = std::sin(y_rads);
     rotate_y[2][2] = std::cos(y_rads);
 
     rotate_z[0][0] = std::cos(z_rads);

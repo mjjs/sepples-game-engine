@@ -4,9 +4,10 @@
 #include "player.h"
 #include "vector3.h"
 
-Game::Player::Player(const Math::Vector3& initial_position) :
-    camera_(std::make_shared<Camera>(initial_position, Math::Vector3{0.0F, 0.0F, 1.0F}, Math::Vector3{0.0F, 1.0F, 0.0F}))
-{}
+Game::Player::Player(const Math::Vector3& initial_position)
+{
+    Game::Player::camera_->set_position(initial_position);
+}
 
 void Game::Player::input(const Input& inputs)
 {
@@ -62,11 +63,6 @@ void Game::Player::update()
     movement_vector_.x = 0;
     movement_vector_.y = 0;
     movement_vector_.z = 0;
-}
-
-std::shared_ptr<Camera> Game::Player::camera() const
-{
-    return camera_;
 }
 
 void Game::Player::set_level(std::shared_ptr<Level> level)

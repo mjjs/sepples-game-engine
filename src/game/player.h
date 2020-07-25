@@ -12,9 +12,8 @@ namespace Game {
 class Player {
     private:
         const float speed_ = 0.05F;
-        const float size_ = 0.02F;
+        const float size_ = 0.2F;
 
-        std::shared_ptr<Camera> camera_;
         std::shared_ptr<Level> level_;
         Math::Vector3 movement_vector_;
 
@@ -23,8 +22,9 @@ class Player {
         void input(const Input& inputs);
         void update();
         void render();
-        std::shared_ptr<Camera> camera() const;
         void set_level(std::shared_ptr<Level> level);
+
+        static inline std::shared_ptr<Camera> camera_ = std::make_shared<Camera>(Camera{});
 
 };
 } // namespace Game

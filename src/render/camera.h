@@ -22,5 +22,7 @@ class Camera {
         Math::Vector3 get_right() const;
         Math::Vector3 get_forward() const;
         Math::Vector3 get_up() const;
+
+        void set_position(const Math::Vector3& position);
 };
 #endif

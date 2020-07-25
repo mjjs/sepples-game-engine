@@ -1,10 +1,13 @@
 #include "bitmap.h"
+#include "camera.h"
 #include "colour.h"
+#include "door.h"
 #include "gemath.h"
 #include "input.h"
 #include "level.h"
 #include "material.h"
 #include "mesh.h"
+#include "player.h"
 #include "resourceloader.h"
 #include "texture.h"
 #include "vector2.h"
@@ -16,11 +19,16 @@
 #include <string>
 #include <vector>
 
+#include <SDL2/SDL_keycode.h>
+
 #include <iostream>
 
 Game::Level::Level(const std::string& level_path, const std::string& texture_path) :
     map_{level_path}
 {
+    transform_.set_camera(Game::Player::camera_);
+    transform_.set_projection(80, 1280, 720, 0.01F, 1000.0F);
+
     Texture texture;
     std::string filename = texture_path.substr(texture_path.find_last_of('/')+1);
     std::string texture_directory = texture_path.substr(0, texture_path.find_last_of('/'));
@@ -30,10 +38,9 @@ Game::Level::Level(const std::string& level_path, const std::string& texture_pat
 
     Material material{};
     material.set_textures(std::vector<Texture>{texture});
+    material_ = material;
 
     generate_map(material);
-
-    transform_.set_projection(70, 1280, 720, 0.01F, 1000.0F);
 }
 
 void Game::Level::render()
@@ -41,10 +48,28 @@ void Game::Level::render()
     shader_.bind();
     shader_.set_transformations(transform_.get_transformation(), transform_.get_projected_transformation());
     mesh_.draw(shader_);
+
+    for (Door& door : doors_) {
+        door.render(shader_);
+    }
+}
+
+void Game::Level::update()
+{
+    for (Door& door : doors_) {
+        door.update();
+    }
 }
 
 void Game::Level::input(const Input& inputs)
 {
+    if (inputs.is_key_just_pressed(SDLK_e)) {
+        for (Door& door : doors_) {
+            if (Math::length(door.transform().translation() - Game::Player::camera_->get_position()) < 1.0F) {
+                door.open();
+            }
+        }
+    }
 }
 
 void Game::Level::add_face(std::vector<int>& indices, int start, bool flip) const
@@ -119,8 +144,12 @@ void Game::Level::generate_map(const Material& material)
     for (int i = 0; i < map_.width(); ++i) {
         for (int j = 0; j < map_.height(); ++j) {
             Colour pixel = map_.get_pixel(i, j);
-            if (pixel.r == 0 && pixel.g == 0 && pixel.b == 0) {
+            if (Colour c = map_.get_pixel(i, j); c.is_black()) {
                 continue;
+            }
+
+            if (Colour c = map_.get_pixel(i, j); c.b != 0) {
+                add_special(c.b, i, j);
             }
 
             std::vector<float> texture_coordinates = calculate_texture_coordinates(pixel.g);
@@ -166,8 +195,41 @@ Math::Transform& Game::Level::transform()
     return transform_;
 }
 
+void Game::Level::add_door(int x, int y)
+{
+    Math::Transform door_transform = transform_;
+
+    bool is_x_axis = map_.get_pixel(x, y-1).is_black() && map_.get_pixel(x, y+1).is_black();
+    bool is_y_axis = map_.get_pixel(x-1, y).is_black() && map_.get_pixel(x+1, y).is_black();
+
+    if (!(is_x_axis ^ is_y_axis)) {
+        throw std::runtime_error("Invalid door location");
+    }
+
+    Math::Vector3 open_position{};
+
+    if (is_y_axis) {
+        door_transform.set_translation(Math::Vector3{static_cast<float>(x), 0.0F, y + SPOT_LENGTH_ / 2.0F});
+        open_position = door_transform.translation() - Math::Vector3{0.9F, 0.0F, 0.0F};
+    } else {
+        door_transform.set_translation(Math::Vector3{x + SPOT_WIDTH_ / 2.0F, 0.0F, static_cast<float>(y)});
+        door_transform.set_rotation(Math::Vector3{0.0F, 90.0F, 0.0F});
+
+        open_position = door_transform.translation() - Math::Vector3{0.0F, 0.0F, 0.9F};
+    }
+
+    doors_.emplace_back(Door{door_transform, material_, open_position});
+}
+
+void Game::Level::add_special(int blue_value, int x, int y)
+{
+    if (blue_value == 1) {
+        add_door(x, y);
+    }
+}
+
 Math::Vector3 Game::Level::check_collision(const Math::Vector3& old_position, const Math::Vector3& new_position,
-        const float width, const float length) const
+        const float width, const float length)
 {
     Math::Vector2 collision_vector{1.0F, 1.0F};
     Math::Vector3 movement_vector = new_position - old_position;
@@ -193,13 +255,27 @@ Math::Vector3 Game::Level::check_collision(const Math::Vector3& old_position, co
                 }
             }
         }
+
+        for (Door& door : doors_) {
+            Math::Vector2 door_size = door.size();
+
+            Math::Vector3 door_pos_3 = door.transform().translation();
+            Math::Vector2 door_pos{door_pos_3.x, door_pos_3.z};
+            collision_vector = collision_vector * rectangle_collide(
+                    old_position_2,
+                    new_position_2,
+                    object_size,
+                    door_size,
+                    block_size * door_pos
+                    );
+        }
     }
 
     return Math::Vector3{collision_vector.x, 0, collision_vector.y};
 }
 
 Math::Vector2 Game::Level::rectangle_collide(const Math::Vector2& old_position, const Math::Vector2& new_position,
-        const Math::Vector2& size1, const Math::Vector2& size2, const Math::Vector2& pos2) const
+        const Math::Vector2& size1, const Math::Vector2& size2, const Math::Vector2& pos2)
 {
     Math::Vector2 result{0.0F, 0.0F};
 

@@ -10,7 +10,7 @@
 namespace Math {
     class Transform {
         private:
-            std::shared_ptr<Camera> camera_;
+            std::shared_ptr<Camera> camera_ = std::make_shared<Camera>();
             Vector3 translation_;
             Vector3 rotation_;
             Vector3 scale_{1,1,1};
@@ -28,6 +28,8 @@ namespace Math {
             void set_camera(std::shared_ptr<Camera> camera);
             std::shared_ptr<Camera> get_camera();
             static void set_projection(float fov, float width, float height, float z_near, float z_far);
+            Vector3 translation() const;
+            Vector3 rotation() const;
             Matrix4 get_transformation() const;
             Matrix4 get_projected_transformation() const;
     };
