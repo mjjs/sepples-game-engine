@@ -41,6 +41,12 @@ Game::Level::Level(const std::string& level_path, const std::string& texture_pat
     material_ = material;
 
     generate_map(material);
+
+    Math::Transform temp_transform{};
+    temp_transform.set_translation(Math::Vector3{8.0F, 0.0F, 10.5F});
+    temp_transform.set_projection(80, 1280, 720, 0.01F, 1000.0F);
+    temp_transform.set_camera(Game::Player::camera_);
+    enemy_ = Enemy(temp_transform);
 }
 
 void Game::Level::render()
@@ -52,6 +58,8 @@ void Game::Level::render()
     for (Door& door : doors_) {
         door.render(shader_);
     }
+
+    enemy_.render(shader_);
 }
 
 void Game::Level::update()
@@ -59,6 +67,8 @@ void Game::Level::update()
     for (Door& door : doors_) {
         door.update();
     }
+
+    enemy_.update();
 }
 
 void Game::Level::input(const Input& inputs)

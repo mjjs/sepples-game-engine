@@ -27,5 +27,6 @@ namespace Math {
     Quaternion conjugate(const Quaternion& q);
 
     float to_radians(float degrees);
+    float to_degrees(float radians);
 } // namespace Math
 #endif

@@ -12,6 +12,8 @@
 #include "vector3.h"
 #include "vertex.h"
 
+#include "enemy.h"
+
 #include <string>
 #include <vector>
 
@@ -30,6 +32,9 @@ class Level {
         Math::Transform transform_;
         BasicShader shader_;
         Material material_;
+
+        // TEMP
+        Enemy enemy_;
 
         void generate_map(const Material& material);
         void add_face(std::vector<int>& indices, int start, bool flip) const;

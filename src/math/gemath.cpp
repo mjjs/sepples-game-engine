@@ -34,7 +34,6 @@ Math::Vector2 Math::rotate(const Math::Vector2& vec, float degrees)
     };
 }
 
-
 float Math::angle_to(const Math::Vector3& vec_a, const Math::Vector3& vec_b)
 {
     return std::acos(Math::dot(vec_a, vec_b) / (Math::length(vec_a) * Math::length(vec_b)));
@@ -107,4 +106,9 @@ Math::Quaternion Math::conjugate(const Math::Quaternion& q)
 float Math::to_radians(const float degrees)
 {
     return static_cast<float>(degrees * (M_PI / 180));
+}
+
+float Math::to_degrees(const float radians)
+{
+    return static_cast<float>(radians * (180 / M_PI));
 }
