@@ -4,6 +4,7 @@
 #include "basicshader.h"
 #include "material.h"
 #include "mesh.h"
+#include "vector3.h"
 #include "transform.h"
 
 enum EnemyState {
@@ -20,18 +21,18 @@ class Enemy {
         Material material_;
         Math::Transform transform_;
 
-        EnemyState state_ = EnemyState::IDLE;
+        EnemyState state_ = EnemyState::CHASE;
 
         static inline Mesh mesh_;
         static inline bool mesh_created_ = false;
 
-        void idle();
-        void chase();
-        void attack();
-        void dying();
-        void dead();
+        void idle(const Math::Vector3& orientation, float distance_to_camera);
+        void chase(const Math::Vector3& orientation, float distance_to_camera);
+        void attack(const Math::Vector3& orientation, float distance_to_camera);
+        void dying(const Math::Vector3& orientation, float distance_to_camera);
+        void dead(const Math::Vector3& orientation, float distance_to_camera);
 
-        void face_camera();
+        void face_camera(const Math::Vector3& direction_to_camera);
 
     public:
         Enemy() = default;
@@ -54,6 +55,12 @@ class Enemy {
         static inline const float TEXTURE_MIN_X = -OFFSET_X;
         static inline const float TEXTURE_MAX_Y = 1 - OFFSET_Y;
         static inline const float TEXTURE_MIN_Y = -OFFSET_Y;
+
+        static inline const float MOVE_SPEED = 0.02F;
+        static inline const float MOVE_STOP_DISTANCE = 1.0F;
+
+        static inline const float WIDTH = 0.2F;
+        static inline const float LENGTH = 0.2F;
 };
 } // namespace Game
 #endif

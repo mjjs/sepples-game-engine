@@ -4,6 +4,7 @@
 #include "basicshader.h"
 #include "bitmap.h"
 #include "door.h"
+#include "enemy.h"
 #include "input.h"
 #include "material.h"
 #include "mesh.h"
@@ -12,7 +13,6 @@
 #include "vector3.h"
 #include "vertex.h"
 
-#include "enemy.h"
 
 #include <string>
 #include <vector>

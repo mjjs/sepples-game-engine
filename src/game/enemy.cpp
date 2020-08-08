@@ -12,6 +12,7 @@
 #include "vertex.h"
 
 #include <assimp/material.h>
+#include <cassert>
 #include <cmath>
 #include <vector>
 
@@ -46,29 +47,35 @@ Game::Enemy::Enemy(const Math::Transform& transform) :
     }
 }
 
-void Game::Enemy::idle()
+void Game::Enemy::idle(const Math::Vector3& orientation, float distance_to_camera)
 {
 }
 
-void Game::Enemy::chase()
+void Game::Enemy::chase(const Math::Vector3& orientation, float distance_to_camera)
+{
+    if (distance_to_camera > MOVE_STOP_DISTANCE) {
+        // TODO: ADD COLLISION CHECK
+        Math::Vector3 old_position = transform_.translation();
+        Math::Vector3 new_position = transform_.translation() + (MOVE_SPEED * (-1 * orientation));
+
+        transform_.set_translation(new_position);
+    }
+}
+
+void Game::Enemy::attack(const Math::Vector3& orientation, float distance_to_camera)
 {
 }
 
-void Game::Enemy::attack()
+void Game::Enemy::dying(const Math::Vector3& orientation, float distance_to_camera)
 {
 }
 
-void Game::Enemy::dying()
+void Game::Enemy::dead(const Math::Vector3& orientation, float distance_to_camera)
 {
 }
 
-void Game::Enemy::dead()
+void Game::Enemy::face_camera(const Math::Vector3& direction_to_camera)
 {
-}
-
-void Game::Enemy::face_camera()
-{
-    Math::Vector3 direction_to_camera = transform_.translation() - Game::Player::camera_->get_position();
     float angle_to_face_camera = Math::to_degrees(std::atan(direction_to_camera.z / direction_to_camera.x));
 
     if (direction_to_camera.x > 0) {
@@ -82,28 +89,32 @@ void Game::Enemy::face_camera()
 
 void Game::Enemy::update()
 {
+    Math::Vector3 direction_to_camera = transform_.translation() - Game::Player::camera_->get_position();
+    Math::Vector3 orientation = Math::normalize(direction_to_camera);
+    float distance = Math::length(direction_to_camera);
+
     // Ebin
     Math::Vector3 translation = transform_.translation();
     translation.y = -0.01F;
     transform_.set_translation(translation);
 
-    face_camera();
+    face_camera(orientation);
 
     switch (state_) {
         case EnemyState::IDLE:
-            idle();
+            idle(orientation, distance);
             break;
         case EnemyState::CHASE:
-            chase();
+            chase(orientation, distance);
             break;
         case EnemyState::ATTACK:
-            attack();
+            attack(orientation, distance);
             break;
         case EnemyState::DYING:
-            dying();
+            dying(orientation, distance);
             break;
         case EnemyState::DEAD:
-            dead();
+            dead(orientation, distance);
             break;
 
         default:

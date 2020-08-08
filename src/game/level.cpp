@@ -2,6 +2,7 @@
 #include "camera.h"
 #include "colour.h"
 #include "door.h"
+#include "enemy.h"
 #include "gemath.h"
 #include "input.h"
 #include "level.h"
@@ -46,7 +47,7 @@ Game::Level::Level(const std::string& level_path, const std::string& texture_pat
     temp_transform.set_translation(Math::Vector3{8.0F, 0.0F, 10.5F});
     temp_transform.set_projection(80, 1280, 720, 0.01F, 1000.0F);
     temp_transform.set_camera(Game::Player::camera_);
-    enemy_ = Enemy(temp_transform);
+    enemy_ = Game::Enemy(temp_transform);
 }
 
 void Game::Level::render()

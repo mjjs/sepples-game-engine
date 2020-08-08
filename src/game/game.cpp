@@ -17,7 +17,6 @@ void Game::Game::update()
     level_->update();
 }
 
-
 void Game::Game::render()
 {
     level_->render();
