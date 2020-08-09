@@ -49,7 +49,6 @@ class Door {
         std::chrono::milliseconds DOOR_CLOSE_DELAY_ = std::chrono::seconds{2};
 
         void open();
-
 };
 } // namespace Game
 #endif

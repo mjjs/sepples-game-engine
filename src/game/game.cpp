@@ -1,3 +1,4 @@
+#include "enemy.h"
 #include "game.h"
 #include "level.h"
 #include "vector3.h"
@@ -9,6 +10,9 @@ Game::Game::Game() :
     player_{Math::Vector3{8.0F, 0.4375F, 10.0F}}
 {
     player_.set_level(level_);
+    for (Enemy& enemy : level_->enemies()) {
+        enemy.set_level(level_);
+    }
 }
 
 void Game::Game::update()

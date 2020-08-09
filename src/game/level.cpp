@@ -47,7 +47,7 @@ Game::Level::Level(const std::string& level_path, const std::string& texture_pat
     temp_transform.set_translation(Math::Vector3{8.0F, 0.0F, 10.5F});
     temp_transform.set_projection(80, 1280, 720, 0.01F, 1000.0F);
     temp_transform.set_camera(Game::Player::camera_);
-    enemy_ = Game::Enemy(temp_transform);
+    enemies_ = std::vector<Enemy>{Enemy(temp_transform)};
 }
 
 void Game::Level::render()
@@ -60,7 +60,9 @@ void Game::Level::render()
         door.render(shader_);
     }
 
-    enemy_.render(shader_);
+    for (auto& enemy : enemies_) {
+        enemy.render(shader_);
+    }
 }
 
 void Game::Level::update()
@@ -69,16 +71,23 @@ void Game::Level::update()
         door.update();
     }
 
-    enemy_.update();
+    for (auto& enemy : enemies_) {
+        enemy.update();
+    }
 }
 
 void Game::Level::input(const Input& inputs)
 {
     if (inputs.is_key_just_pressed(SDLK_e)) {
-        for (Door& door : doors_) {
-            if (Math::length(door.transform().translation() - Game::Player::camera_->get_position()) < 1.0F) {
-                door.open();
-            }
+        open_doors(Game::Player::camera_->get_position());
+    }
+}
+
+void Game::Level::open_doors(const Math::Vector3& position)
+{
+    for (Door& door : doors_) {
+        if (Math::length(door.transform().translation() - position) < 1.0F) {
+            door.open();
         }
     }
 }
@@ -305,4 +314,9 @@ Math::Vector2 Game::Level::rectangle_collide(const Math::Vector2& old_position, 
     }
 
     return result;
+}
+
+std::vector<Game::Enemy>& Game::Level::enemies()
+{
+    return enemies_;
 }

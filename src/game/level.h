@@ -13,7 +13,6 @@
 #include "vector3.h"
 #include "vertex.h"
 
-
 #include <string>
 #include <vector>
 
@@ -34,7 +33,6 @@ class Level {
         Material material_;
 
         // TEMP
-        Enemy enemy_;
 
         void generate_map(const Material& material);
         void add_face(std::vector<int>& indices, int start, bool flip) const;
@@ -48,13 +46,16 @@ class Level {
         void add_door(int x, int y);
 
         std::vector<Door> doors_;
+        std::vector<Enemy> enemies_;
 
     public:
         explicit Level(const std::string& level_path, const std::string& texture_path);
         void input(const Input& inputs);
         void update();
         void render();
+        void open_doors(const Math::Vector3& position);
         Math::Transform& transform();
+        std::vector<Enemy>& enemies();
         Math::Vector3 check_collision(const Math::Vector3& old_position, const Math::Vector3& new_position,
                 float width, float length);
 };

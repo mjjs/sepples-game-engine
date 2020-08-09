@@ -7,6 +7,8 @@
 #include "vector3.h"
 #include "transform.h"
 
+#include <memory>
+
 enum EnemyState {
     IDLE,
     CHASE,
@@ -16,10 +18,14 @@ enum EnemyState {
 };
 
 namespace Game {
+
+class Level;
+
 class Enemy {
     private:
         Material material_;
         Math::Transform transform_;
+        std::shared_ptr<Level> level_;
 
         EnemyState state_ = EnemyState::CHASE;
 
@@ -40,6 +46,8 @@ class Enemy {
 
         void update();
         void render(BasicShader& shader);
+
+        void set_level(std::shared_ptr<Level> level);
 
         static inline const float START = 0.0F;
 

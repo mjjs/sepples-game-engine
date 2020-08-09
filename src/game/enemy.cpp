@@ -1,6 +1,7 @@
 #include "basicshader.h"
 #include "enemy.h"
 #include "gemath.h"
+#include "level.h"
 #include "material.h"
 #include "mesh.h"
 #include "player.h"
@@ -14,6 +15,7 @@
 #include <assimp/material.h>
 #include <cassert>
 #include <cmath>
+#include <memory>
 #include <vector>
 
 Game::Enemy::Enemy(const Math::Transform& transform) :
@@ -54,11 +56,25 @@ void Game::Enemy::idle(const Math::Vector3& orientation, float distance_to_camer
 void Game::Enemy::chase(const Math::Vector3& orientation, float distance_to_camera)
 {
     if (distance_to_camera > MOVE_STOP_DISTANCE) {
-        // TODO: ADD COLLISION CHECK
         Math::Vector3 old_position = transform_.translation();
         Math::Vector3 new_position = transform_.translation() + (MOVE_SPEED * (-1 * orientation));
 
-        transform_.set_translation(new_position);
+        Math::Vector3 collision_vector = level_->check_collision(
+                old_position,
+                new_position,
+                WIDTH,
+                LENGTH
+                );
+
+        Math::Vector3 movement_vector = collision_vector * (-1 * orientation);
+
+        if (Math::length(movement_vector - orientation) != 0) {
+            level_->open_doors(new_position);
+        }
+
+        if (Math::length(movement_vector) > 0) {
+            transform_.set_translation(old_position + MOVE_SPEED * movement_vector);
+        }
     }
 }
 
@@ -127,4 +143,9 @@ void Game::Enemy::render(BasicShader& shader)
     shader.set_material(material_);
     shader.set_transformations(transform_.get_transformation(), transform_.get_projected_transformation());
     mesh_.draw(shader);
+}
+
+void Game::Enemy::set_level(std::shared_ptr<Level> level)
+{
+    level_ = level;
 }
