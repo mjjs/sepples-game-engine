@@ -62,7 +62,7 @@ class Level {
         std::vector<Enemy>& enemies();
         Math::Vector3 check_collision(const Math::Vector3& old_position, const Math::Vector3& new_position,
                 float width, float length);
-        Math::Vector2 check_intersection(const Math::Vector2& start, const Math::Vector2& end, bool& hit);
+        Math::Vector2 check_intersection(const Math::Vector2& start, const Math::Vector2& end, bool& hit, bool hurt_monsters);
 
         Math::Vector2 line_intersect_rectangle(const Math::Vector2& line_start, const Math::Vector2& line_end,
                 const Math::Vector2& rect_pos, const Math::Vector2& rect_size, bool& hit);

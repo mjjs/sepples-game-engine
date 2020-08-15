@@ -2,6 +2,7 @@
 #include "gemath.h"
 #include "input.h"
 #include "player.h"
+#include "vector2.h"
 #include "vector3.h"
 
 Game::Player::Player(const Math::Vector3& initial_position)
@@ -41,6 +42,21 @@ void Game::Player::input(const Input& inputs)
 
     if (inputs.is_key_down(SDLK_RIGHT)) {
         camera_->rotate_y(1.0F);
+    }
+
+    if (inputs.is_key_just_pressed(SDLK_e)) {
+        level_->open_doors(camera_->get_position());
+    }
+
+    if (inputs.is_key_just_pressed(SDLK_RETURN)) {
+        Math::Vector2 line_start{camera_->get_position().x, camera_->get_position().z};
+        Math::Vector2 cast_direction = Math::normalize(Math::Vector2{camera_->get_forward().x, camera_->get_forward().z});
+        Math::Vector2 line_end = line_start + SHOOT_DISTANCE * cast_direction;
+
+        bool hit = false;
+
+        level_->check_intersection(line_start, line_end, hit, true);
+
     }
 }
 

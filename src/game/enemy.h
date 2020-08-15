@@ -81,6 +81,8 @@ class Enemy {
         static inline const float LENGTH = 0.2F;
 
         void damage(int amount);
+        Math::Vector2 size() const;
+        Math::Transform& transform();
 };
 } // namespace Game
 #endif

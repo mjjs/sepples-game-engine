@@ -69,7 +69,7 @@ void Game::Enemy::idle(const Math::Vector3& orientation, float distance_to_camer
         bool hit = false;
         bool hit_player = false;
 
-        Math::Vector2 collision_vector = level_->check_intersection(line_start, line_end, hit);
+        Math::Vector2 collision_vector = level_->check_intersection(line_start, line_end, hit, false);
         Math::Vector2 player_intersection = level_->line_intersect_rectangle(line_start, line_end,
                 Math::Vector2{transform_.get_camera()->get_position().x, transform_.get_camera()->get_position().z},
                 Math::Vector2{0.2F, 0.2F}, hit_player); // 0.2F = player size, too lazy to refactor code
@@ -85,7 +85,6 @@ void Game::Enemy::chase(const Math::Vector3& orientation, float distance_to_came
 {
     float shoot_threshold = static_cast<float> (std::rand()) / static_cast<float> (RAND_MAX);
     if (shoot_threshold < 0.008F) {
-        std::cout << "YUP\n";
         state_ = EnemyState::ATTACK;
     }
 
@@ -129,7 +128,7 @@ void Game::Enemy::attack(const Math::Vector3& orientation, float distance_to_cam
 
         bool hit_player = false;
 
-        Math::Vector2 collision_vector = level_->check_intersection(line_start, line_end, hit);
+        Math::Vector2 collision_vector = level_->check_intersection(line_start, line_end, hit, false);
         Math::Vector2 player_intersection = level_->line_intersect_rectangle(line_start, line_end,
                 Math::Vector2{transform_.get_camera()->get_position().x, transform_.get_camera()->get_position().z},
                 Math::Vector2{0.2F, 0.2F}, hit_player); // 0.2F = player size, too lazy to refactor code
@@ -227,4 +226,14 @@ void Game::Enemy::damage(const int amount)
     } else if (state_ == EnemyState::IDLE) {
         state_ = EnemyState::CHASE;
     }
+}
+
+Math::Vector2 Game::Enemy::size() const
+{
+    return Math::Vector2{WIDTH, LENGTH};
+}
+
+Math::Transform& Game::Enemy::transform()
+{
+    return transform_;
 }

@@ -25,6 +25,8 @@ class Player {
         void set_level(std::shared_ptr<Level> level);
 
         static inline std::shared_ptr<Camera> camera_ = std::make_shared<Camera>(Camera{});
+        const static inline float SHOOT_DISTANCE = 1000.0F;
+        const static inline int DAMAGE = 30;
 
 };
 } // namespace Game

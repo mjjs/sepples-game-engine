@@ -85,9 +85,6 @@ void Game::Level::update()
 
 void Game::Level::input(const Input& inputs)
 {
-    if (inputs.is_key_just_pressed(SDLK_e)) {
-        open_doors(Game::Player::camera_->get_position());
-    }
 }
 
 void Game::Level::open_doors(const Math::Vector3& position)
@@ -313,7 +310,7 @@ Math::Vector3 Game::Level::check_collision(const Math::Vector3& old_position, co
     return Math::Vector3{collision_vector.x, 0, collision_vector.y};
 }
 
-Math::Vector2 Game::Level::check_intersection(const Math::Vector2& start, const Math::Vector2& end, bool& hit)
+Math::Vector2 Game::Level::check_intersection(const Math::Vector2& start, const Math::Vector2& end, bool& hit, bool hurt_monsters)
 {
     Math::Vector2 nearest_intersection{0.0F, 0.0F};
     hit = false;
@@ -345,6 +342,34 @@ Math::Vector2 Game::Level::check_intersection(const Math::Vector2& start, const 
 
         if (collided) {
             nearest_intersection = find_nearest_vector(nearest_intersection, collision_vector, start);
+        }
+    }
+
+    if (hurt_monsters) {
+        bool hit_enemy = false;
+        Enemy* nearest_enemy;
+        Math::Vector2 nearest_enemy_intersection{0.0F, 0.0F};
+
+        for (Enemy& enemy : enemies_) {
+            Math::Vector2 enemy_size = enemy.size();
+            Math::Vector3 enemy_pos_3 = enemy.transform().translation();
+            Math::Vector2 enemy_pos{enemy_pos_3.x, enemy_pos_3.z};
+            bool collided = false;
+            Math::Vector2 collision_vector = line_intersect_rectangle(start, end, enemy_pos, enemy_size, collided);
+
+            if (collided) {
+                nearest_enemy_intersection = find_nearest_vector(nearest_enemy_intersection, collision_vector, start);
+                hit_enemy = true;
+                if (collision_vector == nearest_enemy_intersection) {
+                    nearest_enemy = &enemy;
+                }
+            }
+        }
+
+        if (hit_enemy && hit) {
+            if (Math::length(nearest_enemy_intersection - start) < Math::length(nearest_intersection - start)) {
+                nearest_enemy->damage(Player::DAMAGE);
+            }
         }
     }
 
