@@ -1,6 +1,7 @@
 #ifndef _GE_GAME_H
 #define _GE_GAME_H
 
+#include "basicshader.h"
 #include "input.h"
 #include "level.h"
 #include "player.h"
@@ -13,6 +14,7 @@ class Game {
         std::shared_ptr<Level> level_;
         Player player_;
         static inline bool is_running = true;
+        BasicShader shader_;
 
     public:
         Game();

@@ -31,7 +31,8 @@ void Game::Game::update()
 void Game::Game::render()
 {
     if (Game::is_running) {
-        level_->render();
+        level_->render(shader_);
+        player_.render(shader_);
     }
 }
 

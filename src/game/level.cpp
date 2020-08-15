@@ -57,18 +57,18 @@ Game::Level::Level(const std::string& level_path, const std::string& texture_pat
     enemies_ = std::vector<Enemy>{Enemy(temp_transform)};
 }
 
-void Game::Level::render()
+void Game::Level::render(BasicShader& shader)
 {
-    shader_.bind();
-    shader_.set_transformations(transform_.get_transformation(), transform_.get_projected_transformation());
-    mesh_.draw(shader_);
+    shader.bind();
+    shader.set_transformations(transform_.get_transformation(), transform_.get_projected_transformation());
+    mesh_.draw(shader);
 
     for (Door& door : doors_) {
-        door.render(shader_);
+        door.render(shader);
     }
 
     for (auto& enemy : enemies_) {
-        enemy.render(shader_);
+        enemy.render(shader);
     }
 }
 

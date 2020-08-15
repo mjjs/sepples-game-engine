@@ -32,7 +32,6 @@ class Level {
         Bitmap map_;
         Mesh mesh_;
         Math::Transform transform_;
-        BasicShader shader_;
         Material material_;
 
         Player* player_;
@@ -61,7 +60,7 @@ class Level {
         explicit Level(const std::string& level_path, const std::string& texture_path);
         void input(const Input& inputs);
         void update();
-        void render();
+        void render(BasicShader& shader);
         void open_doors(const Math::Vector3& position);
         Math::Transform& transform();
         std::vector<Enemy>& enemies();
