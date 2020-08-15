@@ -4,7 +4,6 @@
 #include "basicshader.h"
 #include "camera.h"
 #include "input.h"
-#include "level.h"
 #include "material.h"
 #include "mesh.h"
 #include "transform.h"
@@ -13,12 +12,14 @@
 #include <memory>
 
 namespace Game {
+class Level;
+
 class Player {
     private:
         const float speed_ = 0.05F;
         const float size_ = 0.2F;
 
-        std::shared_ptr<Level> level_;
+        Level* level_;
         Math::Vector3 movement_vector_;
 
         Material gun_material_;
@@ -42,10 +43,13 @@ class Player {
 
     public:
         explicit Player(const Math::Vector3& initial_position);
+        explicit Player(const Player& other);
+        Player& operator=(const Player&);
+        Player& operator=(Player&&);
         void input(const Input& inputs);
         void update();
         void render(BasicShader& shader);
-        void set_level(std::shared_ptr<Level> level);
+        void set_level(Level* level);
 
         static inline std::shared_ptr<Camera> camera_ = std::make_shared<Camera>(Camera{});
         const static inline float SHOOT_DISTANCE = 1000.0F;
@@ -53,7 +57,9 @@ class Player {
         const static inline int DAMAGE = 30;
 
         void damage(int amount);
+        void heal(int amount);
         bool dead() const;
+        int health() const;
 };
 } // namespace Game
 #endif

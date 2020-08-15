@@ -151,7 +151,7 @@ void Game::Enemy::chase(const Math::Vector3& orientation, float distance_to_came
         Math::Vector3 movement_vector = collision_vector * orientation;
 
         if (Math::length(movement_vector - orientation) != 0) {
-            level_->open_doors(new_position);
+            level_->open_doors(new_position, false);
         }
 
         if (Math::length(movement_vector) > 0) {
@@ -265,17 +265,17 @@ void Game::Enemy::update()
         transform_.set_translation(translation);
     }
 
+    face_camera(orientation);
+
     switch (state_) {
         case EnemyState::IDLE:
             idle(orientation, distance);
             break;
         case EnemyState::CHASE:
             chase(orientation, distance);
-            face_camera(orientation);
             break;
         case EnemyState::ATTACK:
             attack(orientation, distance);
-            face_camera(orientation);
             break;
         case EnemyState::DYING:
             dying(orientation, distance);
@@ -297,7 +297,7 @@ void Game::Enemy::render(BasicShader& shader)
     mesh_.draw(shader);
 }
 
-void Game::Enemy::set_level(std::shared_ptr<Level> level)
+void Game::Enemy::set_level(Level* level)
 {
     level_ = level;
 }

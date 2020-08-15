@@ -12,9 +12,9 @@ namespace Game {
 class Game {
     private:
         std::shared_ptr<Level> level_;
-        Player player_;
         static inline bool is_running = true;
         BasicShader shader_;
+        static inline int level_number_ = 0;
 
     public:
         Game();
@@ -23,6 +23,7 @@ class Game {
         void input(const Input& inputs);
 
         static void game_over();
+        static void load_next_level();
 };
 } // namespace Game
 #endif

@@ -7,7 +7,9 @@
 #include "enemy.h"
 #include "input.h"
 #include "material.h"
+#include "medkit.h"
 #include "mesh.h"
+#include "player.h"
 #include "transform.h"
 #include "vector2.h"
 #include "vector3.h"
@@ -18,7 +20,6 @@
 
 
 namespace Game {
-class Player;
 
 class Level {
     private:
@@ -34,7 +35,7 @@ class Level {
         Math::Transform transform_;
         Material material_;
 
-        Player* player_;
+        Player player_;
 
         std::vector<Math::Vector2> collision_position_start_{};
         std::vector<Math::Vector2> collision_position_end_{};
@@ -55,13 +56,15 @@ class Level {
 
         std::vector<Door> doors_;
         std::vector<Enemy> enemies_;
+        std::vector<Medkit> medkits_;
+        std::vector<Math::Vector3> exits_;
 
     public:
         explicit Level(const std::string& level_path, const std::string& texture_path);
         void input(const Input& inputs);
         void update();
         void render(BasicShader& shader);
-        void open_doors(const Math::Vector3& position);
+        void open_doors(const Math::Vector3& position, bool exit);
         Math::Transform& transform();
         std::vector<Enemy>& enemies();
         Math::Vector3 check_collision(const Math::Vector3& old_position, const Math::Vector3& new_position,
@@ -71,8 +74,8 @@ class Level {
         Math::Vector2 line_intersect_rectangle(const Math::Vector2& line_start, const Math::Vector2& line_end,
                 const Math::Vector2& rect_pos, const Math::Vector2& rect_size, bool& hit);
 
-        void set_player(Game::Player* player);
         void damage_player(int amount);
+        Player& player();
 };
 } // namespace Game
 #endif

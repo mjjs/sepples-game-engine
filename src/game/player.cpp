@@ -2,6 +2,7 @@
 #include "camera.h"
 #include "gemath.h"
 #include "input.h"
+#include "level.h"
 #include "material.h"
 #include "mesh.h"
 #include "player.h"
@@ -10,6 +11,7 @@
 #include "vector2.h"
 #include "vector3.h"
 
+#include <cmath>
 #include <iostream>
 
 Game::Player::Player(const Math::Vector3& initial_position)
@@ -39,6 +41,21 @@ Game::Player::Player(const Math::Vector3& initial_position)
     gun_transform_.set_translation(Math::Vector3{8.0F, 0.0F, 10.0F});
     gun_transform_.set_projection(80, 1280, 720, 0.01F, 1000.0F);
     gun_transform_.set_camera(camera_);
+}
+
+Game::Player::Player(const Player& other)
+{
+    level_ = other.level_;
+}
+
+Game::Player& Game::Player::operator=(Game::Player&& player)
+{
+    return *this;
+}
+
+Game::Player& Game::Player::operator=(const Game::Player& player)
+{
+    return *this;
 }
 
 void Game::Player::input(const Input& inputs)
@@ -76,7 +93,7 @@ void Game::Player::input(const Input& inputs)
     }
 
     if (inputs.is_key_just_pressed(SDLK_e)) {
-        level_->open_doors(camera_->get_position());
+        level_->open_doors(camera_->get_position(), true);
     }
 
     if (inputs.is_key_just_pressed(SDLK_RETURN)) {
@@ -87,7 +104,6 @@ void Game::Player::input(const Input& inputs)
         bool hit = false;
 
         level_->check_intersection(line_start, line_end, hit, true);
-
     }
 }
 
@@ -135,7 +151,7 @@ void Game::Player::update()
     gun_transform_.set_rotation(rotation);
 }
 
-void Game::Player::set_level(std::shared_ptr<Level> level)
+void Game::Player::set_level(Level* level)
 {
     level_ = level;
 }
@@ -143,12 +159,12 @@ void Game::Player::set_level(std::shared_ptr<Level> level)
 void Game::Player::damage(const int amount)
 {
     health_ -= amount;
+}
 
-    std::cout << "Player health left: " << health_ << '\n';
-
-    if (health_ <= 0) {
-        std::cout << "Player died\n";
-    }
+void Game::Player::heal(const int amount)
+{
+    health_ += amount;
+    health_ += std::min(amount, 100 - health_);
 }
 
 bool Game::Player::dead() const
@@ -163,4 +179,9 @@ void Game::Player::render(BasicShader& shader)
     shader.set_material(gun_material_);
     shader.set_transformations(gun_transform_.get_transformation(), gun_transform_.get_projected_transformation());
     gun_.draw(shader);
+}
+
+int Game::Player::health() const
+{
+    return health_;
 }

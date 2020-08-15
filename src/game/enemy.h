@@ -28,7 +28,7 @@ class Enemy {
     private:
         Material material_;
         Math::Transform transform_;
-        std::shared_ptr<Level> level_;
+        Level* level_;
 
         EnemyState state_ = EnemyState::IDLE;
 
@@ -69,7 +69,7 @@ class Enemy {
         void update();
         void render(BasicShader& shader);
 
-        void set_level(std::shared_ptr<Level> level);
+        void set_level(Level* level);
 
         static inline const float START = 0.0F;
 

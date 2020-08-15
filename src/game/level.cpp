@@ -3,10 +3,12 @@
 #include "colour.h"
 #include "door.h"
 #include "enemy.h"
+#include "game.h"
 #include "gemath.h"
 #include "input.h"
 #include "level.h"
 #include "material.h"
+#include "medkit.h"
 #include "mesh.h"
 #include "player.h"
 #include "resourceloader.h"
@@ -32,9 +34,10 @@ const auto find_nearest_vector = [](const Math::Vector2& a, const Math::Vector2&
 };
 
 Game::Level::Level(const std::string& level_path, const std::string& texture_path) :
-    map_{level_path}
+    map_{level_path},
+    player_{Math::Vector3{8.0F, 0.4375F, 10.0F}}
 {
-    transform_.set_camera(Game::Player::camera_);
+    transform_.set_camera(Player::camera_);
     transform_.set_projection(80, 1280, 720, 0.01F, 1000.0F);
 
     Texture texture;
@@ -50,11 +53,11 @@ Game::Level::Level(const std::string& level_path, const std::string& texture_pat
 
     generate_map(material);
 
-    Math::Transform temp_transform{};
-    temp_transform.set_translation(Math::Vector3{15.0F, 0.0F, 10.0F});
-    temp_transform.set_projection(80, 1280, 720, 0.01F, 1000.0F);
-    temp_transform.set_camera(Game::Player::camera_);
-    enemies_ = std::vector<Enemy>{Enemy(temp_transform)};
+    //Math::Transform temp_transform{};
+    //temp_transform.set_translation(Math::Vector3{15.0F, 0.0F, 10.0F});
+    //temp_transform.set_projection(80, 1280, 720, 0.01F, 1000.0F);
+    //temp_transform.set_camera(Game::Player::camera_);
+    //enemies_ = std::vector<Enemy>{Enemy(temp_transform)};
 }
 
 void Game::Level::render(BasicShader& shader)
@@ -70,10 +73,18 @@ void Game::Level::render(BasicShader& shader)
     for (auto& enemy : enemies_) {
         enemy.render(shader);
     }
+
+    for (auto& medkit : medkits_) {
+        medkit.render(shader);
+    }
+
+    player_.render(shader);
 }
 
 void Game::Level::update()
 {
+    player_.update();
+
     for (Door& door : doors_) {
         door.update();
     }
@@ -81,17 +92,35 @@ void Game::Level::update()
     for (auto& enemy : enemies_) {
         enemy.update();
     }
+
+    for (auto medkit = medkits_.begin(); medkit != medkits_.end(); ) {
+        if (medkit->used()) {
+            medkit = medkits_.erase(medkit);
+        } else {
+            medkit->update();
+            ++medkit;
+        }
+    }
 }
 
 void Game::Level::input(const Input& inputs)
 {
+    player_.input(inputs);
 }
 
-void Game::Level::open_doors(const Math::Vector3& position)
+void Game::Level::open_doors(const Math::Vector3& position, bool exit_level)
 {
     for (Door& door : doors_) {
         if (Math::length(door.transform().translation() - position) < 1.0F) {
             door.open();
+        }
+    }
+
+    if (exit_level) {
+        for (auto& exit_point : exits_) {
+            if (Math::length(exit_point - position) < 1.0F) {
+                Game::load_next_level();
+            }
         }
     }
 }
@@ -259,8 +288,36 @@ void Game::Level::add_door(int x, int y)
 
 void Game::Level::add_special(int blue_value, int x, int y)
 {
-    if (blue_value == 1) {
-        add_door(x, y);
+    switch (blue_value) {
+        case 1:
+            add_door(x, y);
+            break;
+        case 60:
+            player_ = Player{Math::Vector3{(x + 0.5F) * SPOT_WIDTH_, 0.4375F, (y + 0.5F) * SPOT_HEIGHT_}};
+            player_.set_level(this);
+            break;
+        case 78: {
+                     Math::Transform medkit_transform{};
+                     medkit_transform.set_translation(Math::Vector3{(x + 0.5F) * SPOT_WIDTH_, 0, (y + 0.5F) * SPOT_HEIGHT_});
+                     medkit_transform.set_projection(80, 1280, 720, 0.01F, 1000.0F);
+                     medkit_transform.set_camera(player_.camera_);
+                     medkits_.push_back(Medkit(medkit_transform, &player_));
+                     break;
+                 }
+        case 100: {
+                      exits_.push_back(Math::Vector3{(x + 0.5F) * SPOT_WIDTH_, 0.4375F, (y + 0.5F) * SPOT_HEIGHT_});
+                      break;
+                  }
+        case 128: {
+                      Math::Transform enemy_transform{};
+                      enemy_transform.set_translation(Math::Vector3{(x + 0.5F) * SPOT_WIDTH_, 0.4375F, (y + 0.5F) * SPOT_HEIGHT_});
+                      enemy_transform.set_projection(80, 1280, 720, 0.01F, 1000.0F);
+                      enemy_transform.set_camera(player_.camera_);
+                      Enemy e(enemy_transform);
+                      e.set_level(this);
+                      enemies_.push_back(e);
+                      break;
+                  }
     }
 }
 
@@ -366,7 +423,7 @@ Math::Vector2 Game::Level::check_intersection(const Math::Vector2& start, const 
             }
         }
 
-        if (hit_enemy && hit) {
+        if (hit_enemy) {
             if (Math::length(nearest_enemy_intersection - start) < Math::length(nearest_intersection - start)) {
                 nearest_enemy->damage(Player::DAMAGE);
             }
@@ -469,12 +526,12 @@ std::vector<Game::Enemy>& Game::Level::enemies()
     return enemies_;
 }
 
-void Game::Level::set_player(Game::Player* player)
-{
-    player_ = player;
-}
-
 void Game::Level::damage_player(const int amount)
 {
-    player_->damage(amount);
+    player_.damage(amount);
+}
+
+Game::Player& Game::Level::player()
+{
+    return player_;
 }
