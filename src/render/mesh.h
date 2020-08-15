@@ -27,6 +27,8 @@ class Mesh {
         explicit Mesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices,
                 const Material& material);
 
+        void set_material(const Material& material);
+
         void draw(Shader& shader) const;
 };
 #endif

@@ -93,3 +93,8 @@ void Mesh::draw(Shader& shader) const
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+void Mesh::set_material(const Material& material)
+{
+    material_ = material;
+}

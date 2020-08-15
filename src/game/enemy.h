@@ -7,8 +7,10 @@
 #include "vector3.h"
 #include "transform.h"
 
+#include <cstddef>
 #include <chrono>
 #include <memory>
+#include <vector>
 
 enum EnemyState {
     IDLE,
@@ -45,6 +47,18 @@ class Enemy {
 
         std::chrono::time_point<std::chrono::steady_clock> last_attack_;
         std::chrono::time_point<std::chrono::steady_clock> last_player_check_;
+
+        std::chrono::time_point<std::chrono::steady_clock> last_run_animation_change_;
+        std::size_t last_run_animation_ = 0;
+
+        std::chrono::time_point<std::chrono::steady_clock> last_attack_animation_change_;
+        std::size_t last_attack_animation_ = 0;
+
+        bool dead_ = false;
+        std::chrono::time_point<std::chrono::steady_clock> death_time_;
+
+        static inline std::vector<Material> animations_;
+        static inline bool animations_created_ = false;
 
         int health_ = 100;
 
