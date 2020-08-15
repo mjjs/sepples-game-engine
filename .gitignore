@@ -4,3 +4,6 @@ core
 compile_commands.json
 res/models/notrack
 res/textures/WolfCollection.png
+res/textures/SS*
+res/textures/PIS*
+res/textures/MEDIA0.png
