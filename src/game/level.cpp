@@ -51,7 +51,7 @@ Game::Level::Level(const std::string& level_path, const std::string& texture_pat
     generate_map(material);
 
     Math::Transform temp_transform{};
-    temp_transform.set_translation(Math::Vector3{8.0F, 0.0F, 10.5F});
+    temp_transform.set_translation(Math::Vector3{15.0F, 0.0F, 10.0F});
     temp_transform.set_projection(80, 1280, 720, 0.01F, 1000.0F);
     temp_transform.set_camera(Game::Player::camera_);
     enemies_ = std::vector<Enemy>{Enemy(temp_transform)};
@@ -341,7 +341,7 @@ Math::Vector2 Game::Level::check_intersection(const Math::Vector2& start, const 
         Math::Vector3 door_pos_3 = door.transform().translation();
         Math::Vector2 door_pos{door_pos_3.x, door_pos_3.z};
         bool collided = false;
-        Math::Vector2 collision_vector = line_intersect(start, end, door_pos, door_size, collided);
+        Math::Vector2 collision_vector = line_intersect_rectangle(start, end, door_pos, door_size, collided);
 
         if (collided) {
             nearest_intersection = find_nearest_vector(nearest_intersection, collision_vector, start);

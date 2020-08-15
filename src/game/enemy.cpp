@@ -13,7 +13,7 @@
 #include "vertex.h"
 
 #include <assimp/material.h>
-#include <cassert>
+#include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
@@ -53,14 +53,42 @@ Game::Enemy::Enemy(const Math::Transform& transform) :
     }
 
     std::srand(std::time(nullptr));
+    last_attack_ = std::chrono::steady_clock::now();
 }
 
 void Game::Enemy::idle(const Math::Vector3& orientation, float distance_to_camera)
 {
+    auto now = std::chrono::steady_clock::now();
+    float time_since_last_look = static_cast<float>(std::chrono::duration_cast<std::chrono::milliseconds>(now - last_player_check_).count());
+
+    if (time_since_last_look > 400.0F) {
+        Math::Vector2 line_start{transform_.translation().x, transform_.translation().z};
+        Math::Vector2 cast_direction{orientation.x, orientation.z};
+        Math::Vector2 line_end = line_start + Game::Enemy::SHOOT_DISTANCE * cast_direction;
+
+        bool hit = false;
+        bool hit_player = false;
+
+        Math::Vector2 collision_vector = level_->check_intersection(line_start, line_end, hit);
+        Math::Vector2 player_intersection = level_->line_intersect_rectangle(line_start, line_end,
+                Math::Vector2{transform_.get_camera()->get_position().x, transform_.get_camera()->get_position().z},
+                Math::Vector2{0.2F, 0.2F}, hit_player); // 0.2F = player size, too lazy to refactor code
+
+        if (hit && hit_player && Math::length(player_intersection - line_start) < Math::length(collision_vector - line_start)) {
+            std::cout << "Enemy sees the player\n";
+            state_ = EnemyState::CHASE;
+        }
+    }
 }
 
 void Game::Enemy::chase(const Math::Vector3& orientation, float distance_to_camera)
 {
+    float shoot_threshold = static_cast<float> (std::rand()) / static_cast<float> (RAND_MAX);
+    if (shoot_threshold < 0.008F) {
+        std::cout << "YUP\n";
+        state_ = EnemyState::ATTACK;
+    }
+
     if (distance_to_camera > MOVE_STOP_DISTANCE) {
         Math::Vector3 old_position = transform_.translation();
         Math::Vector3 new_position = transform_.translation() + (MOVE_SPEED * orientation);
@@ -81,44 +109,53 @@ void Game::Enemy::chase(const Math::Vector3& orientation, float distance_to_came
         if (Math::length(movement_vector) > 0) {
             transform_.set_translation(old_position + MOVE_SPEED * movement_vector);
         }
+    } else {
+        state_ = EnemyState::ATTACK;
     }
 }
 
 void Game::Enemy::attack(const Math::Vector3& orientation, float distance_to_camera)
 {
-    float random_rotate = (static_cast<float> (std::rand()) / static_cast<float> (RAND_MAX) - 0.5F) * 10.0F;
-    Math::Vector2 line_start{transform_.translation().x, transform_.translation().z};
-    Math::Vector2 cast_direction = Math::rotate(Math::Vector2{orientation.x, orientation.z}, random_rotate);
-    Math::Vector2 line_end = line_start + Game::Enemy::SHOOT_DISTANCE * cast_direction;
+    auto now = std::chrono::steady_clock::now();
+    float time_since_last_attack = static_cast<float>(std::chrono::duration_cast<std::chrono::milliseconds>(now - last_attack_).count());
 
-    bool hit = false;
+    if (time_since_last_attack > 400.0F) {
+        float random_rotate = (static_cast<float> (std::rand()) / static_cast<float> (RAND_MAX) - 0.5F) * 10.0F;
+        Math::Vector2 line_start{transform_.translation().x, transform_.translation().z};
+        Math::Vector2 cast_direction = Math::rotate(Math::Vector2{orientation.x, orientation.z}, random_rotate);
+        Math::Vector2 line_end = line_start + Game::Enemy::SHOOT_DISTANCE * cast_direction;
 
-    bool hit_player = false;
+        bool hit = false;
 
-    Math::Vector2 collision_vector = level_->check_intersection(line_start, line_end, hit);
-    Math::Vector2 player_intersection = level_->line_intersect_rectangle(line_start, line_end,
-            Math::Vector2{transform_.get_camera()->get_position().x, transform_.get_camera()->get_position().z},
-            Math::Vector2{0.2F, 0.2F}, hit_player); // 0.2F = player size, too lazy to refactor code
+        bool hit_player = false;
 
-    if (hit && hit_player && Math::length(player_intersection - line_start) < Math::length(collision_vector - line_start)) {
-        std::cout << "Hit player\n";
+        Math::Vector2 collision_vector = level_->check_intersection(line_start, line_end, hit);
+        Math::Vector2 player_intersection = level_->line_intersect_rectangle(line_start, line_end,
+                Math::Vector2{transform_.get_camera()->get_position().x, transform_.get_camera()->get_position().z},
+                Math::Vector2{0.2F, 0.2F}, hit_player); // 0.2F = player size, too lazy to refactor code
+
+        if (hit && hit_player && Math::length(player_intersection - line_start) < Math::length(collision_vector - line_start)) {
+            std::cout << "Hit the player\n";
+        }
+
+        if (!hit) {
+            std::cout << "Missed everything\n";
+        } else {
+            std::cout << "Hit a wall!\n";
+        }
         state_ = EnemyState::CHASE;
+        last_attack_ = std::chrono::steady_clock::now();
     }
-
-    if (!hit) {
-        std::cout << "Missed everything\n";
-    } else {
-        std::cout << "HIT!\n";
-    }
-
 }
 
 void Game::Enemy::dying(const Math::Vector3& orientation, float distance_to_camera)
 {
+    state_ = EnemyState::DEAD;
 }
 
 void Game::Enemy::dead(const Math::Vector3& orientation, float distance_to_camera)
 {
+    //std::cout << "Enemy is dead\n";
 }
 
 void Game::Enemy::face_camera(const Math::Vector3& direction_to_camera)
@@ -179,4 +216,15 @@ void Game::Enemy::render(BasicShader& shader)
 void Game::Enemy::set_level(std::shared_ptr<Level> level)
 {
     level_ = level;
+}
+
+void Game::Enemy::damage(const int amount)
+{
+    health_ -= amount;
+
+    if (health_ <= 0) {
+        state_ = EnemyState::DYING;
+    } else if (state_ == EnemyState::IDLE) {
+        state_ = EnemyState::CHASE;
+    }
 }

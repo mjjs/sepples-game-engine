@@ -7,6 +7,7 @@
 #include "vector3.h"
 #include "transform.h"
 
+#include <chrono>
 #include <memory>
 
 enum EnemyState {
@@ -27,10 +28,12 @@ class Enemy {
         Math::Transform transform_;
         std::shared_ptr<Level> level_;
 
-        EnemyState state_ = EnemyState::ATTACK;
+        EnemyState state_ = EnemyState::IDLE;
 
         static inline Mesh mesh_;
         static inline bool mesh_created_ = false;
+
+        bool can_look = false;
 
         void idle(const Math::Vector3& orientation, float distance_to_camera);
         void chase(const Math::Vector3& orientation, float distance_to_camera);
@@ -39,6 +42,12 @@ class Enemy {
         void dead(const Math::Vector3& orientation, float distance_to_camera);
 
         void face_camera(const Math::Vector3& direction_to_camera);
+
+        std::chrono::time_point<std::chrono::steady_clock> last_attack_;
+        std::chrono::time_point<std::chrono::steady_clock> last_player_check_;
+
+        bool alive_ = true;
+        int health_ = 100;
 
     public:
         Enemy() = default;
@@ -70,6 +79,8 @@ class Enemy {
 
         static inline const float WIDTH = 0.2F;
         static inline const float LENGTH = 0.2F;
+
+        void damage(int amount);
 };
 } // namespace Game
 #endif
