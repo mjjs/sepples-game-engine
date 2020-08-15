@@ -27,7 +27,7 @@ class Enemy {
         Math::Transform transform_;
         std::shared_ptr<Level> level_;
 
-        EnemyState state_ = EnemyState::CHASE;
+        EnemyState state_ = EnemyState::ATTACK;
 
         static inline Mesh mesh_;
         static inline bool mesh_created_ = false;
@@ -66,6 +66,7 @@ class Enemy {
 
         static inline const float MOVE_SPEED = 0.02F;
         static inline const float MOVE_STOP_DISTANCE = 1.0F;
+        static inline const float SHOOT_DISTANCE = 1000.0F;
 
         static inline const float WIDTH = 0.2F;
         static inline const float LENGTH = 0.2F;

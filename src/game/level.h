@@ -32,7 +32,8 @@ class Level {
         BasicShader shader_;
         Material material_;
 
-        // TEMP
+        std::vector<Math::Vector2> collision_position_start_{};
+        std::vector<Math::Vector2> collision_position_end_{};
 
         void generate_map(const Material& material);
         void add_face(std::vector<int>& indices, int start, bool flip) const;
@@ -44,6 +45,9 @@ class Level {
 
         void add_special(int blue_value, int x, int y);
         void add_door(int x, int y);
+
+        Math::Vector2 line_intersect(const Math::Vector2& start_1, const Math::Vector2& end_1,
+                const Math::Vector2& start_2, const Math::Vector2& end_2, bool& hit);
 
         std::vector<Door> doors_;
         std::vector<Enemy> enemies_;
@@ -58,6 +62,10 @@ class Level {
         std::vector<Enemy>& enemies();
         Math::Vector3 check_collision(const Math::Vector3& old_position, const Math::Vector3& new_position,
                 float width, float length);
+        Math::Vector2 check_intersection(const Math::Vector2& start, const Math::Vector2& end, bool& hit);
+
+        Math::Vector2 line_intersect_rectangle(const Math::Vector2& line_start, const Math::Vector2& line_end,
+                const Math::Vector2& rect_pos, const Math::Vector2& rect_size, bool& hit);
 };
 } // namespace Game
 #endif

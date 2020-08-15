@@ -15,8 +15,12 @@
 #include <assimp/material.h>
 #include <cassert>
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 #include <memory>
 #include <vector>
+
+#include <iostream>
 
 Game::Enemy::Enemy(const Math::Transform& transform) :
     transform_{transform}
@@ -47,6 +51,8 @@ Game::Enemy::Enemy(const Math::Transform& transform) :
 
         mesh_created_ = true;
     }
+
+    std::srand(std::time(nullptr));
 }
 
 void Game::Enemy::idle(const Math::Vector3& orientation, float distance_to_camera)
@@ -57,7 +63,7 @@ void Game::Enemy::chase(const Math::Vector3& orientation, float distance_to_came
 {
     if (distance_to_camera > MOVE_STOP_DISTANCE) {
         Math::Vector3 old_position = transform_.translation();
-        Math::Vector3 new_position = transform_.translation() + (MOVE_SPEED * (-1 * orientation));
+        Math::Vector3 new_position = transform_.translation() + (MOVE_SPEED * orientation);
 
         Math::Vector3 collision_vector = level_->check_collision(
                 old_position,
@@ -66,7 +72,7 @@ void Game::Enemy::chase(const Math::Vector3& orientation, float distance_to_came
                 LENGTH
                 );
 
-        Math::Vector3 movement_vector = collision_vector * (-1 * orientation);
+        Math::Vector3 movement_vector = collision_vector * orientation;
 
         if (Math::length(movement_vector - orientation) != 0) {
             level_->open_doors(new_position);
@@ -80,6 +86,31 @@ void Game::Enemy::chase(const Math::Vector3& orientation, float distance_to_came
 
 void Game::Enemy::attack(const Math::Vector3& orientation, float distance_to_camera)
 {
+    float random_rotate = (static_cast<float> (std::rand()) / static_cast<float> (RAND_MAX) - 0.5F) * 10.0F;
+    Math::Vector2 line_start{transform_.translation().x, transform_.translation().z};
+    Math::Vector2 cast_direction = Math::rotate(Math::Vector2{orientation.x, orientation.z}, random_rotate);
+    Math::Vector2 line_end = line_start + Game::Enemy::SHOOT_DISTANCE * cast_direction;
+
+    bool hit = false;
+
+    bool hit_player = false;
+
+    Math::Vector2 collision_vector = level_->check_intersection(line_start, line_end, hit);
+    Math::Vector2 player_intersection = level_->line_intersect_rectangle(line_start, line_end,
+            Math::Vector2{transform_.get_camera()->get_position().x, transform_.get_camera()->get_position().z},
+            Math::Vector2{0.2F, 0.2F}, hit_player); // 0.2F = player size, too lazy to refactor code
+
+    if (hit && hit_player && Math::length(player_intersection - line_start) < Math::length(collision_vector - line_start)) {
+        std::cout << "Hit player\n";
+        state_ = EnemyState::CHASE;
+    }
+
+    if (!hit) {
+        std::cout << "Missed everything\n";
+    } else {
+        std::cout << "HIT!\n";
+    }
+
 }
 
 void Game::Enemy::dying(const Math::Vector3& orientation, float distance_to_camera)
@@ -94,7 +125,7 @@ void Game::Enemy::face_camera(const Math::Vector3& direction_to_camera)
 {
     float angle_to_face_camera = Math::to_degrees(std::atan(direction_to_camera.z / direction_to_camera.x));
 
-    if (direction_to_camera.x > 0) {
+    if (direction_to_camera.x < 0) {
         angle_to_face_camera += 180;
     }
 
@@ -105,7 +136,7 @@ void Game::Enemy::face_camera(const Math::Vector3& direction_to_camera)
 
 void Game::Enemy::update()
 {
-    Math::Vector3 direction_to_camera = transform_.translation() - Game::Player::camera_->get_position();
+    Math::Vector3 direction_to_camera = Game::Player::camera_->get_position() - transform_.translation();
     Math::Vector3 orientation = Math::normalize(direction_to_camera);
     float distance = Math::length(direction_to_camera);
 

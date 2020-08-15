@@ -16,6 +16,11 @@ Math::Vector2 operator*(const Math::Vector2& lhs, const Math::Vector2& rhs)
     return Math::Vector2{lhs.x * rhs.x, lhs.y * rhs.y};
 }
 
+Math::Vector2 operator*(const float lhs, const Math::Vector2& rhs)
+{
+    return Math::Vector2{lhs * rhs.x, lhs * rhs.y};
+}
+
 std::ostream& operator<<(std::ostream& os, const Math::Vector2& vec2)
 {
     os << "(" << vec2.x << "," << vec2.y << ")";
