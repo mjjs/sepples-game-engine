@@ -134,6 +134,7 @@ void Game::Enemy::attack(const Math::Vector3& orientation, float distance_to_cam
                 Math::Vector2{0.2F, 0.2F}, hit_player); // 0.2F = player size, too lazy to refactor code
 
         if (hit && hit_player && Math::length(player_intersection - line_start) < Math::length(collision_vector - line_start)) {
+            level_->damage_player(15);
             std::cout << "Hit the player\n";
         }
 

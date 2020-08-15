@@ -10,6 +10,7 @@ Game::Game::Game() :
     player_{Math::Vector3{8.0F, 0.4375F, 10.0F}}
 {
     player_.set_level(level_);
+    level_->set_player(&player_);
     for (Enemy& enemy : level_->enemies()) {
         enemy.set_level(level_);
     }
@@ -17,17 +18,30 @@ Game::Game::Game() :
 
 void Game::Game::update()
 {
-    player_.update();
-    level_->update();
+    if (player_.dead()) {
+        game_over();
+    }
+
+    if (Game::is_running) {
+        player_.update();
+        level_->update();
+    }
 }
 
 void Game::Game::render()
 {
-    level_->render();
+    if (Game::is_running) {
+        level_->render();
+    }
 }
 
 void Game::Game::input(const Input& inputs)
 {
     player_.input(inputs);
     level_->input(inputs);
+}
+
+void Game::Game::game_over()
+{
+    Game::Game::is_running = false;
 }

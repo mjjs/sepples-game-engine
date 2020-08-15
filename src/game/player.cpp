@@ -5,6 +5,8 @@
 #include "vector2.h"
 #include "vector3.h"
 
+#include <iostream>
+
 Game::Player::Player(const Math::Vector3& initial_position)
 {
     Game::Player::camera_->set_position(initial_position);
@@ -79,9 +81,29 @@ void Game::Player::update()
     movement_vector_.x = 0;
     movement_vector_.y = 0;
     movement_vector_.z = 0;
+
+    if (health_ > 100) {
+        health_ = 100;
+    }
 }
 
 void Game::Player::set_level(std::shared_ptr<Level> level)
 {
     level_ = level;
+}
+
+void Game::Player::damage(const int amount)
+{
+    health_ -= amount;
+
+    std::cout << "Player health left: " << health_ << '\n';
+
+    if (health_ <= 0) {
+        std::cout << "Player died\n";
+    }
+}
+
+bool Game::Player::dead() const
+{
+    return health_ <= 0;
 }

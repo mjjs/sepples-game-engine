@@ -46,7 +46,6 @@ class Enemy {
         std::chrono::time_point<std::chrono::steady_clock> last_attack_;
         std::chrono::time_point<std::chrono::steady_clock> last_player_check_;
 
-        bool alive_ = true;
         int health_ = 100;
 
     public:

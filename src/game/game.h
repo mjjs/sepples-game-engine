@@ -12,12 +12,15 @@ class Game {
     private:
         std::shared_ptr<Level> level_;
         Player player_;
+        static inline bool is_running = true;
 
     public:
         Game();
         void update();
         void render();
         void input(const Input& inputs);
+
+        static void game_over();
 };
 } // namespace Game
 #endif

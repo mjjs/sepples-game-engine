@@ -468,3 +468,13 @@ std::vector<Game::Enemy>& Game::Level::enemies()
 {
     return enemies_;
 }
+
+void Game::Level::set_player(Game::Player* player)
+{
+    player_ = player;
+}
+
+void Game::Level::damage_player(const int amount)
+{
+    player_->damage(amount);
+}

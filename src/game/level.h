@@ -16,7 +16,10 @@
 #include <string>
 #include <vector>
 
+
 namespace Game {
+class Player;
+
 class Level {
     private:
         const float SPOT_WIDTH_ = 1;
@@ -31,6 +34,8 @@ class Level {
         Math::Transform transform_;
         BasicShader shader_;
         Material material_;
+
+        Player* player_;
 
         std::vector<Math::Vector2> collision_position_start_{};
         std::vector<Math::Vector2> collision_position_end_{};
@@ -66,6 +71,9 @@ class Level {
 
         Math::Vector2 line_intersect_rectangle(const Math::Vector2& line_start, const Math::Vector2& line_end,
                 const Math::Vector2& rect_pos, const Math::Vector2& rect_size, bool& hit);
+
+        void set_player(Game::Player* player);
+        void damage_player(int amount);
 };
 } // namespace Game
 #endif
