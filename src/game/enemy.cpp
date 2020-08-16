@@ -104,17 +104,20 @@ void Game::Enemy::idle(const Math::Vector3& orientation, float distance_to_camer
 
         Math::Vector2 line_start{transform_.translation().x, transform_.translation().z};
         Math::Vector2 cast_direction{orientation.x, orientation.z};
-        Math::Vector2 line_end = line_start + Game::Enemy::SHOOT_DISTANCE * cast_direction;
+        Math::Vector2 line_end = line_start + (Game::Enemy::SHOOT_DISTANCE * cast_direction);
 
         bool hit = false;
         bool hit_player = false;
 
         Math::Vector2 collision_vector = level_->check_intersection(line_start, line_end, hit, false);
+        //Math::Vector2 player_intersection{transform_.get_camera()->get_position().x,
+        //    transform_.get_camera()->get_position().z};
+
         Math::Vector2 player_intersection = level_->line_intersect_rectangle(line_start, line_end,
                 Math::Vector2{transform_.get_camera()->get_position().x, transform_.get_camera()->get_position().z},
                 Math::Vector2{0.2F, 0.2F}, hit_player); // 0.2F = player size, too lazy to refactor code
 
-        if (hit && hit_player && Math::length(player_intersection - line_start) < Math::length(collision_vector - line_start)) {
+        if (hit && Math::length(player_intersection - line_start) < Math::length(collision_vector - line_start)) {
             std::cout << "Enemy sees the player\n";
             state_ = EnemyState::CHASE;
         }
@@ -232,10 +235,10 @@ void Game::Enemy::dying(const Math::Vector3& orientation, float distance_to_came
 void Game::Enemy::dead(const Math::Vector3& orientation, float distance_to_camera)
 {
     material_ = animations_[12];
-    //Math::Vector3 translation = transform_.translation();
-    //translation.y = 0.01F;
-    //transform_.set_translation(translation);
-    //transform_.set_rotation(Math::Vector3{90.0F, 0.0F, 0.0F});
+    Math::Vector3 translation = transform_.translation();
+    translation.y = 0.01F;
+    transform_.set_translation(translation);
+    transform_.set_rotation(Math::Vector3{90.0F, 0.0F, 0.0F});
     //std::cout << "Enemy is dead\n";
 }
 

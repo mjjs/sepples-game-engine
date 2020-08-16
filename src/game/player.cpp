@@ -159,12 +159,12 @@ void Game::Player::set_level(Level* level)
 void Game::Player::damage(const int amount)
 {
     health_ -= amount;
+    std::cout << "Health left: " << health_ << '\n';
 }
 
 void Game::Player::heal(const int amount)
 {
-    health_ += amount;
-    health_ += std::min(amount, 100 - health_);
+    damage(-amount);
 }
 
 bool Game::Player::dead() const
