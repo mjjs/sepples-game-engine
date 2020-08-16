@@ -9,6 +9,7 @@
 #include "transform.h"
 #include "vector3.h"
 
+#include <chrono>
 #include <memory>
 
 namespace Game {
@@ -25,6 +26,12 @@ class Player {
         Material gun_material_;
         Mesh gun_;
         Math::Transform gun_transform_;
+
+        Material shoot_material_;
+        Mesh shoot_;
+        Math::Transform shoot_transform_;
+
+        std::chrono::time_point<std::chrono::steady_clock> last_shot_ = std::chrono::steady_clock::now();
 
         static inline const float START = 0.0F;
         static inline const float SCALE = 0.0685F;

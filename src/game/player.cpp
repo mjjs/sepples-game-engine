@@ -11,6 +11,7 @@
 #include "vector2.h"
 #include "vector3.h"
 
+#include <chrono>
 #include <cmath>
 #include <iostream>
 
@@ -26,6 +27,20 @@ Game::Player::Player()
     std::vector<int> indices{0, 1, 2,
         0, 2, 3,
         };
+
+    Texture shoot_texture{};
+    shoot_texture.id = load_texture("PISFA0.png", "res/textures");
+    shoot_texture.path = "res/textures";
+    shoot_texture.type = aiTextureType_DIFFUSE;
+
+    Material shoot_material{};
+    shoot_material.set_textures(std::vector<Texture>{shoot_texture});
+    shoot_material_ = shoot_material;
+    shoot_ = Mesh(vertices, indices, shoot_material_);
+
+    shoot_transform_.set_translation(Math::Vector3{8.0F, 0.0F, 10.0F});
+    shoot_transform_.set_projection(80, 1280, 720, 0.01F, 1000.0F);
+    shoot_transform_.set_camera(camera_);
 
     Texture texture{};
     texture.id = load_texture("PISGB0.png", "res/textures");
@@ -124,6 +139,7 @@ void Game::Player::input(const Input& inputs)
     }
 
     if (inputs.is_key_just_pressed(SDLK_RETURN)) {
+        last_shot_ = std::chrono::steady_clock::now();
         Math::Vector2 line_start{camera_->get_position().x, camera_->get_position().z};
         Math::Vector2 cast_direction = Math::normalize(Math::Vector2{camera_->get_forward().x, camera_->get_forward().z});
         Math::Vector2 line_end = line_start + SHOOT_DISTANCE * cast_direction;
@@ -162,9 +178,16 @@ void Game::Player::update()
 
     // Gun movement
     Math::Vector3 translation = gun_transform_.translation();
+    Math::Vector3 shoot_translation = shoot_transform_.translation();
+
     translation = camera_->get_position() + 0.105F * camera_->get_forward();
+    shoot_translation = camera_->get_position() + 0.085F * camera_->get_forward();
     translation.y += GUN_OFFSET;
+    shoot_translation.y += GUN_OFFSET;
+
     gun_transform_.set_translation(translation);
+    shoot_transform_.set_translation(shoot_translation);
+
     Math::Vector3 direction_to_camera = camera_->get_position() - gun_transform_.translation();
     float angle_to_face_camera = Math::to_degrees(std::atan(direction_to_camera.z /
                 direction_to_camera.x));
@@ -173,9 +196,13 @@ void Game::Player::update()
         angle_to_face_camera += 180;
     }
 
-    Math::Vector3 rotation = gun_transform_.rotation();
-    rotation.y = angle_to_face_camera + 90;
-    gun_transform_.set_rotation(rotation);
+    Math::Vector3 gun_rotation = gun_transform_.rotation();
+    gun_rotation.y = angle_to_face_camera + 90;
+    gun_transform_.set_rotation(gun_rotation);
+
+    Math::Vector3 shoot_rotation = shoot_transform_.rotation();
+    shoot_rotation.y = angle_to_face_camera + 90;
+    shoot_transform_.set_rotation(shoot_rotation);
 }
 
 void Game::Player::set_level(Level* level)
@@ -201,11 +228,21 @@ bool Game::Player::dead() const
 
 void Game::Player::render(BasicShader& shader)
 {
+    auto now = std::chrono::steady_clock::now();
+    float time_since_last_shot = static_cast<float>(std::chrono::duration_cast<std::chrono::milliseconds>(now - last_shot_).count());
+
     shader.bind();
-    gun_.set_material(gun_material_);
-    shader.set_material(gun_material_);
-    shader.set_transformations(gun_transform_.get_transformation(), gun_transform_.get_projected_transformation());
-    gun_.draw(shader);
+    if (time_since_last_shot < 200.0F) {
+        shoot_.set_material(shoot_material_);
+        shader.set_material(shoot_material_);
+        shader.set_transformations(shoot_transform_.get_transformation(), shoot_transform_.get_projected_transformation());
+        shoot_.draw(shader);
+    } else {
+        gun_.set_material(gun_material_);
+        shader.set_material(gun_material_);
+        shader.set_transformations(gun_transform_.get_transformation(), gun_transform_.get_projected_transformation());
+        gun_.draw(shader);
+    }
 }
 
 int Game::Player::health() const

@@ -402,6 +402,7 @@ Math::Vector2 Game::Level::check_intersection(const Math::Vector2& start, const 
         }
 
         if (hit_enemy) {
+            std::cout << nearest_enemy_intersection << '\n';
             if (Math::length(nearest_enemy_intersection - start) < Math::length(nearest_intersection - start)) {
                 nearest_enemy->damage(Player::DAMAGE);
             }
