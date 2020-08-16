@@ -37,8 +37,3 @@ void Game::Game::game_over()
 {
     Game::Game::is_running = false;
 }
-
-void Game::Game::load_next_level()
-{
-    ++level_number_;
-}

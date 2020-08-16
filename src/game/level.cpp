@@ -432,7 +432,7 @@ Math::Vector2 Game::Level::line_intersect(const Math::Vector2& start_1, const Ma
     float a = cross_product(dist_between_line_starts, line_2) / cross;
     float b = cross_product(dist_between_line_starts, line_1) / cross;
     const auto in_range = [&](const float left, const float right, const float value){
-        return left < value && value < right;
+        return left <= value && value <= right;
     };
 
     if (in_range(0.0F, 1.0F, a) && in_range(0.0F, 1.0F, b)) {
