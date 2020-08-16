@@ -30,6 +30,8 @@ class Level {
         const int NUM_TEX_EXP_ = 4;
         const int NUM_TEXTURES_ = NUM_TEX_EXP_ * NUM_TEX_EXP_;
 
+        int current_level_ = 0;
+
         Bitmap map_;
         Mesh mesh_;
         Math::Transform transform_;
@@ -59,8 +61,10 @@ class Level {
         std::vector<Medkit> medkits_;
         std::vector<Math::Vector3> exits_;
 
+        void next_level();
+
     public:
-        explicit Level(const std::string& level_path, const std::string& texture_path);
+        explicit Level();
         void input(const Input& inputs);
         void update();
         void render(BasicShader& shader);

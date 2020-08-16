@@ -14,6 +14,33 @@
 #include <cmath>
 #include <iostream>
 
+Game::Player::Player()
+{
+    std::vector<Vertex> vertices{
+        Vertex{Math::Vector3{-SIZE_X, START, START}, Math::Vector3{0.0F, 0.0F, 0.0F}, Math::Vector2{TEXTURE_MAX_X, TEXTURE_MAX_Y}},
+        Vertex{Math::Vector3{-SIZE_X, SIZE_Y, START}, Math::Vector3{0.0F, 0.0F, 0.0F}, Math::Vector2{TEXTURE_MAX_X, TEXTURE_MIN_Y}},
+        Vertex{Math::Vector3{SIZE_X, SIZE_Y, START}, Math::Vector3{0.0F, 0.0F, 0.0F}, Math::Vector2{TEXTURE_MIN_X, TEXTURE_MIN_Y}},
+        Vertex{Math::Vector3{SIZE_X, START, START}, Math::Vector3{0.0F, 0.0F, 0.0F}, Math::Vector2{TEXTURE_MIN_X, TEXTURE_MAX_Y}},
+    };
+
+    std::vector<int> indices{0, 1, 2,
+        0, 2, 3,
+        };
+
+    Texture texture{};
+    texture.id = load_texture("PISGB0.png", "res/textures");
+    texture.path = "res/textures";
+    texture.type = aiTextureType_DIFFUSE;
+
+    Material material{};
+    material.set_textures(std::vector<Texture>{texture});
+    gun_material_ = material;
+    gun_ = Mesh(vertices, indices, gun_material_);
+    gun_transform_.set_translation(Math::Vector3{8.0F, 0.0F, 10.0F});
+    gun_transform_.set_projection(80, 1280, 720, 0.01F, 1000.0F);
+    gun_transform_.set_camera(camera_);
+}
+
 Game::Player::Player(const Math::Vector3& initial_position)
 {
     Game::Player::camera_->set_position(initial_position);

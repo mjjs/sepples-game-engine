@@ -42,6 +42,7 @@ class Player {
         int health_ = 100;
 
     public:
+        Player();
         explicit Player(const Math::Vector3& initial_position);
         explicit Player(const Player& other);
         Player& operator=(const Player&);

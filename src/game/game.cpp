@@ -6,7 +6,7 @@
 #include <memory>
 
 Game::Game::Game() :
-    level_{std::make_shared<Level>("res/levels/level1.png", "res/textures/WolfCollection.png")}
+    level_{std::make_shared<Level>()}
 {
 }
 

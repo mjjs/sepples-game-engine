@@ -14,7 +14,7 @@ class Bitmap {
         int channels_;
 
     public:
-        Bitmap() = delete;
+        Bitmap() = default;
         explicit Bitmap(const std::string& path);
 
         Colour get_pixel(int x, int y) const;

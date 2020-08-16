@@ -33,25 +33,9 @@ const auto find_nearest_vector = [](const Math::Vector2& a, const Math::Vector2&
     return a;
 };
 
-Game::Level::Level(const std::string& level_path, const std::string& texture_path) :
-    map_{level_path},
-    player_{Math::Vector3{8.0F, 0.4375F, 10.0F}}
+Game::Level::Level()
 {
-    transform_.set_camera(Player::camera_);
-    transform_.set_projection(80, 1280, 720, 0.01F, 1000.0F);
-
-    Texture texture;
-    std::string filename = texture_path.substr(texture_path.find_last_of('/')+1);
-    std::string texture_directory = texture_path.substr(0, texture_path.find_last_of('/'));
-    texture.id = load_texture(filename, texture_directory);
-    texture.path = texture_directory;
-    texture.type = aiTextureType_DIFFUSE;
-
-    Material material{};
-    material.set_textures(std::vector<Texture>{texture});
-    material_ = material;
-
-    generate_map(material);
+    next_level();
 }
 
 void Game::Level::render(BasicShader& shader)
@@ -113,7 +97,7 @@ void Game::Level::open_doors(const Math::Vector3& position, bool exit_level)
     if (exit_level) {
         for (auto& exit_point : exits_) {
             if (Math::length(exit_point - position) < 1.0F) {
-                Game::load_next_level();
+                next_level();
             }
         }
     }
@@ -528,4 +512,27 @@ void Game::Level::damage_player(const int amount)
 Game::Player& Game::Level::player()
 {
     return player_;
+}
+
+void Game::Level::next_level()
+{
+    ++current_level_;
+    Bitmap map("res/levels/level" + std::to_string(current_level_) + ".png");
+    map_ = map;
+
+    transform_.set_camera(Player::camera_);
+    transform_.set_projection(80, 1280, 720, 0.01F, 1000.0F);
+
+    Texture texture;
+    std::string filename = "WolfCollection.png";
+    std::string texture_directory = "res/textures";
+    texture.id = load_texture(filename, texture_directory);
+    texture.path = texture_directory;
+    texture.type = aiTextureType_DIFFUSE;
+
+    Material material{};
+    material.set_textures(std::vector<Texture>{texture});
+    material_ = material;
+
+    generate_map(material);
 }
