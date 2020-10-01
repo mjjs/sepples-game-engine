@@ -12,8 +12,8 @@
 #include <vector>
 
 enum ShaderErrorCheckType {
-    program,
-    shader,
+    PROGRAM,
+    SHADER,
 };
 
 class Shader {

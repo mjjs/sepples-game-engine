@@ -64,7 +64,7 @@ void Shader::add_program(const std::string& shader_code, GLenum shader_type)
     glShaderSource(shader, 1, programs, nullptr);
     glCompileShader(shader);
 
-    std::pair<bool, std::string> error = check_shader_error(ShaderErrorCheckType::shader,
+    std::pair<bool, std::string> error = check_shader_error(ShaderErrorCheckType::SHADER,
             GL_COMPILE_STATUS, shader);
 
     if (error.first == true) {
@@ -79,7 +79,7 @@ void Shader::compile_shader()
 {
     glLinkProgram(shader_program);
 
-    std::pair<bool, std::string> error = check_shader_error(ShaderErrorCheckType::program,
+    std::pair<bool, std::string> error = check_shader_error(ShaderErrorCheckType::PROGRAM,
             GL_LINK_STATUS, shader_program);
 
     if (error.first == true) {
@@ -88,7 +88,7 @@ void Shader::compile_shader()
 
     glValidateProgram(shader_program);
 
-    error = check_shader_error(ShaderErrorCheckType::program,
+    error = check_shader_error(ShaderErrorCheckType::PROGRAM,
             GL_VALIDATE_STATUS, shader_program);
 
     if (error.first == true) {
@@ -110,7 +110,7 @@ std::pair<bool, std::string> Shader::check_shader_error(ShaderErrorCheckType che
 {
     GLint success;
 
-    if (check_type == ShaderErrorCheckType::program) {
+    if (check_type == ShaderErrorCheckType::PROGRAM) {
         glGetProgramiv(to_check, check_name, &success);
     } else {
         glGetShaderiv(to_check, check_name, &success);
@@ -124,7 +124,7 @@ std::pair<bool, std::string> Shader::check_shader_error(ShaderErrorCheckType che
     GLchar error_message[error_message_max_length];
     GLsizei error_length = 0;
 
-    if (check_type == ShaderErrorCheckType::program) {
+    if (check_type == ShaderErrorCheckType::PROGRAM) {
         glGetProgramInfoLog(to_check, sizeof(error_message), &error_length, error_message);
     } else {
         glGetShaderInfoLog(to_check, error_message_max_length, &error_length, error_message);
