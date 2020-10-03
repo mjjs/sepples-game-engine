@@ -1,5 +1,5 @@
 #include "camera.h"
-#include "gemath.h"
+#include "sgemath.h"
 #include "vector3.h"
 
 Camera::Camera() :

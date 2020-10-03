@@ -1,5 +1,5 @@
-#ifndef _GE_MATH_H
-#define _GE_MATH_H
+#ifndef _SGE_MATH_H
+#define _SGE_MATH_H
 
 #include "vector2.h"
 #include "vector3.h"

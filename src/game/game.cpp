@@ -1,7 +1,7 @@
 #include "camera.h"
 #include "directionallight.h"
 #include "game.h"
-#include "gemath.h"
+#include "sgemath.h"
 #include "input.h"
 #include "material.h"
 #include "mesh.h"
