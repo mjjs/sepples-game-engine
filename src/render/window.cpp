@@ -44,7 +44,7 @@ Window::Window(const size_t width, const size_t height, const std::string& title
     clear();
 }
 
-void Window::cleanup()
+Window::~Window()
 {
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);

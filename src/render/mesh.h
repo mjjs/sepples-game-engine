@@ -1,5 +1,5 @@
-#ifndef _GE_MESH_H
-#define _GE_MESH_H
+#ifndef _SGE_MESH_H
+#define _SGE_MESH_H
 
 #include "material.h"
 #include "shader.h"

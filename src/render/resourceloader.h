@@ -1,5 +1,5 @@
-#ifndef _GE_RESOURCELOADER_H
-#define _GE_RESOURCELOADER_H
+#ifndef _SGE_RESOURCELOADER_H
+#define _SGE_RESOURCELOADER_H
 
 #include "mesh.h"
 #include "texture.h"

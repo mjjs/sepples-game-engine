@@ -6,9 +6,9 @@
 #include <utility>
 
 Shader::Shader(const std::string& vertex_path, const std::string& fragment_path) :
-    shader_program{glCreateProgram()}
+    shader_program_{glCreateProgram()}
 {
-    if (shader_program == 0) {
+    if (shader_program_ == 0) {
         throw std::runtime_error{"Shader creation failed"};
     }
 
@@ -30,7 +30,7 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
 
 Shader::~Shader()
 {
-    glDeleteProgram(shader_program);
+    glDeleteProgram(shader_program_);
 }
 
 void Shader::add_vertex_shader(const std::string& shader_code)
@@ -71,38 +71,38 @@ void Shader::add_program(const std::string& shader_code, GLenum shader_type)
         throw std::runtime_error("Could not compile shader: " + error.second);
     }
 
-    glAttachShader(shader_program, shader);
-    attached_shaders.push_back(shader);
+    glAttachShader(shader_program_, shader);
+    attached_shaders_.push_back(shader);
 }
 
 void Shader::compile_shader()
 {
-    glLinkProgram(shader_program);
+    glLinkProgram(shader_program_);
 
     std::pair<bool, std::string> error = check_shader_error(ShaderErrorCheckType::PROGRAM,
-            GL_LINK_STATUS, shader_program);
+            GL_LINK_STATUS, shader_program_);
 
     if (error.first == true) {
         throw std::runtime_error("Could not link shader: " + error.second);
     }
 
-    glValidateProgram(shader_program);
+    glValidateProgram(shader_program_);
 
     error = check_shader_error(ShaderErrorCheckType::PROGRAM,
-            GL_VALIDATE_STATUS, shader_program);
+            GL_VALIDATE_STATUS, shader_program_);
 
     if (error.first == true) {
         throw std::runtime_error("Shader not valid: " + error.second);
     }
 
-    for (const GLuint shader : attached_shaders) {
-        glDetachShader(shader_program, shader);
+    for (const GLuint shader : attached_shaders_) {
+        glDetachShader(shader_program_, shader);
     }
 }
 
 void Shader::bind()
 {
-    glUseProgram(shader_program);
+    glUseProgram(shader_program_);
 }
 
 std::pair<bool, std::string> Shader::check_shader_error(ShaderErrorCheckType check_type, GLenum check_name,
@@ -135,37 +135,37 @@ std::pair<bool, std::string> Shader::check_shader_error(ShaderErrorCheckType che
 
 void Shader::add_uniform(const std::string& variable_name) const
 {
-    if (uniform_variables.find(variable_name) != uniform_variables.end()) {
+    if (uniform_variables_.find(variable_name) != uniform_variables_.end()) {
         return;
     }
 
-    const GLint uniform_location = glGetUniformLocation(shader_program, variable_name.c_str());
+    const GLint uniform_location = glGetUniformLocation(shader_program_, variable_name.c_str());
     if (uniform_location == -1) {
         std::cerr << "Uniform variable " << variable_name << " not found in the shader program\n";
         return;
     }
 
-    uniform_variables[variable_name] = uniform_location;
+    uniform_variables_[variable_name] = uniform_location;
 }
 
 void Shader::set_uniform(const std::string& variable_name, int value)
 {
-    glUniform1i(uniform_variables[variable_name], value);
+    glUniform1i(uniform_variables_[variable_name], value);
 }
 
 void Shader::set_uniform(const std::string& variable_name, float value)
 {
-    glUniform1f(uniform_variables[variable_name], value);
+    glUniform1f(uniform_variables_[variable_name], value);
 }
 
 void Shader::set_uniform(const std::string& variable_name, const Math::Vector3& vector)
 {
-    glUniform3f(uniform_variables[variable_name], vector.x, vector.y, vector.z);
+    glUniform3f(uniform_variables_[variable_name], vector.x, vector.y, vector.z);
 }
 
 void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& matrix)
 {
-    glUniformMatrix4fv(uniform_variables[variable_name], 1, GL_TRUE, &(matrix[0][0]));
+    glUniformMatrix4fv(uniform_variables_[variable_name], 1, GL_TRUE, &(matrix[0][0]));
 }
 void Shader::set_transformations(const Math::Matrix4& transformation,
         const Math::Matrix4& projection)
