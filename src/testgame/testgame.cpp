@@ -1,7 +1,6 @@
 #include "camera.h"
 #include "directionallight.h"
-#include "game.h"
-#include "gemath.h"
+#include "sgemath.h"
 #include "input.h"
 #include "material.h"
 #include "mesh.h"
@@ -10,6 +9,7 @@
 #include "resourceloader.h"
 #include "shader.h"
 #include "spotlight.h"
+#include "testgame.h"
 #include "texture.h"
 #include "transform.h"
 #include "vector3.h"
@@ -26,14 +26,18 @@ float pl_pos = 1.0F;
 float pl_max = 8.0F;
 bool ascending = true;
 
-Game::Game::Game() :
+TestGame::TestGame() :
     model_{"res/models/backpack.obj"}
 {
     transformer_.set_projection(70, 800, 600, .1, 1000);
     transformer_.set_camera(camera_);
 }
 
-void Game::Game::update()
+void TestGame::init()
+{
+}
+
+void TestGame::update()
 {
     if (ascending) {
         if (pl_pos < pl_max) {
@@ -52,7 +56,7 @@ void Game::Game::update()
     transformer_.set_translation({0, 0, 5});
 }
 
-void Game::Game::render()
+void TestGame::render()
 {
     shader_.bind();
     shader_.set_transformations(
@@ -109,7 +113,7 @@ void Game::Game::render()
     m.draw(shader_);
 }
 
-void Game::Game::input(const Input& inputs)
+void TestGame::input(const Input& inputs)
 {
     Camera *camera = &transformer_.get_camera();
 

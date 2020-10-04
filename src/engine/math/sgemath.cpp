@@ -1,4 +1,4 @@
-#include "gemath.h"
+#include "sgemath.h"
 #include <cmath>
 
 float Math::angle_to(const Math::Vector2& vec_a, const Math::Vector2& vec_b)

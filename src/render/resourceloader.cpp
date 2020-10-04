@@ -1,6 +1,5 @@
 #include "mesh.h"
 #include "resourceloader.h"
-#include "sgestrings.h"
 #include "texture.h"
 #include "vector2.h"
 #include "vector3.h"

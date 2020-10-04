@@ -1,5 +1,5 @@
-#ifndef _GE_SHADER_H
-#define _GE_SHADER_H
+#ifndef _SGE_SHADER_H
+#define _SGE_SHADER_H
 
 #include "vector3.h"
 #include "material.h"
@@ -18,9 +18,9 @@ enum ShaderErrorCheckType {
 
 class Shader {
     private:
-        GLuint shader_program;
-        std::vector<GLuint> attached_shaders{};
-        mutable std::unordered_map<std::string, GLint> uniform_variables{};
+        GLuint shader_program_;
+        std::vector<GLuint> attached_shaders_{};
+        mutable std::unordered_map<std::string, GLint> uniform_variables_{};
 
         void add_program(const std::string& shader_name, GLenum shader_type);
         static std::pair<bool, std::string> check_shader_error(ShaderErrorCheckType check_type,

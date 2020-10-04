@@ -1,5 +1,5 @@
-#ifndef _GE_WINDOW_H
-#define _GE_WINDOW_H
+#ifndef _SGE_WINDOW_H
+#define _SGE_WINDOW_H
 
 #include <cstddef>
 #include <string>
@@ -14,16 +14,15 @@ private:
 
 public:
     Window(size_t width, size_t height, const std::string& title);
-
-    void cleanup();
+    ~Window();
 
     Window(const Window&) = delete;
     Window(const Window&&) = delete;
     Window& operator=(const Window&) = delete;
     Window& operator=(const Window&&) = delete;
 
-    void clear();
     void fill(float r, float g, float b, float a) const;
-    void flip();
+    void clear() const;
+    void flip() const;
 };
 #endif
