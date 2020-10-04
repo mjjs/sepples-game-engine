@@ -14,6 +14,7 @@ class Game {
         Game& operator=(Game&&) = default;
         virtual ~Game() = default;
 
+        virtual void init() = 0;
         virtual void update() = 0;
         virtual void render() = 0;
         virtual void input(const Input& inputs) = 0;

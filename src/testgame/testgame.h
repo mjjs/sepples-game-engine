@@ -22,8 +22,9 @@ class TestGame : public SGE::Game::Game {
     public:
         TestGame();
 
-        void update();
-        void render();
-        void input(const Input& inputs);
+        void init() override;
+        void update() override;
+        void render() override;
+        void input(const Input& inputs) override;
 };
 #endif

@@ -1,9 +1,9 @@
+#include "window.h"
+
 #include <stdexcept>
 
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
-
-#include "window.h"
 
 Window::Window(const size_t width, const size_t height, const std::string& title)
 {
@@ -51,12 +51,12 @@ Window::~Window()
     SDL_Quit();
 }
 
-void Window::flip()
+void Window::flip() const
 {
     SDL_GL_SwapWindow(window);
 }
 
-void Window::clear()
+void Window::clear() const
 {
     fill(0.0, 0.0, 0.0, 1.0);
 }

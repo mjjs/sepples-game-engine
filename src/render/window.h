@@ -21,8 +21,8 @@ public:
     Window& operator=(const Window&) = delete;
     Window& operator=(const Window&&) = delete;
 
-    void clear();
     void fill(float r, float g, float b, float a) const;
-    void flip();
+    void clear() const;
+    void flip() const;
 };
 #endif

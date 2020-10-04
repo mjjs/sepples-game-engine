@@ -33,6 +33,10 @@ TestGame::TestGame() :
     transformer_.set_camera(camera_);
 }
 
+void TestGame::init()
+{
+}
+
 void TestGame::update()
 {
     if (ascending) {
