@@ -167,6 +167,7 @@ void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& 
 {
     glUniformMatrix4fv(uniform_variables_[variable_name], 1, GL_TRUE, &(matrix[0][0]));
 }
+
 void Shader::set_transformations(const Math::Matrix4& transformation,
         const Math::Matrix4& projection)
 {

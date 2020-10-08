@@ -2,19 +2,24 @@
 
 precision highp float;
 
+struct Material {
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    float shininess;
+};
+
 in vec2 out_texture_coordinate_i;
 out vec4 frag_color_i;
 
 uniform sampler2D texture_diffuse1_u;
-uniform vec3 ambient_colour_u;
-uniform vec3 diffuse_colour_u;
-uniform vec3 specular_colour_u;
+uniform Material material_u;
 
 void main()
 {
     vec4 texture = texture(texture_diffuse1_u, out_texture_coordinate_i);
 
-    vec3 result_colour = ambient_colour_u + diffuse_colour_u + specular_colour_u;
+    vec3 result_colour = material_u.ambient + material_u.diffuse + material_u.specular;
 
     if (texture == vec4(0.0, 0.0, 0.0, 1.0)) {
         frag_color_i = vec4(result_colour, 1.0);

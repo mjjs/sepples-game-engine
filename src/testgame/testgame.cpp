@@ -1,100 +1,28 @@
 #include "camera.h"
-#include "directionallight.h"
-#include "sgemath.h"
+#include "gamecomponent.h"
 #include "input.h"
 #include "material.h"
 #include "mesh.h"
+#include "meshrenderer.h"
 #include "model.h"
-#include "pointlight.h"
-#include "resourceloader.h"
-#include "shader.h"
-#include "spotlight.h"
+#include "modelrenderer.h"
 #include "testgame.h"
 #include "texture.h"
 #include "transform.h"
-#include "vector3.h"
 #include "vertex.h"
 
-#include <SDL2/SDL_keycode.h>
-#include <cmath>
+//#include <SDL2/SDL_keycode.h>
 #include <vector>
 
 #include <iostream>
 
-bool flashlight_on = false;
-float pl_pos = 1.0F;
-float pl_max = 8.0F;
-bool ascending = true;
-
-TestGame::TestGame() :
-    model_{"res/models/backpack.obj"}
+TestGame::TestGame()
 {
-    transformer_.set_projection(70, 800, 600, .1, 1000);
-    transformer_.set_camera(camera_);
-}
+    Math::Transform transform{};
+    Math::Transform::set_projection(70, 800, 600, .1, 1000);
+    transform.set_camera(camera_);
 
-void TestGame::init()
-{
-}
-
-void TestGame::update()
-{
-    if (ascending) {
-        if (pl_pos < pl_max) {
-            pl_pos += 0.1F;
-        } else {
-            ascending = false;
-        }
-    } else {
-        if (pl_pos > -pl_max) {
-            pl_pos -= 0.1F;
-        } else {
-            ascending = true;
-        }
-    }
-    ++temp_;
-    transformer_.set_translation({0, 0, 5});
-}
-
-void TestGame::render()
-{
-    shader_.bind();
-    shader_.set_transformations(
-            transformer_.get_transformation(),
-            transformer_.get_projected_transformation()
-            );
-
-    shader_.set_view_position(transformer_.get_camera().get_position());
-
-    DirectionalLight dl;
-    dl.direction = Math::Vector3{1.0F, 5.0F, 1.0F};
-    dl.colour = Math::Vector3{1.0F, 1.0F, 1.0F};
-    dl.intensity = 0.7F;
-
-    PointLight pl;
-    pl.position = Math::Vector3{0.0F, 1.0F, pl_pos};
-    pl.colour = Math::Vector3{0.0F, 0.5F, 1.0F};
-    pl.intensity = 0.5F;
-    pl.constant = 1.0F;
-    pl.linear = 0.09F;
-    pl.quadratic = 0.032F;
-
-    SpotLight flashlight;
-    flashlight.position = transformer_.get_camera().get_position();
-    flashlight.direction = transformer_.get_camera().get_forward();
-    flashlight.colour = Math::Vector3{1.0F, 1.0F, 1.0F};
-    flashlight.intensity = flashlight_on ? 1.0F : 0.0F;
-    flashlight.cut_off = std::cos(Math::to_radians(12.5F));
-    flashlight.outer_cut_off = std::cos(Math::to_radians(17.5F));
-    flashlight.constant = 1.0F;
-    flashlight.linear = 0.09F;
-    flashlight.quadratic = 0.032F;
-
-    shader_.set_uniform(flashlight);
-    shader_.set_uniform(pl);
-    shader_.set_uniform(dl);
-
-    model_.draw(shader_);
+    root_.set_transform(transform);
 
     std::vector<Vertex> vertices = {
         {{-10, -2, -10}, {0, 0}, {0, 0}},
@@ -105,26 +33,38 @@ void TestGame::render()
 
     std::vector<int> indices = {0, 1, 2, 2, 1, 3};
     Material mat{
-        std::vector<Texture>{}, {.2,.2,.2}, {.3,1,1}, {1,1,1}
+        std::vector<Texture>{}, {.2,0,0}, {.3,1,1}, {0,0,0}
     };
     mat.set_shininess(1);
 
-    Mesh m{vertices, indices,mat };
-    m.draw(shader_);
+    Mesh m{vertices, indices, mat};
+
+    root_.add_component(std::make_shared<MeshRenderer>(m, mat));
+    root_.add_component(std::make_shared<ModelRenderer>(Model("res/models/backpack.obj")));
+}
+
+void TestGame::init()
+{
+}
+
+void TestGame::update()
+{
+    root_.update();
+}
+
+void TestGame::render()
+{
+    root_.render();
 }
 
 void TestGame::input(const Input& inputs)
 {
-    Camera *camera = &transformer_.get_camera();
+    Camera* camera = &root_.transform().get_camera();
 
-    float move_speed = .025;
+    const float move_speed = .025;
 
     if (inputs.is_key_down(SDLK_d)) {
         camera->move(camera->get_right(), move_speed);
-    }
-
-    if (inputs.is_key_just_pressed(SDLK_f)) {
-        flashlight_on = !flashlight_on;
     }
 
     if (inputs.is_key_down(SDLK_a)) {
