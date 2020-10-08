@@ -1,5 +1,5 @@
-#ifndef _GE_TRANSFORM_H
-#define _GE_TRANSFORM_H
+#ifndef _SGE_TRANSFORM_H
+#define _SGE_TRANSFORM_H
 
 #include "camera.h"
 #include "matrix4.h"
