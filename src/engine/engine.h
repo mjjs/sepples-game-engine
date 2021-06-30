@@ -1,6 +1,7 @@
 #ifndef _SGE_ENGINE_H
 #define _SGE_ENGINE_H
 
+#include "renderingengine.h"
 #include "testgame.h"
 #include "input.h"
 #include "window.h"
@@ -14,8 +15,8 @@ class Engine {
     private:
         bool running_ = false;
 
+        RenderingEngine rendering_engine_;
         Input input_;
-        Window window_;
         std::unique_ptr<Game::Game> game_;
 
         void render();

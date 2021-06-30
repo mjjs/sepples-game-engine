@@ -2,7 +2,9 @@
 #define _SGE_GAMEOBJECT_H
 
 #include "gamecomponent.h"
+#include "input.h"
 #include "transform.h"
+#include "shader.h"
 
 #include <memory>
 #include <vector>
@@ -15,9 +17,9 @@ class GameObject {
         std::vector<std::shared_ptr<GameComponent>> components_{};
 
     public:
-        virtual void input();
+        virtual void input(const Input& input);
         virtual void update();
-        virtual void render();
+        virtual void render(Shader& shader) const;
 
         void add_child(std::shared_ptr<GameObject> child);
         void add_component(std::shared_ptr<GameComponent> component);

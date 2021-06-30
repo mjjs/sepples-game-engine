@@ -12,11 +12,11 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
         throw std::runtime_error{"Shader creation failed"};
     }
 
-    std::string vertex_shader_code = load_shader(vertex_path);
-    std::string fragment_shader_code = load_shader(fragment_path);
+    std::string vertex_shader_name = load_shader(vertex_path);
+    std::string fragment_shader_name = load_shader(fragment_path);
 
-    add_vertex_shader(vertex_shader_code);
-    add_fragment_shader(fragment_shader_code);
+    add_vertex_shader(vertex_shader_name);
+    add_fragment_shader(fragment_shader_name);
 
     compile_shader();
 
@@ -33,22 +33,22 @@ Shader::~Shader()
     glDeleteProgram(shader_program_);
 }
 
-void Shader::add_vertex_shader(const std::string& shader_code)
+void Shader::add_vertex_shader(const std::string& shader_name)
 {
-    add_program(shader_code, GL_VERTEX_SHADER);
+    add_program(shader_name, GL_VERTEX_SHADER);
 }
 
-void Shader::add_geometry_shader(const std::string& shader_code)
+void Shader::add_geometry_shader(const std::string& shader_name)
 {
-    add_program(shader_code, GL_GEOMETRY_SHADER);
+    add_program(shader_name, GL_GEOMETRY_SHADER);
 }
 
-void Shader::add_fragment_shader(const std::string& shader_code)
+void Shader::add_fragment_shader(const std::string& shader_name)
 {
-    add_program(shader_code, GL_FRAGMENT_SHADER);
+    add_program(shader_name, GL_FRAGMENT_SHADER);
 }
 
-void Shader::add_program(const std::string& shader_code, GLenum shader_type)
+void Shader::add_program(const std::string& shader_name, GLenum shader_type)
 {
     const GLuint shader = glCreateShader(shader_type);
     if (shader == 0) {
@@ -59,7 +59,7 @@ void Shader::add_program(const std::string& shader_code, GLenum shader_type)
         throw std::runtime_error{"Invalid shader type: " + std::to_string(shader_type)};
     }
 
-    const GLchar* programs[1]{shader_code.c_str()};
+    const GLchar* programs[1]{shader_name.c_str()};
 
     glShaderSource(shader, 1, programs, nullptr);
     glCompileShader(shader);
@@ -100,7 +100,7 @@ void Shader::compile_shader()
     }
 }
 
-void Shader::bind()
+void Shader::bind() const
 {
     glUseProgram(shader_program_);
 }

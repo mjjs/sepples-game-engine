@@ -1,6 +1,7 @@
 #include "gamecomponent.h"
 #include "gameobject.h"
-
+#include "input.h"
+#include "shader.h"
 #include "transform.h"
 
 #include <memory>
@@ -15,14 +16,14 @@ void SGE::GameObject::add_component(std::shared_ptr<GameComponent> component)
     components_.push_back(component);
 }
 
-void SGE::GameObject::input()
+void SGE::GameObject::input(const Input& input)
 {
     for (const auto& component : components_) {
-        component->input(transform_);
+        component->input(input, transform_);
     }
 
     for (const auto& child : children_) {
-        child->input();
+        child->input(input);
     }
 }
 
@@ -37,14 +38,14 @@ void SGE::GameObject::update()
     }
 }
 
-void SGE::GameObject::render()
+void SGE::GameObject::render(Shader& shader) const
 {
     for (const auto& component : components_) {
-        component->render(transform_);
+        component->render(transform_, shader);
     }
 
     for (const auto& child : children_) {
-        child->render();
+        child->render(shader);
     }
 }
 

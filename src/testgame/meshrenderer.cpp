@@ -2,6 +2,8 @@
 #include "material.h"
 #include "mesh.h"
 #include "transform.h"
+#include "input.h"
+#include "shader.h"
 
 MeshRenderer::MeshRenderer(const Mesh& mesh, const Material& material) :
     mesh_{mesh},
@@ -9,16 +11,16 @@ MeshRenderer::MeshRenderer(const Mesh& mesh, const Material& material) :
 {
 }
 
-void MeshRenderer::render(const Math::Transform& transform)
+void MeshRenderer::render(const Math::Transform& transform, Shader& shader)
 {
-    shader_.bind();
-    shader_.set_transformations(transform.get_transformation(),
+    shader.bind();
+    shader.set_transformations(transform.get_transformation(),
             transform.get_projected_transformation());
 
-    mesh_.draw(shader_);
+    mesh_.draw(shader);
 }
 
-void MeshRenderer::input(const Math::Transform& transform)
+void MeshRenderer::input(const Input& input, const Math::Transform& transform)
 {
 }
 

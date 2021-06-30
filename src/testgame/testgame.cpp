@@ -22,7 +22,7 @@ TestGame::TestGame()
     Math::Transform::set_projection(70, 800, 600, .1, 1000);
     transform.set_camera(camera_);
 
-    root_.set_transform(transform);
+    root()->set_transform(transform);
 
     std::vector<Vertex> vertices = {
         {{-10, -2, -10}, {0, 0}, {0, 0}},
@@ -39,59 +39,49 @@ TestGame::TestGame()
 
     Mesh m{vertices, indices, mat};
 
-    root_.add_component(std::make_shared<MeshRenderer>(m, mat));
-    root_.add_component(std::make_shared<ModelRenderer>(Model("res/models/backpack.obj")));
+    root()->add_component(std::make_shared<MeshRenderer>(m, mat));
+    root()->add_component(std::make_shared<ModelRenderer>(Model("res/models/backpack.obj")));
 }
 
 void TestGame::init()
 {
 }
 
-void TestGame::update()
-{
-    root_.update();
-}
-
-void TestGame::render()
-{
-    root_.render();
-}
-
-void TestGame::input(const Input& inputs)
-{
-    Camera* camera = &root_.transform().get_camera();
-
-    const float move_speed = .025;
-
-    if (inputs.is_key_down(SDLK_d)) {
-        camera->move(camera->get_right(), move_speed);
-    }
-
-    if (inputs.is_key_down(SDLK_a)) {
-        camera->move(camera->get_left(), move_speed);
-    }
-
-    if (inputs.is_key_down(SDLK_w)) {
-        camera->move(camera->get_forward(), move_speed);
-    }
-
-    if (inputs.is_key_down(SDLK_s)) {
-        camera->move(camera->get_forward(), -move_speed);
-    }
-
-    if (inputs.is_key_down(SDLK_UP)) {
-        camera->rotate_x(-1);
-    }
-
-    if (inputs.is_key_down(SDLK_DOWN)) {
-        camera->rotate_x(1);
-    }
-
-    if (inputs.is_key_down(SDLK_LEFT)) {
-        camera->rotate_y(-1);
-    }
-
-    if (inputs.is_key_down(SDLK_RIGHT)) {
-        camera->rotate_y(1);
-    }
-}
+//void TestGame::input(const Input& inputs)
+//{
+//    Camera* camera = &root_.transform().get_camera();
+//
+//    const float move_speed = .025;
+//
+//    if (inputs.is_key_down(SDLK_d)) {
+//        camera->move(camera->get_right(), move_speed);
+//    }
+//
+//    if (inputs.is_key_down(SDLK_a)) {
+//        camera->move(camera->get_left(), move_speed);
+//    }
+//
+//    if (inputs.is_key_down(SDLK_w)) {
+//        camera->move(camera->get_forward(), move_speed);
+//    }
+//
+//    if (inputs.is_key_down(SDLK_s)) {
+//        camera->move(camera->get_forward(), -move_speed);
+//    }
+//
+//    if (inputs.is_key_down(SDLK_UP)) {
+//        camera->rotate_x(-1);
+//    }
+//
+//    if (inputs.is_key_down(SDLK_DOWN)) {
+//        camera->rotate_x(1);
+//    }
+//
+//    if (inputs.is_key_down(SDLK_LEFT)) {
+//        camera->rotate_y(-1);
+//    }
+//
+//    if (inputs.is_key_down(SDLK_RIGHT)) {
+//        camera->rotate_y(1);
+//    }
+//}

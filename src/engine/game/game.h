@@ -2,10 +2,17 @@
 #define _SGE_GAME_H
 
 #include "input.h"
+#include "gameobject.h"
+#include "shader.h"
+
+#include <memory>
 
 namespace SGE {
 namespace Game {
 class Game {
+    private:
+        std::shared_ptr<GameObject> root_{new GameObject{}};
+
     public:
         Game() = default;
         Game(const Game&) = default;
@@ -15,9 +22,12 @@ class Game {
         virtual ~Game() = default;
 
         virtual void init() = 0;
-        virtual void update() = 0;
-        virtual void render() = 0;
-        virtual void input(const Input& inputs) = 0;
+        virtual void update();
+        virtual void render(Shader& shader);
+        virtual void input(const Input& inputs);
+
+        void set_root(std::shared_ptr<GameObject> gameobject);
+        std::shared_ptr<GameObject> root();
 };
 } // namespace Game
 } // namespace SGE

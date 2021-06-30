@@ -47,7 +47,7 @@ class Shader {
         void set_uniform(const std::string& variable_name, const Math::Vector3& vector);
         void set_uniform(const std::string& variable_name, const Math::Matrix4& matrix);
 
-        void bind();
+        void bind() const;
         void set_material(const Material& material);
         void set_transformations(const Math::Matrix4& transformation,
                 const Math::Matrix4& projection);

@@ -25,7 +25,7 @@
 bool is_input_event(const SDL_Event& event);
 
 SGE::Engine::Engine(const std::size_t width, const std::size_t height, const std::string& window_title) :
-    window_{width, height, window_title}
+    rendering_engine_{width, height, window_title}
 {
 }
 
@@ -36,9 +36,7 @@ void SGE::Engine::load_game(std::unique_ptr<Game::Game> game)
 
 void SGE::Engine::render()
 {
-    window_.clear();
-    game_->render();
-    window_.flip();
+    rendering_engine_.render(*game_->root());
 }
 
 void SGE::Engine::run()
