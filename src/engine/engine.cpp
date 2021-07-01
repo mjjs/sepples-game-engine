@@ -50,12 +50,12 @@ void SGE::Engine::run()
     SDL_Event event;
 
     const int ms_per_second = 1000;
-    const int ms_per_frame = 16;
+    const float seconds_per_frame = .16F;
     int frames_rendered_this_second = 0;
-    double frame_time = 0;
+    float frame_time = 0;
 
     auto previous_time = std::chrono::steady_clock::now();
-    double lag = 0.0F;
+    float unprocessed_time = 0.0F;
 
     while (running_) {
         auto current_time = std::chrono::steady_clock::now();
@@ -64,8 +64,8 @@ void SGE::Engine::run()
 
         previous_time = current_time;
 
-        double delta = elapsed_time.count();
-        lag += delta;
+        float delta = static_cast<float>(elapsed_time.count()) / ms_per_second;
+        unprocessed_time += delta;
 
         while (SDL_PollEvent(&event) == 1) {
             if (event.type == SDL_QUIT) {
@@ -84,11 +84,11 @@ void SGE::Engine::run()
         game_->input(input_);
         input_.update();
 
-        while (lag >= ms_per_frame) {
+        while (unprocessed_time > seconds_per_frame) {
             game_->update();
-            lag -= ms_per_frame;
+            unprocessed_time -= seconds_per_frame;
 
-            if (frame_time >= ms_per_second) {
+            if (frame_time >= 1.0F) {
                 std::cout << "FPS: " << frames_rendered_this_second << '\n';
                 frames_rendered_this_second = 0;
                 frame_time = 0;
