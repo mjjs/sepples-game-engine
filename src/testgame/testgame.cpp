@@ -10,6 +10,7 @@
 #include "texture.h"
 #include "transform.h"
 #include "vertex.h"
+#include "sgemath.h"
 
 //#include <SDL2/SDL_keycode.h>
 #include <vector>
@@ -19,8 +20,6 @@
 TestGame::TestGame()
 {
     Math::Transform transform{};
-    Math::Transform::set_projection(70, 800, 600, .1, 1000);
-    transform.set_camera(camera_);
 
     root()->set_transform(transform);
 

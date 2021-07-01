@@ -81,15 +81,13 @@ Math::Matrix4 Math::Matrix4::scale(const Math::Vector3& scale_vector)
     return scale_matrix;
 }
 
-Math::Matrix4 Math::Matrix4::projection(
-        const float fov,
-        const float width,
-        const float height,
+Math::Matrix4 Math::Matrix4::perspective(
+        const float fov_radians,
+        const float aspect_ratio,
         const float z_near,
         const float z_far)
 {
-    const float aspect_ratio = width / height;
-    const float tan_half_fov = std::tan(Math::to_radians(fov / 2));
+    const float tan_half_fov = std::tan(fov_radians / 2);
     const float z_range = z_near - z_far;
 
     Math::Matrix4 projection_matrix = Math::Matrix4::identity();

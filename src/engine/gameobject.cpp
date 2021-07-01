@@ -1,3 +1,4 @@
+#include "camera.h"
 #include "gamecomponent.h"
 #include "gameobject.h"
 #include "input.h"
@@ -38,14 +39,14 @@ void SGE::GameObject::update()
     }
 }
 
-void SGE::GameObject::render(Shader& shader) const
+void SGE::GameObject::render(Shader& shader, const Camera& camera)
 {
     for (const auto& component : components_) {
-        component->render(transform_, shader);
+        component->render(transform_, shader, camera);
     }
 
     for (const auto& child : children_) {
-        child->render(shader);
+        child->render(shader, camera);
     }
 }
 

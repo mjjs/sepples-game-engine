@@ -1,6 +1,7 @@
 #ifndef _SGE_GAME_H
 #define _SGE_GAME_H
 
+#include "camera.h"
 #include "input.h"
 #include "gameobject.h"
 #include "shader.h"
@@ -23,7 +24,7 @@ class Game {
 
         virtual void init() = 0;
         virtual void update();
-        virtual void render(Shader& shader);
+        virtual void render(Shader& shader, const Camera& camera);
         virtual void input(const Input& inputs);
 
         void set_root(std::shared_ptr<GameObject> gameobject);

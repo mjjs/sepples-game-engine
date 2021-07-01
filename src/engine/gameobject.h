@@ -1,6 +1,7 @@
 #ifndef _SGE_GAMEOBJECT_H
 #define _SGE_GAMEOBJECT_H
 
+#include "camera.h"
 #include "gamecomponent.h"
 #include "input.h"
 #include "transform.h"
@@ -19,7 +20,7 @@ class GameObject {
     public:
         virtual void input(const Input& input);
         virtual void update();
-        virtual void render(Shader& shader) const;
+        virtual void render(Shader& shader, const Camera& camera);
 
         void add_child(std::shared_ptr<GameObject> child);
         void add_component(std::shared_ptr<GameComponent> component);

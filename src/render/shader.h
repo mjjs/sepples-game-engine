@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <memory>
 
 enum ShaderErrorCheckType {
     PROGRAM,

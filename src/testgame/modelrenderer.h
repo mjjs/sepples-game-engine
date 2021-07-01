@@ -1,5 +1,7 @@
 #ifndef _TESTGAME_MODELRENDERER_H
 #define _TESTGAME_MODELRENDERER_H
+
+#include "camera.h"
 #include "basicshader.h"
 #include "gamecomponent.h"
 #include "mesh.h"
@@ -16,7 +18,7 @@ class ModelRenderer : public SGE::GameComponent {
         ModelRenderer(const Model& model);
 
         void init() override;
-        void render(const Math::Transform& transform, Shader& shader) override;
+        void render(const Math::Transform& transform, Shader& shader, const Camera& camera) override;
         void input(const Input& input, const Math::Transform& transform) override;
         void update(const Math::Transform& transform) override;
 };

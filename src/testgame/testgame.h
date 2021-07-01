@@ -10,7 +10,7 @@
 
 class TestGame : public SGE::Game::Game {
     private:
-        Camera camera_;
+        SGE::GameObject root_;
 
     public:
         TestGame();

@@ -1,3 +1,4 @@
+#include "camera.h"
 #include "game.h"
 #include "input.h"
 #include "shader.h"
@@ -9,9 +10,9 @@ void SGE::Game::Game::input(const Input& input)
     root_->input(input);
 }
 
-void SGE::Game::Game::render(Shader& shader)
+void SGE::Game::Game::render(Shader& shader, const Camera& camera)
 {
-    root_->render(shader);
+    root_->render(shader, camera);
 }
 
 void SGE::Game::Game::update()

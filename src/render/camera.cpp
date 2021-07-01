@@ -1,24 +1,32 @@
 #include "camera.h"
 #include "sgemath.h"
 #include "vector3.h"
+#include "matrix4.h"
 
-Camera::Camera() :
+Camera::Camera(
+        const float fov_radians,
+        const float aspect_ratio, 
+        const float z_near,
+        const float z_far
+        ) :
     position_{Math::Vector3{0,0,0}},
     forward_{Math::Vector3{0,0,1}},
-    up_{Math::Vector3{0,1,0}}
-{
-}
-
-Camera::Camera(const Math::Vector3& position, const Math::Vector3& forward, const Math::Vector3& up) :
-    position_{position},
-    forward_{Math::normalize(forward)},
-    up_{Math::normalize(up)}
+    up_{Math::Vector3{0,1,0}},
+    projection_{Math::Matrix4::perspective(fov_radians, aspect_ratio, z_near, z_far)}
 {
 }
 
 void Camera::move(const Math::Vector3& direction, float amount)
 {
     position_ = position_ + amount * direction;
+}
+
+Math::Matrix4 Camera::get_view_projection() const
+{
+    const Math::Matrix4 camera_rotation = Math::Matrix4::camera(forward_, up_);
+    const Math::Matrix4 camera_translation = Math::Matrix4::translation(-1 * position_);
+
+    return projection_ * camera_rotation * camera_translation;
 }
 
 Math::Vector3 Camera::get_position() const

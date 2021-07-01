@@ -20,11 +20,6 @@ void Math::Transform::set_scale(const Math::Vector3& scale_vector)
     scale_ = scale_vector;
 }
 
-void Math::Transform::set_camera(const Camera& camera)
-{
-    camera_ = camera;
-}
-
 Math::Matrix4 Math::Transform::get_transformation() const
 {
     const Math::Matrix4 translation = Math::Matrix4::translation(translation_);
@@ -34,27 +29,7 @@ Math::Matrix4 Math::Transform::get_transformation() const
     return translation * scale * rotation;
 }
 
-Math::Matrix4 Math::Transform::get_projected_transformation() const
+Math::Matrix4 Math::Transform::get_projected_transformation(const Camera& camera) const
 {
-    const Math::Matrix4 projection_matrix = Math::Matrix4::projection(fov_, width_,
-            height_, z_near_, z_far_);
-
-    const Math::Matrix4 camera_rotation = Math::Matrix4::camera(camera_.get_forward(), camera_.get_up());
-    const Math::Matrix4 camera_translation = Math::Matrix4::translation(-1 * camera_.get_position());
-
-    return projection_matrix * camera_rotation * camera_translation * get_transformation();
-}
-
-void Math::Transform::set_projection(float fov, float width, float height, float z_near, float z_far)
-{
-    fov_ = fov;
-    width_ = width;
-    height_ = height;
-    z_near_ = z_near;
-    z_far_ = z_far;
-}
-
-Camera& Math::Transform::get_camera()
-{
-    return camera_;
+    return camera.get_view_projection() * get_transformation();
 }
