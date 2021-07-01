@@ -101,6 +101,31 @@ Math::Matrix4 Math::Matrix4::perspective(
     return projection_matrix;
 }
 
+Math::Matrix4 Math::Matrix4::ortographic(
+        const float left,
+        const float right,
+        const float bottom,
+        const float top,
+        const float near,
+        const float far)
+{
+    const float width = right - left;
+    const float height = top - bottom;
+    const float depth = far - near;
+
+    Math::Matrix4 ortographic_matrix = Math::Matrix4::identity();
+    ortographic_matrix[0][0] = 2/width;
+    ortographic_matrix[0][3] = -(right + left)/width;
+
+    ortographic_matrix[1][1] = 2/height;
+    ortographic_matrix[1][3] = -(top + bottom)/height;
+
+    ortographic_matrix[2][2] = -2/depth;
+    ortographic_matrix[2][3] = -(far + near)/depth;
+
+    return ortographic_matrix;
+}
+
 Math::Matrix4 Math::Matrix4::camera(const Math::Vector3& forward, const Math::Vector3& up)
 {
     Math::Vector3 normalized_forward = Math::normalize(forward);
