@@ -8,12 +8,12 @@
 namespace Math {
     class Transform {
         private:
-            Vector3 translation_;
+            Vector3 position_;
             Vector3 rotation_;
             Vector3 scale_{1,1,1};
 
         public:
-            void set_translation(const Vector3& translation_vector);
+            void set_position(const Vector3& position_vector);
             void set_rotation(const Vector3& rotation_vector);
             void set_scale(const Vector3& scale_vector);
             Matrix4 get_transformation() const;
