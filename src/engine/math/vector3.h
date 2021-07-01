@@ -13,7 +13,11 @@ namespace Math {
 
 std::ostream& operator<<(std::ostream& os, const Math::Vector3& vec3);
 Math::Vector3 operator+(const Math::Vector3& lhs, const Math::Vector3& rhs);
+Math::Vector3 operator-(const Math::Vector3& lhs, const Math::Vector3& rhs);
 Math::Vector3 operator*(int scalar, const Math::Vector3& vector);
 Math::Vector3 operator*(float scalar, const Math::Vector3& vector);
+Math::Vector3 operator*(const Math::Vector3& vector, int scalar);
+Math::Vector3 operator*(const Math::Vector3& vector, float scalar);
+bool operator==(const Math::Vector3& lhs, const Math::Vector3& rhs);
 
 #endif

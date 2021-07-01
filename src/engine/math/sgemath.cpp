@@ -34,6 +34,15 @@ Math::Vector2 Math::rotate(const Math::Vector2& vec, float degrees)
     };
 }
 
+Math::Vector2 Math::lerp(
+        const Math::Vector2& start,
+        const Math::Vector2& destination,
+        const float lerp_factor
+        )
+{
+    return start + (destination - start) * lerp_factor;
+}
+
 
 float Math::angle_to(const Math::Vector3& vec_a, const Math::Vector3& vec_b)
 {
@@ -56,7 +65,7 @@ Math::Vector3 Math::normalize(const Math::Vector3& vec)
     return Math::Vector3{vec.x/length, vec.y/length, vec.z/length};
 }
 
-Math::Vector3 Math::cross(const Math::Vector3& vec_a, const Math::Vector3 vec_b)
+Math::Vector3 Math::cross(const Math::Vector3& vec_a, const Math::Vector3& vec_b)
 {
     return Math::Vector3{
         vec_a.y * vec_b.z - vec_a.z * vec_b.y,
@@ -86,6 +95,15 @@ Math::Vector3 Math::rotate(const Math::Vector3& vec, float degrees, const Vector
             rotated.y,
             rotated.z
     };
+}
+
+Math::Vector3 Math::lerp(
+        const Math::Vector3& start,
+        const Math::Vector3& destination,
+        const float lerp_factor
+        )
+{
+    return start + (destination - start) * lerp_factor;
 }
 
 float Math::length(const Math::Quaternion& q)
