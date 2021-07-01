@@ -1,3 +1,4 @@
+#include "vector2.h"
 #include "window.h"
 
 #include <stdexcept>
@@ -5,7 +6,9 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 
-Window::Window(const size_t width, const size_t height, const std::string& title)
+Window::Window(const size_t width, const size_t height, const std::string& title) :
+    width_{width},
+    height_{height}
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         throw std::runtime_error("SDL init failed");
@@ -65,4 +68,12 @@ void Window::fill(const float r, const float g, const float b, const float a) co
 {
     glClearColor(r, g, b, a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+Math::Vector2 Window::get_center() const
+{
+    return Math::Vector2{
+        static_cast<float>(width_)/2,
+        static_cast<float>(height_)/2,
+    };
 }
