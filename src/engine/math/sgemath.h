@@ -11,6 +11,7 @@ namespace Math {
     float length(const Vector2& vec);
     float dot(const Vector2& vec_a, const Vector2& vec_b);
     Vector2 normalize(const Vector2& vec);
+    float cross(const Vector2& vec_a, const Vector2& vec_b);
     Vector2 rotate(const Vector2& vec, float degrees);
     Vector2 lerp(const Vector2& start, const Vector2& destination, float lerp_factor);
 

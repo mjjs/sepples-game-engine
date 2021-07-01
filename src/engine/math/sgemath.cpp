@@ -22,6 +22,11 @@ Math::Vector2 Math::normalize(const Math::Vector2& vec)
     return Math::Vector2{vec.x/length, vec.y/length};
 }
 
+float Math::cross(const Math::Vector2& vec_a, const Math::Vector2& vec_b)
+{
+    return vec_a.x * vec_b.y - vec_a.y * vec_b.x;
+}
+
 Math::Vector2 Math::rotate(const Math::Vector2& vec, float degrees)
 {
     const float radians = Math::to_radians(degrees);
