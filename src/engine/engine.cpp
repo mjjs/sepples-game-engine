@@ -11,6 +11,7 @@
 #include "transform.h"
 #include "vector3.h"
 #include "window.h"
+#include "timer.h"
 
 #include <chrono>
 #include <cmath>
@@ -49,23 +50,12 @@ void SGE::Engine::run()
 
     SDL_Event event;
 
-    const int ms_per_second = 1000;
-    const float seconds_per_frame = .16F;
-    int frames_rendered_this_second = 0;
-    float frame_time = 0;
-
-    auto previous_time = std::chrono::steady_clock::now();
-    float unprocessed_time = 0.0F;
+    Timer timer{};
+    timer.start_timer();
+    unsigned int frames_rendered_this_second = 0;
 
     while (running_) {
-        auto current_time = std::chrono::steady_clock::now();
-        auto elapsed_time =
-            std::chrono::duration_cast<std::chrono::milliseconds>(current_time - previous_time);
-
-        previous_time = current_time;
-
-        float delta = static_cast<float>(elapsed_time.count()) / ms_per_second;
-        unprocessed_time += delta;
+        timer.update_times();
 
         while (SDL_PollEvent(&event) == 1) {
             if (event.type == SDL_QUIT) {
@@ -78,20 +68,18 @@ void SGE::Engine::run()
             }
         }
 
-        frame_time += delta;
-
         // Handle game input before input.update();
         game_->input(input_);
         input_.update();
 
-        while (unprocessed_time > seconds_per_frame) {
+        while (timer.game_needs_updating()) {
             game_->update();
-            unprocessed_time -= seconds_per_frame;
+            timer.use_unprocessed_time();
 
-            if (frame_time >= 1.0F) {
+            if (timer.has_second_passed()) {
                 std::cout << "FPS: " << frames_rendered_this_second << '\n';
                 frames_rendered_this_second = 0;
-                frame_time = 0;
+                timer.reset_seconds_spent_this_frame();
             }
         }
 
