@@ -5,6 +5,7 @@
 #include "camera.h"
 #include "gameobject.h"
 #include "window.h"
+#include "input.h"
 
 #include <cstddef>
 #include <string>
@@ -24,6 +25,9 @@ class RenderingEngine {
 
         void set_camera(const Camera& camera);
         const Camera& camera() const;
+
+        // TEMPORARY HACK
+        void input(const Input& input, float delta);
 };
 
 } // namespace SGE

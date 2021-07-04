@@ -1,6 +1,4 @@
-#include "camera.h"
 #include "gamecomponent.h"
-#include "input.h"
 #include "material.h"
 #include "mesh.h"
 #include "meshrenderer.h"

@@ -34,3 +34,41 @@ const Camera& SGE::RenderingEngine::camera() const
 {
     return main_camera_;
 }
+
+// TEMPORARY HACK
+void SGE::RenderingEngine::input(const Input& input, const float delta)
+{
+    const float move_speed = .025;
+
+    if (input.is_key_down(SDLK_d)) {
+        main_camera_.move(main_camera_.get_right(), move_speed * delta);
+    }
+
+    if (input.is_key_down(SDLK_a)) {
+        main_camera_.move(main_camera_.get_left(), move_speed * delta);
+    }
+
+    if (input.is_key_down(SDLK_w)) {
+        main_camera_.move(main_camera_.get_forward(), move_speed * delta);
+    }
+
+    if (input.is_key_down(SDLK_s)) {
+        main_camera_.move(main_camera_.get_forward(), -move_speed * delta);
+    }
+
+    if (input.is_key_down(SDLK_UP)) {
+        main_camera_.rotate_x(-1);
+    }
+
+    if (input.is_key_down(SDLK_DOWN)) {
+        main_camera_.rotate_x(1);
+    }
+
+    if (input.is_key_down(SDLK_LEFT)) {
+        main_camera_.rotate_y(-1);
+    }
+
+    if (input.is_key_down(SDLK_RIGHT)) {
+        main_camera_.rotate_y(1);
+    }
+}

@@ -70,6 +70,10 @@ void SGE::Engine::run()
 
         // Handle game input before input.update();
         game_->input(input_);
+
+        // TEMPORARY HACK
+        rendering_engine_.input(input_, timer.delta());
+
         input_.update();
 
         game_->update(timer.fixed_time_step());
