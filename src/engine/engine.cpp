@@ -72,8 +72,10 @@ void SGE::Engine::run()
         game_->input(input_);
         input_.update();
 
+        game_->update(timer.fixed_time_step());
+
         while (timer.game_needs_updating()) {
-            game_->update();
+            game_->fixed_update();
             timer.use_unprocessed_time();
 
             if (timer.has_second_passed()) {

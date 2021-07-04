@@ -15,9 +15,14 @@ void SGE::Game::Game::render(Shader& shader, const Camera& camera)
     root_->render(shader, camera);
 }
 
-void SGE::Game::Game::update()
+void SGE::Game::Game::update(const float delta)
 {
-    root_->update();
+    root_->update(delta);
+}
+
+void SGE::Game::Game::fixed_update()
+{
+    root_->fixed_update();
 }
 
 std::shared_ptr<SGE::GameObject> SGE::Game::Game::root()

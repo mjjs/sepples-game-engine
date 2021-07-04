@@ -16,9 +16,6 @@ class MeshRenderer : public SGE::GameComponent {
     public:
         MeshRenderer(const Mesh& mesh);
 
-        void init() override;
-        void input(const Input& input, const Math::Transform& transform) override;
-        void update(const Math::Transform& transform) override;
         void render(const Math::Transform& transform, Shader& shader, const Camera& camera) override;
 };
 #endif

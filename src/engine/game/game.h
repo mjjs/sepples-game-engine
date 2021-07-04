@@ -23,7 +23,8 @@ class Game {
         virtual ~Game() = default;
 
         virtual void init() = 0;
-        virtual void update();
+        virtual void update(float delta);
+        virtual void fixed_update();
         virtual void render(Shader& shader, const Camera& camera);
         virtual void input(const Input& inputs);
 

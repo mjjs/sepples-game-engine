@@ -28,14 +28,25 @@ void SGE::GameObject::input(const Input& input)
     }
 }
 
-void SGE::GameObject::update()
+void SGE::GameObject::update(const float delta)
 {
     for (const auto& component : components_) {
-        component->update(transform_);
+        component->update(transform_, delta);
     }
 
     for (const auto& child : children_) {
-        child->update();
+        child->update(delta);
+    }
+}
+
+void SGE::GameObject::fixed_update()
+{
+    for (const auto& component : components_) {
+        component->fixed_update(transform_);
+    }
+
+    for (const auto& child : children_) {
+        child->fixed_update();
     }
 }
 

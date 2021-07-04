@@ -17,15 +17,3 @@ void ModelRenderer::render(const Math::Transform& transform, Shader& shader, con
 
     model_.draw(shader);
 }
-
-void ModelRenderer::input(const Input& input, const Math::Transform& transform)
-{
-}
-
-void ModelRenderer::update(const Math::Transform& transform)
-{
-}
-
-void ModelRenderer::init()
-{
-}

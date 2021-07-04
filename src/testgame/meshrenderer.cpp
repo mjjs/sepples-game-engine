@@ -21,15 +21,3 @@ void MeshRenderer::render(const Math::Transform& transform, Shader& shader, cons
 
     mesh_.draw(shader);
 }
-
-void MeshRenderer::input(const Input& input, const Math::Transform& transform)
-{
-}
-
-void MeshRenderer::update(const Math::Transform& transform)
-{
-}
-
-void MeshRenderer::init()
-{
-}

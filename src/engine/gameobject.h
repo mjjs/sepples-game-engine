@@ -19,7 +19,8 @@ class GameObject {
 
     public:
         virtual void input(const Input& input);
-        virtual void update();
+        virtual void update(float delta);
+        virtual void fixed_update();
         virtual void render(Shader& shader, const Camera& camera);
 
         void add_child(std::shared_ptr<GameObject> child);

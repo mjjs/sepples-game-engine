@@ -16,10 +16,11 @@ class GameComponent {
         GameComponent& operator=(GameComponent&&) = default;
         virtual ~GameComponent() = default;
 
-        virtual void init() = 0;
-        virtual void input(const Input& input, const Math::Transform& transform) = 0;
-        virtual void update(const Math::Transform& transform) = 0;
-        virtual void render(const Math::Transform& transform, Shader& shader, const Camera& camera) = 0;
+        virtual void init() {};
+        virtual void input(const Input& input, const Math::Transform& transform) {};
+        virtual void update(const Math::Transform& transform, float delta) {};
+        virtual void fixed_update(const Math::Transform& transform) {};
+        virtual void render(const Math::Transform& transform, Shader& shader, const Camera& camera) {};
 };
 } // namespace SGE
 #endif
