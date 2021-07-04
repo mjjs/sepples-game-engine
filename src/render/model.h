@@ -22,14 +22,14 @@ class Model {
         void process_node(aiNode* node, const aiScene* scene);
         Mesh process_mesh(aiMesh* mesh, const aiScene* scene);
         std::vector<Texture> load_material_textures(aiMaterial* material,
-                aiTextureType texture_type);
+                TextureType texture_type);
 
     public:
         explicit Model(const std::string& path);
         void draw(Shader& shader) const;
 };
 
-Math::Vector3 get_colour(const aiMaterial& material, const std::string& colour_key);
+Math::Vector3 get_colour(const aiMaterial& material, const std::string& type);
 float get_shininess(const aiMaterial& material);
 
 #endif

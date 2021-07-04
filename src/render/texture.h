@@ -5,10 +5,23 @@
 #include <cstdint>
 #include <string>
 
+enum TextureType {
+    DIFFUSE,
+    SPECULAR,
+    NORMAL,
+};
+
 struct Texture {
     std::uint32_t id;
-    aiTextureType type;
-    std::string path;
+    TextureType type;
+    std::string filename;
 };
+
+Texture load_texture(const std::string& filename, const std::string& directory, TextureType texture_type);
+Texture load_diffuse_texture(const std::string& filename, const std::string& directory);
+Texture load_specular_texture(const std::string& filename, const std::string& directory);
+Texture load_normal_texture(const std::string& filename, const std::string& directory);
+
+aiTextureType from_texture_type(TextureType texture_type);
 
 #endif

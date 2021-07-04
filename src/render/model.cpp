@@ -1,7 +1,6 @@
 #include "material.h"
 #include "mesh.h"
 #include "model.h"
-#include "resourceloader.h"
 #include "shader.h"
 #include "texture.h"
 #include "vector2.h"
@@ -105,11 +104,11 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 
     if (assimp_material != nullptr) {
         std::vector<Texture> diffuse_maps = load_material_textures(assimp_material,
-                aiTextureType_DIFFUSE);
+                TextureType::DIFFUSE);
         textures.insert(textures.end(), diffuse_maps.begin(), diffuse_maps.end());
 
         std::vector<Texture> specular_maps = load_material_textures(assimp_material,
-                aiTextureType_SPECULAR);
+                TextureType::SPECULAR);
         textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
 
         material.set_ambient(get_colour(*assimp_material, COLOUR_AMBIENT));
@@ -123,19 +122,20 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
     return Mesh{vertices, indices, material};
 }
 
-std::vector<Texture> Model::load_material_textures(aiMaterial* material, aiTextureType texture_type)
+std::vector<Texture> Model::load_material_textures(aiMaterial* material, const TextureType texture_type)
 {
     std::vector<Texture> textures;
+    aiTextureType ai_texture_type = from_texture_type(texture_type);
 
-    for (std::size_t i = 0; i < material->GetTextureCount(texture_type); ++i) {
-        aiString tmp_path;
-        material->GetTexture(texture_type, i, &tmp_path);
-        std::string path{tmp_path.C_Str()};
+    for (std::size_t i = 0; i < material->GetTextureCount(ai_texture_type); ++i) {
+        aiString path;
+        material->GetTexture(ai_texture_type, i, &path);
+        std::string filename{path.C_Str()};
 
         bool already_loaded = false;
 
         for (const Texture& texture : loaded_textures_) {
-            if (path == texture.path) {
+            if (filename == texture.filename) {
                 textures.push_back(texture);
                 already_loaded = true;
                 break;
@@ -143,12 +143,7 @@ std::vector<Texture> Model::load_material_textures(aiMaterial* material, aiTextu
         }
 
         if (!already_loaded) {
-            Texture texture{
-                load_texture(path, directory_),
-                    texture_type,
-                    path
-            };
-
+            Texture texture = load_texture(filename, directory_, texture_type);
             textures.push_back(texture);
             loaded_textures_.push_back(texture);
         }

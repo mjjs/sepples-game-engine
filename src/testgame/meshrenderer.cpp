@@ -7,9 +7,8 @@
 #include "shader.h"
 #include "matrix4.h"
 
-MeshRenderer::MeshRenderer(const Mesh& mesh, const Material& material) :
-    mesh_{mesh},
-    material_{material}
+MeshRenderer::MeshRenderer(const Mesh& mesh) :
+    mesh_{mesh}
 {
 }
 

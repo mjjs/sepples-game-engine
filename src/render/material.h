@@ -11,10 +11,16 @@ class Material {
         Math::Vector3 ambient_colour_{};
         Math::Vector3 diffuse_colour_{};
         Math::Vector3 specular_colour_{};
-        float shininess_{};
+        float shininess_ = 1.0F;
 
     public:
         Material() = default;
+        Material(
+                const Math::Vector3& ambient_colour,
+                const Math::Vector3& diffuse_colour,
+                const Math::Vector3& specular_colour
+                );
+
         explicit Material(
                 const std::vector<Texture>& textures,
                 const Math::Vector3& ambient_colour,

@@ -1,10 +1,12 @@
 #include "material.h"
 #include "mesh.h"
 #include "shader.h"
+#include "texture.h"
 #include "vector3.h"
 
 #include <assimp/material.h>
 #include <GL/glew.h>
+#include <stdexcept>
 #include <vector>
 
 // TODO: Pass by value and std::move
@@ -71,12 +73,14 @@ void Mesh::draw(Shader& shader) const
         glActiveTexture(GL_TEXTURE0 + i);
 
         std::string uniform_name{};
-        aiTextureType texture_type = textures[i].type;
+        TextureType texture_type = textures[i].type;
 
-        if (texture_type == aiTextureType_DIFFUSE) {
+        if (texture_type == TextureType::DIFFUSE) {
             uniform_name = "texture_diffuse" + std::to_string(diffuse_i++) + "_u";
-        } else if (texture_type == aiTextureType_SPECULAR) {
+        } else if (texture_type == TextureType::SPECULAR) {
             uniform_name = "texture_specular" + std::to_string(specular_i++) + "_u";
+        } else {
+            throw std::runtime_error{"Unsupported texture type"};
         }
 
         shader.add_uniform(uniform_name);

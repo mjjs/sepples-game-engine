@@ -12,10 +12,9 @@
 class MeshRenderer : public SGE::GameComponent {
     private:
         Mesh mesh_;
-        Material material_;
 
     public:
-        MeshRenderer(const Mesh& mesh, const Material& material);
+        MeshRenderer(const Mesh& mesh);
 
         void init() override;
         void input(const Input& input, const Math::Transform& transform) override;

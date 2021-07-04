@@ -31,14 +31,13 @@ TestGame::TestGame()
     };
 
     std::vector<int> indices = {0, 1, 2, 2, 1, 3};
-    Material mat{
-        std::vector<Texture>{}, {.2,0,0}, {.3,1,1}, {0,0,0}
+    Mesh floor{
+        vertices,
+        indices,
+        Material{{.5F, 0.0F, 0.0F}, {.3F, 1.0F, 1.0F}, {0.0F, 0.0F, 0.0F}},
     };
-    mat.set_shininess(1);
 
-    Mesh m{vertices, indices, mat};
-
-    root()->add_component(std::make_shared<MeshRenderer>(m, mat));
+    root()->add_component(std::make_shared<MeshRenderer>(floor));
     root()->add_component(std::make_shared<ModelRenderer>(Model("res/models/backpack.obj")));
 }
 
