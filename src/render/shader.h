@@ -4,6 +4,7 @@
 #include "vector3.h"
 #include "material.h"
 #include "matrix4.h"
+#include "transform.h"
 
 #include <GL/glew.h>
 #include <string>
@@ -11,6 +12,10 @@
 #include <utility>
 #include <vector>
 #include <memory>
+
+namespace SGE {
+    class RenderingEngine;
+}
 
 enum ShaderErrorCheckType {
     PROGRAM,
@@ -33,6 +38,8 @@ class Shader {
 
         void compile_shader();
 
+        bool uniform_exists(const std::string& variable_name) const;
+
     public:
         Shader(const std::string& vertex_path, const std::string& fragment_path);
         ~Shader();
@@ -49,6 +56,11 @@ class Shader {
         void set_uniform(const std::string& variable_name, const Math::Matrix4& matrix);
 
         void bind() const;
+        virtual void update_uniforms(
+                const Math::Transform& transform,
+                const Material& material,
+                const SGE::RenderingEngine& rendering_engine) = 0;
+
         void set_material(const Material& material);
         void set_transformations(const Math::Matrix4& transformation,
                 const Math::Matrix4& projection);

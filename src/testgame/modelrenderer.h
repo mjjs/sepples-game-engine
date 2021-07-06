@@ -9,6 +9,7 @@
 #include "transform.h"
 #include "input.h"
 #include "shader.h"
+#include "renderingengine.h"
 
 class ModelRenderer : public SGE::GameComponent {
     private:
@@ -17,6 +18,6 @@ class ModelRenderer : public SGE::GameComponent {
     public:
         ModelRenderer(const Model& model);
 
-        void render(const Math::Transform& transform, Shader& shader, const Camera& camera) override;
+        void render(const Math::Transform& transform, Shader& shader, const SGE::RenderingEngine& rendering_engine) override;
 };
 #endif

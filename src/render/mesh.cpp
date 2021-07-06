@@ -97,3 +97,8 @@ void Mesh::draw(Shader& shader) const
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);
 }
+
+const Material& Mesh::material() const
+{
+    return material_;
+}

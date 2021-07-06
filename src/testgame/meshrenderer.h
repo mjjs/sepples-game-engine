@@ -8,6 +8,7 @@
 #include "basicshader.h"
 #include "transform.h"
 #include "shader.h"
+#include "renderingengine.h"
 
 class MeshRenderer : public SGE::GameComponent {
     private:
@@ -16,6 +17,6 @@ class MeshRenderer : public SGE::GameComponent {
     public:
         MeshRenderer(const Mesh& mesh);
 
-        void render(const Math::Transform& transform, Shader& shader, const Camera& camera) override;
+        void render(const Math::Transform& transform, Shader& shader, const SGE::RenderingEngine& rendering_engine) override;
 };
 #endif

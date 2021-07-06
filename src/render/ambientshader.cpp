@@ -1,11 +1,12 @@
-#include "basicshader.h"
-#include "shader.h"
-#include "renderingengine.h"
-#include "transform.h"
+#include "ambientshader.h"
 #include "material.h"
+#include "transform.h"
+#include "shader.h"
+#include "vector3.h"
+#include "renderingengine.h"
 
-BasicShader::BasicShader() :
-    Shader{"res/shaders/basic_vertex.glsl", "res/shaders/basic_fragment.glsl"}
+AmbientShader::AmbientShader() :
+    Shader{"res/shaders/ambient_light_vertex.glsl", "res/shaders/ambient_light_fragment.glsl"}
 {
     add_uniform("transform_u");
 
@@ -13,9 +14,11 @@ BasicShader::BasicShader() :
     add_uniform("material_u.diffuse");
     add_uniform("material_u.specular");
     add_uniform("material_u.shininess");
+
+    add_uniform("intensity_u");
 }
 
-void BasicShader::update_uniforms(
+void AmbientShader::update_uniforms(
         const Math::Transform& transform,
         const Material& material,
         const SGE::RenderingEngine& rendering_engine)
@@ -26,4 +29,6 @@ void BasicShader::update_uniforms(
     set_uniform("material_u.diffuse", material.diffuse_colour());
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
+
+    set_uniform("intensity_u", rendering_engine.ambient_light);
 }

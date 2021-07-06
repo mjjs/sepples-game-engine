@@ -19,13 +19,6 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
     add_fragment_shader(fragment_shader_name);
 
     compile_shader();
-
-    add_uniform("transform_u");
-    add_uniform("projection_u");
-    add_uniform("material_u.ambient");
-    add_uniform("material_u.diffuse");
-    add_uniform("material_u.specular");
-    add_uniform("material_u.shininess");
 }
 
 Shader::~Shader()
@@ -135,13 +128,13 @@ std::pair<bool, std::string> Shader::check_shader_error(ShaderErrorCheckType che
 
 void Shader::add_uniform(const std::string& variable_name) const
 {
-    if (uniform_variables_.find(variable_name) != uniform_variables_.end()) {
+    if (uniform_exists(variable_name)) {
         return;
     }
 
     const GLint uniform_location = glGetUniformLocation(shader_program_, variable_name.c_str());
     if (uniform_location == -1) {
-        std::cerr << "Uniform variable " << variable_name << " not found in the shader program\n";
+        // std::cerr << "Uniform variable " << variable_name << " not found in the shader program\n";
         return;
     }
 
@@ -150,21 +143,37 @@ void Shader::add_uniform(const std::string& variable_name) const
 
 void Shader::set_uniform(const std::string& variable_name, int value)
 {
+    if (!uniform_exists(variable_name)) {
+        return;
+    }
+
     glUniform1i(uniform_variables_[variable_name], value);
 }
 
 void Shader::set_uniform(const std::string& variable_name, float value)
 {
+    if (!uniform_exists(variable_name)) {
+        return;
+    }
+
     glUniform1f(uniform_variables_[variable_name], value);
 }
 
 void Shader::set_uniform(const std::string& variable_name, const Math::Vector3& vector)
 {
+    if (!uniform_exists(variable_name)) {
+        return;
+    }
+
     glUniform3f(uniform_variables_[variable_name], vector.x, vector.y, vector.z);
 }
 
 void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& matrix)
 {
+    if (!uniform_exists(variable_name)) {
+        return;
+    }
+
     glUniformMatrix4fv(uniform_variables_[variable_name], 1, GL_TRUE, &(matrix[0][0]));
 }
 
@@ -181,4 +190,9 @@ void Shader::set_material(const Material& material)
     set_uniform("material_u.diffuse", material.diffuse_colour());
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
+}
+
+bool Shader::uniform_exists(const std::string& variable_name) const
+{
+    return uniform_variables_.find(variable_name) != uniform_variables_.end();
 }

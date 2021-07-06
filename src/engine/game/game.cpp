@@ -2,6 +2,7 @@
 #include "game.h"
 #include "input.h"
 #include "shader.h"
+#include "renderingengine.h"
 
 #include <memory>
 
@@ -10,9 +11,9 @@ void SGE::Game::Game::input(const Input& input)
     root_->input(input);
 }
 
-void SGE::Game::Game::render(Shader& shader, const Camera& camera)
+void SGE::Game::Game::render(Shader& shader, const SGE::RenderingEngine& rendering_engine)
 {
-    root_->render(shader, camera);
+    root_->render(shader, rendering_engine);
 }
 
 void SGE::Game::Game::update(const float delta)

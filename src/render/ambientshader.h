@@ -1,14 +1,15 @@
-#ifndef _SGE_BASICSHADER_H
-#define _SGE_BASICSHADER_H
-#include "shader.h"
+#ifndef _SGE_AMBIENTSHADER_H
+#define _SGE_AMBIENTSHADER_H
 #include "material.h"
 #include "transform.h"
+#include "shader.h"
+#include "vector3.h"
 
-class BasicShader : public Shader {
+class AmbientShader : public Shader {
     public:
-        BasicShader();
+        AmbientShader();
         void update_uniforms(
-                const Math::Transform& transformation,
+                const Math::Transform& transform,
                 const Material& material,
                 const SGE::RenderingEngine& rendering_engine) override;
 };

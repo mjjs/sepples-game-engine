@@ -11,6 +11,8 @@
 #include <vector>
 
 namespace SGE {
+class RenderingEngine;
+
 class GameObject {
     private:
         Math::Transform transform_{};
@@ -21,7 +23,7 @@ class GameObject {
         virtual void input(const Input& input);
         virtual void update(float delta);
         virtual void fixed_update();
-        virtual void render(Shader& shader, const Camera& camera);
+        virtual void render(Shader& shader, const RenderingEngine& rendering_engine);
 
         void add_child(std::shared_ptr<GameObject> child);
         void add_component(std::shared_ptr<GameComponent> component);

@@ -1,4 +1,3 @@
-#include "basicshader.h"
 #include "camera.h"
 #include "gameobject.h"
 #include "renderingengine.h"
@@ -20,7 +19,7 @@ void SGE::RenderingEngine::render(GameObject& gameobject)
 {
     window_.clear();
 
-    gameobject.render(shader_, main_camera_);
+    gameobject.render(shader_, *this);
 
     window_.flip();
 }

@@ -28,7 +28,7 @@ TestGame::TestGame()
     Mesh floor{
         vertices,
         indices,
-        Material{{.5F, 0.0F, 0.0F}, {.3F, 1.0F, 1.0F}, {0.0F, 0.0F, 0.0F}},
+        Material{{.5F, .5F, .5F}, {.3F, 1.0F, 1.0F}, {0.0F, 0.0F, 0.0F}},
     };
 
     root()->add_component(std::make_shared<MeshRenderer>(floor));

@@ -5,6 +5,7 @@
 #include "input.h"
 #include "gameobject.h"
 #include "shader.h"
+#include "renderingengine.h"
 
 #include <memory>
 
@@ -25,7 +26,7 @@ class Game {
         virtual void init() = 0;
         virtual void update(float delta);
         virtual void fixed_update();
-        virtual void render(Shader& shader, const Camera& camera);
+        virtual void render(Shader& shader, const RenderingEngine& rendering_engine);
         virtual void input(const Input& inputs);
 
         void set_root(std::shared_ptr<GameObject> gameobject);

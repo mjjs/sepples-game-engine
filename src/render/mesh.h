@@ -31,5 +31,6 @@ class Mesh {
                 );
 
         void draw(Shader& shader) const;
+        const Material& material() const;
 };
 #endif

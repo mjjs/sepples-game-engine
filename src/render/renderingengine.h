@@ -1,11 +1,13 @@
 #ifndef _SGE_RENDERINGENGINE_H
 #define _SGE_RENDERINGENGINE_H
 
+#include "ambientshader.h"
 #include "basicshader.h"
 #include "camera.h"
 #include "gameobject.h"
 #include "window.h"
 #include "input.h"
+#include "vector3.h"
 
 #include <cstddef>
 #include <string>
@@ -16,7 +18,7 @@ class RenderingEngine {
     private:
         Window window_;
         Camera main_camera_;
-        BasicShader shader_;
+        AmbientShader shader_;
 
 
     public:
@@ -28,6 +30,7 @@ class RenderingEngine {
 
         // TEMPORARY HACK
         void input(const Input& input, float delta);
+        const Math::Vector3 ambient_light{1.0F, 0.0F, 1.0F};
 };
 
 } // namespace SGE
