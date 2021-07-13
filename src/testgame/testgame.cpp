@@ -6,6 +6,7 @@
 #include "modelrenderer.h"
 #include "testgame.h"
 #include "texture.h"
+#include "vector3.h"
 #include "transform.h"
 #include "vertex.h"
 
@@ -18,17 +19,21 @@ TestGame::TestGame()
     root()->set_transform(transform);
 
     std::vector<Vertex> vertices = {
-        {{-10, -2, -10}, {0, 0}, {0, 0}},
-        {{-10, -2, 30}, {0, 0}, {0, 1}},
-        {{30, -2, -10}, {0, 0}, {1, 0}},
-        {{30, -2, 30}, {0, 0}, {1, 1}},
+        {{-10, -2, -10}, {0, 1, 0}, {0, 0}},
+        {{-10, -2, 30}, {0, 1, 0}, {0, 1}},
+        {{30, -2, -10}, {0, 1, 0}, {1, 0}},
+        {{30, -2, 30}, {0, 1, 0}, {1, 1}},
     };
 
     std::vector<int> indices = {0, 1, 2, 2, 1, 3};
     Mesh floor{
         vertices,
         indices,
-        Material{{.5F, .5F, .5F}, {.3F, 1.0F, 1.0F}, {0.0F, 0.0F, 0.0F}},
+        Material{
+            Math::Vector3{.5F, 1.0F, 1.0F},
+            Math::Vector3{.3F, 1.0F, 1.0F},
+            Math::Vector3{.8F, .8F, .8F}
+        },
     };
 
     root()->add_component(std::make_shared<MeshRenderer>(floor));

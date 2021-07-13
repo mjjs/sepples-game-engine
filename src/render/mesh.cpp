@@ -93,8 +93,12 @@ void Mesh::draw(Shader& shader) const
 
     glBindVertexArray(vao_);
     glDrawElements(GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, nullptr);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, 0);
+
+    for (std::size_t i = 0; i < textures.size(); ++i) {
+        glActiveTexture(GL_TEXTURE0 + i);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
     glBindVertexArray(0);
 }
 

@@ -2,7 +2,9 @@
 #include "gameobject.h"
 #include "renderingengine.h"
 #include "sgemath.h"
+#include "vector3.h"
 
+#include <GL/glew.h>
 #include <cstddef>
 #include <string>
 
@@ -20,6 +22,22 @@ void SGE::RenderingEngine::render(GameObject& gameobject)
     window_.clear();
 
     gameobject.render(shader_, *this);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE);
+    glDepthMask(GL_FALSE);
+    glDepthFunc(GL_EQUAL);
+
+    gameobject.render(directional_shader_, *this);
+    directional_light.colour = {0, 1.0F, 0};
+    directional_light.direction = {1, .8F, -.3};
+    gameobject.render(directional_shader_, *this);
+    directional_light.colour = {1.0F, 0.0F, 0};
+    directional_light.direction = {1, .8F, 1};
+
+    glDepthFunc(GL_LESS);
+    glDepthMask(GL_TRUE);
+    glDisable(GL_BLEND);
 
     window_.flip();
 }

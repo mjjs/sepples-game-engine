@@ -2,7 +2,8 @@
 #define _SGE_RENDERINGENGINE_H
 
 #include "ambientshader.h"
-#include "basicshader.h"
+#include "directionalshader.h"
+#include "directionallight.h"
 #include "camera.h"
 #include "gameobject.h"
 #include "window.h"
@@ -19,7 +20,7 @@ class RenderingEngine {
         Window window_;
         Camera main_camera_;
         AmbientShader shader_;
-
+        DirectionalShader directional_shader_;
 
     public:
         void render(GameObject& gameobject);
@@ -30,7 +31,12 @@ class RenderingEngine {
 
         // TEMPORARY HACK
         void input(const Input& input, float delta);
-        const Math::Vector3 ambient_light{1.0F, 0.0F, 1.0F};
+        const Math::Vector3 ambient_light{0.2F, 0.2F, 0.2F};
+        DirectionalLight directional_light{
+            {1.0F, 1.0F, 1.0F},
+            {1.0F, 0.0F, 0.0F},
+            1.0F,
+        };
 };
 
 } // namespace SGE
