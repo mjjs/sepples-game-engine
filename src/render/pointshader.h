@@ -1,11 +1,11 @@
-#ifndef _SGE_DIRECTIONALSAHDER_H
-#define _SGE_DIRECTIONALSAHDER_H
+#ifndef _SGE_POINTSAHDER_H
+#define _SGE_POINTSAHDER_H
 #include "shader.h"
 #include "vector3.h"
 
-class DirectionalShader : public Shader {
+class PointShader : public Shader {
     public:
-        DirectionalShader();
+        PointShader();
 
         void update_uniforms(
                 const Math::Transform& transform,

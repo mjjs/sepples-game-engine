@@ -3,7 +3,9 @@
 
 #include "ambientshader.h"
 #include "directionalshader.h"
+#include "pointshader.h"
 #include "directionallight.h"
+#include "pointlight.h"
 #include "camera.h"
 #include "gameobject.h"
 #include "window.h"
@@ -12,6 +14,7 @@
 
 #include <cstddef>
 #include <string>
+#include <vector>
 
 namespace SGE {
 
@@ -21,6 +24,9 @@ class RenderingEngine {
         Camera main_camera_;
         AmbientShader shader_;
         DirectionalShader directional_shader_;
+        PointShader point_shader_;
+
+        std::vector<PointLight> point_lights_;
 
     public:
         void render(GameObject& gameobject);
@@ -36,6 +42,14 @@ class RenderingEngine {
             {1.0F, 1.0F, 1.0F},
             {1.0F, 0.0F, 0.0F},
             1.0F,
+        };
+        PointLight point_light{
+            {0, .1F, 0},
+            {0, 0, 1},
+            1.0F,
+            0,
+            0,
+            1,
         };
 };
 
