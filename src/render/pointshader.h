@@ -1,5 +1,5 @@
-#ifndef _SGE_POINTSAHDER_H
-#define _SGE_POINTSAHDER_H
+#ifndef _SGE_POINTSHADER_H
+#define _SGE_POINTSHADER_H
 #include "shader.h"
 #include "vector3.h"
 

@@ -4,13 +4,16 @@
 #include "ambientshader.h"
 #include "directionalshader.h"
 #include "pointshader.h"
+#include "spotshader.h"
 #include "directionallight.h"
+#include "spotlight.h"
 #include "pointlight.h"
 #include "camera.h"
 #include "gameobject.h"
 #include "window.h"
 #include "input.h"
 #include "vector3.h"
+#include "sgemath.h"
 
 #include <cstddef>
 #include <string>
@@ -25,6 +28,7 @@ class RenderingEngine {
         AmbientShader shader_;
         DirectionalShader directional_shader_;
         PointShader point_shader_;
+        SpotShader spot_shader_;
 
         std::vector<PointLight> point_lights_;
 
@@ -50,6 +54,17 @@ class RenderingEngine {
             0,
             0,
             1,
+        };
+        SpotLight spot_light{
+            main_camera_.get_position(),
+            main_camera_.get_forward(),
+            {1, 1, 1},
+            1.0F,
+            std::cos(Math::to_radians(12.5F)),
+            std::cos(Math::to_radians(17.5F)),
+            1.0F,
+            0.09F,
+            0.032F,
         };
 };
 

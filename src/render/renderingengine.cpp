@@ -45,6 +45,7 @@ void SGE::RenderingEngine::render(GameObject& gameobject)
     glDepthMask(GL_FALSE);
     glDepthFunc(GL_EQUAL);
 
+    // Test code for lights
     gameobject.render(directional_shader_, *this);
     directional_light.colour = {0, 0, 1};
     directional_light.direction = {-8, 1, -5};
@@ -56,6 +57,11 @@ void SGE::RenderingEngine::render(GameObject& gameobject)
         point_light = pl;
         gameobject.render(point_shader_, *this);
     }
+
+    gameobject.render(spot_shader_, *this);
+
+    spot_light.position = main_camera_.get_position();
+    spot_light.direction = main_camera_.get_forward();
 
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
