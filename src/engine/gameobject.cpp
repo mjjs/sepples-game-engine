@@ -62,6 +62,17 @@ void SGE::GameObject::render(Shader& shader, const SGE::RenderingEngine& renderi
     }
 }
 
+void SGE::GameObject::add_to_rendering_engine(SGE::RenderingEngine& rendering_engine) const
+{
+    for (const auto& component : components_) {
+        component->add_to_rendering_engine(rendering_engine);
+    }
+
+    for (const auto& child : children_) {
+        child->add_to_rendering_engine(rendering_engine);
+    }
+}
+
 void SGE::GameObject::set_transform(const Math::Transform& transform)
 {
     transform_ = transform;

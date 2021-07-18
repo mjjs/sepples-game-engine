@@ -1,4 +1,5 @@
 #include "directionalshader.h"
+#include "directionallight.h"
 #include "material.h"
 #include "transform.h"
 #include "shader.h"
@@ -14,7 +15,6 @@ DirectionalShader::DirectionalShader() :
     add_uniform("directional_light_u.direction");
     add_uniform("directional_light_u.base.colour");
     add_uniform("directional_light_u.base.intensity");
-
     add_uniform("view_position_u");
 
     add_uniform("material_u.ambient");
@@ -38,7 +38,13 @@ void DirectionalShader::update_uniforms(
 
     set_uniform("view_position_u", rendering_engine.camera().get_position());
 
-    set_uniform("directional_light_u.direction", rendering_engine.directional_light.direction);
-    set_uniform("directional_light_u.base.colour", rendering_engine.directional_light.colour);
-    set_uniform("directional_light_u.base.intensity", rendering_engine.directional_light.intensity);
+    auto* light = dynamic_cast<SGE::DirectionalLight*>(rendering_engine.active_light());
+
+    if (light == nullptr) {
+        throw std::runtime_error{"A directional light has malfunctioned."};
+    }
+
+    set_uniform("directional_light_u.direction", light->direction());
+    set_uniform("directional_light_u.base.colour", light->colour());
+    set_uniform("directional_light_u.base.intensity", light->intensity());
 }

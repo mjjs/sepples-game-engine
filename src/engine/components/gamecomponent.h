@@ -1,7 +1,6 @@
 #ifndef _SGE_GAMECOMPONENT_H
 #define _SGE_GAMECOMPONENT_H
 
-#include "camera.h"
 #include "input.h"
 #include "transform.h"
 #include "shader.h"
@@ -18,11 +17,12 @@ class GameComponent {
         GameComponent& operator=(GameComponent&&) = default;
         virtual ~GameComponent() = default;
 
-        virtual void init() {};
-        virtual void input(const Input& input, const Math::Transform& transform) {};
-        virtual void update(const Math::Transform& transform, float delta) {};
-        virtual void fixed_update(const Math::Transform& transform) {};
-        virtual void render(const Math::Transform& transform, Shader& shader, const RenderingEngine& rendering_engine) {};
+        virtual void init();
+        virtual void input(const Input& input, const Math::Transform& transform);
+        virtual void update(const Math::Transform& transform, float delta);
+        virtual void fixed_update(const Math::Transform& transform);
+        virtual void render(const Math::Transform& transform, Shader& shader, const RenderingEngine& rendering_engine);
+        virtual void add_to_rendering_engine(RenderingEngine& rendering_engine);
 };
 } // namespace SGE
 #endif

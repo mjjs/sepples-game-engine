@@ -196,3 +196,10 @@ bool Shader::uniform_exists(const std::string& variable_name) const
 {
     return uniform_variables_.find(variable_name) != uniform_variables_.end();
 }
+
+void Shader::update_uniforms(
+                const Math::Transform& transform,
+                const Material& material,
+                const SGE::RenderingEngine& rendering_engine)
+{
+}

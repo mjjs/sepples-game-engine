@@ -33,6 +33,7 @@ SGE::Engine::Engine(const std::size_t width, const std::size_t height, const std
 void SGE::Engine::load_game(std::unique_ptr<Game::Game> game)
 {
     game_ = std::move(game);
+    game_->init();
 }
 
 void SGE::Engine::render()

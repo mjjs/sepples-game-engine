@@ -30,5 +30,5 @@ void AmbientShader::update_uniforms(
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
-    set_uniform("intensity_u", rendering_engine.ambient_light);
+    set_uniform("intensity_u", rendering_engine.ambient_light());
 }

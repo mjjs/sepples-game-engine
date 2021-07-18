@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "light.h"
 #include "gameobject.h"
 #include "renderingengine.h"
 #include "sgemath.h"
@@ -7,6 +8,7 @@
 #include <GL/glew.h>
 #include <cstddef>
 #include <string>
+#include <memory>
 
 SGE::RenderingEngine::RenderingEngine(
         const std::size_t width,
@@ -15,53 +17,28 @@ SGE::RenderingEngine::RenderingEngine(
     window_{width, height, window_title},
     main_camera_{Math::to_radians(70), static_cast<float>(width)/static_cast<float>(height), .1, 1000}
 {
-    // More hacks for light testing
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            point_lights_.push_back(
-                PointLight{
-                    {static_cast<float>(0 + 5 * i), .1F,  static_cast<float>(0 + 5 * j)},
-                    {static_cast<float>(.5*i), static_cast<float>(.5*j), static_cast<float>(.5 * i)},
-                    2.0F,
-                    1,
-                    0,
-                    1,
-                }
-            );
-        }
-    }
-
-    point_light = point_lights_[0];
 }
 
 void SGE::RenderingEngine::render(GameObject& gameobject)
 {
     window_.clear();
 
-    gameobject.render(shader_, *this);
+    // TODO: Make light list persistent instead of clearing and re-adding
+    // all lights every frame.
+    lights_.clear();
+    gameobject.add_to_rendering_engine(*this);
+
+    gameobject.render(ambient_shader_, *this);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);
     glDepthMask(GL_FALSE);
     glDepthFunc(GL_EQUAL);
 
-    // Test code for lights
-    gameobject.render(directional_shader_, *this);
-    directional_light.colour = {0, 0, 1};
-    directional_light.direction = {-8, 1, -5};
-    gameobject.render(directional_shader_, *this);
-    directional_light.colour = {1.0F, 0.0F, 0};
-    directional_light.direction = {8, 1, 5};
-
-    for (const auto& pl : point_lights_) {
-        point_light = pl;
-        gameobject.render(point_shader_, *this);
+    for (Light* light : lights_) {
+        active_light_ = light;
+        gameobject.render(*light->shader(), *this);
     }
-
-    gameobject.render(spot_shader_, *this);
-
-    spot_light.position = main_camera_.get_position();
-    spot_light.direction = main_camera_.get_forward();
 
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
@@ -78,6 +55,21 @@ void SGE::RenderingEngine::set_camera(const Camera& camera)
 const Camera& SGE::RenderingEngine::camera() const
 {
     return main_camera_;
+}
+
+const Math::Vector3& SGE::RenderingEngine::ambient_light() const
+{
+    return ambient_light_;
+}
+
+SGE::Light* SGE::RenderingEngine::active_light() const
+{
+    return active_light_;
+}
+
+void SGE::RenderingEngine::add_light(SGE::Light* light)
+{
+    lights_.push_back(light);
 }
 
 // TEMPORARY HACK

@@ -59,7 +59,7 @@ class Shader {
         virtual void update_uniforms(
                 const Math::Transform& transform,
                 const Material& material,
-                const SGE::RenderingEngine& rendering_engine) = 0;
+                const SGE::RenderingEngine& rendering_engine);
 
         void set_material(const Material& material);
         void set_transformations(const Math::Matrix4& transformation,

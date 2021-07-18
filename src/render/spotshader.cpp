@@ -3,6 +3,7 @@
 #include "transform.h"
 #include "shader.h"
 #include "vector3.h"
+#include "spotlight.h"
 #include "renderingengine.h"
 
 SpotShader::SpotShader() :
@@ -44,13 +45,18 @@ void SpotShader::update_uniforms(
 
     set_uniform("view_position_u", rendering_engine.camera().get_position());
 
-    set_uniform("spot_light_u.base.colour", rendering_engine.spot_light.colour);
-    set_uniform("spot_light_u.base.intensity", rendering_engine.spot_light.intensity);
-    set_uniform("spot_light_u.position", rendering_engine.spot_light.position);
-    set_uniform("spot_light_u.direction", rendering_engine.spot_light.direction);
-    set_uniform("spot_light_u.attenuation.constant", rendering_engine.spot_light.constant);
-    set_uniform("spot_light_u.attenuation.linear", rendering_engine.spot_light.linear);
-    set_uniform("spot_light_u.attenuation.quadratic", rendering_engine.spot_light.quadratic);
-    set_uniform("spot_light_u.cut_off", rendering_engine.spot_light.cut_off);
-    set_uniform("spot_light_u.outer_cut_off", rendering_engine.spot_light.outer_cut_off);
+    auto* light = dynamic_cast<SGE::SpotLight*>(rendering_engine.active_light());
+    if (light == nullptr) {
+        throw std::runtime_error{"A spot light has malfunctioned."};
+    }
+
+    set_uniform("spot_light_u.base.colour", light->colour());
+    set_uniform("spot_light_u.base.intensity", light->intensity());
+    set_uniform("spot_light_u.position", light->position());
+    set_uniform("spot_light_u.direction", light->direction());
+    set_uniform("spot_light_u.attenuation.constant", light->constant());
+    set_uniform("spot_light_u.attenuation.linear", light->linear());
+    set_uniform("spot_light_u.attenuation.quadratic", light->quadratic());
+    set_uniform("spot_light_u.cut_off", light->cut_off());
+    set_uniform("spot_light_u.outer_cut_off", light->outer_cut_off());
 }

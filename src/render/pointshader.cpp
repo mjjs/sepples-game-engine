@@ -1,4 +1,5 @@
 #include "pointshader.h"
+#include "pointlight.h"
 #include "material.h"
 #include "transform.h"
 #include "shader.h"
@@ -41,14 +42,15 @@ void PointShader::update_uniforms(
 
     set_uniform("view_position_u", rendering_engine.camera().get_position());
 
-    set_uniform("point_light_u.position", rendering_engine.point_light.position);
-    set_uniform("point_light_u.base.colour", rendering_engine.point_light.colour);
-    set_uniform("point_light_u.base.intensity", rendering_engine.point_light.intensity);
-    set_uniform("point_light_u.attenuation.constant", rendering_engine.point_light.constant);
-    set_uniform("point_light_u.attenuation.linear", rendering_engine.point_light.linear);
-    set_uniform("point_light_u.attenuation.quadratic", rendering_engine.point_light.quadratic);
+    auto* light = dynamic_cast<SGE::PointLight*>(rendering_engine.active_light());
+    if (light == nullptr) {
+        throw std::runtime_error{"A point light has malfunctioned."};
+    }
 
-    set_uniform("directional_light_u.direction", rendering_engine.directional_light.direction);
-    set_uniform("directional_light_u.base.colour", rendering_engine.directional_light.colour);
-    set_uniform("directional_light_u.base.intensity", rendering_engine.directional_light.intensity);
+    set_uniform("point_light_u.position", light->position());
+    set_uniform("point_light_u.base.colour", light->colour());
+    set_uniform("point_light_u.base.intensity", light->intensity());
+    set_uniform("point_light_u.attenuation.constant", light->constant());
+    set_uniform("point_light_u.attenuation.linear", light->linear());
+    set_uniform("point_light_u.attenuation.quadratic", light->quadratic());
 }
