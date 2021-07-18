@@ -14,6 +14,7 @@ namespace Math {
 
         public:
             void set_position(const Vector3& position_vector);
+            Vector3& position();
             void set_rotation(const Vector3& rotation_vector);
             void set_scale(const Vector3& scale_vector);
             Matrix4 get_transformation() const;

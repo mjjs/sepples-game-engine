@@ -10,6 +10,11 @@ void Math::Transform::set_position(const Math::Vector3& position_vector)
     position_ = position_vector;
 }
 
+Math::Vector3& Math::Transform::position()
+{
+    return position_;
+}
+
 void Math::Transform::set_rotation(const Math::Vector3& rotation_vector)
 {
     rotation_ = rotation_vector;

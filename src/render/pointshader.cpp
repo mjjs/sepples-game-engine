@@ -34,13 +34,12 @@ void PointShader::update_uniforms(
 {
     set_uniform("transform_u", transform.get_projected_transformation(rendering_engine.camera()));
     set_uniform("projection_u", transform.get_transformation());
+    set_uniform("view_position_u", rendering_engine.camera().get_position());
 
     set_uniform("material_u.ambient", material.ambient_colour());
     set_uniform("material_u.diffuse", material.diffuse_colour());
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
-
-    set_uniform("view_position_u", rendering_engine.camera().get_position());
 
     auto* light = dynamic_cast<SGE::PointLight*>(rendering_engine.active_light());
     if (light == nullptr) {

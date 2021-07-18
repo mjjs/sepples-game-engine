@@ -28,16 +28,20 @@ void SGE::RenderingEngine::render(GameObject& gameobject)
     lights_.clear();
     gameobject.add_to_rendering_engine(*this);
 
-    gameobject.render(ambient_shader_, *this);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
-    glDepthMask(GL_FALSE);
-    glDepthFunc(GL_EQUAL);
+    bool first_pass = true;
 
     for (Light* light : lights_) {
+        if (!first_pass) {
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_ONE, GL_ONE);
+            glDepthMask(GL_FALSE);
+            glDepthFunc(GL_EQUAL);
+        }
+
         active_light_ = light;
         gameobject.render(*light->shader(), *this);
+
+        first_pass = false;
     }
 
     glDepthFunc(GL_LESS);
@@ -55,11 +59,6 @@ void SGE::RenderingEngine::set_camera(const Camera& camera)
 const Camera& SGE::RenderingEngine::camera() const
 {
     return main_camera_;
-}
-
-const Math::Vector3& SGE::RenderingEngine::ambient_light() const
-{
-    return ambient_light_;
 }
 
 SGE::Light* SGE::RenderingEngine::active_light() const

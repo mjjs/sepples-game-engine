@@ -16,6 +16,7 @@ void SGE::GameObject::add_child(std::shared_ptr<GameObject> child)
 void SGE::GameObject::add_component(std::shared_ptr<GameComponent> component)
 {
     components_.push_back(component);
+    component->set_parent(this);
 }
 
 void SGE::GameObject::input(const Input& input)

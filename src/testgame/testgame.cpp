@@ -1,3 +1,4 @@
+#include "ambientlight.h"
 #include "gamecomponent.h"
 #include "directionallight.h"
 #include "spotlight.h"
@@ -28,32 +29,30 @@ SGE::GameObject get_lights()
 {
     SGE::GameObject light_object{};
 
+    light_object.add_component(std::make_shared<SGE::AmbientLight>(0.2F));
+
     light_object.add_component(std::make_shared<SGE::DirectionalLight>(
         Math::Vector3{8.0F, 0.0F, 5.0F},
         Math::Vector3{0.0F, 0.0F, 1.0F},
-        1.0F
+        .2F
     ));
 
     light_object.add_component(std::make_shared<SGE::DirectionalLight>(
         Math::Vector3{-8.0F, 0.0F, -5.0F},
         Math::Vector3{1.0F, 0.0F, 0.0F},
-        1.0F
+        .2F
     ));
 
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            light_object.add_component(std::make_shared<SGE::PointLight>(
-                SGE::PointLight{
-                    {static_cast<float>(0 + 5 * i), .1F,  static_cast<float>(0 + 5 * j)},
-                    {static_cast<float>(.5*i), static_cast<float>(.5*j), static_cast<float>(.5 * i)},
-                    2.0F,
-                    1,
-                    0,
-                    1,
-                }
-            ));
+    light_object.add_component(std::make_shared<SGE::PointLight>(
+        SGE::PointLight{
+            Math::Vector3{5, 0, 5},
+            Math::Vector3{0, 1.0F, 0},
+            2.0F,
+            1,
+            0,
+            1,
         }
-    }
+    ));
 
     return light_object;
 }
@@ -82,5 +81,8 @@ void TestGame::init()
     root()->add_component(std::make_shared<MeshRenderer>(floor));
     root()->add_component(std::make_shared<ModelRenderer>(Model("res/models/backpack.obj")));
 
-    root()->add_child(std::make_shared<SGE::GameObject>(get_lights()));
+    SGE::GameObject lights = get_lights();
+    //lights.set_transform(root()->transform());
+
+    root()->add_child(std::make_shared<SGE::GameObject>(lights));
 }

@@ -50,9 +50,11 @@ void SpotShader::update_uniforms(
         throw std::runtime_error{"A spot light has malfunctioned."};
     }
 
+    Math::Transform t = transform;
+
     set_uniform("spot_light_u.base.colour", light->colour());
     set_uniform("spot_light_u.base.intensity", light->intensity());
-    set_uniform("spot_light_u.position", light->position());
+    set_uniform("spot_light_u.position", t.position());
     set_uniform("spot_light_u.direction", light->direction());
     set_uniform("spot_light_u.attenuation.constant", light->constant());
     set_uniform("spot_light_u.attenuation.linear", light->linear());

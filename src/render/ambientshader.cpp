@@ -1,4 +1,5 @@
 #include "ambientshader.h"
+#include "ambientlight.h"
 #include "material.h"
 #include "transform.h"
 #include "shader.h"
@@ -30,5 +31,13 @@ void AmbientShader::update_uniforms(
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
-    set_uniform("intensity_u", rendering_engine.ambient_light());
+    auto* light = dynamic_cast<SGE::AmbientLight*>(rendering_engine.active_light());
+    if (light == nullptr) {
+        throw std::runtime_error{"An ambient light has malfunctioned."};
+    }
+
+    set_uniform(
+            "intensity_u",
+            Math::Vector3{light->intensity(), light->intensity(), light->intensity()}
+            );
 }

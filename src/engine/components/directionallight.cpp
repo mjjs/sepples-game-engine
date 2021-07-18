@@ -5,7 +5,6 @@
 #include "renderingengine.h"
 
 #include <memory>
-#include <iostream>
 
 SGE::DirectionalLight::DirectionalLight()
     : Light(std::make_shared<DirectionalShader>())
