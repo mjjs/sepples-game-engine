@@ -7,8 +7,12 @@
 
 namespace SGE {
 class RenderingEngine;
+class GameObject;
 
 class GameComponent {
+    private:
+        GameObject* parent_ = nullptr;
+
     public:
         GameComponent() = default;
         GameComponent(const GameComponent&) = default;
@@ -23,6 +27,9 @@ class GameComponent {
         virtual void fixed_update(const Math::Transform& transform);
         virtual void render(const Math::Transform& transform, Shader& shader, const RenderingEngine& rendering_engine);
         virtual void add_to_rendering_engine(RenderingEngine& rendering_engine);
+
+        void set_parent(GameObject* game_object);
+        Math::Transform& get_transform();
 };
 } // namespace SGE
 #endif
