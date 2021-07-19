@@ -49,10 +49,22 @@ std::shared_ptr<SGE::GameObject> get_lights()
             1
             );
 
-    light_object->add_component(ambient_light);
+    auto spot_light = std::make_shared<SGE::SpotLight>(
+            Math::Vector3{1.0F, 0, 1.0F},
+            Math::Vector3{1, 1, 1},
+            1.0F,
+            std::cos(Math::to_radians(12.5F)),
+            std::cos(Math::to_radians(17.5F)),
+            1.0F,
+            0.09F,
+            0.032F
+            );
+
+    //light_object->add_component(ambient_light);
     light_object->add_component(directional_light_blue);
     light_object->add_component(directional_light_red);
     light_object->add_component(point_light);
+    light_object->add_component(spot_light);
 
     light_object->transform().position().x = 5;
 
