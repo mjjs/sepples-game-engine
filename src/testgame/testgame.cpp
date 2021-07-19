@@ -17,7 +17,7 @@
 #include <memory>
 #include <vector>
 
-SGE::GameObject get_lights();
+std::shared_ptr<SGE::GameObject> get_lights();
 
 TestGame::TestGame()
 {
@@ -25,34 +25,35 @@ TestGame::TestGame()
     root()->set_transform(transform);
 }
 
-SGE::GameObject get_lights()
+std::shared_ptr<SGE::GameObject> get_lights()
 {
-    SGE::GameObject light_object{};
+    auto light_object = std::make_shared<SGE::GameObject>();
+    auto ambient_light = std::make_shared<SGE::AmbientLight>(0.2F);
+    auto directional_light_blue = std::make_shared<SGE::DirectionalLight>(
+            Math::Vector3{8.0F, 0.0F, 5.0F},
+            Math::Vector3{0.0F, 0.0F, 1.0F},
+            .2F
+            );
 
-    light_object.add_component(std::make_shared<SGE::AmbientLight>(0.2F));
+    auto directional_light_red = std::make_shared<SGE::DirectionalLight>(
+            Math::Vector3{-8.0F, 0.0F, -5.0F},
+            Math::Vector3{1.0F, 0.0F, 0.0F},
+            .2F
+            );
 
-    light_object.add_component(std::make_shared<SGE::DirectionalLight>(
-        Math::Vector3{8.0F, 0.0F, 5.0F},
-        Math::Vector3{0.0F, 0.0F, 1.0F},
-        .2F
-    ));
-
-    light_object.add_component(std::make_shared<SGE::DirectionalLight>(
-        Math::Vector3{-8.0F, 0.0F, -5.0F},
-        Math::Vector3{1.0F, 0.0F, 0.0F},
-        .2F
-    ));
-
-    light_object.add_component(std::make_shared<SGE::PointLight>(
-        SGE::PointLight{
+    auto point_light = std::make_shared<SGE::PointLight>(
             Math::Vector3{5, 0, 5},
             Math::Vector3{0, 1.0F, 0},
             2.0F,
             1,
             0,
-            1,
-        }
-    ));
+            1
+            );
+
+    light_object->add_component(ambient_light);
+    light_object->add_component(directional_light_blue);
+    light_object->add_component(directional_light_red);
+    light_object->add_component(point_light);
 
     return light_object;
 }
@@ -67,7 +68,8 @@ void TestGame::init()
     };
 
     std::vector<int> indices = {0, 1, 2, 2, 1, 3};
-    Mesh floor{
+
+    auto floor = std::make_unique<Mesh>(
         vertices,
         indices,
         Material{
@@ -75,14 +77,13 @@ void TestGame::init()
             Math::Vector3{.5F, 1.0F, 1.0F},
             Math::Vector3{.3F, 1.0F, 1.0F},
             Math::Vector3{.8F, .8F, .8F}
-        },
-    };
+        }
+    );
 
     root()->add_component(std::make_shared<MeshRenderer>(floor));
     root()->add_component(std::make_shared<ModelRenderer>(Model("res/models/backpack.obj")));
 
-    SGE::GameObject lights = get_lights();
-    //lights.set_transform(root()->transform());
+    std::shared_ptr<SGE::GameObject> lights = get_lights();
 
-    root()->add_child(std::make_shared<SGE::GameObject>(lights));
+    root()->add_child(lights);
 }

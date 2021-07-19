@@ -10,12 +10,14 @@
 #include "shader.h"
 #include "renderingengine.h"
 
+#include <memory>
+
 class MeshRenderer : public SGE::GameComponent {
     private:
-        Mesh mesh_;
+        std::unique_ptr<Mesh> mesh_;
 
     public:
-        MeshRenderer(const Mesh& mesh);
+        MeshRenderer(std::unique_ptr<Mesh>& mesh);
 
         void render(const Math::Transform& transform, Shader& shader, const SGE::RenderingEngine& rendering_engine) override;
 };

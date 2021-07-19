@@ -198,8 +198,8 @@ bool Shader::uniform_exists(const std::string& variable_name) const
 }
 
 void Shader::update_uniforms(
-                const Math::Transform& transform,
-                const Material& material,
-                const SGE::RenderingEngine& rendering_engine)
+                [[maybe_unused]] const Math::Transform& transform,
+                [[maybe_unused]] const Material& material,
+                [[maybe_unused]] const SGE::RenderingEngine& rendering_engine)
 {
 }

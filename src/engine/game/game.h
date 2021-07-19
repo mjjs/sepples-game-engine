@@ -13,7 +13,7 @@ namespace SGE {
 namespace Game {
 class Game {
     private:
-        std::shared_ptr<GameObject> root_{new GameObject{}};
+        std::shared_ptr<GameObject> root_ = std::make_shared<GameObject>();
 
     public:
         Game() = default;

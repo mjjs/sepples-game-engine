@@ -20,6 +20,13 @@ class GameObject {
         std::vector<std::shared_ptr<GameComponent>> components_{};
 
     public:
+        GameObject() = default;
+        GameObject(const GameObject&) = default;
+        GameObject(GameObject&&) = default;
+        GameObject& operator=(const GameObject&) = default;
+        GameObject& operator=(GameObject&&) = default;
+        virtual ~GameObject() = default;
+
         virtual void input(const Input& input);
         virtual void update(float delta);
         virtual void fixed_update();

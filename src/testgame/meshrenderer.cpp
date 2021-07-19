@@ -8,8 +8,11 @@
 #include "matrix4.h"
 #include "renderingengine.h"
 
-MeshRenderer::MeshRenderer(const Mesh& mesh) :
-    mesh_{mesh}
+#include <memory>
+#include <utility>
+
+MeshRenderer::MeshRenderer(std::unique_ptr<Mesh>& mesh) :
+    mesh_{std::move(mesh)}
 {
 }
 
@@ -17,7 +20,7 @@ void MeshRenderer::render(const Math::Transform& transform, Shader& shader, cons
 {
     shader.bind();
 
-    shader.update_uniforms(transform, mesh_.material(), rendering_engine);
+    shader.update_uniforms(transform, mesh_->material(), rendering_engine);
 
-    mesh_.draw(shader);
+    mesh_->draw(shader);
 }
