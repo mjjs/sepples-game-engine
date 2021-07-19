@@ -42,7 +42,6 @@ std::shared_ptr<SGE::GameObject> get_lights()
             );
 
     auto point_light = std::make_shared<SGE::PointLight>(
-            Math::Vector3{5, 0, 5},
             Math::Vector3{0, 1.0F, 0},
             2.0F,
             1,
@@ -54,6 +53,8 @@ std::shared_ptr<SGE::GameObject> get_lights()
     light_object->add_component(directional_light_blue);
     light_object->add_component(directional_light_red);
     light_object->add_component(point_light);
+
+    light_object->transform().position().x = 5;
 
     return light_object;
 }

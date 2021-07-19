@@ -7,8 +7,6 @@
 namespace SGE {
 class PointLight : public Light {
     private:
-        Math::Vector3 position_{};
-
         float constant_ = 0;
         float linear_ = 0;
         float quadratic_ = 0;
@@ -16,7 +14,6 @@ class PointLight : public Light {
     public:
         PointLight();
         explicit PointLight(
-                const Math::Vector3& position,
                 const Math::Vector3& colour,
                 float intensity,
                 float constant,

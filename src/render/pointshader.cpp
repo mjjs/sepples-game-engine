@@ -46,7 +46,7 @@ void PointShader::update_uniforms(
         throw std::runtime_error{"A point light has malfunctioned."};
     }
 
-    set_uniform("point_light_u.position", light->position());
+    set_uniform("point_light_u.position", light->get_transform().position());
     set_uniform("point_light_u.base.colour", light->colour());
     set_uniform("point_light_u.base.intensity", light->intensity());
     set_uniform("point_light_u.attenuation.constant", light->constant());

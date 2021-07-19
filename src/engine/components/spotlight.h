@@ -9,7 +9,6 @@
 namespace SGE {
 class SpotLight : public SGE::Light {
     private:
-        Math::Vector3 position_{};
         Math::Vector3 direction_{};
 
         float cut_off_ = 0;
@@ -22,7 +21,6 @@ class SpotLight : public SGE::Light {
     public:
         SpotLight();
         explicit SpotLight(
-                const Math::Vector3& position,
                 const Math::Vector3& direction,
                 const Math::Vector3& colour,
                 float intensity,

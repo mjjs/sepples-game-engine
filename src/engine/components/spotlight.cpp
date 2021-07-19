@@ -11,7 +11,6 @@ SGE::SpotLight::SpotLight()
 }
 
 SGE::SpotLight::SpotLight(
-                const Math::Vector3& position,
                 const Math::Vector3& direction,
                 const Math::Vector3& colour,
                 float intensity,
@@ -22,7 +21,6 @@ SGE::SpotLight::SpotLight(
                 float quadratic
                 ) :
     Light{std::make_shared<SpotShader>(), colour, intensity},
-    position_{position},
     direction_{direction},
     cut_off_{cut_off},
     outer_cut_off_{outer_cut_off},
@@ -30,11 +28,6 @@ SGE::SpotLight::SpotLight(
     linear_{linear},
     quadratic_{quadratic}
 {
-}
-
-const Math::Vector3& SGE::SpotLight::position() const
-{
-    return position_;
 }
 
 const Math::Vector3& SGE::SpotLight::direction() const
