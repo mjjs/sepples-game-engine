@@ -5,6 +5,8 @@
 #include "transform.h"
 #include "shader.h"
 
+#include <memory>
+
 namespace SGE {
 class RenderingEngine;
 class GameObject;

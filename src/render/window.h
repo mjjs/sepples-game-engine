@@ -11,8 +11,8 @@
 
 class Window {
 private:
-    SDL_Window* window;
-    SDL_GLContext context;
+    SDL_Window* window_;
+    SDL_GLContext context_;
 
     size_t width_;
     size_t height_;

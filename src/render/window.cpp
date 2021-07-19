@@ -14,10 +14,10 @@ Window::Window(const size_t width, const size_t height, const std::string& title
         throw std::runtime_error("SDL init failed");
     }
 
-    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    window_ = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
             width, height, SDL_WINDOW_OPENGL);
 
-    if (window == nullptr) {
+    if (window_ == nullptr) {
         throw std::runtime_error("Could not create SDL window");
     }
 
@@ -28,7 +28,7 @@ Window::Window(const size_t width, const size_t height, const std::string& title
 
     SDL_GL_SetSwapInterval(1);
 
-    context = SDL_GL_CreateContext(window);
+    context_ = SDL_GL_CreateContext(window_);
 	glewExperimental = GL_TRUE;
 
     if (glewInit() != GLEW_OK) {
@@ -46,14 +46,14 @@ Window::Window(const size_t width, const size_t height, const std::string& title
 
 Window::~Window()
 {
-    SDL_GL_DeleteContext(context);
-    SDL_DestroyWindow(window);
+    SDL_GL_DeleteContext(context_);
+    SDL_DestroyWindow(window_);
     SDL_Quit();
 }
 
 void Window::flip() const
 {
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(window_);
 }
 
 void Window::clear() const

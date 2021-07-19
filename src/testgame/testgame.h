@@ -9,9 +9,6 @@
 
 
 class TestGame : public SGE::Game::Game {
-    private:
-        SGE::GameObject root_;
-
     public:
         TestGame();
 
