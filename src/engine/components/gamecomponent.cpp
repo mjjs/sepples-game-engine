@@ -6,13 +6,6 @@ void SGE::GameComponent::init()
 {
 }
 
-void SGE::GameComponent::input(
-        [[maybe_unused]] const Input& input,
-        [[maybe_unused]] const Math::Transform& transform
-        )
-{
-}
-
 void SGE::GameComponent::update(
         [[maybe_unused]] const Math::Transform& transform,
         [[maybe_unused]] float delta

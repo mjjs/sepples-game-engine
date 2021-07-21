@@ -24,7 +24,6 @@ class GameComponent {
         virtual ~GameComponent() = default;
 
         virtual void init();
-        virtual void input(const Input& input, const Math::Transform& transform);
         virtual void update(const Math::Transform& transform, float delta);
         virtual void fixed_update(const Math::Transform& transform);
         virtual void render(const Math::Transform& transform, Shader& shader, const RenderingEngine& rendering_engine);

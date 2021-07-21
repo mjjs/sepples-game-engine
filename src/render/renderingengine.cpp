@@ -1,4 +1,5 @@
 #include "camera.h"
+#include "input.h"
 #include "light.h"
 #include "gameobject.h"
 #include "renderingengine.h"
@@ -6,6 +7,7 @@
 #include "vector3.h"
 
 #include <GL/glew.h>
+#include <SDL2/SDL_scancode.h>
 #include <cstddef>
 #include <string>
 #include <memory>
@@ -72,39 +74,39 @@ void SGE::RenderingEngine::add_light(SGE::Light* light)
 }
 
 // TEMPORARY HACK
-void SGE::RenderingEngine::input(const Input& input, const float delta)
+void SGE::RenderingEngine::update(const float delta)
 {
     const float move_speed = .025;
 
-    if (input.is_key_down(SDLK_d)) {
+    if (Input::is_key_down(SDL_SCANCODE_D)) {
         main_camera_.move(main_camera_.get_right(), move_speed * delta);
     }
 
-    if (input.is_key_down(SDLK_a)) {
+    if (Input::is_key_down(SDL_SCANCODE_A)) {
         main_camera_.move(main_camera_.get_left(), move_speed * delta);
     }
 
-    if (input.is_key_down(SDLK_w)) {
+    if (Input::is_key_down(SDL_SCANCODE_W)) {
         main_camera_.move(main_camera_.get_forward(), move_speed * delta);
     }
 
-    if (input.is_key_down(SDLK_s)) {
+    if (Input::is_key_down(SDL_SCANCODE_S)) {
         main_camera_.move(main_camera_.get_forward(), -move_speed * delta);
     }
 
-    if (input.is_key_down(SDLK_UP)) {
+    if (Input::is_key_down(SDL_SCANCODE_UP)) {
         main_camera_.rotate_x(-1);
     }
 
-    if (input.is_key_down(SDLK_DOWN)) {
+    if (Input::is_key_down(SDL_SCANCODE_DOWN)) {
         main_camera_.rotate_x(1);
     }
 
-    if (input.is_key_down(SDLK_LEFT)) {
+    if (Input::is_key_down(SDL_SCANCODE_LEFT)) {
         main_camera_.rotate_y(-1);
     }
 
-    if (input.is_key_down(SDLK_RIGHT)) {
+    if (Input::is_key_down(SDL_SCANCODE_RIGHT)) {
         main_camera_.rotate_y(1);
     }
 }

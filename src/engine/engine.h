@@ -3,7 +3,6 @@
 
 #include "renderingengine.h"
 #include "testgame.h"
-#include "input.h"
 #include "window.h"
 
 #include <cstddef>
@@ -16,7 +15,6 @@ class Engine {
         bool running_ = false;
 
         RenderingEngine rendering_engine_;
-        Input input_;
         std::unique_ptr<Game::Game> game_;
 
         void render();

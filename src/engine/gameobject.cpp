@@ -19,17 +19,6 @@ void SGE::GameObject::add_component(std::shared_ptr<GameComponent> component)
     component->set_parent(this);
 }
 
-void SGE::GameObject::input(const Input& input)
-{
-    for (const auto& component : components_) {
-        component->input(input, transform_);
-    }
-
-    for (const auto& child : children_) {
-        child->input(input);
-    }
-}
-
 void SGE::GameObject::update(const float delta)
 {
     for (const auto& component : components_) {

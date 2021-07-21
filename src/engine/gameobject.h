@@ -27,7 +27,6 @@ class GameObject {
         GameObject& operator=(GameObject&&) = default;
         virtual ~GameObject() = default;
 
-        virtual void input(const Input& input);
         virtual void update(float delta);
         virtual void fixed_update();
         virtual void render(Shader& shader, const RenderingEngine& rendering_engine);

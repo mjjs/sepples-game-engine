@@ -4,7 +4,6 @@
 #include "engine.h"
 #include "game.h"
 #include "input.h"
-#include "inputaction.h"
 #include "mesh.h"
 #include "resourceloader.h"
 #include "shader.h"
@@ -63,19 +62,10 @@ void SGE::Engine::run()
                 running_ = false;
                 break;
             }
-
-            if (is_input_event(event)) {
-                input_.key_event(event);
-            }
         }
 
-        // Handle game input before input.update();
-        game_->input(input_);
-
-        // TEMPORARY HACK
-        rendering_engine_.input(input_, timer.delta());
-
-        input_.update();
+        rendering_engine_.update(timer.delta());
+        Input::poll_events();
 
         game_->update(timer.fixed_time_step());
 

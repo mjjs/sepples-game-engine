@@ -36,7 +36,7 @@ class RenderingEngine {
         void add_light(Light* light);
 
         // TEMPORARY HACK
-        void input(const Input& input, float delta);
+        void update(float delta);
 };
 
 } // namespace SGE

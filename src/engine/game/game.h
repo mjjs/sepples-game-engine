@@ -27,7 +27,6 @@ class Game {
         virtual void update(float delta);
         virtual void fixed_update();
         virtual void render(Shader& shader, const RenderingEngine& rendering_engine);
-        virtual void input(const Input& inputs);
 
         void set_root(std::shared_ptr<GameObject> gameobject);
         std::shared_ptr<GameObject> root();

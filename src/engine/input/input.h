@@ -1,7 +1,6 @@
 #ifndef _GE_INPUT_H
 #define _GE_INPUT_H
 
-#include "inputaction.h"
 #include "vector2.h"
 
 #include <cstdint>
@@ -9,33 +8,79 @@
 #include <unordered_set>
 #include <vector>
 
-#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 
-class Input {
-private:
-    // Keyboard
-    std::unordered_set<SDL_Keycode> last_keys;
-    std::unordered_set<SDL_Keycode> current_keys;
+namespace SGE {
+    class Engine;
 
-    // Mouse
-    std::unordered_set<std::uint32_t> last_mouse_keys;
-    std::unordered_set<std::uint32_t> current_mouse_keys;
+    class Input {
+        friend class Engine;
 
-    Math::Vector2 mouse_position;
+    private:
+        // Keyboard
+        std::unordered_set<SDL_Scancode> last_keys_{};
+        std::unordered_set<SDL_Scancode> current_keys_{};
 
-public:
-    void key_event(const SDL_Event&);
-    void update();
+        // Mouse
+        std::unordered_set<std::uint32_t> last_mouse_keys_{};
+        std::unordered_set<std::uint32_t> current_mouse_keys_{};
+        std::pair<float, float> mouse_position_{};
 
-    bool is_key_down(SDL_KeyCode) const;
-    bool is_key_up(SDL_KeyCode) const;
-    bool is_key_just_pressed(SDL_KeyCode key_code) const;
+        static Input* instance_; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
-    bool is_mouse_button_down(std::uint32_t) const;
-    bool is_mouse_button_up(std::uint32_t) const;
-    bool is_mouse_button_just_pressed(std::uint32_t) const;
+        static void poll_events()
+        {
+            return instance_->poll_events_impl();
+        }
 
-    Math::Vector2 get_mouse_position() const;
-};
+    protected:
+        virtual bool is_key_down_impl(SDL_Scancode key_code) = 0;
+        virtual bool is_key_up_impl(SDL_Scancode key_code) = 0;
+        virtual bool is_key_just_pressed_impl(SDL_Scancode key_code) = 0;
+
+        virtual bool is_mouse_button_down_impl(std::uint8_t key_code) = 0;
+        virtual bool is_mouse_button_up_impl(std::uint8_t key_code) = 0;
+        virtual bool is_mouse_button_just_pressed_impl(std::uint8_t key_code) = 0;
+
+        virtual std::pair<float, float> get_mouse_position_impl() = 0;
+
+        virtual void poll_events_impl() = 0;
+
+    public:
+        inline static bool is_key_down(SDL_Scancode key_code)
+        {
+            return instance_->is_key_down_impl(key_code);
+        }
+
+        inline static bool is_key_up(SDL_Scancode key_code)
+        {
+            return instance_->is_key_up_impl(key_code);
+        }
+
+        inline static bool is_key_just_pressed(SDL_Scancode key_code)
+        {
+            return instance_->is_key_just_pressed_impl(key_code);
+        }
+
+        inline static bool is_mouse_button_down(std::uint8_t key_code)
+        {
+            return instance_->is_mouse_button_down_impl(key_code);
+        }
+
+        inline static bool is_mouse_button_up(std::uint8_t key_code)
+        {
+            return instance_->is_mouse_button_up_impl(key_code);
+        }
+
+        inline static bool is_mouse_button_just_pressed(std::uint8_t key_code)
+        {
+            return instance_->is_mouse_button_just_pressed_impl(key_code);
+        }
+
+        inline static std::pair<float, float> get_mouse_position()
+        {
+            return instance_->get_mouse_position_impl();
+        }
+    };
+} // namespace SGE
 #endif

@@ -6,11 +6,6 @@
 
 #include <memory>
 
-void SGE::Game::Game::input(const Input& input)
-{
-    root_->input(input);
-}
-
 void SGE::Game::Game::render(Shader& shader, const SGE::RenderingEngine& rendering_engine)
 {
     root_->render(shader, rendering_engine);
