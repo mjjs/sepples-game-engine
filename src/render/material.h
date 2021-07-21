@@ -30,17 +30,55 @@ class Material {
                 const Math::Vector3& specular_colour
                 );
 
-        std::vector<Texture> textures() const;
-        Math::Vector3 ambient_colour() const;
-        Math::Vector3 diffuse_colour() const;
-        Math::Vector3 specular_colour() const;
-        float shininess() const;
+        inline std::vector<Texture> textures() const
+        {
+            return textures_;
+        }
 
-        void set_ambient(const Math::Vector3& colour);
-        void set_diffuse(const Math::Vector3& colour);
-        void set_specular(const Math::Vector3& colour);
-        void set_textures(const std::vector<Texture>& textures);
-        void set_shininess(float shininess);
+        inline Math::Vector3 ambient_colour() const
+        {
+            return ambient_colour_;
+        }
+
+        inline Math::Vector3 diffuse_colour() const
+        {
+            return diffuse_colour_;
+        }
+
+        inline Math::Vector3 specular_colour() const
+        {
+            return specular_colour_;
+        }
+
+        inline float shininess() const
+        {
+            return shininess_;
+        }
+
+        inline void set_ambient(const Math::Vector3& colour)
+        {
+            ambient_colour_ = colour;
+        }
+
+        inline void set_diffuse(const Math::Vector3& colour)
+        {
+            diffuse_colour_ = colour;
+        }
+
+        inline void set_specular(const Math::Vector3& colour)
+        {
+            specular_colour_ = colour;
+        }
+
+        inline void set_textures(const std::vector<Texture>& textures)
+        {
+            textures_ = textures;
+        }
+
+        inline void set_shininess(float shininess)
+        {
+            shininess_ = shininess;
+        }
 };
 
 } // namespace SGE

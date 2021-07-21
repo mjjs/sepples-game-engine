@@ -33,7 +33,11 @@ class Mesh {
                 );
 
         void draw(Shader& shader) const;
-        const Material& material() const;
+
+        inline const Material& material() const
+        {
+            return material_;
+        }
 };
 
 } // namespace SGE

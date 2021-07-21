@@ -15,12 +15,32 @@ class Transform {
         Vector3 scale_{1,1,1};
 
     public:
-        void set_position(const Vector3& position_vector);
-        Vector3& position();
-        void set_rotation(const Vector3& rotation_vector);
-        void set_scale(const Vector3& scale_vector);
+        inline void set_position(const Vector3& position_vector)
+        {
+            position_ = position_vector;
+        }
+
+        inline Vector3& position()
+        {
+            return position_;
+        }
+
+        inline void set_rotation(const Vector3& rotation_vector)
+        {
+            rotation_ = rotation_vector;
+        }
+
+        inline void set_scale(const Vector3& scale_vector)
+        {
+            scale_ = scale_vector;
+        }
+
+        inline Matrix4 get_projected_transformation(const Camera& camera) const
+        {
+            return camera.get_view_projection() * get_transformation();
+        }
+
         Matrix4 get_transformation() const;
-        Matrix4 get_projected_transformation(const Camera& camera) const;
 };
 
 } // namespace Math

@@ -28,11 +28,29 @@ class Window {
         Window& operator=(const Window&) = delete;
         Window& operator=(const Window&&) = delete;
 
-        void fill(float r, float g, float b, float a) const;
-        void clear() const;
-        void flip() const;
+        inline void fill(float r, float g, float b, float a) const
+        {
+            glClearColor(r, g, b, a);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        }
 
-        Math::Vector2 get_center() const;
+        inline void clear() const
+        {
+            fill(0.0, 0.0, 0.0, 1.0);
+        }
+
+        inline void flip() const
+        {
+            SDL_GL_SwapWindow(window_);
+        }
+
+        inline Math::Vector2 get_center() const
+        {
+            return Math::Vector2{
+                static_cast<float>(width_)/2,
+                static_cast<float>(height_)/2,
+            };
+        }
 };
 
 } // namespace SGE

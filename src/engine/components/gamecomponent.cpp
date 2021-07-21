@@ -31,12 +31,6 @@ void GameComponent::add_to_rendering_engine(
 {
 }
 
-
-void GameComponent::set_parent(GameObject* game_object)
-{
-    parent_ = game_object;
-}
-
 Math::Transform& GameComponent::get_transform()
 {
     return parent_->transform();

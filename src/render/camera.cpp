@@ -18,42 +18,12 @@ Camera::Camera(
 {
 }
 
-void Camera::move(const Math::Vector3& direction, float amount)
-{
-    position_ = position_ + amount * direction;
-}
-
 Math::Matrix4 Camera::get_view_projection() const
 {
     const Math::Matrix4 camera_rotation = Math::Matrix4::camera(forward_, up_);
     const Math::Matrix4 camera_translation = Math::Matrix4::translation(-1 * position_);
 
     return projection_ * camera_rotation * camera_translation;
-}
-
-Math::Vector3 Camera::get_position() const
-{
-    return position_;
-}
-
-Math::Vector3 Camera::get_left() const
-{
-    return Math::normalize(Math::cross(forward_, up_));
-}
-
-Math::Vector3 Camera::get_right() const
-{
-    return Math::normalize(Math::cross(up_, forward_));
-}
-
-Math::Vector3 Camera::get_forward() const
-{
-    return forward_;
-}
-
-Math::Vector3 Camera::get_up() const
-{
-    return up_;
 }
 
 void Camera::rotate_x(float degrees)

@@ -32,34 +32,4 @@ SpotLight::SpotLight(
 {
 }
 
-const Math::Vector3& SpotLight::direction() const
-{
-    return direction_;
-}
-
-float SpotLight::cut_off() const
-{
-    return cut_off_;
-}
-
-float SpotLight::outer_cut_off() const
-{
-    return outer_cut_off_;
-}
-
-float SpotLight::constant() const
-{
-    return constant_;
-}
-
-float SpotLight::linear() const
-{
-    return linear_;
-}
-
-float SpotLight::quadratic() const
-{
-    return quadratic_;
-}
-
 } // namespace SGE

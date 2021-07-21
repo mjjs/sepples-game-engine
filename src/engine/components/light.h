@@ -24,9 +24,21 @@ class Light : public GameComponent {
             float intensity
         );
 
-        float intensity() const;
-        const Math::Vector3& colour() const;
-        std::shared_ptr<Shader> shader() const;
+        inline float intensity() const
+        {
+            return intensity_;
+        }
+
+        inline const Math::Vector3& colour() const
+        {
+            return colour_;
+        }
+
+        inline std::shared_ptr<Shader> shader() const
+        {
+            return shader_;
+        }
+
         void add_to_rendering_engine(RenderingEngine& rendering_engine) override;
 };
 } // namespace SGE

@@ -5,26 +5,6 @@
 
 namespace SGE {
 
-void Math::Transform::set_position(const Math::Vector3& position_vector)
-{
-    position_ = position_vector;
-}
-
-Math::Vector3& Math::Transform::position()
-{
-    return position_;
-}
-
-void Math::Transform::set_rotation(const Math::Vector3& rotation_vector)
-{
-    rotation_ = rotation_vector;
-}
-
-void Math::Transform::set_scale(const Math::Vector3& scale_vector)
-{
-    scale_ = scale_vector;
-}
-
 Math::Matrix4 Math::Transform::get_transformation() const
 {
     const Math::Matrix4 position = Math::Matrix4::translation(position_);
@@ -32,11 +12,6 @@ Math::Matrix4 Math::Transform::get_transformation() const
     const Math::Matrix4 scale = Math::Matrix4::scale(scale_);
 
     return (rotation * scale) * position;
-}
-
-Math::Matrix4 Math::Transform::get_projected_transformation(const Camera& camera) const
-{
-    return camera.get_view_projection() * get_transformation();
 }
 
 } // namespace SGE

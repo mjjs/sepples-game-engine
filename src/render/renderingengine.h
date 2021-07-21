@@ -28,12 +28,25 @@ class RenderingEngine {
         RenderingEngine(std::size_t width, std::size_t height, const std::string& window_title);
         void render(GameObject& gameobject);
 
-        void set_camera(const Camera& camera);
-        const Camera& camera() const;
+        inline void set_camera(const Camera& camera)
+        {
+            main_camera_ = camera;
+        }
 
-        Light* active_light() const;
+        inline const Camera& camera() const
+        {
+            return main_camera_;
+        }
 
-        void add_light(Light* light);
+        inline Light* active_light() const
+        {
+            return active_light_;
+        }
+
+        inline void add_light(Light* light)
+        {
+            lights_.push_back(light);
+        }
 
         // TEMPORARY HACK
         void update(float delta);

@@ -22,9 +22,20 @@ class PointLight : public Light {
                 );
 
         const Math::Vector3& position() const;
-        float constant() const;
-        float linear() const;
-        float quadratic() const;
+        inline float constant() const
+        {
+            return constant_;
+        }
+
+        inline float linear() const
+        {
+            return linear_;
+        }
+
+        inline float quadratic() const
+        {
+            return quadratic_;
+        }
 };
 } // namespace SGE
 #endif

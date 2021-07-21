@@ -1,8 +1,9 @@
 #ifndef _SGE_CAMERA_H
 #define _SGE_CAMERA_H
 
-#include "vector3.h"
 #include "matrix4.h"
+#include "sgemath.h"
+#include "vector3.h"
 
 namespace SGE {
 
@@ -18,16 +19,40 @@ class Camera {
 
         Camera(float fov_radians, float aspect_ratio, float z_near, float z_far);
 
-        void move(const Math::Vector3& direction, float amount);
+        inline void move(const Math::Vector3& direction, float amount)
+        {
+            position_ = position_ + amount * direction;
+        }
+
         void rotate_x(float degrees);
         void rotate_y(float degrees);
 
         Math::Matrix4 get_view_projection() const;
-        Math::Vector3 get_position() const;
-        Math::Vector3 get_left() const;
-        Math::Vector3 get_right() const;
-        Math::Vector3 get_forward() const;
-        Math::Vector3 get_up() const;
+
+        inline Math::Vector3 get_position() const
+        {
+            return position_;
+        }
+
+        inline Math::Vector3 get_left() const
+        {
+            return Math::normalize(Math::cross(forward_, up_));
+        }
+
+        inline Math::Vector3 get_right() const
+        {
+            return Math::normalize(Math::cross(up_, forward_));
+        }
+
+        inline Math::Vector3 get_forward() const
+        {
+            return forward_;
+        }
+
+        inline Math::Vector3 get_up() const
+        {
+            return up_;
+        }
 };
 
 } // namespace SGE

@@ -10,6 +10,7 @@
 #include <memory>
 
 namespace SGE {
+
 class Game {
     private:
         std::shared_ptr<GameObject> root_ = std::make_shared<GameObject>();
@@ -23,12 +24,31 @@ class Game {
         virtual ~Game() = default;
 
         virtual void init() = 0;
-        virtual void update(float delta);
-        virtual void fixed_update();
-        virtual void render(Shader& shader, const RenderingEngine& rendering_engine);
 
-        void set_root(std::shared_ptr<GameObject> gameobject);
-        std::shared_ptr<GameObject> root();
+        inline virtual void update(float delta)
+        {
+            root_->update(delta);
+        }
+
+        inline virtual void fixed_update()
+        {
+            root_->fixed_update();
+        }
+
+        inline virtual void render(Shader& shader, const RenderingEngine& rendering_engine)
+        {
+            root_->render(shader, rendering_engine);
+        }
+
+        inline void set_root(std::shared_ptr<GameObject> gameobject)
+        {
+            root_ = gameobject;
+        }
+
+        inline std::shared_ptr<GameObject> root()
+        {
+            return root_;
+        }
 };
 } // namespace SGE
 #endif

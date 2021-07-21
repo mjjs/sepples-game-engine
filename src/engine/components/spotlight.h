@@ -31,16 +31,35 @@ class SpotLight : public SGE::Light {
                 float quadratic
                 );
 
-        const Math::Vector3& position() const;
-        const Math::Vector3& direction() const;
+        inline const Math::Vector3& direction() const
+        {
+            return direction_;
+        }
 
-        float cut_off() const;
-        float outer_cut_off() const;
+        inline float cut_off() const
+        {
+            return cut_off_;
+        }
 
-        float constant() const;
-        float linear() const;
-        float quadratic() const;
+        inline float outer_cut_off() const
+        {
+            return outer_cut_off_;
+        }
 
+        inline float constant() const
+        {
+            return constant_;
+        }
+
+        inline float linear() const
+        {
+            return linear_;
+        }
+
+        inline float quadratic() const
+        {
+            return quadratic_;
+        }
 };
 } // namespace SGE
 #endif

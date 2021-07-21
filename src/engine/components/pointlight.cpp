@@ -25,19 +25,4 @@ PointLight::PointLight(
     quadratic_{quadratic}
 {}
 
-float PointLight::constant() const
-{
-    return constant_;
-}
-
-float PointLight::linear() const
-{
-    return linear_;
-}
-
-float PointLight::quadratic() const
-{
-    return quadratic_;
-}
-
 } // namespace SGE

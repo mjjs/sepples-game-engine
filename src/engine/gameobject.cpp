@@ -10,11 +10,6 @@
 
 namespace SGE {
 
-void GameObject::add_child(std::shared_ptr<GameObject> child)
-{
-    children_.push_back(child);
-}
-
 void GameObject::add_component(std::shared_ptr<GameComponent> component)
 {
     components_.push_back(component);
@@ -63,16 +58,6 @@ void GameObject::add_to_rendering_engine(RenderingEngine& rendering_engine) cons
     for (const auto& child : children_) {
         child->add_to_rendering_engine(rendering_engine);
     }
-}
-
-void GameObject::set_transform(const Math::Transform& transform)
-{
-    transform_ = transform;
-}
-
-Math::Transform& GameObject::transform()
-{
-    return transform_;
 }
 
 } // namespace SGE

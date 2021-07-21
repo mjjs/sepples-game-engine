@@ -8,6 +8,7 @@
 #include <memory>
 
 namespace SGE {
+
 class RenderingEngine;
 class GameObject;
 
@@ -29,7 +30,11 @@ class GameComponent {
         virtual void render(const Math::Transform& transform, Shader& shader, const RenderingEngine& rendering_engine);
         virtual void add_to_rendering_engine(RenderingEngine& rendering_engine);
 
-        void set_parent(GameObject* game_object);
+        inline void set_parent(GameObject* game_object)
+        {
+            parent_ = game_object;
+        }
+
         Math::Transform& get_transform();
 };
 } // namespace SGE

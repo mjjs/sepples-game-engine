@@ -23,21 +23,6 @@ Light::Light(
 {
 }
 
-float Light::intensity() const
-{
-    return intensity_;
-}
-
-const Math::Vector3& Light::colour() const
-{
-    return colour_;
-}
-
-std::shared_ptr<Shader> Light::shader() const
-{
-    return shader_;
-}
-
 void Light::add_to_rendering_engine(RenderingEngine& rendering_engine)
 {
     rendering_engine.add_light(this);

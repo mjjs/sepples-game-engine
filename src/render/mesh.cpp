@@ -104,9 +104,4 @@ void Mesh::draw(Shader& shader) const
     glBindVertexArray(0);
 }
 
-const Material& Mesh::material() const
-{
-    return material_;
-}
-
 } // namespace SGE

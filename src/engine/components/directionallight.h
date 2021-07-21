@@ -21,7 +21,10 @@ class DirectionalLight : public Light {
             float intensity
         );
 
-        const Math::Vector3& direction() const;
+        inline const Math::Vector3& direction() const
+        {
+            return direction_;
+        }
 };
 } // namespace SGE
 
