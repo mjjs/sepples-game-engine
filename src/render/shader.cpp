@@ -1,6 +1,5 @@
 #include "resourceloader.h"
 #include "shader.h"
-#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <utility>

@@ -2,6 +2,7 @@
 #define GL3_PROTOTYPES = 1;
 
 #include "engine.h"
+#include "log.h"
 #include "game.h"
 #include "input.h"
 #include "mesh.h"
@@ -14,19 +15,17 @@
 
 #include <chrono>
 #include <cmath>
-#include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <utility>
 
-#include <SDL2/SDL.h>
-
-bool is_input_event(const SDL_Event& event);
+#include <SDL2/SDL_events.h>
 
 SGE::Engine::Engine(const std::size_t width, const std::size_t height, const std::string& window_title) :
     rendering_engine_{width, height, window_title}
 {
+    SGE::Log::init();
 }
 
 void SGE::Engine::load_game(std::unique_ptr<Game::Game> game)
@@ -74,7 +73,7 @@ void SGE::Engine::run()
             timer.use_unprocessed_time();
 
             if (timer.has_second_passed()) {
-                std::cout << "FPS: " << frames_rendered_this_second << '\n';
+                ENGINE_LOG_INFO("FPS: {0}", frames_rendered_this_second);
                 frames_rendered_this_second = 0;
                 timer.reset_seconds_spent_this_frame();
             }
@@ -83,18 +82,4 @@ void SGE::Engine::run()
         render();
         frames_rendered_this_second++;
     }
-}
-
-bool is_input_event(const SDL_Event& event)
-{
-    switch (event.type) {
-    case SDL_KEYDOWN:
-    case SDL_KEYUP:
-    case SDL_MOUSEBUTTONDOWN:
-    case SDL_MOUSEBUTTONUP:
-    case SDL_MOUSEMOTION:
-        return true;
-    }
-
-    return false;
 }

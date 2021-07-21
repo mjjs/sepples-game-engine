@@ -3,8 +3,6 @@
 #include "transform.h"
 #include "vector3.h"
 
-#include <iostream>
-
 void Math::Transform::set_position(const Math::Vector3& position_vector)
 {
     position_ = position_vector;
