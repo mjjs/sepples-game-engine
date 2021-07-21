@@ -5,14 +5,15 @@ LDFLAGS = -lGL -lGLEW -lSDL2 -lassimp
 TARGET ?= game_engine
 SRC_DIRS ?= src
 BUILD_DIR ?= build
-LIBS_DIR ?= lib
+
+VENDOR_LIBS = vendor/stb
 
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 INC_DIRS := $(shell find $(SRC_DIRS) -type d) $(LIBS_DIR)
 
-INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+INC_FLAGS := $(addprefix -I,$(INC_DIRS)) -I$(VENDOR_LIBS)
 
 $(BUILD_DIR)/$(TARGET): $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
