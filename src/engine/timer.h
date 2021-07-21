@@ -4,6 +4,7 @@
 #include <chrono>
 
 namespace SGE {
+
 class Timer {
     private:
         const float fixed_time_step_ = 0.01F;
@@ -25,5 +26,6 @@ class Timer {
         float fixed_time_step() const;
         float delta() const;
 };
+
 } // namespace SGE
 #endif

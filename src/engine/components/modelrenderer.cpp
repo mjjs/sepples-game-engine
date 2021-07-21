@@ -6,11 +6,15 @@
 #include "shader.h"
 #include "renderingengine.h"
 
-ModelRenderer::ModelRenderer(const Model& model) : model_{model}
+SGE::ModelRenderer::ModelRenderer(const SGE::Model& model) : model_{model}
 {
 }
 
-void ModelRenderer::render(const Math::Transform& transform, Shader& shader, const SGE::RenderingEngine& rendering_engine)
+void SGE::ModelRenderer::render(
+        const SGE::Math::Transform& transform,
+        Shader& shader,
+        const SGE::RenderingEngine& rendering_engine
+        )
 {
     shader.bind();
     shader.update_uniforms(transform, Material{}, rendering_engine);

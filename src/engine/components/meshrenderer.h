@@ -1,5 +1,5 @@
-#ifndef _TESTGAME_MESHRENDERER_H
-#define _TESTGAME_MESHRENDERER_H
+#ifndef _SGE_MESHRENDERER_H
+#define _SGE_MESHRENDERER_H
 
 #include "camera.h"
 #include "gamecomponent.h"
@@ -12,13 +12,17 @@
 
 #include <memory>
 
-class MeshRenderer : public SGE::GameComponent {
+namespace SGE {
+
+class MeshRenderer : public GameComponent {
     private:
         std::unique_ptr<Mesh> mesh_;
 
     public:
         MeshRenderer(std::unique_ptr<Mesh>& mesh);
 
-        void render(const Math::Transform& transform, Shader& shader, const SGE::RenderingEngine& rendering_engine) override;
+        void render(const Math::Transform& transform, Shader& shader, const RenderingEngine& rendering_engine) override;
 };
+
+} // namespace SGE
 #endif

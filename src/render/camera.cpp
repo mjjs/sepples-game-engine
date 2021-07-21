@@ -3,6 +3,8 @@
 #include "vector3.h"
 #include "matrix4.h"
 
+namespace SGE {
+
 Camera::Camera(
         const float fov_radians,
         const float aspect_ratio, 
@@ -71,3 +73,5 @@ void Camera::rotate_y(float degrees)
 
     up_ = Math::normalize(Math::cross(forward_, horizontal_axis));
 }
+
+} // namespace SGE

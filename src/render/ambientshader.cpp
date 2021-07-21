@@ -6,6 +6,8 @@
 #include "vector3.h"
 #include "renderingengine.h"
 
+namespace SGE {
+
 AmbientShader::AmbientShader() :
     Shader{"res/shaders/ambient_light_vertex.glsl", "res/shaders/ambient_light_fragment.glsl"}
 {
@@ -22,7 +24,7 @@ AmbientShader::AmbientShader() :
 void AmbientShader::update_uniforms(
         const Math::Transform& transform,
         const Material& material,
-        const SGE::RenderingEngine& rendering_engine)
+        const RenderingEngine& rendering_engine)
 {
     set_uniform("transform_u", transform.get_projected_transformation(rendering_engine.camera()));
 
@@ -31,7 +33,7 @@ void AmbientShader::update_uniforms(
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
-    auto* light = dynamic_cast<SGE::AmbientLight*>(rendering_engine.active_light());
+    auto* light = dynamic_cast<AmbientLight*>(rendering_engine.active_light());
     if (light == nullptr) {
         throw std::runtime_error{"An ambient light has malfunctioned."};
     }
@@ -41,3 +43,5 @@ void AmbientShader::update_uniforms(
             Math::Vector3{light->intensity(), light->intensity(), light->intensity()}
             );
 }
+
+} // namespace SGE

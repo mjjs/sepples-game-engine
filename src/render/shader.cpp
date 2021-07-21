@@ -4,6 +4,8 @@
 #include <string>
 #include <utility>
 
+namespace SGE {
+
 Shader::Shader(const std::string& vertex_path, const std::string& fragment_path) :
     shader_program_{glCreateProgram()}
 {
@@ -199,6 +201,8 @@ bool Shader::uniform_exists(const std::string& variable_name) const
 void Shader::update_uniforms(
                 [[maybe_unused]] const Math::Transform& transform,
                 [[maybe_unused]] const Material& material,
-                [[maybe_unused]] const SGE::RenderingEngine& rendering_engine)
+                [[maybe_unused]] const RenderingEngine& rendering_engine)
 {
 }
+
+} // namespace SGE

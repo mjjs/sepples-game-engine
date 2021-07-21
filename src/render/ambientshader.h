@@ -5,6 +5,8 @@
 #include "shader.h"
 #include "vector3.h"
 
+namespace SGE {
+
 class AmbientShader : public Shader {
     public:
         AmbientShader();
@@ -13,5 +15,8 @@ class AmbientShader : public Shader {
                 const Material& material,
                 const SGE::RenderingEngine& rendering_engine) override;
 };
+
+} // namespace SGE
+
 
 #endif

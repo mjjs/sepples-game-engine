@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 
+namespace SGE {
+
 constexpr char const * COLOUR_AMBIENT = "AMBIENT";
 constexpr char const * COLOUR_DIFFUSE = "DIFFUSE";
 constexpr char const * COLOUR_SPECULAR = "SPECULAR";
@@ -122,7 +124,8 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
     return Mesh{vertices, indices, material};
 }
 
-std::vector<Texture> Model::load_material_textures(aiMaterial* material, const TextureType texture_type)
+std::vector<Texture> Model::load_material_textures(
+        aiMaterial* material, const TextureType texture_type)
 {
     std::vector<Texture> textures;
     aiTextureType ai_texture_type = from_texture_type(texture_type);
@@ -180,3 +183,5 @@ float get_shininess(const aiMaterial& material)
     material.Get(AI_MATKEY_SHININESS, shininess);
     return shininess;
 }
+
+} // namespace SGE

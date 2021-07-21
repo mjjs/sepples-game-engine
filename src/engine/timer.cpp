@@ -1,13 +1,15 @@
 #include "timer.h"
 
+namespace SGE {
+
 const int MS_PER_SECOND = 1000;
 
-void SGE::Timer::start_timer()
+void Timer::start_timer()
 {
     previous_time_ = std::chrono::steady_clock::now();
 }
 
-void SGE::Timer::update_times()
+void Timer::update_times()
 {
     auto current_time = std::chrono::steady_clock::now();
     auto elapsed_time =
@@ -21,37 +23,39 @@ void SGE::Timer::update_times()
     seconds_spent_this_frame_ += elapsed_seconds;
 }
 
-void SGE::Timer::use_unprocessed_time()
+void Timer::use_unprocessed_time()
 {
     unprocessed_time_ -= fixed_time_step_;
 }
 
-bool SGE::Timer::game_needs_updating() const
+bool Timer::game_needs_updating() const
 {
     return unprocessed_time_ >= fixed_time_step_;
 }
 
-bool SGE::Timer::has_second_passed() const
+bool Timer::has_second_passed() const
 {
     return seconds_spent_this_frame_ >= 1.0F;
 }
 
-float SGE::Timer::unprocessed_time() const
+float Timer::unprocessed_time() const
 {
     return unprocessed_time_;
 }
 
-float SGE::Timer::fixed_time_step() const
+float Timer::fixed_time_step() const
 {
     return fixed_time_step_;
 }
 
-void SGE::Timer::reset_seconds_spent_this_frame()
+void Timer::reset_seconds_spent_this_frame()
 {
     seconds_spent_this_frame_ = 0.0F;
 }
 
-float SGE::Timer::delta() const
+float Timer::delta() const
 {
     return delta_;
 }
+
+} // namespace SGE

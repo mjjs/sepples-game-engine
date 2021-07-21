@@ -6,6 +6,8 @@
 #include "spotlight.h"
 #include "renderingengine.h"
 
+namespace SGE {
+
 SpotShader::SpotShader() :
     Shader{"res/shaders/spot_light_vertex.glsl", "res/shaders/spot_light_fragment.glsl"}
 {
@@ -33,7 +35,7 @@ SpotShader::SpotShader() :
 void SpotShader::update_uniforms(
         const Math::Transform& transform,
         const Material& material,
-        const SGE::RenderingEngine& rendering_engine)
+        const RenderingEngine& rendering_engine)
 {
     set_uniform("transform_u", transform.get_projected_transformation(rendering_engine.camera()));
     set_uniform("projection_u", transform.get_transformation());
@@ -45,7 +47,7 @@ void SpotShader::update_uniforms(
 
     set_uniform("view_position_u", rendering_engine.camera().get_position());
 
-    auto* light = dynamic_cast<SGE::SpotLight*>(rendering_engine.active_light());
+    auto* light = dynamic_cast<SpotLight*>(rendering_engine.active_light());
     if (light == nullptr) {
         throw std::runtime_error{"A spot light has malfunctioned."};
     }
@@ -62,3 +64,5 @@ void SpotShader::update_uniforms(
     set_uniform("spot_light_u.cut_off", light->cut_off());
     set_uniform("spot_light_u.outer_cut_off", light->outer_cut_off());
 }
+
+} // namespace SGE

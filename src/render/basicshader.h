@@ -4,6 +4,8 @@
 #include "material.h"
 #include "transform.h"
 
+namespace SGE {
+
 class BasicShader : public Shader {
     public:
         BasicShader();
@@ -12,5 +14,7 @@ class BasicShader : public Shader {
                 const Material& material,
                 const SGE::RenderingEngine& rendering_engine) override;
 };
+
+} // namespace SGE
 
 #endif

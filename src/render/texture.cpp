@@ -1,4 +1,5 @@
 #define STB_IMAGE_IMPLEMENTATION
+
 #include "stb_image.h"
 #include "texture.h"
 
@@ -6,6 +7,8 @@
 #include <cstdint>
 #include <stdexcept>
 #include <GL/glew.h>
+
+namespace SGE {
 
 Texture load_texture(const std::string& filename, const std::string& directory, TextureType texture_type)
 {
@@ -78,3 +81,5 @@ aiTextureType from_texture_type(const TextureType texture_type)
         throw std::runtime_error{"Texture type not supported"};
     }
 }
+
+} // namespace SGE

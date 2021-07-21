@@ -3,6 +3,8 @@
 #include "shader.h"
 #include "vector3.h"
 
+namespace SGE {
+
 class PointShader : public Shader {
     public:
         PointShader();
@@ -13,4 +15,5 @@ class PointShader : public Shader {
                 const SGE::RenderingEngine& rendering_engine) override;
 };
 
+} // namespace SGE
 #endif

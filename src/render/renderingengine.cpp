@@ -12,7 +12,9 @@
 #include <string>
 #include <memory>
 
-SGE::RenderingEngine::RenderingEngine(
+namespace SGE {
+
+RenderingEngine::RenderingEngine(
         const std::size_t width,
         const std::size_t height,
         const std::string& window_title) :
@@ -21,7 +23,7 @@ SGE::RenderingEngine::RenderingEngine(
 {
 }
 
-void SGE::RenderingEngine::render(GameObject& gameobject)
+void RenderingEngine::render(GameObject& gameobject)
 {
     window_.clear();
 
@@ -53,28 +55,28 @@ void SGE::RenderingEngine::render(GameObject& gameobject)
     window_.flip();
 }
 
-void SGE::RenderingEngine::set_camera(const Camera& camera)
+void RenderingEngine::set_camera(const Camera& camera)
 {
     main_camera_ = camera;
 }
 
-const Camera& SGE::RenderingEngine::camera() const
+const Camera& RenderingEngine::camera() const
 {
     return main_camera_;
 }
 
-SGE::Light* SGE::RenderingEngine::active_light() const
+Light* RenderingEngine::active_light() const
 {
     return active_light_;
 }
 
-void SGE::RenderingEngine::add_light(SGE::Light* light)
+void RenderingEngine::add_light(Light* light)
 {
     lights_.push_back(light);
 }
 
 // TEMPORARY HACK
-void SGE::RenderingEngine::update(const float delta)
+void RenderingEngine::update(const float delta)
 {
     const float move_speed = .025;
 
@@ -110,3 +112,5 @@ void SGE::RenderingEngine::update(const float delta)
         main_camera_.rotate_y(1);
     }
 }
+
+} // namespace SGE

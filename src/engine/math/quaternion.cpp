@@ -1,7 +1,9 @@
 #include "vector3.h"
 #include "quaternion.h"
 
-Math::Quaternion operator*(const Math::Quaternion& lhs, const Math::Quaternion& rhs)
+namespace SGE {
+
+Math::Quaternion Math::operator*(const Math::Quaternion& lhs, const Math::Quaternion& rhs)
 {
     return Math::Quaternion{
         lhs.x * rhs.w + lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
@@ -11,7 +13,7 @@ Math::Quaternion operator*(const Math::Quaternion& lhs, const Math::Quaternion& 
     };
 }
 
-Math::Quaternion operator*(const Math::Quaternion& lhs, const Math::Vector3& rhs)
+Math::Quaternion Math::operator*(const Math::Quaternion& lhs, const Math::Vector3& rhs)
 {
     return Math::Quaternion{
         lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
@@ -27,7 +29,7 @@ Math::Quaternion operator*(const Math::Quaternion& lhs, const Math::Vector3& rhs
     //};
 }
 
-Math::Quaternion operator+(const Math::Quaternion& lhs, const Math::Quaternion& rhs)
+Math::Quaternion Math::operator+(const Math::Quaternion& lhs, const Math::Quaternion& rhs)
 {
     return Math::Quaternion {
         lhs.x + rhs.x,
@@ -36,3 +38,5 @@ Math::Quaternion operator+(const Math::Quaternion& lhs, const Math::Quaternion& 
             lhs.w + rhs.w
     };
 }
+
+} // namespace SGE

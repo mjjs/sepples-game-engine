@@ -9,6 +9,8 @@
 #include <stdexcept>
 #include <vector>
 
+namespace SGE {
+
 // TODO: Pass by value and std::move
 Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices,
                 const Material& material) :
@@ -106,3 +108,5 @@ const Material& Mesh::material() const
 {
     return material_;
 }
+
+} // namespace SGE

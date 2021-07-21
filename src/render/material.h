@@ -5,6 +5,8 @@
 #include "vector3.h"
 #include <vector>
 
+namespace SGE {
+
 class Material {
     private:
         std::vector<Texture> textures_{};
@@ -40,4 +42,6 @@ class Material {
         void set_textures(const std::vector<Texture>& textures);
         void set_shininess(float shininess);
 };
+
+} // namespace SGE
 #endif

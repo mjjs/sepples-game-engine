@@ -1,6 +1,8 @@
 #include "sgemath.h"
 #include <cmath>
 
+namespace SGE {
+
 float Math::angle_to(const Math::Vector2& vec_a, const Math::Vector2& vec_b)
 {
     return std::acos(Math::dot(vec_a, vec_b) / (Math::length(vec_a) * Math::length(vec_b)));
@@ -131,3 +133,5 @@ float Math::to_radians(const float degrees)
 {
     return static_cast<float>(degrees * (M_PI / 180));
 }
+
+} // namespace SGE

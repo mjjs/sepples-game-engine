@@ -1,5 +1,5 @@
-#ifndef _GE_INPUT_H
-#define _GE_INPUT_H
+#ifndef _SGE_INPUT_H
+#define _SGE_INPUT_H
 
 #include "vector2.h"
 

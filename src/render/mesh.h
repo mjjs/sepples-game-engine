@@ -10,6 +10,8 @@
 #include <cstddef>
 #include <vector>
 
+namespace SGE {
+
 class Mesh {
     private:
         GLuint vbo_;
@@ -33,4 +35,6 @@ class Mesh {
         void draw(Shader& shader) const;
         const Material& material() const;
 };
+
+} // namespace SGE
 #endif

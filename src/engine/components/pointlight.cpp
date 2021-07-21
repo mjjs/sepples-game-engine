@@ -5,12 +5,14 @@
 
 #include <memory>
 
-SGE::PointLight::PointLight()
+namespace SGE {
+
+PointLight::PointLight()
     : Light{std::make_shared<PointShader>()}
 {
 }
 
-SGE::PointLight::PointLight(
+PointLight::PointLight(
         const Math::Vector3& colour,
         float intensity,
         float constant,
@@ -23,17 +25,19 @@ SGE::PointLight::PointLight(
     quadratic_{quadratic}
 {}
 
-float SGE::PointLight::constant() const
+float PointLight::constant() const
 {
     return constant_;
 }
 
-float SGE::PointLight::linear() const
+float PointLight::linear() const
 {
     return linear_;
 }
 
-float SGE::PointLight::quadratic() const
+float PointLight::quadratic() const
 {
     return quadratic_;
 }
+
+} // namespace SGE

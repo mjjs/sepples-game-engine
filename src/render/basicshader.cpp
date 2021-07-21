@@ -4,6 +4,8 @@
 #include "transform.h"
 #include "material.h"
 
+namespace SGE {
+
 BasicShader::BasicShader() :
     Shader{"res/shaders/basic_vertex.glsl", "res/shaders/basic_fragment.glsl"}
 {
@@ -18,7 +20,7 @@ BasicShader::BasicShader() :
 void BasicShader::update_uniforms(
         const Math::Transform& transform,
         const Material& material,
-        const SGE::RenderingEngine& rendering_engine)
+        const RenderingEngine& rendering_engine)
 {
     set_uniform("transform_u", transform.get_projected_transformation(rendering_engine.camera()));
 
@@ -27,3 +29,5 @@ void BasicShader::update_uniforms(
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 }
+
+} // namespace SGE

@@ -6,17 +6,19 @@
 #include <SDL2/SDL_keyboard.h>
 #include <utility>
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-SGE::Input* SGE::Input::instance_ = new SGE::LinuxInput();
+namespace SGE {
 
-void SGE::LinuxInput::poll_events_impl()
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+Input* Input::instance_ = new LinuxInput();
+
+void LinuxInput::poll_events_impl()
 {
     SDL_PumpEvents();
     poll_keyboard_events();
     poll_mouse_events();
 }
 
-void SGE::LinuxInput::poll_mouse_events()
+void LinuxInput::poll_mouse_events()
 {
     last_mouse_keys_ = current_mouse_keys_;
     current_mouse_keys_.clear();
@@ -37,7 +39,7 @@ void SGE::LinuxInput::poll_mouse_events()
     }
 }
 
-void SGE::LinuxInput::poll_keyboard_events()
+void LinuxInput::poll_keyboard_events()
 {
     last_keys_ = current_keys_;
     current_keys_.clear();
@@ -50,3 +52,5 @@ void SGE::LinuxInput::poll_keyboard_events()
         }
     }
 }
+
+} // namespace SGE

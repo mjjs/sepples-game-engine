@@ -10,7 +10,6 @@
 #include <memory>
 
 namespace SGE {
-namespace Game {
 class Game {
     private:
         std::shared_ptr<GameObject> root_ = std::make_shared<GameObject>();
@@ -31,6 +30,5 @@ class Game {
         void set_root(std::shared_ptr<GameObject> gameobject);
         std::shared_ptr<GameObject> root();
 };
-} // namespace Game
 } // namespace SGE
 #endif

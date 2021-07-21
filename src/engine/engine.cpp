@@ -22,24 +22,26 @@
 
 #include <SDL2/SDL_events.h>
 
-SGE::Engine::Engine(const std::size_t width, const std::size_t height, const std::string& window_title) :
+namespace SGE {
+
+Engine::Engine(const std::size_t width, const std::size_t height, const std::string& window_title) :
     rendering_engine_{width, height, window_title}
 {
-    SGE::Log::init();
+    Log::init();
 }
 
-void SGE::Engine::load_game(std::unique_ptr<Game::Game> game)
+void Engine::load_game(std::unique_ptr<Game> game)
 {
     game_ = std::move(game);
     game_->init();
 }
 
-void SGE::Engine::render()
+void Engine::render()
 {
     rendering_engine_.render(*game_->root());
 }
 
-void SGE::Engine::run()
+void Engine::run()
 {
     if (game_ == nullptr) {
         throw std::runtime_error("No game supplied to the engine");
@@ -83,3 +85,5 @@ void SGE::Engine::run()
         frames_rendered_this_second++;
     }
 }
+
+} // namespace SGE

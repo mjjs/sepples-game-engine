@@ -6,6 +6,8 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 
+namespace SGE {
+
 Window::Window(const size_t width, const size_t height, const std::string& title) :
     width_{width},
     height_{height}
@@ -74,3 +76,5 @@ Math::Vector2 Window::get_center() const
         static_cast<float>(height_)/2,
     };
 }
+
+} // namespace SGE

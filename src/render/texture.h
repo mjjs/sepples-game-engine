@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <string>
 
+namespace SGE {
+
 enum TextureType {
     DIFFUSE,
     SPECULAR,
@@ -23,5 +25,7 @@ Texture load_specular_texture(const std::string& filename, const std::string& di
 Texture load_normal_texture(const std::string& filename, const std::string& directory);
 
 aiTextureType from_texture_type(TextureType texture_type);
+
+} // namespace SGE
 
 #endif

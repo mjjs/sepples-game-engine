@@ -21,7 +21,7 @@ SGE::DirectionalLight::DirectionalLight(
 {
 }
 
-const Math::Vector3& SGE::DirectionalLight::direction() const
+const SGE::Math::Vector3& SGE::DirectionalLight::direction() const
 {
     return direction_;
 }

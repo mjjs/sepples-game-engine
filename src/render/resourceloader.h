@@ -3,10 +3,15 @@
 
 #include "mesh.h"
 #include "texture.h"
+
 #include <cstdint>
 #include <string>
 
+namespace SGE {
+
 std::string load_shader(const std::string& filename);
 std::uint32_t load_texture(const std::string& filename, const std::string& directory);
+
+} // namespace SGE
 
 #endif

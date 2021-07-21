@@ -5,12 +5,14 @@
 
 #include <memory>
 
-SGE::SpotLight::SpotLight()
+namespace SGE {
+
+SpotLight::SpotLight()
     : Light{std::make_shared<SpotShader>()}
 {
 }
 
-SGE::SpotLight::SpotLight(
+SpotLight::SpotLight(
                 const Math::Vector3& direction,
                 const Math::Vector3& colour,
                 float intensity,
@@ -30,32 +32,34 @@ SGE::SpotLight::SpotLight(
 {
 }
 
-const Math::Vector3& SGE::SpotLight::direction() const
+const Math::Vector3& SpotLight::direction() const
 {
     return direction_;
 }
 
-float SGE::SpotLight::cut_off() const
+float SpotLight::cut_off() const
 {
     return cut_off_;
 }
 
-float SGE::SpotLight::outer_cut_off() const
+float SpotLight::outer_cut_off() const
 {
     return outer_cut_off_;
 }
 
-float SGE::SpotLight::constant() const
+float SpotLight::constant() const
 {
     return constant_;
 }
 
-float SGE::SpotLight::linear() const
+float SpotLight::linear() const
 {
     return linear_;
 }
 
-float SGE::SpotLight::quadratic() const
+float SpotLight::quadratic() const
 {
     return quadratic_;
 }
+
+} // namespace SGE

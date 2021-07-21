@@ -6,6 +6,8 @@
 #include "vector3.h"
 #include "renderingengine.h"
 
+namespace SGE {
+
 DirectionalShader::DirectionalShader() :
     Shader{"res/shaders/directional_light_vertex.glsl", "res/shaders/directional_light_fragment.glsl"}
 {
@@ -26,7 +28,7 @@ DirectionalShader::DirectionalShader() :
 void DirectionalShader::update_uniforms(
         const Math::Transform& transform,
         const Material& material,
-        const SGE::RenderingEngine& rendering_engine)
+        const RenderingEngine& rendering_engine)
 {
     set_uniform("transform_u", transform.get_projected_transformation(rendering_engine.camera()));
     set_uniform("projection_u", transform.get_transformation());
@@ -38,7 +40,7 @@ void DirectionalShader::update_uniforms(
 
     set_uniform("view_position_u", rendering_engine.camera().get_position());
 
-    auto* light = dynamic_cast<SGE::DirectionalLight*>(rendering_engine.active_light());
+    auto* light = dynamic_cast<DirectionalLight*>(rendering_engine.active_light());
 
     if (light == nullptr) {
         throw std::runtime_error{"A directional light has malfunctioned."};
@@ -48,3 +50,5 @@ void DirectionalShader::update_uniforms(
     set_uniform("directional_light_u.base.colour", light->colour());
     set_uniform("directional_light_u.base.intensity", light->intensity());
 }
+
+} // namespace SGE

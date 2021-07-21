@@ -4,6 +4,8 @@
 #include <sstream>
 #include <string>
 
+namespace SGE {
+
 std::string load_shader(const std::string& filename)
 {
     std::ifstream shader_file{filename, std::ios_base::in};
@@ -14,3 +16,5 @@ std::string load_shader(const std::string& filename)
 
     return ss.str();
 }
+
+} // namespace SGE

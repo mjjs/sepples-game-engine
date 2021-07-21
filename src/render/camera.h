@@ -1,7 +1,10 @@
 #ifndef _SGE_CAMERA_H
 #define _SGE_CAMERA_H
+
 #include "vector3.h"
 #include "matrix4.h"
+
+namespace SGE {
 
 class Camera {
     private:
@@ -26,4 +29,6 @@ class Camera {
         Math::Vector3 get_forward() const;
         Math::Vector3 get_up() const;
 };
+
+} // namespace SGE
 #endif

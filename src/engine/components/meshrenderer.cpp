@@ -11,12 +11,16 @@
 #include <memory>
 #include <utility>
 
-MeshRenderer::MeshRenderer(std::unique_ptr<Mesh>& mesh) :
+SGE::MeshRenderer::MeshRenderer(std::unique_ptr<Mesh>& mesh) :
     mesh_{std::move(mesh)}
 {
 }
 
-void MeshRenderer::render(const Math::Transform& transform, Shader& shader, const SGE::RenderingEngine& rendering_engine)
+void SGE::MeshRenderer::render(
+        const SGE::Math::Transform& transform,
+        Shader& shader,
+        const SGE::RenderingEngine& rendering_engine
+        )
 {
     shader.bind();
 

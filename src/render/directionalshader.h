@@ -1,7 +1,10 @@
 #ifndef _SGE_DIRECTIONALSHADER_H
 #define _SGE_DIRECTIONALSHADER_H
+
 #include "shader.h"
 #include "vector3.h"
+
+namespace SGE {
 
 class DirectionalShader : public Shader {
     public:
@@ -13,4 +16,5 @@ class DirectionalShader : public Shader {
                 const SGE::RenderingEngine& rendering_engine) override;
 };
 
+} // namespace SGE
 #endif

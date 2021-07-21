@@ -3,6 +3,8 @@
 #include "transform.h"
 #include "vector3.h"
 
+namespace SGE {
+
 void Math::Transform::set_position(const Math::Vector3& position_vector)
 {
     position_ = position_vector;
@@ -36,3 +38,5 @@ Math::Matrix4 Math::Transform::get_projected_transformation(const Camera& camera
 {
     return camera.get_view_projection() * get_transformation();
 }
+
+} // namespace SGE

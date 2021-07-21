@@ -2,6 +2,8 @@
 #include "texture.h"
 #include <vector>
 
+namespace SGE {
+
 Material::Material(
         const std::vector<Texture>& textures,
         const Math::Vector3& ambient_colour,
@@ -73,3 +75,5 @@ void Material::set_shininess(const float shininess)
 {
     shininess_ = shininess;
 }
+
+} // namespace SGE

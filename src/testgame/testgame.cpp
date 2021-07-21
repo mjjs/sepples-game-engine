@@ -21,7 +21,7 @@ std::shared_ptr<SGE::GameObject> get_lights();
 
 TestGame::TestGame()
 {
-    Math::Transform transform{};
+    SGE::Math::Transform transform{};
     root()->set_transform(transform);
 }
 
@@ -30,19 +30,19 @@ std::shared_ptr<SGE::GameObject> get_lights()
     auto light_object = std::make_shared<SGE::GameObject>();
     auto ambient_light = std::make_shared<SGE::AmbientLight>(0.2F);
     auto directional_light_blue = std::make_shared<SGE::DirectionalLight>(
-            Math::Vector3{8.0F, 0.0F, 5.0F},
-            Math::Vector3{0.0F, 0.0F, 1.0F},
+            SGE::Math::Vector3{8.0F, 0.0F, 5.0F},
+            SGE::Math::Vector3{0.0F, 0.0F, 1.0F},
             .2F
             );
 
     auto directional_light_red = std::make_shared<SGE::DirectionalLight>(
-            Math::Vector3{-8.0F, 0.0F, -5.0F},
-            Math::Vector3{1.0F, 0.0F, 0.0F},
+            SGE::Math::Vector3{-8.0F, 0.0F, -5.0F},
+            SGE::Math::Vector3{1.0F, 0.0F, 0.0F},
             .2F
             );
 
     auto point_light = std::make_shared<SGE::PointLight>(
-            Math::Vector3{0, 1.0F, 0},
+            SGE::Math::Vector3{0, 1.0F, 0},
             2.0F,
             1,
             0,
@@ -50,11 +50,11 @@ std::shared_ptr<SGE::GameObject> get_lights()
             );
 
     auto spot_light = std::make_shared<SGE::SpotLight>(
-            Math::Vector3{1.0F, 0, 1.0F},
-            Math::Vector3{1, 1, 1},
+            SGE::Math::Vector3{1.0F, 0, 1.0F},
+            SGE::Math::Vector3{1, 1, 1},
             1.0F,
-            std::cos(Math::to_radians(12.5F)),
-            std::cos(Math::to_radians(17.5F)),
+            std::cos(SGE::Math::to_radians(12.5F)),
+            std::cos(SGE::Math::to_radians(17.5F)),
             1.0F,
             0.09F,
             0.032F
@@ -73,7 +73,7 @@ std::shared_ptr<SGE::GameObject> get_lights()
 
 void TestGame::init()
 {
-    std::vector<Vertex> vertices = {
+    std::vector<SGE::Vertex> vertices = {
         {{-10, -2, -10}, {0, 1, 0}, {0, 0}},
         {{-10, -2, 30}, {0, 1, 0}, {0, 1}},
         {{30, -2, -10}, {0, 1, 0}, {1, 0}},
@@ -82,19 +82,19 @@ void TestGame::init()
 
     std::vector<int> indices = {0, 1, 2, 2, 1, 3};
 
-    auto floor = std::make_unique<Mesh>(
+    auto floor = std::make_unique<SGE::Mesh>(
         vertices,
         indices,
-        Material{
+        SGE::Material{
             //std::vector<Texture>{load_diffuse_texture("test.jpg", "res/textures")},
-            Math::Vector3{.5F, 1.0F, 1.0F},
-            Math::Vector3{.3F, 1.0F, 1.0F},
-            Math::Vector3{.8F, .8F, .8F}
+            SGE::Math::Vector3{.5F, 1.0F, 1.0F},
+            SGE::Math::Vector3{.3F, 1.0F, 1.0F},
+            SGE::Math::Vector3{.8F, .8F, .8F}
         }
     );
 
-    root()->add_component(std::make_shared<MeshRenderer>(floor));
-    root()->add_component(std::make_shared<ModelRenderer>(Model("res/models/backpack.obj")));
+    root()->add_component(std::make_shared<SGE::MeshRenderer>(floor));
+    root()->add_component(std::make_shared<SGE::ModelRenderer>(SGE::Model("res/models/backpack.obj")));
 
     std::shared_ptr<SGE::GameObject> lights = get_lights();
 

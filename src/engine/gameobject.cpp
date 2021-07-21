@@ -8,18 +8,20 @@
 
 #include <memory>
 
-void SGE::GameObject::add_child(std::shared_ptr<GameObject> child)
+namespace SGE {
+
+void GameObject::add_child(std::shared_ptr<GameObject> child)
 {
     children_.push_back(child);
 }
 
-void SGE::GameObject::add_component(std::shared_ptr<GameComponent> component)
+void GameObject::add_component(std::shared_ptr<GameComponent> component)
 {
     components_.push_back(component);
     component->set_parent(this);
 }
 
-void SGE::GameObject::update(const float delta)
+void GameObject::update(const float delta)
 {
     for (const auto& component : components_) {
         component->update(transform_, delta);
@@ -30,7 +32,7 @@ void SGE::GameObject::update(const float delta)
     }
 }
 
-void SGE::GameObject::fixed_update()
+void GameObject::fixed_update()
 {
     for (const auto& component : components_) {
         component->fixed_update(transform_);
@@ -41,7 +43,7 @@ void SGE::GameObject::fixed_update()
     }
 }
 
-void SGE::GameObject::render(Shader& shader, const SGE::RenderingEngine& rendering_engine)
+void GameObject::render(Shader& shader, const RenderingEngine& rendering_engine)
 {
     for (const auto& component : components_) {
         component->render(transform_, shader, rendering_engine);
@@ -52,7 +54,7 @@ void SGE::GameObject::render(Shader& shader, const SGE::RenderingEngine& renderi
     }
 }
 
-void SGE::GameObject::add_to_rendering_engine(SGE::RenderingEngine& rendering_engine) const
+void GameObject::add_to_rendering_engine(RenderingEngine& rendering_engine) const
 {
     for (const auto& component : components_) {
         component->add_to_rendering_engine(rendering_engine);
@@ -63,12 +65,14 @@ void SGE::GameObject::add_to_rendering_engine(SGE::RenderingEngine& rendering_en
     }
 }
 
-void SGE::GameObject::set_transform(const Math::Transform& transform)
+void GameObject::set_transform(const Math::Transform& transform)
 {
     transform_ = transform;
 }
 
-Math::Transform& SGE::GameObject::transform()
+Math::Transform& GameObject::transform()
 {
     return transform_;
 }
+
+} // namespace SGE

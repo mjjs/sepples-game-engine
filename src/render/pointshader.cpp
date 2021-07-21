@@ -6,6 +6,8 @@
 #include "vector3.h"
 #include "renderingengine.h"
 
+namespace SGE {
+
 PointShader::PointShader() :
     Shader{"res/shaders/point_light_vertex.glsl", "res/shaders/point_light_fragment.glsl"}
 {
@@ -30,7 +32,7 @@ PointShader::PointShader() :
 void PointShader::update_uniforms(
         const Math::Transform& transform,
         const Material& material,
-        const SGE::RenderingEngine& rendering_engine)
+        const RenderingEngine& rendering_engine)
 {
     set_uniform("transform_u", transform.get_projected_transformation(rendering_engine.camera()));
     set_uniform("projection_u", transform.get_transformation());
@@ -41,7 +43,7 @@ void PointShader::update_uniforms(
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
-    auto* light = dynamic_cast<SGE::PointLight*>(rendering_engine.active_light());
+    auto* light = dynamic_cast<PointLight*>(rendering_engine.active_light());
     if (light == nullptr) {
         throw std::runtime_error{"A point light has malfunctioned."};
     }
@@ -53,3 +55,5 @@ void PointShader::update_uniforms(
     set_uniform("point_light_u.attenuation.linear", light->linear());
     set_uniform("point_light_u.attenuation.quadratic", light->quadratic());
 }
+
+} // namespace SGE

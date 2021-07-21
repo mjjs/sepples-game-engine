@@ -3,6 +3,8 @@
 #include "shader.h"
 #include "vector3.h"
 
+namespace SGE {
+
 class SpotShader : public Shader {
     public:
         SpotShader();
@@ -10,7 +12,9 @@ class SpotShader : public Shader {
         void update_uniforms(
                 const Math::Transform& transform,
                 const Material& material,
-                const SGE::RenderingEngine& rendering_engine) override;
+                const RenderingEngine& rendering_engine) override;
 };
+
+} // namespace SGE
 
 #endif

@@ -9,6 +9,8 @@
 #include <sstream>
 #include <stdexcept>
 
+namespace SGE {
+
 Math::Matrix4::Matrix4() : matrix{std::array<std::array<float, 4>, 4>()}
 {
     for (std::size_t i = 0; i < 4; ++i) {
@@ -150,7 +152,7 @@ Math::Matrix4 Math::Matrix4::camera(const Math::Vector3& forward, const Math::Ve
     return camera_matrix;
 }
 
-Math::Matrix4 operator*(const Math::Matrix4& lhs, const Math::Matrix4& rhs)
+Math::Matrix4 Math::operator*(const Math::Matrix4& lhs, const Math::Matrix4& rhs)
 {
     Math::Matrix4 result{};
 
@@ -197,3 +199,5 @@ std::ostream& operator<<(std::ostream& os, const Math::Matrix4& matrix)
 
     return os;
 }
+
+} // namespace SGE

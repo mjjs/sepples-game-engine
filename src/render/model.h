@@ -12,6 +12,8 @@
 #include <string>
 #include <vector>
 
+namespace SGE {
+
 class Model {
     private:
         std::vector<Mesh> meshes_;
@@ -31,5 +33,7 @@ class Model {
 
 Math::Vector3 get_colour(const aiMaterial& material, const std::string& type);
 float get_shininess(const aiMaterial& material);
+
+} // namespace SGE
 
 #endif

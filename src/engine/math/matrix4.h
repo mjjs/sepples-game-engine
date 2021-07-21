@@ -1,5 +1,5 @@
-#ifndef _GE_MATRIX_4_H
-#define _GE_MATRIX_4_H
+#ifndef _SGE_MATRIX_4_H
+#define _SGE_MATRIX_4_H
 
 #include "vector3.h"
 
@@ -7,7 +7,9 @@
 #include <cstddef>
 #include <ostream>
 
+namespace SGE {
 namespace Math {
+
 class Matrix4 {
     private:
         std::array<std::array<float, 4>, 4> matrix;
@@ -25,8 +27,13 @@ class Matrix4 {
         std::array<float, 4>& operator[](std::size_t i);
         const std::array<float, 4>& operator[](std::size_t i) const;
 };
-} // namespace Math
 
-Math::Matrix4 operator*(const Math::Matrix4& lhs, const Math::Matrix4& rhs);
-std::ostream& operator<<(std::ostream& os, const Math::Matrix4& matrix);
+SGE::Math::Matrix4 operator*(const SGE::Math::Matrix4& lhs, const SGE::Math::Matrix4& rhs);
+std::ostream& operator<<(std::ostream& os, const SGE::Math::Matrix4& matrix);
+
+} // namespace Math
+} // namespace SGE
+
+
+
 #endif
