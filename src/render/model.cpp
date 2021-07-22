@@ -67,14 +67,14 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 
     for (std::size_t i = 0; i < mesh->mNumVertices; ++i) {
         Vertex vertex;
-        vertex.position = Math::Vector3{
+        vertex.position = Vector3{
             mesh->mVertices[i].x,
                 mesh->mVertices[i].y,
                 mesh->mVertices[i].z
         };
 
         if (mesh->HasNormals()) {
-            vertex.normal = Math::Vector3{
+            vertex.normal = Vector3{
                 mesh->mNormals[i].x,
                     mesh->mNormals[i].y,
                     mesh->mNormals[i].z
@@ -82,12 +82,12 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
         }
 
         if (mesh->HasTextureCoords(0)) {
-            vertex.texture_coordinate = Math::Vector2{
+            vertex.texture_coordinate = Vector2{
                 mesh->mTextureCoords[0][i].x,
                 mesh->mTextureCoords[0][i].y
             };
         } else {
-            vertex.texture_coordinate = Math::Vector2{0.0F, 0.0F};
+            vertex.texture_coordinate = Vector2{0.0F, 0.0F};
         }
 
         vertices.push_back(vertex);
@@ -162,7 +162,7 @@ void Model::draw(Shader& shader) const
     }
 }
 
-Math::Vector3 get_colour(const aiMaterial& material, const std::string& type)
+Vector3 get_colour(const aiMaterial& material, const std::string& type)
 {
     aiColor3D colour{};
 
@@ -174,7 +174,7 @@ Math::Vector3 get_colour(const aiMaterial& material, const std::string& type)
         material.Get(AI_MATKEY_COLOR_SPECULAR, colour);
     }
 
-    return Math::Vector3{colour.r, colour.g, colour.b};
+    return Vector3{colour.r, colour.g, colour.b};
 }
 
 float get_shininess(const aiMaterial& material)

@@ -19,7 +19,7 @@ RenderingEngine::RenderingEngine(
         const std::size_t height,
         const std::string& window_title) :
     window_{width, height, window_title},
-    main_camera_{Math::to_radians(70), static_cast<float>(width)/static_cast<float>(height), .1, 1000}
+    main_camera_{to_radians(70), static_cast<float>(width)/static_cast<float>(height), .1, 1000}
 {
 }
 
@@ -78,19 +78,19 @@ void RenderingEngine::update(const float delta)
     }
 
     if (Input::is_key_down(SDL_SCANCODE_UP)) {
-        main_camera_.rotate_x(Math::to_radians(-rotate_speed * delta));
+        main_camera_.rotate_x(to_radians(-rotate_speed * delta));
     }
 
     if (Input::is_key_down(SDL_SCANCODE_DOWN)) {
-        main_camera_.rotate_x(Math::to_radians(rotate_speed * delta));
+        main_camera_.rotate_x(to_radians(rotate_speed * delta));
     }
 
     if (Input::is_key_down(SDL_SCANCODE_LEFT)) {
-        main_camera_.rotate_y(Math::to_radians(-rotate_speed * delta));
+        main_camera_.rotate_y(to_radians(-rotate_speed * delta));
     }
 
     if (Input::is_key_down(SDL_SCANCODE_RIGHT)) {
-        main_camera_.rotate_y(Math::to_radians(rotate_speed * delta));
+        main_camera_.rotate_y(to_radians(rotate_speed * delta));
     }
 }
 

@@ -7,7 +7,6 @@
 #include "quaternion.h"
 
 namespace SGE {
-namespace Math {
 
 class Transform {
     private:
@@ -49,6 +48,5 @@ class Transform {
         Matrix4 get_transformation() const;
 };
 
-} // namespace Math
 } // namespace SGE
 #endif

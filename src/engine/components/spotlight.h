@@ -9,7 +9,7 @@
 namespace SGE {
 class SpotLight : public SGE::Light {
     private:
-        Math::Vector3 direction_{};
+        Vector3 direction_{};
 
         float cut_off_ = 0;
         float outer_cut_off_ = 0;
@@ -21,7 +21,7 @@ class SpotLight : public SGE::Light {
     public:
         SpotLight();
         explicit SpotLight(
-                const Math::Vector3& colour,
+                const Vector3& colour,
                 float intensity,
                 float cut_off,
                 float outer_cut_off,
@@ -30,7 +30,7 @@ class SpotLight : public SGE::Light {
                 float quadratic
                 );
 
-        inline Math::Vector3 direction() const
+        inline Vector3 direction() const
         {
             return get_transform().rotation().get_forward();
         }

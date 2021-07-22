@@ -10,7 +10,7 @@ class SpotShader : public Shader {
         SpotShader();
 
         void update_uniforms(
-                const Math::Transform& transform,
+                const Transform& transform,
                 const Material& material,
                 const RenderingEngine& rendering_engine) const override;
 };

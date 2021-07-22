@@ -33,7 +33,7 @@ SpotShader::SpotShader() :
 }
 
 void SpotShader::update_uniforms(
-        const Math::Transform& transform,
+        const Transform& transform,
         const Material& material,
         const RenderingEngine& rendering_engine) const
 {
@@ -52,7 +52,7 @@ void SpotShader::update_uniforms(
         throw std::runtime_error{"A spot light has malfunctioned."};
     }
 
-    Math::Transform t = transform;
+    Transform t = transform;
 
     set_uniform("spot_light_u.base.colour", light->colour());
     set_uniform("spot_light_u.base.intensity", light->intensity());

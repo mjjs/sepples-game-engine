@@ -11,7 +11,7 @@ SGE::ModelRenderer::ModelRenderer(const SGE::Model& model) : model_{model}
 }
 
 void SGE::ModelRenderer::render(
-        const SGE::Math::Transform& transform,
+        const SGE::Transform& transform,
         Shader& shader,
         const SGE::RenderingEngine& rendering_engine
         )

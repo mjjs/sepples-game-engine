@@ -14,7 +14,7 @@ Light::Light(std::shared_ptr<Shader> shader)
 
 Light::Light(
     std::shared_ptr<Shader> shader,
-    const Math::Vector3& colour,
+    const Vector3& colour,
     float intensity
 ) : 
     colour_{colour},

@@ -8,7 +8,6 @@
 #include <ostream>
 
 namespace SGE {
-namespace Math {
 
 class Matrix4 {
     private:
@@ -29,10 +28,9 @@ class Matrix4 {
         const std::array<float, 4>& operator[](std::size_t i) const;
 };
 
-SGE::Math::Matrix4 operator*(const SGE::Math::Matrix4& lhs, const SGE::Math::Matrix4& rhs);
-std::ostream& operator<<(std::ostream& os, const SGE::Math::Matrix4& matrix);
+SGE::Matrix4 operator*(const SGE::Matrix4& lhs, const SGE::Matrix4& rhs);
+std::ostream& operator<<(std::ostream& os, const SGE::Matrix4& matrix);
 
-} // namespace Math
 } // namespace SGE
 
 

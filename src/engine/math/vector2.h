@@ -4,7 +4,6 @@
 #include <ostream>
 
 namespace SGE {
-namespace Math {
 
 struct Vector2 {
     float x = 0;
@@ -20,7 +19,6 @@ Vector2 operator*(const Vector2& vector, int scalar);
 Vector2 operator*(const Vector2& vector, float scalar);
 bool operator==(const Vector2& lhs, const Vector2& rhs);
 
-} // namespace Math
 } // namespace SGE
 
 

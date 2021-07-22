@@ -11,17 +11,17 @@
 namespace SGE {
 class DirectionalLight : public Light {
     private:
-        Math::Vector3 direction_;
+        Vector3 direction_;
 
     public:
         DirectionalLight();
         explicit DirectionalLight(
-            const Math::Vector3& direction,
-            const Math::Vector3& colour,
+            const Vector3& direction,
+            const Vector3& colour,
             float intensity
         );
 
-        inline const Math::Vector3& direction() const
+        inline const Vector3& direction() const
         {
             return direction_;
         }

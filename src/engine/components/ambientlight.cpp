@@ -14,7 +14,7 @@ SGE::AmbientLight::AmbientLight()
 SGE::AmbientLight::AmbientLight(float intensity) :
     Light(
             std::make_shared<AmbientShader>(),
-            Math::Vector3{1.0F, 1.0F, 1.0F},
+            Vector3{1.0F, 1.0F, 1.0F},
             intensity
          )
 {

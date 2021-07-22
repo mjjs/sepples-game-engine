@@ -160,7 +160,7 @@ void Shader::set_uniform(const std::string& variable_name, float value) const
     glUniform1f(uniform_variables_[variable_name], value);
 }
 
-void Shader::set_uniform(const std::string& variable_name, const Math::Vector3& vector) const
+void Shader::set_uniform(const std::string& variable_name, const Vector3& vector) const
 {
     if (!uniform_exists(variable_name)) {
         return;
@@ -169,7 +169,7 @@ void Shader::set_uniform(const std::string& variable_name, const Math::Vector3& 
     glUniform3f(uniform_variables_[variable_name], vector.x, vector.y, vector.z);
 }
 
-void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& matrix) const
+void Shader::set_uniform(const std::string& variable_name, const Matrix4& matrix) const
 {
     if (!uniform_exists(variable_name)) {
         return;
@@ -178,8 +178,8 @@ void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& 
     glUniformMatrix4fv(uniform_variables_[variable_name], 1, GL_TRUE, &(matrix[0][0]));
 }
 
-void Shader::set_transformations(const Math::Matrix4& transformation,
-        const Math::Matrix4& projection) const
+void Shader::set_transformations(const Matrix4& transformation,
+        const Matrix4& projection) const
 {
     set_uniform("transform_u", transformation);
     set_uniform("projection_u", projection);
@@ -199,7 +199,7 @@ bool Shader::uniform_exists(const std::string& variable_name) const
 }
 
 void Shader::update_uniforms(
-                [[maybe_unused]] const Math::Transform& transform,
+                [[maybe_unused]] const Transform& transform,
                 [[maybe_unused]] const Material& material,
                 [[maybe_unused]] const RenderingEngine& rendering_engine) const
 {

@@ -20,7 +20,7 @@ class ModelRenderer : public GameComponent {
     public:
         ModelRenderer(const Model& model);
 
-        void render(const Math::Transform& transform, Shader& shader, const RenderingEngine& rendering_engine) override;
+        void render(const Transform& transform, Shader& shader, const RenderingEngine& rendering_engine) override;
 };
 
 } // namespace SGE

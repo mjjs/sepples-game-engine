@@ -12,8 +12,8 @@ SGE::DirectionalLight::DirectionalLight()
 }
 
 SGE::DirectionalLight::DirectionalLight(
-        const Math::Vector3& direction,
-        const Math::Vector3& colour,
+        const Vector3& direction,
+        const Vector3& colour,
         float intensity
         ) :
     Light(std::make_shared<DirectionalShader>(), colour, intensity),

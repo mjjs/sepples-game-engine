@@ -9,17 +9,17 @@ namespace SGE {
 
 class Camera {
     private:
-        Math::Vector3 position_;
-        Math::Vector3 forward_;
-        Math::Vector3 up_;
-        Math::Matrix4 projection_;
+        Vector3 position_;
+        Vector3 forward_;
+        Vector3 up_;
+        Matrix4 projection_;
 
     public:
-        static inline const Math::Vector3 world_up_{0,1,0};
+        static inline const Vector3 world_up_{0,1,0};
 
         Camera(float fov_radians, float aspect_ratio, float z_near, float z_far);
 
-        inline void move(const Math::Vector3& direction, float amount)
+        inline void move(const Vector3& direction, float amount)
         {
             position_ = position_ + amount * direction;
         }
@@ -27,29 +27,29 @@ class Camera {
         void rotate_x(float radians);
         void rotate_y(float radians);
 
-        Math::Matrix4 get_view_projection() const;
+        Matrix4 get_view_projection() const;
 
-        inline Math::Vector3 get_position() const
+        inline Vector3 get_position() const
         {
             return position_;
         }
 
-        inline Math::Vector3 get_left() const
+        inline Vector3 get_left() const
         {
-            return Math::normalize(Math::cross(forward_, up_));
+            return normalize(cross(forward_, up_));
         }
 
-        inline Math::Vector3 get_right() const
+        inline Vector3 get_right() const
         {
-            return Math::normalize(Math::cross(up_, forward_));
+            return normalize(cross(up_, forward_));
         }
 
-        inline Math::Vector3 get_forward() const
+        inline Vector3 get_forward() const
         {
             return forward_;
         }
 
-        inline Math::Vector3 get_up() const
+        inline Vector3 get_up() const
         {
             return up_;
         }

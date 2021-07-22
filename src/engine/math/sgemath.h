@@ -6,7 +6,6 @@
 #include "quaternion.h"
 
 namespace SGE {
-namespace Math {
 
 // Vector2
 float angle_to(const Vector2& vec_a, const Vector2& vec_b);
@@ -33,6 +32,5 @@ Quaternion conjugate(const Quaternion& q);
 
 float to_radians(float degrees);
 
-} // namespace Math
 } // namespace SGE
 #endif

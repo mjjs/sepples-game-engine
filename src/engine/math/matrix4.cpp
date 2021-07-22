@@ -11,7 +11,7 @@
 
 namespace SGE {
 
-Math::Matrix4::Matrix4() : matrix{std::array<std::array<float, 4>, 4>()}
+Matrix4::Matrix4() : matrix{std::array<std::array<float, 4>, 4>()}
 {
     for (std::size_t i = 0; i < 4; ++i) {
         std::array<float, 4> a{};
@@ -20,13 +20,13 @@ Math::Matrix4::Matrix4() : matrix{std::array<std::array<float, 4>, 4>()}
     }
 }
 
-Math::Matrix4::Matrix4(const std::array<std::array<float, 4>, 4>& columns_and_rows)
+Matrix4::Matrix4(const std::array<std::array<float, 4>, 4>& columns_and_rows)
     : matrix{columns_and_rows}
 {}
 
-Math::Matrix4 Math::Matrix4::identity()
+Matrix4 Matrix4::identity()
 {
-    Math::Matrix4 m{};
+    Matrix4 m{};
 
     for (std::size_t i = 0; i < 4; ++i) {
         m[i][i] = 1;
@@ -35,24 +35,24 @@ Math::Matrix4 Math::Matrix4::identity()
     return m;
 }
 
-Math::Matrix4 Math::Matrix4::translation(const Math::Vector3& translation_vector)
+Matrix4 Matrix4::translation(const Vector3& translation_vector)
 {
-    Math::Matrix4 translation_matrix = Math::Matrix4::identity();
+    Matrix4 translation_matrix = Matrix4::identity();
     translation_matrix[0][3] = translation_vector.x;
     translation_matrix[1][3] = translation_vector.y;
     translation_matrix[2][3] = translation_vector.z;
     return translation_matrix;
 }
 
-Math::Matrix4 Math::Matrix4::rotation(const Math::Vector3& rotation_vector)
+Matrix4 Matrix4::rotation(const Vector3& rotation_vector)
 {
-    Math::Matrix4 rotate_x = Math::Matrix4::identity();
-    Math::Matrix4 rotate_y = Math::Matrix4::identity();
-    Math::Matrix4 rotate_z = Math::Matrix4::identity();
+    Matrix4 rotate_x = Matrix4::identity();
+    Matrix4 rotate_y = Matrix4::identity();
+    Matrix4 rotate_z = Matrix4::identity();
 
-    const float x_rads = Math::to_radians(rotation_vector.x);
-    const float y_rads = Math::to_radians(rotation_vector.y);
-    const float z_rads = Math::to_radians(rotation_vector.z);
+    const float x_rads = to_radians(rotation_vector.x);
+    const float y_rads = to_radians(rotation_vector.y);
+    const float z_rads = to_radians(rotation_vector.z);
 
     rotate_x[1][1] = std::cos(x_rads);
     rotate_x[1][2] = -std::sin(x_rads);
@@ -72,9 +72,9 @@ Math::Matrix4 Math::Matrix4::rotation(const Math::Vector3& rotation_vector)
     return rotate_x * rotate_y * rotate_z;
 }
 
-Math::Matrix4 Math::Matrix4::rotation(const Vector3& forward, const Vector3& up, const Vector3& right)
+Matrix4 Matrix4::rotation(const Vector3& forward, const Vector3& up, const Vector3& right)
 {
-    Math::Matrix4 m{};
+    Matrix4 m{};
 
     m[0][0] = right.x;
     m[0][1] = right.y;
@@ -93,9 +93,9 @@ Math::Matrix4 Math::Matrix4::rotation(const Vector3& forward, const Vector3& up,
     return m;
 }
 
-Math::Matrix4 Math::Matrix4::scale(const Math::Vector3& scale_vector)
+Matrix4 Matrix4::scale(const Vector3& scale_vector)
 {
-    Math::Matrix4 scale_matrix = Math::Matrix4::identity();
+    Matrix4 scale_matrix = Matrix4::identity();
 
     scale_matrix[0][0] = scale_vector.x;
     scale_matrix[1][1] = scale_vector.y;
@@ -104,7 +104,7 @@ Math::Matrix4 Math::Matrix4::scale(const Math::Vector3& scale_vector)
     return scale_matrix;
 }
 
-Math::Matrix4 Math::Matrix4::perspective(
+Matrix4 Matrix4::perspective(
         const float fov_radians,
         const float aspect_ratio,
         const float z_near,
@@ -113,7 +113,7 @@ Math::Matrix4 Math::Matrix4::perspective(
     const float tan_half_fov = std::tan(fov_radians / 2);
     const float z_range = z_near - z_far;
 
-    Math::Matrix4 projection_matrix = Math::Matrix4::identity();
+    Matrix4 projection_matrix = Matrix4::identity();
     projection_matrix[0][0] = 1.0F / (tan_half_fov * aspect_ratio);
     projection_matrix[1][1] = 1.0F / tan_half_fov;
     projection_matrix[2][2] = (-z_near - z_far) / z_range;
@@ -124,7 +124,7 @@ Math::Matrix4 Math::Matrix4::perspective(
     return projection_matrix;
 }
 
-Math::Matrix4 Math::Matrix4::ortographic(
+Matrix4 Matrix4::ortographic(
         const float left,
         const float right,
         const float bottom,
@@ -136,7 +136,7 @@ Math::Matrix4 Math::Matrix4::ortographic(
     const float height = top - bottom;
     const float depth = far - near;
 
-    Math::Matrix4 ortographic_matrix = Math::Matrix4::identity();
+    Matrix4 ortographic_matrix = Matrix4::identity();
     ortographic_matrix[0][0] = 2/width;
     ortographic_matrix[0][3] = -(right + left)/width;
 
@@ -149,15 +149,15 @@ Math::Matrix4 Math::Matrix4::ortographic(
     return ortographic_matrix;
 }
 
-Math::Matrix4 Math::Matrix4::camera(const Math::Vector3& forward, const Math::Vector3& up)
+Matrix4 Matrix4::camera(const Vector3& forward, const Vector3& up)
 {
-    Math::Vector3 normalized_forward = Math::normalize(forward);
-    Math::Vector3 normalized_right = Math::normalize(up);
-    normalized_right = Math::cross(normalized_right, normalized_forward);
+    Vector3 normalized_forward = normalize(forward);
+    Vector3 normalized_right = normalize(up);
+    normalized_right = cross(normalized_right, normalized_forward);
 
-    Math::Vector3 normalized_up = Math::cross(normalized_forward, normalized_right);
+    Vector3 normalized_up = cross(normalized_forward, normalized_right);
 
-    Math::Matrix4 camera_matrix = Math::Matrix4::identity();
+    Matrix4 camera_matrix = Matrix4::identity();
     camera_matrix[0][0] = normalized_right.x;
     camera_matrix[0][1] = normalized_right.y;
     camera_matrix[0][2] = normalized_right.z;
@@ -173,9 +173,9 @@ Math::Matrix4 Math::Matrix4::camera(const Math::Vector3& forward, const Math::Ve
     return camera_matrix;
 }
 
-Math::Matrix4 Math::operator*(const Math::Matrix4& lhs, const Math::Matrix4& rhs)
+Matrix4 operator*(const Matrix4& lhs, const Matrix4& rhs)
 {
-    Math::Matrix4 result{};
+    Matrix4 result{};
 
     for (size_t y = 0; y < 4; ++y) {
         for (size_t x = 0; x < 4; ++x) {
@@ -188,17 +188,17 @@ Math::Matrix4 Math::operator*(const Math::Matrix4& lhs, const Math::Matrix4& rhs
     return result;
 }
 
-std::array<float, 4>& Math::Matrix4::operator[](const std::size_t i)
+std::array<float, 4>& Matrix4::operator[](const std::size_t i)
 {
     return matrix[i];
 }
 
-const std::array<float, 4>& Math::Matrix4::operator[](const std::size_t i) const
+const std::array<float, 4>& Matrix4::operator[](const std::size_t i) const
 {
     return matrix[i];
 }
 
-std::ostream& operator<<(std::ostream& os, const Math::Matrix4& matrix)
+std::ostream& operator<<(std::ostream& os, const Matrix4& matrix)
 {
     for (size_t i = 0; i < 4; ++i) {
         os << "[";

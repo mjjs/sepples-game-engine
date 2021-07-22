@@ -5,11 +5,11 @@
 
 namespace SGE {
 
-Math::Matrix4 Math::Transform::get_transformation() const
+Matrix4 Transform::get_transformation() const
 {
-    const Math::Matrix4 position = Math::Matrix4::translation(position_);
-    const Math::Matrix4 rotation = rotation_.to_rotation_matrix();
-    const Math::Matrix4 scale = Math::Matrix4::scale(scale_);
+    const Matrix4 position = Matrix4::translation(position_);
+    const Matrix4 rotation = rotation_.to_rotation_matrix();
+    const Matrix4 scale = Matrix4::scale(scale_);
 
     return position * rotation * scale;
 }

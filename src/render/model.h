@@ -31,7 +31,7 @@ class Model {
         void draw(Shader& shader) const;
 };
 
-Math::Vector3 get_colour(const aiMaterial& material, const std::string& type);
+Vector3 get_colour(const aiMaterial& material, const std::string& type);
 float get_shininess(const aiMaterial& material);
 
 } // namespace SGE

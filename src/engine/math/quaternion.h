@@ -5,7 +5,6 @@
 #include "matrix4.h"
 
 namespace SGE {
-namespace Math {
 
 class Quaternion {
     public:
@@ -79,7 +78,7 @@ class Quaternion {
 
 inline Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs)
 {
-    return Math::Quaternion{
+    return Quaternion{
         lhs.x * rhs.w + lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
             lhs.y * rhs.w + lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
             lhs.z * rhs.w + lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
@@ -89,7 +88,7 @@ inline Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs)
 
 inline Quaternion operator*(const Quaternion& lhs, const Vector3& rhs)
 {
-    return Math::Quaternion{
+    return Quaternion{
         lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
             lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
             lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
@@ -104,7 +103,7 @@ inline Quaternion operator*(const Vector3& lhs, const Quaternion& rhs)
 
 inline Quaternion operator+(const Quaternion& lhs, const Quaternion& rhs)
 {
-    return Math::Quaternion {
+    return Quaternion {
         lhs.x + rhs.x,
             lhs.y + rhs.y,
             lhs.z + rhs.z,
@@ -112,7 +111,6 @@ inline Quaternion operator+(const Quaternion& lhs, const Quaternion& rhs)
     };
 }
 
-} // namespace Math
 } // namespace SGE
 
 #endif

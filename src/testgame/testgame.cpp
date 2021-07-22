@@ -23,7 +23,7 @@ std::shared_ptr<SGE::GameObject> get_lights();
 
 TestGame::TestGame()
 {
-    SGE::Math::Transform transform{};
+    SGE::Transform transform{};
     root()->set_transform(transform);
 }
 
@@ -32,19 +32,19 @@ std::shared_ptr<SGE::GameObject> get_lights()
     auto light_object = std::make_shared<SGE::GameObject>();
     auto ambient_light = std::make_shared<SGE::AmbientLight>(0.2F);
     auto directional_light_blue = std::make_shared<SGE::DirectionalLight>(
-            SGE::Math::Vector3{8.0F, 0.0F, 5.0F},
-            SGE::Math::Vector3{0.0F, 0.0F, 1.0F},
+            SGE::Vector3{8.0F, 0.0F, 5.0F},
+            SGE::Vector3{0.0F, 0.0F, 1.0F},
             .2F
             );
 
     auto directional_light_red = std::make_shared<SGE::DirectionalLight>(
-            SGE::Math::Vector3{-8.0F, 0.0F, -5.0F},
-            SGE::Math::Vector3{1.0F, 0.0F, 0.0F},
+            SGE::Vector3{-8.0F, 0.0F, -5.0F},
+            SGE::Vector3{1.0F, 0.0F, 0.0F},
             .2F
             );
 
     auto point_light = std::make_shared<SGE::PointLight>(
-            SGE::Math::Vector3{0, 1.0F, 0},
+            SGE::Vector3{0, 1.0F, 0},
             2.0F,
             1,
             0,
@@ -52,10 +52,10 @@ std::shared_ptr<SGE::GameObject> get_lights()
             );
 
     auto spot_light = std::make_shared<SGE::SpotLight>(
-            SGE::Math::Vector3{1, 1, 1},
+            SGE::Vector3{1, 1, 1},
             1.0F,
-            std::cos(SGE::Math::to_radians(12.5F)),
-            std::cos(SGE::Math::to_radians(17.5F)),
+            std::cos(SGE::to_radians(12.5F)),
+            std::cos(SGE::to_radians(17.5F)),
             1.0F,
             0.09F,
             0.032F
@@ -67,9 +67,9 @@ std::shared_ptr<SGE::GameObject> get_lights()
     light_object->add_component(point_light);
     light_object->add_component(spot_light);
 
-    light_object->transform().set_position(SGE::Math::Vector3{5, 0, 0});
-    light_object->transform().set_rotation(SGE::Math::Quaternion{}.init_rotation(
-                SGE::Math::Vector3{0, 1, 0}, SGE::Math::to_radians(-90.0F)));
+    light_object->transform().set_position(SGE::Vector3{5, 0, 0});
+    light_object->transform().set_rotation(SGE::Quaternion{}.init_rotation(
+                SGE::Vector3{0, 1, 0}, SGE::to_radians(-90.0F)));
 
     return light_object;
 }
@@ -90,9 +90,9 @@ void TestGame::init()
         indices,
         SGE::Material{
             std::vector<SGE::Texture>{SGE::load_diffuse_texture("test.jpg", "res/textures")},
-            SGE::Math::Vector3{.5F, 1.0F, 1.0F},
-            SGE::Math::Vector3{.3F, 1.0F, 1.0F},
-            SGE::Math::Vector3{.8F, .8F, .8F}
+            SGE::Vector3{.5F, 1.0F, 1.0F},
+            SGE::Vector3{.3F, 1.0F, 1.0F},
+            SGE::Vector3{.8F, .8F, .8F}
         }
     );
 

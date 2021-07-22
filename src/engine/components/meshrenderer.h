@@ -21,7 +21,7 @@ class MeshRenderer : public GameComponent {
     public:
         MeshRenderer(std::unique_ptr<Mesh>& mesh);
 
-        void render(const Math::Transform& transform, Shader& shader, const RenderingEngine& rendering_engine) override;
+        void render(const Transform& transform, Shader& shader, const RenderingEngine& rendering_engine) override;
 };
 
 } // namespace SGE

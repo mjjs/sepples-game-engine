@@ -10,7 +10,7 @@ class BasicShader : public Shader {
     public:
         BasicShader();
         void update_uniforms(
-                const Math::Transform& transformation,
+                const Transform& transformation,
                 const Material& material,
                 const SGE::RenderingEngine& rendering_engine) const override;
 };

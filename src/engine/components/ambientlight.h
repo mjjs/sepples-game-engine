@@ -7,7 +7,7 @@
 namespace SGE {
 class AmbientLight : public Light {
     private:
-        Math::Vector3 direction_;
+        Vector3 direction_;
 
     public:
         AmbientLight();

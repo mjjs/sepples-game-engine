@@ -18,7 +18,7 @@ BasicShader::BasicShader() :
 }
 
 void BasicShader::update_uniforms(
-        const Math::Transform& transform,
+        const Transform& transform,
         const Material& material,
         const RenderingEngine& rendering_engine) const
 {

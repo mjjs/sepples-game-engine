@@ -13,7 +13,7 @@ PointLight::PointLight()
 }
 
 PointLight::PointLight(
-        const Math::Vector3& colour,
+        const Vector3& colour,
         float intensity,
         float constant,
         float linear,

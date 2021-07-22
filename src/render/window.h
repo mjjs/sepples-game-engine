@@ -44,9 +44,9 @@ class Window {
             SDL_GL_SwapWindow(window_);
         }
 
-        inline Math::Vector2 get_center() const
+        inline Vector2 get_center() const
         {
-            return Math::Vector2{
+            return Vector2{
                 static_cast<float>(width_)/2,
                 static_cast<float>(height_)/2,
             };

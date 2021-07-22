@@ -8,18 +8,18 @@ void GameComponent::init()
 }
 
 void GameComponent::update(
-        [[maybe_unused]] const Math::Transform& transform,
+        [[maybe_unused]] const Transform& transform,
         [[maybe_unused]] float delta
         )
 {
 }
 
-void GameComponent::fixed_update([[maybe_unused]] const Math::Transform& transform)
+void GameComponent::fixed_update([[maybe_unused]] const Transform& transform)
 {
 }
 
 void GameComponent::render(
-        [[maybe_unused]] const Math::Transform& transform,
+        [[maybe_unused]] const Transform& transform,
         [[maybe_unused]] Shader& shader,
         [[maybe_unused]] const RenderingEngine& rendering_engine
         )
@@ -31,7 +31,7 @@ void GameComponent::add_to_rendering_engine(
 {
 }
 
-const Math::Transform& GameComponent::get_transform() const
+const Transform& GameComponent::get_transform() const
 {
     return parent_->transform();
 }

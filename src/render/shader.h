@@ -52,18 +52,18 @@ class Shader {
         void add_uniform(const std::string& variable_name) const;
         void set_uniform(const std::string& variable_name, int value) const;
         void set_uniform(const std::string& variable_name, float value) const;
-        void set_uniform(const std::string& variable_name, const Math::Vector3& vector) const;
-        void set_uniform(const std::string& variable_name, const Math::Matrix4& matrix) const;
+        void set_uniform(const std::string& variable_name, const Vector3& vector) const;
+        void set_uniform(const std::string& variable_name, const Matrix4& matrix) const;
 
         void bind() const;
         virtual void update_uniforms(
-                const Math::Transform& transform,
+                const Transform& transform,
                 const Material& material,
                 const RenderingEngine& rendering_engine) const;
 
         void set_material(const Material& material) const;
-        void set_transformations(const Math::Matrix4& transformation,
-                const Math::Matrix4& projection) const;
+        void set_transformations(const Matrix4& transformation,
+                const Matrix4& projection) const;
 };
 
 } // namespace SGE

@@ -13,7 +13,7 @@ SpotLight::SpotLight()
 }
 
 SpotLight::SpotLight(
-                const Math::Vector3& colour,
+                const Vector3& colour,
                 float intensity,
                 float cut_off,
                 float outer_cut_off,

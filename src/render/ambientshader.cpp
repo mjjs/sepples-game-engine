@@ -22,7 +22,7 @@ AmbientShader::AmbientShader() :
 }
 
 void AmbientShader::update_uniforms(
-        const Math::Transform& transform,
+        const Transform& transform,
         const Material& material,
         const RenderingEngine& rendering_engine) const
 {
@@ -40,7 +40,7 @@ void AmbientShader::update_uniforms(
 
     set_uniform(
             "intensity_u",
-            Math::Vector3{light->intensity(), light->intensity(), light->intensity()}
+            Vector3{light->intensity(), light->intensity(), light->intensity()}
             );
 }
 

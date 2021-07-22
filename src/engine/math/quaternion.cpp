@@ -6,7 +6,7 @@
 
 namespace SGE {
 
-Math::Quaternion Math::Quaternion::init_rotation(const Math::Vector3& axis, float angle)
+Quaternion Quaternion::init_rotation(const Vector3& axis, float angle)
 {
     float sin_half_angle = std::sin(angle / 2);
     float cos_half_angle = std::cos(angle / 2);

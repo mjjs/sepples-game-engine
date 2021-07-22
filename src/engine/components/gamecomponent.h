@@ -25,9 +25,9 @@ class GameComponent {
         virtual ~GameComponent() = default;
 
         virtual void init();
-        virtual void update(const Math::Transform& transform, float delta);
-        virtual void fixed_update(const Math::Transform& transform);
-        virtual void render(const Math::Transform& transform, Shader& shader, const RenderingEngine& rendering_engine);
+        virtual void update(const Transform& transform, float delta);
+        virtual void fixed_update(const Transform& transform);
+        virtual void render(const Transform& transform, Shader& shader, const RenderingEngine& rendering_engine);
         virtual void add_to_rendering_engine(RenderingEngine& rendering_engine);
 
         inline void set_parent(GameObject* game_object)
@@ -35,7 +35,7 @@ class GameComponent {
             parent_ = game_object;
         }
 
-        const Math::Transform& get_transform() const;
+        const Transform& get_transform() const;
 };
 } // namespace SGE
 #endif

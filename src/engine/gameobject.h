@@ -15,7 +15,7 @@ class RenderingEngine;
 
 class GameObject {
     private:
-        Math::Transform transform_{};
+        Transform transform_{};
         std::vector<std::shared_ptr<GameObject>> children_{};
         std::vector<std::shared_ptr<GameComponent>> components_{};
 
@@ -39,12 +39,12 @@ class GameObject {
 
         void add_component(std::shared_ptr<GameComponent> component);
 
-        inline void set_transform(const Math::Transform& transform)
+        inline void set_transform(const Transform& transform)
         {
             transform_ = transform;
         }
 
-        inline Math::Transform& transform()
+        inline Transform& transform()
         {
             return transform_;
         }

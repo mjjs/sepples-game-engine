@@ -14,14 +14,14 @@ class PointLight : public Light {
     public:
         PointLight();
         explicit PointLight(
-                const Math::Vector3& colour,
+                const Vector3& colour,
                 float intensity,
                 float constant,
                 float linear,
                 float quadratic
                 );
 
-        const Math::Vector3& position() const;
+        const Vector3& position() const;
         inline float constant() const
         {
             return constant_;

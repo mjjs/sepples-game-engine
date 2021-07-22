@@ -11,7 +11,7 @@ class DirectionalShader : public Shader {
         DirectionalShader();
 
         void update_uniforms(
-                const Math::Transform& transform,
+                const Transform& transform,
                 const Material& material,
                 const SGE::RenderingEngine& rendering_engine) const override;
 };

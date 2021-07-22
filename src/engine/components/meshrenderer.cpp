@@ -17,7 +17,7 @@ SGE::MeshRenderer::MeshRenderer(std::unique_ptr<Mesh>& mesh) :
 }
 
 void SGE::MeshRenderer::render(
-        const SGE::Math::Transform& transform,
+        const SGE::Transform& transform,
         Shader& shader,
         const SGE::RenderingEngine& rendering_engine
         )

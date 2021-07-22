@@ -12,7 +12,7 @@ class RenderingEngine;
 
 class Light : public GameComponent {
     private:
-        Math::Vector3 colour_{1.0F, 1.0F, 1.0F};
+        Vector3 colour_{1.0F, 1.0F, 1.0F};
         float intensity_ = 1.0F;
         std::shared_ptr<Shader> shader_;
 
@@ -20,7 +20,7 @@ class Light : public GameComponent {
         Light(std::shared_ptr<Shader> shader);
         explicit Light(
             std::shared_ptr<Shader> shader,
-            const Math::Vector3& colour,
+            const Vector3& colour,
             float intensity
         );
 
@@ -29,7 +29,7 @@ class Light : public GameComponent {
             return intensity_;
         }
 
-        inline const Math::Vector3& colour() const
+        inline const Vector3& colour() const
         {
             return colour_;
         }
