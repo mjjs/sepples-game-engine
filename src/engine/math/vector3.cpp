@@ -1,55 +1,22 @@
 #include "vector3.h"
-#include <ostream>
+#include "quaternion.h"
+#include "sgemath.h"
 
 namespace SGE {
 
-std::ostream& operator<<(std::ostream& os, const Vector3& vec3)
-{
-    os << "(" << vec3.x << "," << vec3.y << "," << vec3.z << ")";
-    return os;
-}
+    Vector3 Vector3::rotate(float radians, const Vector3& axis) const
+    {
+        Quaternion rotation = Quaternion{}.init_rotation(axis, radians);
+        Quaternion conjug = conjugate(rotation);
 
-Vector3 operator+(const Vector3& lhs, const Vector3& rhs)
-{
-    return Vector3{
-        lhs.x+rhs.x,
-            lhs.y+rhs.y,
-            lhs.z+rhs.z
-    };
-}
+        Quaternion w = rotation * *this * conjug;
 
-Vector3 operator-(const Vector3& lhs, const Vector3& rhs)
-{
-    return Vector3{
-        lhs.x-rhs.x,
-            lhs.y-rhs.y,
-            lhs.z-rhs.z
-    };
-}
+        return Vector3{w.x, w.y, w.z};
+    }
 
-Vector3 operator*(int scalar, const Vector3& vector)
-{
-    return static_cast<float>(scalar) * vector;
-}
+    Vector3 Vector3::lerp(const Vector3& destination, float lerp_factor) const
+    {
+        return *this + (destination - *this) * lerp_factor;
+    }
 
-Vector3 operator*(float scalar, const Vector3& vector)
-{
-    return Vector3{vector.x * scalar, vector.y * scalar, vector.z * scalar};
-}
-
-Vector3 operator*(const Vector3& vector, const int scalar)
-{
-    return vector * static_cast<float>(scalar);
-}
-
-Vector3 operator*(const Vector3& vector, const float scalar)
-{
-    return Vector3{vector.x * scalar, vector.y * scalar, vector.z * scalar};
-}
-
-bool operator==(const Vector3& lhs, const Vector3& rhs)
-{
-    return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;
-}
-
-} // namespace SGE
+} // namepsace SGE

@@ -36,12 +36,12 @@ class Camera {
 
         inline Vector3 get_left() const
         {
-            return normalize(cross(forward_, up_));
+            return forward_.cross(up_).normalized();
         }
 
         inline Vector3 get_right() const
         {
-            return normalize(cross(up_, forward_));
+            return up_.cross(forward_).normalized();
         }
 
         inline Vector3 get_forward() const

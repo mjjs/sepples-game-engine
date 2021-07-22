@@ -74,15 +74,41 @@ class Quaternion {
             };
         }
 
+        inline float length() const
+        {
+            return std::sqrt(x * x + y * y + z * z + w * w);
+        }
+
+        inline Quaternion normalize()
+        {
+            const float len = length();
+            x /= len;
+            y /= len;
+            z /= len;
+            w /= len;
+
+            return *this;
+        }
+
+        inline Quaternion normalized() const
+        {
+            const float len = length();
+            return Quaternion{x/len, y/len, z/len, w/len};
+        }
+
+        inline Quaternion conjugate() const
+        {
+            return Quaternion{-x, -y, -z, w};
+        }
 };
 
 inline Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs)
 {
     return Quaternion{
         lhs.x * rhs.w + lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
-            lhs.y * rhs.w + lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
-            lhs.z * rhs.w + lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
-            lhs.w * rhs.w - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z
+        lhs.y * rhs.w + lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
+        lhs.z * rhs.w + lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
+        lhs.w * rhs.w - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z
     };
 }
 
@@ -90,9 +116,9 @@ inline Quaternion operator*(const Quaternion& lhs, const Vector3& rhs)
 {
     return Quaternion{
         lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
-            lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
-            lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
-            -lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z
+        lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
+        lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
+        -lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z
     };
 }
 
@@ -105,9 +131,9 @@ inline Quaternion operator+(const Quaternion& lhs, const Quaternion& rhs)
 {
     return Quaternion {
         lhs.x + rhs.x,
-            lhs.y + rhs.y,
-            lhs.z + rhs.z,
-            lhs.w + rhs.w
+        lhs.y + rhs.y,
+        lhs.z + rhs.z,
+        lhs.w + rhs.w
     };
 }
 

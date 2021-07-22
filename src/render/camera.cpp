@@ -28,20 +28,20 @@ Matrix4 Camera::get_view_projection() const
 
 void Camera::rotate_x(float radians)
 {
-    Vector3 horizontal_axis = normalize(cross(world_up_, forward_));
+    Vector3 horizontal_axis = world_up_.cross(forward_).normalized();
 
-    forward_ = normalize(rotate(forward_, radians, horizontal_axis));
+    forward_ = forward_.rotate(radians, horizontal_axis).normalized();
 
-    up_ = normalize(cross(forward_, horizontal_axis));
+    up_ = forward_.cross(horizontal_axis).normalized();
 }
 
 void Camera::rotate_y(float radians)
 {
     Vector3 horizontal_axis = normalize(cross(world_up_, forward_));
 
-    forward_ = normalize(rotate(forward_, radians, world_up_));
+    forward_ = forward_.rotate(radians, world_up_).normalized();
 
-    up_ = normalize(cross(forward_, horizontal_axis));
+    up_ = forward_.cross(horizontal_axis).normalized();
 }
 
 } // namespace SGE

@@ -1,47 +1,23 @@
 #include "vector2.h"
-#include <ostream>
+#include "sgemath.h"
 
 namespace SGE {
 
-std::ostream& operator<<(std::ostream& os, const Vector2& vec2)
+Vector2 Vector2::lerp(const Vector2& destination, const float lerp_factor) const
 {
-    os << "(" << vec2.x << "," << vec2.y << ")";
-    return os;
+    return *this + (destination - *this) * lerp_factor;
 }
 
-Vector2 operator+(const Vector2& lhs, const Vector2& rhs)
+Vector2 Vector2::rotate(float degrees) const
 {
-    return Vector2{lhs.x+rhs.x, lhs.y+rhs.y};
-}
+    const float radians = to_radians(degrees);
+    const float cos = std::cos(radians);
+    const float sin = std::sin(radians);
 
-Vector2 operator-(const Vector2& lhs, const Vector2& rhs)
-{
-    return Vector2{lhs.x-rhs.x, lhs.y-rhs.y};
-}
-
-Vector2 operator*(int scalar, const Vector2& vector)
-{
-    return static_cast<float>(scalar) * vector;
-}
-
-Vector2 operator*(float scalar, const Vector2& vector)
-{
-    return Vector2{vector.x * scalar, vector.y * scalar};
-}
-
-Vector2 operator*(const Vector2& vector, const int scalar)
-{
-    return vector * static_cast<float>(scalar);
-}
-
-Vector2 operator*(const Vector2& vector, const float scalar)
-{
-    return Vector2{vector.x * scalar, vector.y * scalar};
-}
-
-bool operator==(const Vector2& lhs, const Vector2& rhs)
-{
-    return lhs.x == rhs.x && lhs.y == rhs.y;
+    return Vector2{
+        cos * x - sin * y,
+        sin * x + cos * y
+    };
 }
 
 } // namespace SGE
