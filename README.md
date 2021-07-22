@@ -1,5 +1,4 @@
 # Sepples game engine
-**This project is on a temporary break due to university classes taking most of my free time. Development will hopefully get back on track in a couple of months.**
 
 A 3D game engine purely for learning purposes.
 
@@ -8,6 +7,7 @@ A 3D game engine purely for learning purposes.
 * OpenGL
 * GLEW
 * Assimp
+* spdlog
 
 ## Building/running
 ```bash
