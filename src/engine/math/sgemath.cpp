@@ -81,9 +81,9 @@ Vector3 cross(const Vector3& vec_a, const Vector3& vec_b)
     };
 }
 
-Vector3 rotate(const Vector3& vec, float degrees, const Vector3& axis)
+Vector3 rotate(const Vector3& vec, float radians, const Vector3& axis)
 {
-    Quaternion rotation = Quaternion{}.init_rotation(axis, degrees);
+    Quaternion rotation = Quaternion{axis, radians};
     Quaternion conjug = conjugate(rotation);
 
     Quaternion w = rotation * vec * conjug;

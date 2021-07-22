@@ -13,12 +13,14 @@ class Quaternion {
         float z = 0;
         float w = 1;
 
+        Quaternion() = default;
+        Quaternion(float x, float y, float z, float w);
+        Quaternion(const Vector3& axis, float angle);
+
         inline Matrix4 to_rotation_matrix() const
         {
             return Matrix4::rotation(get_forward(), get_up(), get_right());
         }
-
-        Quaternion init_rotation(const Vector3& axis, float angle);
 
         inline Vector3 get_forward() const
         {

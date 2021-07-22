@@ -6,7 +6,7 @@ namespace SGE {
 
     Vector3 Vector3::rotate(float radians, const Vector3& axis) const
     {
-        Quaternion rotation = Quaternion{}.init_rotation(axis, radians);
+        Quaternion rotation = Quaternion{axis, radians};
         Quaternion conjug = conjugate(rotation);
 
         Quaternion w = rotation * *this * conjug;

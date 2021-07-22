@@ -68,8 +68,11 @@ std::shared_ptr<SGE::GameObject> get_lights()
     light_object->add_component(spot_light);
 
     light_object->transform().set_position(SGE::Vector3{5, 0, 0});
-    light_object->transform().set_rotation(SGE::Quaternion{}.init_rotation(
-                SGE::Vector3{0, 1, 0}, SGE::to_radians(-90.0F)));
+    light_object->transform()
+        .set_rotation(SGE::Quaternion{
+                SGE::Vector3{0, 1, 0},
+                SGE::to_radians(-90.0F)
+                });
 
     return light_object;
 }
@@ -89,7 +92,7 @@ void TestGame::init()
         vertices,
         indices,
         SGE::Material{
-            std::vector<SGE::Texture>{SGE::load_diffuse_texture("test.jpg", "res/textures")},
+            //std::vector<SGE::Texture>{SGE::load_diffuse_texture("test.jpg", "res/textures")},
             SGE::Vector3{.5F, 1.0F, 1.0F},
             SGE::Vector3{.3F, 1.0F, 1.0F},
             SGE::Vector3{.8F, .8F, .8F}

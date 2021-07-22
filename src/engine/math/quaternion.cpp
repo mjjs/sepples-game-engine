@@ -6,7 +6,12 @@
 
 namespace SGE {
 
-Quaternion Quaternion::init_rotation(const Vector3& axis, float angle)
+Quaternion::Quaternion(const float x, const float y, const float z, const float w)
+    : x{x}, y{y}, z{z}, w{w}
+{
+}
+
+Quaternion::Quaternion(const Vector3& axis, float angle)
 {
     float sin_half_angle = std::sin(angle / 2);
     float cos_half_angle = std::cos(angle / 2);
@@ -15,8 +20,6 @@ Quaternion Quaternion::init_rotation(const Vector3& axis, float angle)
     y = axis.y * sin_half_angle;
     z = axis.z * sin_half_angle;
     w = cos_half_angle;
-
-    return *this;
 }
 
 } // namespace SGE
