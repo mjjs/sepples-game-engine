@@ -10,20 +10,16 @@
 
 namespace SGE {
 class DirectionalLight : public Light {
-    private:
-        Vector3 direction_;
-
     public:
         DirectionalLight();
         explicit DirectionalLight(
-            const Vector3& direction,
             const Vector3& colour,
             float intensity
         );
 
-        inline const Vector3& direction() const
+        inline Vector3 direction() const
         {
-            return direction_;
+            return get_transform().rotation().get_forward();
         }
 };
 } // namespace SGE

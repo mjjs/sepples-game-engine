@@ -32,14 +32,7 @@ std::shared_ptr<SGE::GameObject> get_lights()
     auto light_object = std::make_shared<SGE::GameObject>();
     auto ambient_light = std::make_shared<SGE::AmbientLight>(0.2F);
     auto directional_light_blue = std::make_shared<SGE::DirectionalLight>(
-            SGE::Vector3{8.0F, 0.0F, 5.0F},
             SGE::Vector3{0.0F, 0.0F, 1.0F},
-            .2F
-            );
-
-    auto directional_light_red = std::make_shared<SGE::DirectionalLight>(
-            SGE::Vector3{-8.0F, 0.0F, -5.0F},
-            SGE::Vector3{1.0F, 0.0F, 0.0F},
             .2F
             );
 
@@ -63,7 +56,6 @@ std::shared_ptr<SGE::GameObject> get_lights()
 
     light_object->add_component(ambient_light);
     light_object->add_component(directional_light_blue);
-    light_object->add_component(directional_light_red);
     light_object->add_component(point_light);
     light_object->add_component(spot_light);
 
