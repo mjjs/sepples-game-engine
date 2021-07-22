@@ -35,7 +35,7 @@ SpotShader::SpotShader() :
 void SpotShader::update_uniforms(
         const Math::Transform& transform,
         const Material& material,
-        const RenderingEngine& rendering_engine)
+        const RenderingEngine& rendering_engine) const
 {
     set_uniform("transform_u", transform.get_projected_transformation(rendering_engine.camera()));
     set_uniform("projection_u", transform.get_transformation());

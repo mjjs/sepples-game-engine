@@ -24,8 +24,8 @@ class Camera {
             position_ = position_ + amount * direction;
         }
 
-        void rotate_x(float degrees);
-        void rotate_y(float degrees);
+        void rotate_x(float radians);
+        void rotate_y(float radians);
 
         Math::Matrix4 get_view_projection() const;
 

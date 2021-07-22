@@ -1,4 +1,5 @@
 #include "ambientlight.h"
+#include "sgemath.h"
 #include "gamecomponent.h"
 #include "directionallight.h"
 #include "spotlight.h"
@@ -13,6 +14,7 @@
 #include "vector3.h"
 #include "transform.h"
 #include "vertex.h"
+#include "quaternion.h"
 
 #include <memory>
 #include <vector>
@@ -50,7 +52,6 @@ std::shared_ptr<SGE::GameObject> get_lights()
             );
 
     auto spot_light = std::make_shared<SGE::SpotLight>(
-            SGE::Math::Vector3{1.0F, 0, 1.0F},
             SGE::Math::Vector3{1, 1, 1},
             1.0F,
             std::cos(SGE::Math::to_radians(12.5F)),
@@ -60,13 +61,15 @@ std::shared_ptr<SGE::GameObject> get_lights()
             0.032F
             );
 
-    //light_object->add_component(ambient_light);
+    light_object->add_component(ambient_light);
     light_object->add_component(directional_light_blue);
     light_object->add_component(directional_light_red);
     light_object->add_component(point_light);
     light_object->add_component(spot_light);
 
-    light_object->transform().position().x = 5;
+    light_object->transform().set_position(SGE::Math::Vector3{5, 0, 0});
+    light_object->transform().set_rotation(SGE::Math::Quaternion{}.init_rotation(
+                SGE::Math::Vector3{0, 1, 0}, SGE::Math::to_radians(-90.0F)));
 
     return light_object;
 }
@@ -86,7 +89,7 @@ void TestGame::init()
         vertices,
         indices,
         SGE::Material{
-            //std::vector<Texture>{load_diffuse_texture("test.jpg", "res/textures")},
+            std::vector<SGE::Texture>{SGE::load_diffuse_texture("test.jpg", "res/textures")},
             SGE::Math::Vector3{.5F, 1.0F, 1.0F},
             SGE::Math::Vector3{.3F, 1.0F, 1.0F},
             SGE::Math::Vector3{.8F, .8F, .8F}

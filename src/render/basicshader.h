@@ -12,7 +12,7 @@ class BasicShader : public Shader {
         void update_uniforms(
                 const Math::Transform& transformation,
                 const Material& material,
-                const SGE::RenderingEngine& rendering_engine) override;
+                const SGE::RenderingEngine& rendering_engine) const override;
 };
 
 } // namespace SGE

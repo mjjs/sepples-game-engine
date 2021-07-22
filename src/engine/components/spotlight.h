@@ -21,7 +21,6 @@ class SpotLight : public SGE::Light {
     public:
         SpotLight();
         explicit SpotLight(
-                const Math::Vector3& direction,
                 const Math::Vector3& colour,
                 float intensity,
                 float cut_off,
@@ -31,9 +30,9 @@ class SpotLight : public SGE::Light {
                 float quadratic
                 );
 
-        inline const Math::Vector3& direction() const
+        inline Math::Vector3 direction() const
         {
-            return direction_;
+            return get_transform().rotation().get_forward();
         }
 
         inline float cut_off() const

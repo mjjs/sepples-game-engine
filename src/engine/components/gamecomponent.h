@@ -35,7 +35,7 @@ class GameComponent {
             parent_ = game_object;
         }
 
-        Math::Transform& get_transform();
+        const Math::Transform& get_transform() const;
 };
 } // namespace SGE
 #endif

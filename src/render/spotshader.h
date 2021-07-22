@@ -12,7 +12,7 @@ class SpotShader : public Shader {
         void update_uniforms(
                 const Math::Transform& transform,
                 const Material& material,
-                const RenderingEngine& rendering_engine) override;
+                const RenderingEngine& rendering_engine) const override;
 };
 
 } // namespace SGE

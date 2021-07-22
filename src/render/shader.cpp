@@ -142,7 +142,7 @@ void Shader::add_uniform(const std::string& variable_name) const
     uniform_variables_[variable_name] = uniform_location;
 }
 
-void Shader::set_uniform(const std::string& variable_name, int value)
+void Shader::set_uniform(const std::string& variable_name, int value) const
 {
     if (!uniform_exists(variable_name)) {
         return;
@@ -151,7 +151,7 @@ void Shader::set_uniform(const std::string& variable_name, int value)
     glUniform1i(uniform_variables_[variable_name], value);
 }
 
-void Shader::set_uniform(const std::string& variable_name, float value)
+void Shader::set_uniform(const std::string& variable_name, float value) const
 {
     if (!uniform_exists(variable_name)) {
         return;
@@ -160,7 +160,7 @@ void Shader::set_uniform(const std::string& variable_name, float value)
     glUniform1f(uniform_variables_[variable_name], value);
 }
 
-void Shader::set_uniform(const std::string& variable_name, const Math::Vector3& vector)
+void Shader::set_uniform(const std::string& variable_name, const Math::Vector3& vector) const
 {
     if (!uniform_exists(variable_name)) {
         return;
@@ -169,7 +169,7 @@ void Shader::set_uniform(const std::string& variable_name, const Math::Vector3& 
     glUniform3f(uniform_variables_[variable_name], vector.x, vector.y, vector.z);
 }
 
-void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& matrix)
+void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& matrix) const
 {
     if (!uniform_exists(variable_name)) {
         return;
@@ -179,13 +179,13 @@ void Shader::set_uniform(const std::string& variable_name, const Math::Matrix4& 
 }
 
 void Shader::set_transformations(const Math::Matrix4& transformation,
-        const Math::Matrix4& projection)
+        const Math::Matrix4& projection) const
 {
     set_uniform("transform_u", transformation);
     set_uniform("projection_u", projection);
 }
 
-void Shader::set_material(const Material& material)
+void Shader::set_material(const Material& material) const
 {
     set_uniform("material_u.ambient", material.ambient_colour());
     set_uniform("material_u.diffuse", material.diffuse_colour());
@@ -201,7 +201,7 @@ bool Shader::uniform_exists(const std::string& variable_name) const
 void Shader::update_uniforms(
                 [[maybe_unused]] const Math::Transform& transform,
                 [[maybe_unused]] const Material& material,
-                [[maybe_unused]] const RenderingEngine& rendering_engine)
+                [[maybe_unused]] const RenderingEngine& rendering_engine) const
 {
 }
 

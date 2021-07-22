@@ -1,42 +1,22 @@
 #include "vector3.h"
+#include "matrix4.h"
 #include "quaternion.h"
+
+#include <cmath>
 
 namespace SGE {
 
-Math::Quaternion Math::operator*(const Math::Quaternion& lhs, const Math::Quaternion& rhs)
+Math::Quaternion Math::Quaternion::init_rotation(const Math::Vector3& axis, float angle)
 {
-    return Math::Quaternion{
-        lhs.x * rhs.w + lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
-            lhs.y * rhs.w + lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
-            lhs.z * rhs.w + lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
-            lhs.w * rhs.w - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z
-    };
-}
+    float sin_half_angle = std::sin(angle / 2);
+    float cos_half_angle = std::cos(angle / 2);
 
-Math::Quaternion Math::operator*(const Math::Quaternion& lhs, const Math::Vector3& rhs)
-{
-    return Math::Quaternion{
-        lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
-            lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
-            lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
-            -lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z
-    };
-    //return Math::Quaternion{
-    //    -lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z,
-    //        lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
-    //        lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
-    //        lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x
-    //};
-}
+    x = axis.x * sin_half_angle;
+    y = axis.y * sin_half_angle;
+    z = axis.z * sin_half_angle;
+    w = cos_half_angle;
 
-Math::Quaternion Math::operator+(const Math::Quaternion& lhs, const Math::Quaternion& rhs)
-{
-    return Math::Quaternion {
-        lhs.x + rhs.x,
-            lhs.y + rhs.y,
-            lhs.z + rhs.z,
-            lhs.w + rhs.w
-    };
+    return *this;
 }
 
 } // namespace SGE

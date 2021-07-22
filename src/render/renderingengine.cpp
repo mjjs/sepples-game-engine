@@ -59,6 +59,7 @@ void RenderingEngine::render(GameObject& gameobject)
 void RenderingEngine::update(const float delta)
 {
     const float move_speed = .025;
+    const float rotate_speed = 0.30;
 
     if (Input::is_key_down(SDL_SCANCODE_D)) {
         main_camera_.move(main_camera_.get_right(), move_speed * delta);
@@ -77,19 +78,19 @@ void RenderingEngine::update(const float delta)
     }
 
     if (Input::is_key_down(SDL_SCANCODE_UP)) {
-        main_camera_.rotate_x(-1);
+        main_camera_.rotate_x(Math::to_radians(-rotate_speed * delta));
     }
 
     if (Input::is_key_down(SDL_SCANCODE_DOWN)) {
-        main_camera_.rotate_x(1);
+        main_camera_.rotate_x(Math::to_radians(rotate_speed * delta));
     }
 
     if (Input::is_key_down(SDL_SCANCODE_LEFT)) {
-        main_camera_.rotate_y(-1);
+        main_camera_.rotate_y(Math::to_radians(-rotate_speed * delta));
     }
 
     if (Input::is_key_down(SDL_SCANCODE_RIGHT)) {
-        main_camera_.rotate_y(1);
+        main_camera_.rotate_y(Math::to_radians(rotate_speed * delta));
     }
 }
 

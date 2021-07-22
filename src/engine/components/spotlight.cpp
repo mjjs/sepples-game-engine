@@ -13,7 +13,6 @@ SpotLight::SpotLight()
 }
 
 SpotLight::SpotLight(
-                const Math::Vector3& direction,
                 const Math::Vector3& colour,
                 float intensity,
                 float cut_off,
@@ -23,7 +22,6 @@ SpotLight::SpotLight(
                 float quadratic
                 ) :
     Light{std::make_shared<SpotShader>(), colour, intensity},
-    direction_{direction},
     cut_off_{cut_off},
     outer_cut_off_{outer_cut_off},
     constant_{constant},

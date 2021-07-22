@@ -72,6 +72,27 @@ Math::Matrix4 Math::Matrix4::rotation(const Math::Vector3& rotation_vector)
     return rotate_x * rotate_y * rotate_z;
 }
 
+Math::Matrix4 Math::Matrix4::rotation(const Vector3& forward, const Vector3& up, const Vector3& right)
+{
+    Math::Matrix4 m{};
+
+    m[0][0] = right.x;
+    m[0][1] = right.y;
+    m[0][2] = right.z;
+
+    m[1][0] = up.x;
+    m[1][1] = up.y;
+    m[1][2] = up.z;
+
+    m[2][0] = forward.x;
+    m[2][1] = forward.y;
+    m[2][2] = forward.z;
+
+    m[3][3] = 1;
+
+    return m;
+}
+
 Math::Matrix4 Math::Matrix4::scale(const Math::Vector3& scale_vector)
 {
     Math::Matrix4 scale_matrix = Math::Matrix4::identity();

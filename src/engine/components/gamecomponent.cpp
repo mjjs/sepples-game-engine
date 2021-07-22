@@ -31,7 +31,7 @@ void GameComponent::add_to_rendering_engine(
 {
 }
 
-Math::Transform& GameComponent::get_transform()
+const Math::Transform& GameComponent::get_transform() const
 {
     return parent_->transform();
 }

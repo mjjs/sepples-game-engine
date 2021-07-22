@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "matrix4.h"
 #include "vector3.h"
+#include "quaternion.h"
 
 namespace SGE {
 namespace Math {
@@ -11,7 +12,7 @@ namespace Math {
 class Transform {
     private:
         Vector3 position_;
-        Vector3 rotation_;
+        Quaternion rotation_;
         Vector3 scale_{1,1,1};
 
     public:
@@ -20,14 +21,19 @@ class Transform {
             position_ = position_vector;
         }
 
-        inline Vector3& position()
+        inline const Vector3& position() const
         {
             return position_;
         }
 
-        inline void set_rotation(const Vector3& rotation_vector)
+        inline void set_rotation(const Quaternion& rotation)
         {
-            rotation_ = rotation_vector;
+            rotation_ = rotation;
+        }
+
+        inline Quaternion rotation() const
+        {
+            return rotation_;
         }
 
         inline void set_scale(const Vector3& scale_vector)

@@ -83,25 +83,12 @@ Math::Vector3 Math::cross(const Math::Vector3& vec_a, const Math::Vector3& vec_b
 
 Math::Vector3 Math::rotate(const Math::Vector3& vec, float degrees, const Vector3& axis)
 {
-    float sin_half_angle = std::sin(Math::to_radians(degrees / 2));
-    float cos_half_angle = std::cos(Math::to_radians(degrees / 2));
-
-    Math::Quaternion rotation{
-        axis.x * sin_half_angle,
-            axis.y * sin_half_angle,
-            axis.z * sin_half_angle,
-            cos_half_angle
-    };
-
+    Math::Quaternion rotation = Quaternion{}.init_rotation(axis, degrees);
     Math::Quaternion conjugate = Math::conjugate(rotation);
 
-    Math::Quaternion rotated = rotation * vec * conjugate;
+    Math::Quaternion w = rotation * vec * conjugate;
 
-    return Math::Vector3{
-        rotated.x,
-            rotated.y,
-            rotated.z
-    };
+    return Math::Vector3{w.x, w.y, w.z};
 }
 
 Math::Vector3 Math::lerp(
