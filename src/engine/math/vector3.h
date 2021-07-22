@@ -6,6 +6,8 @@
 
 namespace SGE {
 
+class Quaternion;
+
 class Vector3 {
     public:
         float x = 0;
@@ -55,6 +57,7 @@ class Vector3 {
         Vector3 lerp(const Vector3& destination, float lerp_factor) const;
 
         Vector3 rotate(float radians, const Vector3& axis) const;
+        Vector3 rotate(const Quaternion& quaternion) const;
 };
 
 

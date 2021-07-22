@@ -19,61 +19,55 @@ class Quaternion {
 
         inline Matrix4 to_rotation_matrix() const
         {
-            return Matrix4::rotation(get_forward(), get_up(), get_right());
-        }
-
-        inline Vector3 get_forward() const
-        {
-            return Vector3{
+            const Vector3 forward{
                 2.0F * (x * z - w * y),
                 2.0F * (y * z + w * x),
                 1.0F - 2.0F * (x * x + y * y),
             };
-        }
 
-        inline Vector3 get_back() const
-        {
-            return Vector3{
-                -2.0F * (x * z - w * y),
-                -2.0F * (y * z + w * x),
-                -(1.0F - 2.0F * (x * x + y * y)),
-            };
-        }
-
-        inline Vector3 get_up() const
-        {
-            return Vector3{
+            const Vector3 up{
                 2.0F * (x * y + w * z),
                 1.0F - 2.0F * (x * x + z * z),
                 2.0F * (y * z - w * x),
             };
-        }
 
-        inline Vector3 get_down() const
-        {
-            return Vector3{
-                -2.0F * (x * y + w * z),
-                -(1.0F - 2.0F * (x * x + z * z)),
-                -2.0F * (y * z - w * x),
-            };
-        }
-
-        inline Vector3 get_right() const
-        {
-            return Vector3{
+            const Vector3 right{
                 1.0F - 2.0F * (y * y + z * z),
                 2.0F * (x * y - w * z),
                 2.0F * (x * z + w * y),
             };
+
+            return Matrix4::rotation(forward, up, right);
+        }
+
+        inline Vector3 get_forward() const
+        {
+            return Vector3{0, 0, 1}.rotate(*this);
+        }
+
+        inline Vector3 get_back() const
+        {
+            return Vector3{0, 0, -1}.rotate(*this);
+        }
+
+        inline Vector3 get_up() const
+        {
+            return Vector3{0, 1, 0}.rotate(*this);
+        }
+
+        inline Vector3 get_down() const
+        {
+            return Vector3{0, -1, 0}.rotate(*this);
+        }
+
+        inline Vector3 get_right() const
+        {
+            return Vector3{0, 0, 1}.rotate(*this);
         }
 
         inline Vector3 get_left() const
         {
-            return Vector3{
-                -(1.0F - 2.0F * (y * y + z * z)),
-                -2.0F * (x * y - w * z),
-                -2.0F * (x * z + w * y),
-            };
+            return Vector3{0, 0, -1}.rotate(*this);
         }
 
         inline float length() const
