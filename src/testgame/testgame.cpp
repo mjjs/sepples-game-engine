@@ -1,4 +1,5 @@
 #include "ambientlight.h"
+#include "camera.h"
 #include "sgemath.h"
 #include "gamecomponent.h"
 #include "directionallight.h"
@@ -97,4 +98,15 @@ void TestGame::init()
     std::shared_ptr<SGE::GameObject> lights = get_lights();
 
     root()->add_child(lights);
+
+    auto child = std::make_shared<SGE::GameObject>();
+    auto camera = std::make_shared<SGE::Camera>(
+            SGE::to_radians(70),
+            static_cast<float>(1270)/static_cast<float>(800),
+            .1,
+            1000
+            );
+
+    child->add_component(camera);
+    root()->add_child(child);
 }

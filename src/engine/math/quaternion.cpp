@@ -24,55 +24,50 @@ Quaternion::Quaternion(const Vector3& axis, float angle)
 
 Matrix4 Quaternion::to_rotation_matrix() const
 {
-    const Vector3 forward{
-        2.0F * (x * z - w * y),
-        2.0F * (y * z + w * x),
-        1.0F - 2.0F * (x * x + y * y),
-    };
-
-    const Vector3 up{
-        2.0F * (x * y + w * z),
-        1.0F - 2.0F * (x * x + z * z),
-        2.0F * (y * z - w * x),
-    };
-
-    const Vector3 right{
-        1.0F - 2.0F * (y * y + z * z),
-        2.0F * (x * y - w * z),
-        2.0F * (x * z + w * y),
-    };
-
-    return Matrix4::rotation(forward, up, right);
+    return Matrix4::rotation(get_forward(), get_up(), get_right());
 }
 
 Vector3 Quaternion::get_forward() const
 {
-    return Vector3{0, 0, 1}.rotate(*this);
+
+    return Vector3{
+        2.0F * (x * z - w * y),
+        2.0F * (y * z + w * x),
+        1.0F - 2.0F * (x * x + y * y),
+    };
 }
 
 Vector3 Quaternion::get_back() const
 {
-    return Vector3{0, 0, -1}.rotate(*this);
+    return get_forward() * -1;
 }
 
 Vector3 Quaternion::get_up() const
 {
-    return Vector3{0, 1, 0}.rotate(*this);
+    return Vector3{
+        2.0F * (x * y + w * z),
+        1.0F - 2.0F * (x * x + z * z),
+        2.0F * (y * z - w * x),
+    };
 }
 
 Vector3 Quaternion::get_down() const
 {
-    return Vector3{0, -1, 0}.rotate(*this);
+    return get_up() * -1;
 }
 
 Vector3 Quaternion::get_right() const
 {
-    return Vector3{0, 0, 1}.rotate(*this);
+    return Vector3{
+        1.0F - 2.0F * (y * y + z * z),
+        2.0F * (x * y - w * z),
+        2.0F * (x * z + w * y),
+    };
 }
 
 Vector3 Quaternion::get_left() const
 {
-    return Vector3{0, 0, -1}.rotate(*this);
+    return get_right() * -1;
 }
 
 float Quaternion::length() const

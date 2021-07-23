@@ -25,14 +25,14 @@ class GameComponent {
         virtual ~GameComponent() = default;
 
         virtual void init();
-        virtual void update(const Transform& transform, float delta);
+        virtual void update(float delta);
         virtual void fixed_update(const Transform& transform);
         virtual void render(const Transform& transform, Shader& shader, const RenderingEngine& rendering_engine);
         virtual void add_to_rendering_engine(RenderingEngine& rendering_engine);
 
         void set_parent(GameObject* game_object);
 
-        const Transform& get_transform() const;
+        Transform& get_transform() const;
 };
 } // namespace SGE
 #endif

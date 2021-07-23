@@ -65,7 +65,6 @@ void Engine::run()
             }
         }
 
-        rendering_engine_.update(timer.delta());
         Input::poll_events();
 
         game_->update(timer.fixed_time_step());

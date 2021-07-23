@@ -19,7 +19,7 @@ void GameObject::add_component(std::shared_ptr<GameComponent> component)
 void GameObject::update(const float delta)
 {
     for (const auto& component : components_) {
-        component->update(transform_, delta);
+        component->update(delta);
     }
 
     for (const auto& child : children_) {

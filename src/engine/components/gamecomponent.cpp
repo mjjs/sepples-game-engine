@@ -7,10 +7,7 @@ void GameComponent::init()
 {
 }
 
-void GameComponent::update(
-        [[maybe_unused]] const Transform& transform,
-        [[maybe_unused]] float delta
-        )
+void GameComponent::update([[maybe_unused]] float delta)
 {
 }
 
@@ -31,7 +28,7 @@ void GameComponent::add_to_rendering_engine(
 {
 }
 
-const Transform& GameComponent::get_transform() const
+Transform& GameComponent::get_transform() const
 {
     return parent_->transform();
 }

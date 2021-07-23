@@ -18,8 +18,8 @@ RenderingEngine::RenderingEngine(
         const std::size_t width,
         const std::size_t height,
         const std::string& window_title) :
-    window_{width, height, window_title},
-    main_camera_{to_radians(70), static_cast<float>(width)/static_cast<float>(height), .1, 1000}
+    window_{width, height, window_title}
+    //main_camera_{to_radians(70), static_cast<float>(width)/static_cast<float>(height), .1, 1000}
 {
 }
 
@@ -55,12 +55,12 @@ void RenderingEngine::render(GameObject& gameobject)
     window_.flip();
 }
 
-void RenderingEngine::set_camera(const Camera& camera)
+void RenderingEngine::set_camera(Camera* camera)
 {
     main_camera_ = camera;
 }
 
-const Camera& RenderingEngine::camera() const
+Camera* RenderingEngine::camera() const
 {
     return main_camera_;
 }
@@ -73,45 +73,6 @@ Light* RenderingEngine::active_light() const
 void RenderingEngine::add_light(Light* light)
 {
     lights_.push_back(light);
-}
-
-// TEMPORARY HACK
-void RenderingEngine::update(const float delta)
-{
-    const float move_speed = .025;
-    const float rotate_speed = 0.30;
-
-    if (Input::is_key_down(SDL_SCANCODE_D)) {
-        main_camera_.move(main_camera_.get_right(), move_speed * delta);
-    }
-
-    if (Input::is_key_down(SDL_SCANCODE_A)) {
-        main_camera_.move(main_camera_.get_left(), move_speed * delta);
-    }
-
-    if (Input::is_key_down(SDL_SCANCODE_W)) {
-        main_camera_.move(main_camera_.get_forward(), move_speed * delta);
-    }
-
-    if (Input::is_key_down(SDL_SCANCODE_S)) {
-        main_camera_.move(main_camera_.get_forward(), -move_speed * delta);
-    }
-
-    if (Input::is_key_down(SDL_SCANCODE_UP)) {
-        main_camera_.rotate_x(to_radians(-rotate_speed * delta));
-    }
-
-    if (Input::is_key_down(SDL_SCANCODE_DOWN)) {
-        main_camera_.rotate_x(to_radians(rotate_speed * delta));
-    }
-
-    if (Input::is_key_down(SDL_SCANCODE_LEFT)) {
-        main_camera_.rotate_y(to_radians(-rotate_speed * delta));
-    }
-
-    if (Input::is_key_down(SDL_SCANCODE_RIGHT)) {
-        main_camera_.rotate_y(to_radians(rotate_speed * delta));
-    }
 }
 
 } // namespace SGE

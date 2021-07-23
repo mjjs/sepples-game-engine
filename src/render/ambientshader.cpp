@@ -26,7 +26,7 @@ void AmbientShader::update_uniforms(
         const Material& material,
         const RenderingEngine& rendering_engine) const
 {
-    set_uniform("transform_u", transform.get_projected_transformation(rendering_engine.camera()));
+    set_uniform("transform_u", transform.get_projected_transformation(*rendering_engine.camera()));
 
     set_uniform("material_u.ambient", material.ambient_colour());
     set_uniform("material_u.diffuse", material.diffuse_colour());

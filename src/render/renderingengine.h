@@ -19,7 +19,7 @@ namespace SGE {
 class RenderingEngine {
     private:
         Window window_;
-        Camera main_camera_;
+        Camera* main_camera_ = nullptr;
 
         std::vector<Light*> lights_{};
         Light* active_light_ = nullptr;
@@ -28,13 +28,10 @@ class RenderingEngine {
         RenderingEngine(std::size_t width, std::size_t height, const std::string& window_title);
         void render(GameObject& gameobject);
 
-        void set_camera(const Camera& camera);
-        const Camera& camera() const;
+        void set_camera(Camera* camera);
+        Camera* camera() const;
         Light* active_light() const;
         void add_light(Light* light);
-
-        // TEMPORARY HACK
-        void update(float delta);
 };
 
 } // namespace SGE

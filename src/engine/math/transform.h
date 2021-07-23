@@ -1,12 +1,12 @@
 #ifndef _SGE_TRANSFORM_H
 #define _SGE_TRANSFORM_H
 
-#include "camera.h"
 #include "matrix4.h"
 #include "vector3.h"
 #include "quaternion.h"
 
 namespace SGE {
+class Camera;
 
 class Transform {
     private:

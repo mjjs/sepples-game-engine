@@ -37,7 +37,7 @@ void SpotShader::update_uniforms(
         const Material& material,
         const RenderingEngine& rendering_engine) const
 {
-    set_uniform("transform_u", transform.get_projected_transformation(rendering_engine.camera()));
+    set_uniform("transform_u", transform.get_projected_transformation(*rendering_engine.camera()));
     set_uniform("projection_u", transform.get_transformation());
 
     set_uniform("material_u.ambient", material.ambient_colour());
@@ -45,7 +45,7 @@ void SpotShader::update_uniforms(
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
-    set_uniform("view_position_u", rendering_engine.camera().get_position());
+    set_uniform("view_position_u", rendering_engine.camera()->get_transform().position());
 
     auto* light = dynamic_cast<SpotLight*>(rendering_engine.active_light());
     if (light == nullptr) {

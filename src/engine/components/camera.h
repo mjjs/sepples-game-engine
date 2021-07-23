@@ -1,17 +1,16 @@
 #ifndef _SGE_CAMERA_H
 #define _SGE_CAMERA_H
 
+#include "gamecomponent.h"
 #include "matrix4.h"
 #include "sgemath.h"
 #include "vector3.h"
 
 namespace SGE {
+class RenderingEngine;
 
-class Camera {
+class Camera : public GameComponent {
     private:
-        Vector3 position_;
-        Vector3 forward_;
-        Vector3 up_;
         Matrix4 projection_;
 
     public:
@@ -25,11 +24,8 @@ class Camera {
 
         Matrix4 get_view_projection() const;
 
-        Vector3 get_position() const;
-        Vector3 get_left() const;
-        Vector3 get_right() const;
-        Vector3 get_forward() const;
-        Vector3 get_up() const;
+        void add_to_rendering_engine(RenderingEngine& rendering_engine) override;
+        void update(float delta) override;
 };
 
 } // namespace SGE
