@@ -1,3 +1,6 @@
+#ifndef _SGE_LINUXINPUT_H
+#define _SGE_LINUXINPUT_H
+
 #include "input.h"
 
 #include <SDL2/SDL_keyboard.h>
@@ -62,3 +65,5 @@ namespace SGE {
         void poll_events_impl() override;
     };
 } // namespace SGE
+
+#endif

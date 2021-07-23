@@ -1,4 +1,8 @@
+#ifndef _SGE_LOG_H
+#define _SGE_LOG_H
+
 #include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 #include <memory>
 
@@ -38,3 +42,5 @@ namespace SGE {
 #define LOG_WARN(...) ::SGE::Log::game_logger()->warn(__VA_ARGS__) // NOLINT
 #define LOG_ERROR(...) ::SGE::Log::game_logger()->error(__VA_ARGS__) // NOLINT
 #define LOG_FATAL(...) ::SGE::Log::game_logger()->fatal(__VA_ARGS__) // NOLINT
+
+#endif
