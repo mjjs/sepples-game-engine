@@ -53,4 +53,41 @@ void LinuxInput::poll_keyboard_events()
     }
 }
 
+bool LinuxInput::is_key_down_impl(SDL_Scancode key_code) 
+{
+    return current_keys_.find(key_code) != current_keys_.end();
+}
+
+bool LinuxInput::is_key_up_impl(SDL_Scancode key_code) 
+{
+    return !is_key_down_impl(key_code);
+}
+
+bool LinuxInput::is_key_just_pressed_impl(SDL_Scancode key_code) 
+{
+    return is_key_down_impl(key_code) && last_keys_.find(key_code) == last_keys_.end();
+}
+
+bool LinuxInput::is_mouse_button_down_impl(std::uint8_t key_code) 
+{
+    return current_mouse_keys_.find(key_code) != current_mouse_keys_.end();
+}
+
+bool LinuxInput::is_mouse_button_up_impl(std::uint8_t key_code) 
+{
+    return !is_mouse_button_down_impl(key_code);
+}
+
+bool LinuxInput::is_mouse_button_just_pressed_impl(std::uint8_t key_code) 
+{
+    return is_mouse_button_down_impl(key_code) &&
+        last_mouse_keys_.find(key_code) == last_mouse_keys_.end();
+}
+
+
+std::pair<float, float> LinuxInput::get_mouse_position_impl() 
+{
+    return mouse_position_;
+}
+
 } // namespace SGE

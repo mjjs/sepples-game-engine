@@ -8,27 +8,21 @@
 
 namespace SGE {
 
-    class Log {
-    private:
-        // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-        static std::shared_ptr<spdlog::logger> engine_logger_;
-        // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-        static std::shared_ptr<spdlog::logger> game_logger_;
+class Log {
+private:
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+    static std::shared_ptr<spdlog::logger> engine_logger_;
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+    static std::shared_ptr<spdlog::logger> game_logger_;
 
-    public:
-        static void init();
+public:
+    static void init();
 
-        inline static std::shared_ptr<spdlog::logger>& engine_logger()
-        {
-            return engine_logger_;
-        }
+    static std::shared_ptr<spdlog::logger>& engine_logger();
+    static std::shared_ptr<spdlog::logger>& game_logger();
 
-        inline static std::shared_ptr<spdlog::logger>& game_logger()
-        {
-            return game_logger_;
-        }
+};
 
-    };
 } // namespace SGE
 
 #define ENGINE_LOG_TRACE(...) ::SGE::Log::engine_logger()->trace(__VA_ARGS__) // NOLINT

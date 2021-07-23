@@ -15,36 +15,12 @@ class Transform {
         Vector3 scale_{1,1,1};
 
     public:
-        inline void set_position(const Vector3& position_vector)
-        {
-            position_ = position_vector;
-        }
-
-        inline const Vector3& position() const
-        {
-            return position_;
-        }
-
-        inline void set_rotation(const Quaternion& rotation)
-        {
-            rotation_ = rotation;
-        }
-
-        inline Quaternion rotation() const
-        {
-            return rotation_;
-        }
-
-        inline void set_scale(const Vector3& scale_vector)
-        {
-            scale_ = scale_vector;
-        }
-
-        inline Matrix4 get_projected_transformation(const Camera& camera) const
-        {
-            return camera.get_view_projection() * get_transformation();
-        }
-
+        void set_position(const Vector3& position_vector);
+        const Vector3& position() const;
+        void set_rotation(const Quaternion& rotation);
+        Quaternion rotation() const;
+        void set_scale(const Vector3& scale_vector);
+        Matrix4 get_projected_transformation(const Camera& camera) const;
         Matrix4 get_transformation() const;
 };
 

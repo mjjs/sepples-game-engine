@@ -22,4 +22,14 @@ void Log::init()
     game_logger_->set_level(spdlog::level::trace);
 }
 
+std::shared_ptr<spdlog::logger>& Log::engine_logger()
+{
+    return engine_logger_;
+}
+
+std::shared_ptr<spdlog::logger>& Log::game_logger()
+{
+    return game_logger_;
+}
+
 } // namespace SGE

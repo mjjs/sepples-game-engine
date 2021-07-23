@@ -14,4 +14,34 @@ Matrix4 Transform::get_transformation() const
     return position * rotation * scale;
 }
 
+void Transform::set_position(const Vector3& position_vector)
+{
+    position_ = position_vector;
+}
+
+const Vector3& Transform::position() const
+{
+    return position_;
+}
+
+void Transform::set_rotation(const Quaternion& rotation)
+{
+    rotation_ = rotation;
+}
+
+Quaternion Transform::rotation() const
+{
+    return rotation_;
+}
+
+void Transform::set_scale(const Vector3& scale_vector)
+{
+    scale_ = scale_vector;
+}
+
+Matrix4 Transform::get_projected_transformation(const Camera& camera) const
+{
+    return camera.get_view_projection() * get_transformation();
+}
+
 } // namespace SGE

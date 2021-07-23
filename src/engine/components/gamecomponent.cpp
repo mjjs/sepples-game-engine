@@ -36,4 +36,9 @@ const Transform& GameComponent::get_transform() const
     return parent_->transform();
 }
 
+void GameComponent::set_parent(GameObject* game_object)
+{
+    parent_ = game_object;
+}
+
 } // namespace SGE

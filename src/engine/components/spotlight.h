@@ -30,35 +30,13 @@ class SpotLight : public SGE::Light {
                 float quadratic
                 );
 
-        inline Vector3 direction() const
-        {
-            return get_transform().rotation().get_forward();
-        }
-
-        inline float cut_off() const
-        {
-            return cut_off_;
-        }
-
-        inline float outer_cut_off() const
-        {
-            return outer_cut_off_;
-        }
-
-        inline float constant() const
-        {
-            return constant_;
-        }
-
-        inline float linear() const
-        {
-            return linear_;
-        }
-
-        inline float quadratic() const
-        {
-            return quadratic_;
-        }
+        Vector3 direction() const;
+        float cut_off() const;
+        float outer_cut_off() const;
+        float constant() const;
+        float linear() const;
+        float quadratic() const;
 };
+
 } // namespace SGE
 #endif

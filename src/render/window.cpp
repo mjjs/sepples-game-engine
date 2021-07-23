@@ -53,4 +53,28 @@ Window::~Window()
     SDL_Quit();
 }
 
+void Window::fill(float r, float g, float b, float a) const
+{
+    glClearColor(r, g, b, a);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Window::clear() const
+{
+    fill(0.0, 0.0, 0.0, 1.0);
+}
+
+void Window::flip() const
+{
+    SDL_GL_SwapWindow(window_);
+}
+
+Vector2 Window::get_center() const
+{
+    return Vector2{
+        static_cast<float>(width_)/2,
+        static_cast<float>(height_)/2,
+    };
+}
+
 } // namespace SGE

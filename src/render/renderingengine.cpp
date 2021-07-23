@@ -55,6 +55,26 @@ void RenderingEngine::render(GameObject& gameobject)
     window_.flip();
 }
 
+void RenderingEngine::set_camera(const Camera& camera)
+{
+    main_camera_ = camera;
+}
+
+const Camera& RenderingEngine::camera() const
+{
+    return main_camera_;
+}
+
+Light* RenderingEngine::active_light() const
+{
+    return active_light_;
+}
+
+void RenderingEngine::add_light(Light* light)
+{
+    lights_.push_back(light);
+}
+
 // TEMPORARY HACK
 void RenderingEngine::update(const float delta)
 {

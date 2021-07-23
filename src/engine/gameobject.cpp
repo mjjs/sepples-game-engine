@@ -60,4 +60,19 @@ void GameObject::add_to_rendering_engine(RenderingEngine& rendering_engine) cons
     }
 }
 
+void GameObject::add_child(std::shared_ptr<GameObject> child)
+{
+    children_.push_back(child);
+}
+
+void GameObject::set_transform(const Transform& transform)
+{
+    transform_ = transform;
+}
+
+Transform& GameObject::transform()
+{
+    return transform_;
+}
+
 } // namespace SGE

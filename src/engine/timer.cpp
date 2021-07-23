@@ -18,4 +18,44 @@ void Timer::update_times()
     seconds_spent_this_frame_ += elapsed_seconds;
 }
 
+void Timer::start_timer()
+{
+    previous_time_ = std::chrono::steady_clock::now();
+}
+
+void Timer::use_unprocessed_time()
+{
+    unprocessed_time_ -= fixed_time_step_;
+}
+
+void Timer::reset_seconds_spent_this_frame()
+{
+    seconds_spent_this_frame_ = 0.0F;
+}
+
+bool Timer::game_needs_updating() const
+{
+    return unprocessed_time_ >= fixed_time_step_;
+}
+
+bool Timer::has_second_passed() const
+{
+    return seconds_spent_this_frame_ >= 1.0F;
+}
+
+float Timer::unprocessed_time() const
+{
+    return unprocessed_time_;
+}
+
+float Timer::fixed_time_step() const
+{
+    return fixed_time_step_;
+}
+
+float Timer::delta() const
+{
+    return delta_;
+}
+
 } // namespace SGE

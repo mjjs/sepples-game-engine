@@ -26,6 +26,11 @@ Matrix4 Camera::get_view_projection() const
     return projection_ * camera_rotation * camera_translation;
 }
 
+void Camera::move(const Vector3& direction, float amount)
+{
+    position_ = position_ + amount * direction;
+}
+
 void Camera::rotate_x(float radians)
 {
     Vector3 horizontal_axis = world_up_.cross(forward_).normalized();
@@ -42,6 +47,31 @@ void Camera::rotate_y(float radians)
     forward_ = forward_.rotate(radians, world_up_).normalized();
 
     up_ = forward_.cross(horizontal_axis).normalized();
+}
+
+Vector3 Camera::get_position() const
+{
+    return position_;
+}
+
+Vector3 Camera::get_left() const
+{
+    return forward_.cross(up_).normalized();
+}
+
+Vector3 Camera::get_right() const
+{
+    return up_.cross(forward_).normalized();
+}
+
+Vector3 Camera::get_forward() const
+{
+    return forward_;
+}
+
+Vector3 Camera::get_up() const
+{
+    return up_;
 }
 
 } // namespace SGE

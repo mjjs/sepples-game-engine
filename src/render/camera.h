@@ -15,44 +15,21 @@ class Camera {
         Matrix4 projection_;
 
     public:
-        static inline const Vector3 world_up_{0,1,0};
+        constexpr static const Vector3 world_up_{0,1,0};
 
         Camera(float fov_radians, float aspect_ratio, float z_near, float z_far);
 
-        inline void move(const Vector3& direction, float amount)
-        {
-            position_ = position_ + amount * direction;
-        }
-
+        void move(const Vector3& direction, float amount);
         void rotate_x(float radians);
         void rotate_y(float radians);
 
         Matrix4 get_view_projection() const;
 
-        inline Vector3 get_position() const
-        {
-            return position_;
-        }
-
-        inline Vector3 get_left() const
-        {
-            return forward_.cross(up_).normalized();
-        }
-
-        inline Vector3 get_right() const
-        {
-            return up_.cross(forward_).normalized();
-        }
-
-        inline Vector3 get_forward() const
-        {
-            return forward_;
-        }
-
-        inline Vector3 get_up() const
-        {
-            return up_;
-        }
+        Vector3 get_position() const;
+        Vector3 get_left() const;
+        Vector3 get_right() const;
+        Vector3 get_forward() const;
+        Vector3 get_up() const;
 };
 
 } // namespace SGE

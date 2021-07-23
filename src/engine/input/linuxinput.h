@@ -25,43 +25,13 @@ namespace SGE {
         void poll_mouse_events();
 
     protected:
-        inline bool is_key_down_impl(SDL_Scancode key_code) override
-        {
-            return current_keys_.find(key_code) != current_keys_.end();
-        }
-
-        inline bool is_key_up_impl(SDL_Scancode key_code) override
-        {
-            return !is_key_down_impl(key_code);
-        }
-
-        inline bool is_key_just_pressed_impl(SDL_Scancode key_code) override
-        {
-            return is_key_down_impl(key_code) && last_keys_.find(key_code) == last_keys_.end();
-        }
-
-        inline bool is_mouse_button_down_impl(std::uint8_t key_code) override
-        {
-            return current_mouse_keys_.find(key_code) != current_mouse_keys_.end();
-        }
-
-        inline bool is_mouse_button_up_impl(std::uint8_t key_code) override
-        {
-            return !is_mouse_button_down_impl(key_code);
-        }
-
-        inline bool is_mouse_button_just_pressed_impl(std::uint8_t key_code) override
-        {
-            return is_mouse_button_down_impl(key_code) &&
-                last_mouse_keys_.find(key_code) == last_mouse_keys_.end();
-        }
-
-
-        inline std::pair<float, float> get_mouse_position_impl() override
-        {
-            return mouse_position_;
-        }
-
+        bool is_key_down_impl(SDL_Scancode key_code) override;
+        bool is_key_up_impl(SDL_Scancode key_code) override;
+        bool is_key_just_pressed_impl(SDL_Scancode key_code) override;
+        bool is_mouse_button_down_impl(std::uint8_t key_code) override;
+        bool is_mouse_button_up_impl(std::uint8_t key_code) override;
+        bool is_mouse_button_just_pressed_impl(std::uint8_t key_code) override;
+        std::pair<float, float> get_mouse_position_impl() override;
         void poll_events_impl() override;
     };
 } // namespace SGE

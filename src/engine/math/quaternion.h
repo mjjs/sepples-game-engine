@@ -17,121 +17,23 @@ class Quaternion {
         Quaternion(float x, float y, float z, float w);
         Quaternion(const Vector3& axis, float angle);
 
-        inline Matrix4 to_rotation_matrix() const
-        {
-            const Vector3 forward{
-                2.0F * (x * z - w * y),
-                2.0F * (y * z + w * x),
-                1.0F - 2.0F * (x * x + y * y),
-            };
-
-            const Vector3 up{
-                2.0F * (x * y + w * z),
-                1.0F - 2.0F * (x * x + z * z),
-                2.0F * (y * z - w * x),
-            };
-
-            const Vector3 right{
-                1.0F - 2.0F * (y * y + z * z),
-                2.0F * (x * y - w * z),
-                2.0F * (x * z + w * y),
-            };
-
-            return Matrix4::rotation(forward, up, right);
-        }
-
-        inline Vector3 get_forward() const
-        {
-            return Vector3{0, 0, 1}.rotate(*this);
-        }
-
-        inline Vector3 get_back() const
-        {
-            return Vector3{0, 0, -1}.rotate(*this);
-        }
-
-        inline Vector3 get_up() const
-        {
-            return Vector3{0, 1, 0}.rotate(*this);
-        }
-
-        inline Vector3 get_down() const
-        {
-            return Vector3{0, -1, 0}.rotate(*this);
-        }
-
-        inline Vector3 get_right() const
-        {
-            return Vector3{0, 0, 1}.rotate(*this);
-        }
-
-        inline Vector3 get_left() const
-        {
-            return Vector3{0, 0, -1}.rotate(*this);
-        }
-
-        inline float length() const
-        {
-            return std::sqrt(x * x + y * y + z * z + w * w);
-        }
-
-        inline Quaternion normalize()
-        {
-            const float len = length();
-            x /= len;
-            y /= len;
-            z /= len;
-            w /= len;
-
-            return *this;
-        }
-
-        inline Quaternion normalized() const
-        {
-            const float len = length();
-            return Quaternion{x/len, y/len, z/len, w/len};
-        }
-
-        inline Quaternion conjugate() const
-        {
-            return Quaternion{-x, -y, -z, w};
-        }
+        Matrix4 to_rotation_matrix() const;
+        Vector3 get_forward() const;
+        Vector3 get_back() const;
+        Vector3 get_up() const;
+        Vector3 get_down() const;
+        Vector3 get_right() const;
+        Vector3 get_left() const;
+        float length() const;
+        Quaternion normalize();
+        Quaternion normalized() const;
+        Quaternion conjugate() const;
 };
 
-inline Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs)
-{
-    return Quaternion{
-        lhs.x * rhs.w + lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
-        lhs.y * rhs.w + lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
-        lhs.z * rhs.w + lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
-        lhs.w * rhs.w - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z
-    };
-}
-
-inline Quaternion operator*(const Quaternion& lhs, const Vector3& rhs)
-{
-    return Quaternion{
-        lhs.w * rhs.x + lhs.y * rhs.z - lhs.z * rhs.y,
-        lhs.w * rhs.y + lhs.z * rhs.x - lhs.x * rhs.z,
-        lhs.w * rhs.z + lhs.x * rhs.y - lhs.y * rhs.x,
-        -lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z
-    };
-}
-
-inline Quaternion operator*(const Vector3& lhs, const Quaternion& rhs)
-{
-    return rhs * lhs;
-}
-
-inline Quaternion operator+(const Quaternion& lhs, const Quaternion& rhs)
-{
-    return Quaternion {
-        lhs.x + rhs.x,
-        lhs.y + rhs.y,
-        lhs.z + rhs.z,
-        lhs.w + rhs.w
-    };
-}
+Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs);
+Quaternion operator*(const Quaternion& lhs, const Vector3& rhs);
+Quaternion operator*(const Vector3& lhs, const Quaternion& rhs);
+Quaternion operator+(const Quaternion& lhs, const Quaternion& rhs);
 
 } // namespace SGE
 

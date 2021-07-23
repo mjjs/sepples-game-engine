@@ -30,10 +30,7 @@ class GameComponent {
         virtual void render(const Transform& transform, Shader& shader, const RenderingEngine& rendering_engine);
         virtual void add_to_rendering_engine(RenderingEngine& rendering_engine);
 
-        inline void set_parent(GameObject* game_object)
-        {
-            parent_ = game_object;
-        }
+        void set_parent(GameObject* game_object);
 
         const Transform& get_transform() const;
 };

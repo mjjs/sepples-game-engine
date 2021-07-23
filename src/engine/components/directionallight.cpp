@@ -6,15 +6,24 @@
 
 #include <memory>
 
-SGE::DirectionalLight::DirectionalLight()
+namespace SGE {
+
+DirectionalLight::DirectionalLight()
     : Light(std::make_shared<DirectionalShader>())
 {
 }
 
-SGE::DirectionalLight::DirectionalLight(
+DirectionalLight::DirectionalLight(
         const Vector3& colour,
         float intensity
         ) :
     Light(std::make_shared<DirectionalShader>(), colour, intensity)
 {
 }
+
+Vector3 DirectionalLight::direction() const
+{
+    return get_transform().rotation().get_forward();
+}
+
+} // namespace SGE

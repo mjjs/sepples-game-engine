@@ -9,6 +9,7 @@
 #include <memory>
 
 namespace SGE {
+
 class DirectionalLight : public Light {
     public:
         DirectionalLight();
@@ -17,11 +18,9 @@ class DirectionalLight : public Light {
             float intensity
         );
 
-        inline Vector3 direction() const
-        {
-            return get_transform().rotation().get_forward();
-        }
+        Vector3 direction() const;
 };
+
 } // namespace SGE
 
 #endif

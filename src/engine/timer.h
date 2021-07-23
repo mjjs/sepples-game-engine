@@ -19,45 +19,14 @@ class Timer {
         void update_times();
 
     public:
-        inline void start_timer()
-        {
-            previous_time_ = std::chrono::steady_clock::now();
-        }
-
-        inline void use_unprocessed_time()
-        {
-            unprocessed_time_ -= fixed_time_step_;
-        }
-
-        inline void reset_seconds_spent_this_frame()
-        {
-            seconds_spent_this_frame_ = 0.0F;
-        }
-
-        inline bool game_needs_updating() const
-        {
-            return unprocessed_time_ >= fixed_time_step_;
-        }
-
-        inline bool has_second_passed() const
-        {
-            return seconds_spent_this_frame_ >= 1.0F;
-        }
-
-        inline float unprocessed_time() const
-        {
-            return unprocessed_time_;
-        }
-
-        inline float fixed_time_step() const
-        {
-            return fixed_time_step_;
-        }
-
-        inline float delta() const
-        {
-            return delta_;
-        }
+        void start_timer();
+        void use_unprocessed_time();
+        void reset_seconds_spent_this_frame();
+        bool game_needs_updating() const;
+        bool has_second_passed() const;
+        float unprocessed_time() const;
+        float fixed_time_step() const;
+        float delta() const;
 };
 
 } // namespace SGE

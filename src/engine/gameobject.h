@@ -32,22 +32,11 @@ class GameObject {
         virtual void render(Shader& shader, const RenderingEngine& rendering_engine);
         virtual void add_to_rendering_engine(RenderingEngine& rendering_engine) const;
 
-        inline void add_child(std::shared_ptr<GameObject> child)
-        {
-            children_.push_back(child);
-        }
-
+        void add_child(std::shared_ptr<GameObject> child);
         void add_component(std::shared_ptr<GameComponent> component);
-
-        inline void set_transform(const Transform& transform)
-        {
-            transform_ = transform;
-        }
-
-        inline Transform& transform()
-        {
-            return transform_;
-        }
+        void set_transform(const Transform& transform);
+        Transform& transform();
 };
+
 } // namespace SGE
 #endif
