@@ -74,7 +74,7 @@ void Engine::run()
             timer.use_unprocessed_time();
 
             if (timer.has_second_passed()) {
-                ENGINE_LOG_INFO("FPS: {0}", frames_rendered_this_second);
+                LOG_INFO("FPS: {0}", frames_rendered_this_second);
                 frames_rendered_this_second = 0;
                 timer.reset_seconds_spent_this_frame();
             }
