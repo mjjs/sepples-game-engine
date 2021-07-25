@@ -85,7 +85,7 @@ void TestGame::init()
         vertices,
         indices,
         SGE::Material{
-            //std::vector<SGE::Texture>{SGE::load_diffuse_texture("test.jpg", "res/textures")},
+            std::vector<SGE::Texture>{SGE::load_diffuse_texture("defaultTexture.png", "res/textures")},
             SGE::Vector3{.5F, 1.0F, 1.0F},
             SGE::Vector3{.3F, 1.0F, 1.0F},
             SGE::Vector3{.8F, .8F, .8F}
