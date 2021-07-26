@@ -62,6 +62,7 @@ void GameObject::add_to_rendering_engine(RenderingEngine& rendering_engine) cons
 
 void GameObject::add_child(std::shared_ptr<GameObject> child)
 {
+    child->transform().set_parent(&transform_);
     children_.push_back(child);
 }
 

@@ -11,8 +11,8 @@
 #include <memory>
 #include <utility>
 
-SGE::MeshRenderer::MeshRenderer(std::unique_ptr<Mesh>& mesh) :
-    mesh_{std::move(mesh)}
+SGE::MeshRenderer::MeshRenderer(std::shared_ptr<Mesh>& mesh) :
+    mesh_{mesh}
 {
 }
 

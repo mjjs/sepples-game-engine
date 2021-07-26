@@ -5,13 +5,23 @@
 
 namespace SGE {
 
+void Transform::set_parent(Transform* transform)
+{
+    parent_ = transform;
+}
+
 Matrix4 Transform::get_transformation() const
 {
     const Matrix4 position = Matrix4::translation(position_);
     const Matrix4 rotation = rotation_.to_rotation_matrix();
     const Matrix4 scale = Matrix4::scale(scale_);
 
-    return position * rotation * scale;
+    // TODO: A more efficient way of handling parent changes.
+    Matrix4 parent_matrix = parent_ == nullptr
+        ? Matrix4::identity()
+        : parent_->get_transformation();
+
+    return parent_matrix * position * rotation * scale;
 }
 
 void Transform::set_position(const Vector3& position_vector)

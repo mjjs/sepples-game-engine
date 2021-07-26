@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "ambientlight.h"
 #include "camera.h"
 #include "sgemath.h"
@@ -34,7 +35,7 @@ std::shared_ptr<SGE::GameObject> get_lights()
     auto ambient_light = std::make_shared<SGE::AmbientLight>(0.2F);
     auto directional_light_blue = std::make_shared<SGE::DirectionalLight>(
             SGE::Vector3{0.0F, 0.0F, 1.0F},
-            .2F
+            .5F
             );
 
     auto point_light = std::make_shared<SGE::PointLight>(
@@ -79,20 +80,67 @@ void TestGame::init()
         {{30, -2, 30}, {0, 1, 0}, {1, 1}},
     };
 
+    std::vector<SGE::Vertex> small_vertices = {
+        {{-5, 2, -5}, {0, 1, 0}, {0, 0}},
+        {{-5, 2, 10}, {0, 1, 0}, {0, 1}},
+        {{10, 2, -5}, {0, 1, 0}, {1, 0}},
+        {{10, 2, 10}, {0, 1, 0}, {1, 1}},
+    };
+
     std::vector<int> indices = {0, 1, 2, 2, 1, 3};
 
-    auto floor = std::make_unique<SGE::Mesh>(
+    auto default_texture = SGE::load_diffuse_texture("defaultTexture.png", "res/textures");
+
+    auto floor = std::make_shared<SGE::Mesh>(
         vertices,
         indices,
         SGE::Material{
-            std::vector<SGE::Texture>{SGE::load_diffuse_texture("defaultTexture.png", "res/textures")},
+            std::vector<SGE::Texture>{default_texture},
             SGE::Vector3{.5F, 1.0F, 1.0F},
             SGE::Vector3{.3F, 1.0F, 1.0F},
             SGE::Vector3{.8F, .8F, .8F}
         }
     );
 
+    auto small_floor = std::make_shared<SGE::Mesh>(
+        small_vertices,
+        indices,
+        SGE::Material{
+            std::vector<SGE::Texture>{default_texture},
+            SGE::Vector3{.5F, 1.0F, 1.0F},
+            SGE::Vector3{.3F, 1.0F, 1.0F},
+            SGE::Vector3{.8F, .8F, .8F}
+        }
+    );
+
+    auto small_floor_go = std::make_shared<SGE::GameObject>();
+    auto small_floor_go_2 = std::make_shared<SGE::GameObject>();
+    small_floor_go->add_component(
+            std::make_shared<SGE::MeshRenderer>(small_floor)
+    );
+    small_floor_go_2->add_component(
+            std::make_shared<SGE::MeshRenderer>(small_floor)
+    );
+
+    small_floor_go->add_child(small_floor_go_2);
+
+    small_floor_go
+        ->transform()
+        .set_position(SGE::Vector3{0, 2, 0});
+    small_floor_go_2
+        ->transform()
+        .set_position(SGE::Vector3{0, 0, 15});
+
+    small_floor_go
+        ->transform()
+        .set_rotation(SGE::Quaternion{SGE::Vector3{0,1,0}, SGE::to_radians(30)});
+
+    small_floor_go_2
+        ->transform()
+        .set_rotation(SGE::Quaternion{SGE::Vector3{0,1,0}, SGE::to_radians(-45)});
+
     root()->add_component(std::make_shared<SGE::MeshRenderer>(floor));
+    root()->add_child(small_floor_go);
     root()->add_component(std::make_shared<SGE::ModelRenderer>(SGE::Model("res/models/backpack.obj")));
 
     std::shared_ptr<SGE::GameObject> lights = get_lights();

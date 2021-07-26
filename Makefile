@@ -22,6 +22,9 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
 	$(CXX) $(CPPFLAGS) $(INC_FLAGS) -c $< -o $@
 
+run: $(BUILD_DIR)/$(TARGET)
+	./build/game_engine
+
 .PHONY: clean
 clean:
 	$(RM) -rf $(BUILD_DIR)

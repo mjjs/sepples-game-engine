@@ -7,12 +7,19 @@
 
 namespace SGE {
 class Camera;
+class GameObject;
 
 class Transform {
+    friend class GameObject;
+
     private:
+        Transform* parent_ = nullptr;
+
         Vector3 position_;
         Quaternion rotation_;
         Vector3 scale_{1,1,1};
+
+        void set_parent(Transform* transform);
 
     public:
         void set_position(const Vector3& position_vector);

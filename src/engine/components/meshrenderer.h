@@ -16,10 +16,10 @@ namespace SGE {
 
 class MeshRenderer : public GameComponent {
     private:
-        std::unique_ptr<Mesh> mesh_;
+        std::shared_ptr<Mesh> mesh_;
 
     public:
-        MeshRenderer(std::unique_ptr<Mesh>& mesh);
+        MeshRenderer(std::shared_ptr<Mesh>& mesh);
 
         void render(const Transform& transform, Shader& shader, const RenderingEngine& rendering_engine) override;
 };
