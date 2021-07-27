@@ -11,22 +11,6 @@ namespace SGE {
 PointShader::PointShader() :
     Shader{"res/shaders/point_light_vertex.glsl", "res/shaders/point_light_fragment.glsl"}
 {
-    add_uniform("transform_u");
-    add_uniform("projection_u");
-
-    add_uniform("point_light_u.position");
-    add_uniform("point_light_u.base.colour");
-    add_uniform("point_light_u.base.intensity");
-    add_uniform("point_light_u.attenuation.constant");
-    add_uniform("point_light_u.attenuation.linear");
-    add_uniform("point_light_u.attenuation.quadratic");
-
-    add_uniform("view_position_u");
-
-    add_uniform("material_u.ambient");
-    add_uniform("material_u.diffuse");
-    add_uniform("material_u.specular");
-    add_uniform("material_u.shininess");
 }
 
 void PointShader::update_uniforms(

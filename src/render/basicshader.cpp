@@ -9,12 +9,6 @@ namespace SGE {
 BasicShader::BasicShader() :
     Shader{"res/shaders/basic_vertex.glsl", "res/shaders/basic_fragment.glsl"}
 {
-    add_uniform("transform_u");
-
-    add_uniform("material_u.ambient");
-    add_uniform("material_u.diffuse");
-    add_uniform("material_u.specular");
-    add_uniform("material_u.shininess");
 }
 
 void BasicShader::update_uniforms(

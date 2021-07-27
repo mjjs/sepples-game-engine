@@ -1,8 +1,12 @@
 #include "resourceloader.h"
 #include "shader.h"
+
+#include <cstddef>
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include <unordered_map>
+#include <vector>
 
 namespace SGE {
 
@@ -20,6 +24,9 @@ Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
     add_fragment_shader(fragment_shader_name);
 
     compile_shader();
+
+    add_all_uniforms(vertex_shader_name);
+    add_all_uniforms(fragment_shader_name);
 }
 
 Shader::~Shader()
@@ -199,10 +206,132 @@ bool Shader::uniform_exists(const std::string& variable_name) const
 }
 
 void Shader::update_uniforms(
-                [[maybe_unused]] const Transform& transform,
-                [[maybe_unused]] const Material& material,
-                [[maybe_unused]] const RenderingEngine& rendering_engine) const
+        [[maybe_unused]] const Transform& transform,
+        [[maybe_unused]] const Material& material,
+        [[maybe_unused]] const RenderingEngine& rendering_engine) const
 {
+}
+
+void Shader::add_all_uniforms(const std::string& shader_code)
+{
+    auto structs = get_struct_uniforms(shader_code);
+
+    const std::string uniform_keyword = "uniform ";
+    std::size_t uniform_pos = shader_code.find(uniform_keyword);
+
+    while (uniform_pos != std::string::npos) {
+        std::size_t semi_pos = shader_code.find(';', uniform_pos);
+
+        bool type_set = false;
+        std::string field_name;
+        std::string field_type;
+
+        for (auto i = uniform_pos + uniform_keyword.size(); i < semi_pos; ++i) {
+            char c = shader_code[i];
+
+            if (std::isspace(c) != 0) {
+                if (!type_set && !field_type.empty()) {
+                    type_set = true;
+                }
+                continue;
+            }
+
+            if (!type_set) {
+                field_type += c;
+            } else {
+                field_name += c;
+            }
+        }
+
+        if (structs.find(field_type) == structs.end()) {
+            add_uniform(field_name);
+        } else {
+            add_struct_uniform(field_name, field_type, structs);
+        }
+
+        uniform_pos = shader_code.find(uniform_keyword, semi_pos);
+    }
+}
+
+void Shader::add_struct_uniform(
+        const std::string& name,
+        const std::string& type,
+        std::unordered_map<std::string, std::vector<UniformField>> structs)
+{
+    if (!structs.contains(type)) {
+        add_uniform(name);
+        return;
+    }
+
+    auto fields = structs[type];
+
+    for (const auto& field : fields) {
+        add_struct_uniform(name + "." + field.name, field.type, structs);
+    }
+}
+
+std::unordered_map<std::string, std::vector<Shader::UniformField>> Shader::get_struct_uniforms(
+        const std::string& shader_code)
+{
+    auto structs = std::unordered_map<
+        std::string,
+        std::vector<Shader::UniformField>
+    >{};
+
+    const std::string struct_keyword = "struct ";
+
+    std::size_t struct_pos = shader_code.find(struct_keyword);
+
+    while (struct_pos != std::string::npos) {
+        std::size_t curly_begin = shader_code.find('{', struct_pos);
+        std::size_t curly_end = shader_code.find('}', struct_pos);
+
+        std::string type;
+        for (auto i = struct_pos + struct_keyword.size(); i < curly_begin; ++i) {
+            char c = shader_code[i];
+
+            if (std::isspace(c) == 0) {
+                type += c;
+            }
+        }
+
+        bool type_set = false;
+        std::string field_name;
+        std::string field_type;
+        auto fields = std::vector<Shader::UniformField>{};
+
+        for (auto i = curly_begin + 1; i < curly_end; ++i) {
+            char c = shader_code[i];
+
+            if (std::isspace(c) != 0) {
+                if (!type_set && !field_type.empty()) {
+                    type_set = true;
+                }
+                continue;
+            }
+
+            if (c == ';') {
+                type_set = false;
+                fields.push_back({ field_name, field_type });
+
+                field_name.clear();
+                field_type.clear();
+
+                continue;
+            }
+
+            if (!type_set) {
+                field_type += c;
+            } else {
+                field_name += c;
+            }
+        }
+
+        structs[type] = fields;
+        struct_pos = shader_code.find(struct_keyword, curly_end);
+    }
+
+    return structs;
 }
 
 } // namespace SGE

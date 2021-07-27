@@ -11,14 +11,6 @@ namespace SGE {
 AmbientShader::AmbientShader() :
     Shader{"res/shaders/ambient_light_vertex.glsl", "res/shaders/ambient_light_fragment.glsl"}
 {
-    add_uniform("transform_u");
-
-    add_uniform("material_u.ambient");
-    add_uniform("material_u.diffuse");
-    add_uniform("material_u.specular");
-    add_uniform("material_u.shininess");
-
-    add_uniform("intensity_u");
 }
 
 void AmbientShader::update_uniforms(

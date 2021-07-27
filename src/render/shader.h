@@ -17,13 +17,14 @@ namespace SGE {
 
 class RenderingEngine;
 
-enum ShaderErrorCheckType {
-    PROGRAM,
-    SHADER,
-};
-
 class Shader {
     private:
+        enum ShaderErrorCheckType { PROGRAM, SHADER };
+        struct UniformField {
+            std::string name;
+            std::string type;
+        };
+
         GLuint shader_program_;
         std::vector<GLuint> attached_shaders_{};
         mutable std::unordered_map<std::string, GLint> uniform_variables_{};
@@ -39,6 +40,16 @@ class Shader {
         void compile_shader();
 
         bool uniform_exists(const std::string& variable_name) const;
+
+        void add_all_uniforms(const std::string& shader_code);
+
+        static std::unordered_map<
+            std::string,
+            std::vector<UniformField>
+        > get_struct_uniforms(const std::string& shader_code);
+
+        void add_struct_uniform(const std::string& name, const std::string& type,
+                std::unordered_map<std::string, std::vector<UniformField>> structs);
 
     public:
         Shader(const std::string& vertex_path, const std::string& fragment_path);

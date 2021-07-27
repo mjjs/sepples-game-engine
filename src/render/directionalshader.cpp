@@ -11,18 +11,6 @@ namespace SGE {
 DirectionalShader::DirectionalShader() :
     Shader{"res/shaders/directional_light_vertex.glsl", "res/shaders/directional_light_fragment.glsl"}
 {
-    add_uniform("transform_u");
-    add_uniform("projection_u");
-
-    add_uniform("directional_light_u.direction");
-    add_uniform("directional_light_u.base.colour");
-    add_uniform("directional_light_u.base.intensity");
-    add_uniform("view_position_u");
-
-    add_uniform("material_u.ambient");
-    add_uniform("material_u.diffuse");
-    add_uniform("material_u.specular");
-    add_uniform("material_u.shininess");
 }
 
 void DirectionalShader::update_uniforms(
