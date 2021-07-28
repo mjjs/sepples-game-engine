@@ -18,7 +18,7 @@ namespace SGE {
 
 class RenderingEngine {
     private:
-        Window window_;
+        std::unique_ptr<Window> window_;
         Camera* main_camera_ = nullptr;
 
         std::vector<Light*> lights_{};

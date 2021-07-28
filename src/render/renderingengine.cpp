@@ -17,16 +17,13 @@ namespace SGE {
 RenderingEngine::RenderingEngine(
         const std::size_t width,
         const std::size_t height,
-        const std::string& window_title) :
-    window_{width, height, window_title}
-    //main_camera_{to_radians(70), static_cast<float>(width)/static_cast<float>(height), .1, 1000}
+        const std::string& window_title)
 {
+    window_ = Window::create(window_title, width, height);
 }
 
 void RenderingEngine::render(GameObject& gameobject)
 {
-    window_.clear();
-
     // TODO: Make light list persistent instead of clearing and re-adding
     // all lights every frame.
     lights_.clear();
@@ -52,7 +49,7 @@ void RenderingEngine::render(GameObject& gameobject)
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
 
-    window_.flip();
+    window_->update();
 }
 
 void RenderingEngine::set_camera(Camera* camera)
