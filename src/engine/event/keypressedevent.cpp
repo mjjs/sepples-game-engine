@@ -2,7 +2,7 @@
 
 namespace SGE {
 
-KeyPressedEvent::KeyPressedEvent(const int key_code)
+KeyPressedEvent::KeyPressedEvent(const SDL_Keycode key_code)
     : KeyboardEvent{key_code}
 {
 }

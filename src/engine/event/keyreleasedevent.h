@@ -8,9 +8,8 @@ namespace SGE {
 
 class KeyReleasedEvent : public KeyboardEvent {
     public:
-        KeyReleasedEvent(int key_code);
+        KeyReleasedEvent(SDL_Keycode key_code);
 
-    private:
         int categories() const override;
         std::string name() const override;
         EventType type() const override;

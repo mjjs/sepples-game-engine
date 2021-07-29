@@ -5,12 +5,12 @@
 
 namespace SGE {
 
-KeyboardEvent::KeyboardEvent(const int key_code)
+KeyboardEvent::KeyboardEvent(const SDL_Keycode key_code)
     : key_code_{key_code}
 {
 }
 
-int KeyboardEvent::key_code() const
+SDL_Keycode KeyboardEvent::key_code() const
 { return key_code_;
 }
 

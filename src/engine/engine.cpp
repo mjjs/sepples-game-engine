@@ -22,6 +22,7 @@ namespace SGE {
 Engine::Engine(const std::size_t width, const std::size_t height, const std::string& window_title)
 {
     window_ = Window::create(window_title, width, height);
+    window_->set_event_callback(BIND_EVENT_FN(Engine::handle_event));
     Log::init();
 }
 
@@ -34,8 +35,6 @@ void Engine::load_game(std::unique_ptr<Game> game)
 void Engine::render()
 {
     rendering_engine_.render(*game_->root());
-    window_->update();
-    window_->set_event_callback(BIND_EVENT_FN(Engine::handle_event));
 }
 
 void Engine::run()
@@ -53,9 +52,11 @@ void Engine::run()
     while (running_) {
         timer.update_times();
 
-        Input::poll_events();
+        window_->update();
 
         game_->update(timer.fixed_time_step());
+
+        Input::update();
 
         while (timer.game_needs_updating()) {
             game_->fixed_update();
@@ -77,6 +78,10 @@ void Engine::handle_event(Event& event)
 {
     EventDispatcher dispatcher(event);
     dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Engine::handle_window_close));
+
+    if (event.is_in_category(EventCategory::INPUT)) {
+        Input::handle_input_event(event);
+    }
 }
 
 bool Engine::handle_window_close([[ maybe_unused ]] WindowCloseEvent& event)

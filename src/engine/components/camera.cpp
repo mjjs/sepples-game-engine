@@ -55,35 +55,35 @@ void Camera::update(const float delta)
     const float move_speed = 25;
     const float rotate_speed = 90;
 
-    if (Input::is_key_down(SDL_SCANCODE_W)) {
+    if (Input::is_key_down(SDLK_w)) {
         move(get_transform().rotation().get_forward(), move_speed * delta);
     }
 
-    if (Input::is_key_down(SDL_SCANCODE_S)) {
+    if (Input::is_key_down(SDLK_s)) {
         move(get_transform().rotation().get_back(), move_speed * delta);
     }
 
-    if (Input::is_key_down(SDL_SCANCODE_A)) {
+    if (Input::is_key_down(SDLK_a)) {
         move(get_transform().rotation().get_left(), move_speed * delta);
     }
 
-    if (Input::is_key_down(SDL_SCANCODE_D)) {
+    if (Input::is_key_down(SDLK_d)) {
         move(get_transform().rotation().get_right(), move_speed * delta);
     }
 
-    if (Input::is_key_down(SDL_SCANCODE_UP)) {
+    if (Input::is_key_down(SDLK_UP)) {
         rotate_x(to_radians(rotate_speed) * delta);
     }
 
-    if (Input::is_key_down(SDL_SCANCODE_DOWN)) {
+    if (Input::is_key_down(SDLK_DOWN)) {
         rotate_x(to_radians(-rotate_speed) * delta);
     }
 
-    if (Input::is_key_down(SDL_SCANCODE_LEFT)) {
+    if (Input::is_key_down(SDLK_LEFT)) {
         rotate_y(to_radians(rotate_speed) * delta);
     }
 
-    if (Input::is_key_down(SDL_SCANCODE_RIGHT)) {
+    if (Input::is_key_down(SDLK_RIGHT)) {
         rotate_y(to_radians(-rotate_speed) * delta);
     }
 }

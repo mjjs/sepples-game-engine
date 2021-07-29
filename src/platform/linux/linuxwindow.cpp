@@ -1,5 +1,12 @@
 #include "linuxwindow.h"
+#include "keypressedevent.h"
+#include "keyreleasedevent.h"
+#include "mousebuttonpressedevent.h"
+#include "mousebuttonreleasedevent.h"
+#include "mousemovedevent.h"
+#include "mousescrolledevent.h"
 #include "windowcloseevent.h"
+#include "log.h"
 
 #include <stdexcept>
 #include <GL/glew.h>
@@ -84,9 +91,57 @@ void LinuxWindow::update()
     SDL_Event event;
 
     while (SDL_PollEvent(&event) == 1) {
-        if (event.type == SDL_QUIT) {
+        switch (event.type) {
+        case SDL_QUIT: {
             WindowCloseEvent event;
             event_callback_(event);
+            break;
+        }
+
+        case SDL_KEYDOWN: {
+            const SDL_Keycode key_code = event.key.keysym.sym;
+            KeyPressedEvent event{key_code};
+            event_callback_(event);
+            break;
+        }
+
+        case SDL_KEYUP: {
+            const SDL_Keycode key_code = event.key.keysym.sym;
+            KeyReleasedEvent event{key_code};
+            event_callback_(event);
+            break;
+        }
+
+        case SDL_MOUSEBUTTONDOWN: {
+            const std::uint8_t mouse_button_code = event.button.button;
+            MouseButtonPressedEvent event{mouse_button_code};
+            event_callback_(event);
+            break;
+        }
+
+        case SDL_MOUSEBUTTONUP: {
+            const std::uint8_t mouse_button_code = event.button.button;
+            MouseButtonReleasedEvent event{mouse_button_code};
+            event_callback_(event);
+            break;
+        }
+
+        case SDL_MOUSEMOTION: {
+            auto x = event.motion.x;
+            auto y = event.motion.y;
+
+            MouseMovedEvent event{Vector2{static_cast<float>(x), static_cast<float>(y)}};
+            event_callback_(event);
+        }
+
+        case SDL_MOUSEWHEEL: {
+            auto x = event.wheel.x;
+            auto y = event.wheel.y;
+
+            MouseScrolledEvent event{Vector2{static_cast<float>(x), static_cast<float>(y)}};
+            event_callback_(event);
+        }
+
         }
     }
 

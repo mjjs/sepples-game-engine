@@ -5,7 +5,7 @@
 
 namespace SGE {
 
-MouseButtonPressedEvent::MouseButtonPressedEvent(const int key_code)
+MouseButtonPressedEvent::MouseButtonPressedEvent(const std::uint8_t key_code)
     : MouseButtonEvent{key_code}
 {
 }

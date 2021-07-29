@@ -1,39 +1,51 @@
 #ifndef _SGE_LINUXINPUT_H
 #define _SGE_LINUXINPUT_H
 
+#include "event.h"
 #include "input.h"
+#include "mousebuttonpressedevent.h"
+#include "mousebuttonreleasedevent.h"
+#include "mousemovedevent.h"
+#include "mousescrolledevent.h"
+#include "keypressedevent.h"
+#include "keyreleasedevent.h"
+#include "vector2.h"
 
 #include <SDL2/SDL_keyboard.h>
 #include <SDL2/SDL_mouse.h>
 
 namespace SGE {
-    class LinuxInput : public Input {
-    private:
-        const Uint8* keyboard_state_ = nullptr;
-        int num_keys_ = 0;
 
+class LinuxInput : public Input {
+    private:
         // Keyboard
-        std::unordered_set<SDL_Scancode> last_keys_{};
-        std::unordered_set<SDL_Scancode> current_keys_{};
+        std::unordered_set<SDL_Keycode> last_keys_{};
+        std::unordered_set<SDL_Keycode> current_keys_{};
 
         // Mouse
         std::unordered_set<std::uint8_t> last_mouse_keys_{};
         std::unordered_set<std::uint8_t> current_mouse_keys_{};
-        std::pair<float, float> mouse_position_{};
+        Vector2 mouse_position_{};
 
-        void poll_keyboard_events();
-        void poll_mouse_events();
+        bool handle_key_down(KeyPressedEvent& event);
+        bool handle_key_up(KeyReleasedEvent& event);
+        bool handle_mouse_button_down(MouseButtonPressedEvent& event);
+        bool handle_mouse_button_released(MouseButtonReleasedEvent& event);
+        bool handle_mouse_motion(MouseMovedEvent& event);
+        bool handle_mouse_scroll(MouseScrolledEvent& event);
 
     protected:
-        bool is_key_down_impl(SDL_Scancode key_code) override;
-        bool is_key_up_impl(SDL_Scancode key_code) override;
-        bool is_key_just_pressed_impl(SDL_Scancode key_code) override;
+        void handle_input_event_impl(Event& event) override;
+        void update_impl() override;
+        bool is_key_down_impl(SDL_Keycode key_code) override;
+        bool is_key_up_impl(SDL_Keycode key_code) override;
+        bool is_key_just_pressed_impl(SDL_Keycode key_code) override;
         bool is_mouse_button_down_impl(std::uint8_t key_code) override;
         bool is_mouse_button_up_impl(std::uint8_t key_code) override;
         bool is_mouse_button_just_pressed_impl(std::uint8_t key_code) override;
-        std::pair<float, float> get_mouse_position_impl() override;
-        void poll_events_impl() override;
-    };
+        Vector2 get_mouse_position_impl() override;
+};
+
 } // namespace SGE
 
 #endif

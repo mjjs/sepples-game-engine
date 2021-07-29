@@ -2,7 +2,7 @@
 
 namespace SGE {
 
-KeyReleasedEvent::KeyReleasedEvent(const int key_code)
+KeyReleasedEvent::KeyReleasedEvent(const SDL_Keycode key_code)
     : KeyboardEvent{key_code}
 {
 }
@@ -24,7 +24,7 @@ EventType KeyReleasedEvent::type() const
 
 EventType KeyReleasedEvent::static_type()
 {
-    return EventType::KEY_PRESSED;
+    return EventType::KEY_RELEASED;
 }
 
 } // namespace SGE

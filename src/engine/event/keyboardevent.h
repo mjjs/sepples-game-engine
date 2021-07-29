@@ -2,17 +2,18 @@
 #define _SGE_KEYBOARD_EVENT_H
 
 #include "event.h"
+#include <SDL2/SDL_keycode.h>
 #include <string>
 
 namespace SGE {
 
 class KeyboardEvent : public Event {
     protected:
-        int key_code_; // NOLINT
-        KeyboardEvent(int key_code);
+        SDL_Keycode key_code_; // NOLINT
+        KeyboardEvent(SDL_Keycode key_code);
 
     public:
-        int key_code() const;
+        SDL_Keycode key_code() const;
 
         int categories() const override;
         std::string name() const override;

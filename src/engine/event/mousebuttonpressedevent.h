@@ -3,12 +3,13 @@
 
 #include "event.h"
 #include "mousebuttonevent.h"
+#include <cstdint>
 
 namespace SGE {
 
 class MouseButtonPressedEvent : public MouseButtonEvent {
     public:
-        MouseButtonPressedEvent(int key_code);
+        MouseButtonPressedEvent(std::uint8_t key_code);
 
         int categories() const override;
         std::string name() const override;

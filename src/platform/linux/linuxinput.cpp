@@ -1,6 +1,15 @@
 #include "input.h"
 #include "linuxinput.h"
 
+#include "event.h"
+#include "eventdispatcher.h"
+#include "mousebuttonpressedevent.h"
+#include "mousebuttonreleasedevent.h"
+#include "mousemovedevent.h"
+#include "mousescrolledevent.h"
+#include "keypressedevent.h"
+#include "keyreleasedevent.h"
+
 #include <cstdint>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keyboard.h>
@@ -11,81 +20,93 @@ namespace SGE {
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 Input* Input::instance_ = new LinuxInput();
 
-void LinuxInput::poll_events_impl()
-{
-    SDL_PumpEvents();
-    poll_keyboard_events();
-    poll_mouse_events();
-}
-
-void LinuxInput::poll_mouse_events()
-{
-    last_mouse_keys_ = current_mouse_keys_;
-    current_mouse_keys_.clear();
-
-    int x = 0;
-    int y = 0;
-
-    std::uint32_t mouse_state = SDL_GetMouseState(&x, &y);
-
-    mouse_position_ = {x, y};
-
-    const std::vector<std::uint8_t> mouse_buttons = {SDL_BUTTON_LEFT, SDL_BUTTON_MIDDLE, SDL_BUTTON_RIGHT};
-
-    for (const auto& button : mouse_buttons) {
-        if ((mouse_state & SDL_BUTTON(button)) != 0U) {
-            current_mouse_keys_.insert(button);
-        }
-    }
-}
-
-void LinuxInput::poll_keyboard_events()
+void LinuxInput::update_impl()
 {
     last_keys_ = current_keys_;
-    current_keys_.clear();
-
-    keyboard_state_ = SDL_GetKeyboardState(&num_keys_);
-
-    for (int i = 0; i < num_keys_; ++i) {
-        if (keyboard_state_[i]) {
-            current_keys_.insert(static_cast<SDL_Scancode>(i));
-        }
-    }
+    last_mouse_keys_ = current_mouse_keys_;
 }
 
-bool LinuxInput::is_key_down_impl(SDL_Scancode key_code) 
+void LinuxInput::handle_input_event_impl(Event& event)
+{
+    EventDispatcher dispatcher(event);
+    dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(LinuxInput::handle_key_down));
+    dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(LinuxInput::handle_key_up));
+    dispatcher.dispatch<MouseButtonPressedEvent>(BIND_EVENT_FN(LinuxInput::handle_mouse_button_down));
+    dispatcher.dispatch<MouseButtonReleasedEvent>(BIND_EVENT_FN(LinuxInput::handle_mouse_button_released));
+    dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(LinuxInput::handle_mouse_motion));
+    dispatcher.dispatch<MouseScrolledEvent>(BIND_EVENT_FN(LinuxInput::handle_mouse_scroll));
+}
+
+bool LinuxInput::handle_key_down(KeyPressedEvent& event)
+{
+    current_keys_.insert(event.key_code());
+    return true;
+}
+
+bool LinuxInput::handle_key_up(KeyReleasedEvent& event)
+{
+    last_keys_.insert(event.key_code());
+    current_keys_.erase(event.key_code());
+    return true;
+}
+
+bool LinuxInput::handle_mouse_button_down(MouseButtonPressedEvent& event)
+{
+    current_mouse_keys_.insert(event.key_code());
+    return true;
+}
+
+bool LinuxInput::handle_mouse_button_released(MouseButtonReleasedEvent& event)
+{
+    last_mouse_keys_.insert(event.key_code());
+    current_mouse_keys_.erase(event.key_code());
+    return true;
+}
+
+bool LinuxInput::handle_mouse_motion(MouseMovedEvent& event)
+{
+    mouse_position_ = event.position();
+    return true;
+}
+
+// TODO: Implement mouse scrolling
+bool LinuxInput::handle_mouse_scroll([[ maybe_unused ]] MouseScrolledEvent& event)
+{
+    return true;
+}
+
+bool LinuxInput::is_key_down_impl(SDL_Keycode key_code)
 {
     return current_keys_.find(key_code) != current_keys_.end();
 }
 
-bool LinuxInput::is_key_up_impl(SDL_Scancode key_code) 
+bool LinuxInput::is_key_up_impl(SDL_Keycode key_code)
 {
     return !is_key_down_impl(key_code);
 }
 
-bool LinuxInput::is_key_just_pressed_impl(SDL_Scancode key_code) 
+bool LinuxInput::is_key_just_pressed_impl(SDL_Keycode key_code)
 {
     return is_key_down_impl(key_code) && last_keys_.find(key_code) == last_keys_.end();
 }
 
-bool LinuxInput::is_mouse_button_down_impl(std::uint8_t key_code) 
+bool LinuxInput::is_mouse_button_down_impl(std::uint8_t key_code)
 {
     return current_mouse_keys_.find(key_code) != current_mouse_keys_.end();
 }
 
-bool LinuxInput::is_mouse_button_up_impl(std::uint8_t key_code) 
+bool LinuxInput::is_mouse_button_up_impl(std::uint8_t key_code)
 {
     return !is_mouse_button_down_impl(key_code);
 }
 
-bool LinuxInput::is_mouse_button_just_pressed_impl(std::uint8_t key_code) 
+bool LinuxInput::is_mouse_button_just_pressed_impl(std::uint8_t key_code)
 {
     return is_mouse_button_down_impl(key_code) &&
         last_mouse_keys_.find(key_code) == last_mouse_keys_.end();
 }
 
-
-std::pair<float, float> LinuxInput::get_mouse_position_impl() 
+Vector2 LinuxInput::get_mouse_position_impl()
 {
     return mouse_position_;
 }

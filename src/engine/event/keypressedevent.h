@@ -9,9 +9,8 @@ namespace SGE {
 
 class KeyPressedEvent : public KeyboardEvent {
     public:
-        KeyPressedEvent(int key_code);
+        KeyPressedEvent(SDL_Keycode key_code);
 
-    private:
         int categories() const override;
         std::string name() const override;
         EventType type() const override;
