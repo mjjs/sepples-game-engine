@@ -2,31 +2,26 @@
 #define GL3_PROTOTYPES = 1;
 
 #include "engine.h"
+#include "event.h"
+#include "eventdispatcher.h"
+#include "windowcloseevent.h"
 #include "log.h"
 #include "game.h"
 #include "input.h"
-#include "mesh.h"
-#include "resourceloader.h"
-#include "shader.h"
-#include "transform.h"
-#include "vector3.h"
-#include "window.h"
 #include "timer.h"
 
 #include <chrono>
-#include <cmath>
 #include <memory>
 #include <stdexcept>
 #include <string>
-#include <utility>
 
 #include <SDL2/SDL_events.h>
 
 namespace SGE {
 
-Engine::Engine(const std::size_t width, const std::size_t height, const std::string& window_title) :
-    rendering_engine_{width, height, window_title}
+Engine::Engine(const std::size_t width, const std::size_t height, const std::string& window_title)
 {
+    window_ = Window::create(window_title, width, height);
     Log::init();
 }
 
@@ -39,6 +34,8 @@ void Engine::load_game(std::unique_ptr<Game> game)
 void Engine::render()
 {
     rendering_engine_.render(*game_->root());
+    window_->update();
+    window_->set_event_callback(BIND_EVENT_FN(Engine::handle_event));
 }
 
 void Engine::run()
@@ -49,21 +46,12 @@ void Engine::run()
 
     running_ = true;
 
-    SDL_Event event;
-
     Timer timer{};
     timer.start_timer();
     unsigned int frames_rendered_this_second = 0;
 
     while (running_) {
         timer.update_times();
-
-        while (SDL_PollEvent(&event) == 1) {
-            if (event.type == SDL_QUIT) {
-                running_ = false;
-                break;
-            }
-        }
 
         Input::poll_events();
 
@@ -83,6 +71,18 @@ void Engine::run()
         render();
         frames_rendered_this_second++;
     }
+}
+
+void Engine::handle_event(Event& event)
+{
+    EventDispatcher dispatcher(event);
+    dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Engine::handle_window_close));
+}
+
+bool Engine::handle_window_close([[ maybe_unused ]] WindowCloseEvent& event)
+{
+    running_ = false;
+    return true;
 }
 
 } // namespace SGE

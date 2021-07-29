@@ -18,14 +18,12 @@ namespace SGE {
 
 class RenderingEngine {
     private:
-        std::unique_ptr<Window> window_;
         Camera* main_camera_ = nullptr;
 
         std::vector<Light*> lights_{};
         Light* active_light_ = nullptr;
 
     public:
-        RenderingEngine(std::size_t width, std::size_t height, const std::string& window_title);
         void render(GameObject& gameobject);
 
         void set_camera(Camera* camera);

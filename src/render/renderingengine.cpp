@@ -14,14 +14,6 @@
 
 namespace SGE {
 
-RenderingEngine::RenderingEngine(
-        const std::size_t width,
-        const std::size_t height,
-        const std::string& window_title)
-{
-    window_ = Window::create(window_title, width, height);
-}
-
 void RenderingEngine::render(GameObject& gameobject)
 {
     // TODO: Make light list persistent instead of clearing and re-adding
@@ -48,8 +40,6 @@ void RenderingEngine::render(GameObject& gameobject)
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
-
-    window_->update();
 }
 
 void RenderingEngine::set_camera(Camera* camera)

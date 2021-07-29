@@ -17,6 +17,8 @@ class LinuxWindow : public Window {
         std::uint32_t height_;
         std::string title_;
 
+        EventCallbackFn event_callback_;
+
         // TODO: implement platform agnostic Context class
         SDL_GLContext context_;
         SDL_Window* window_;
@@ -44,6 +46,7 @@ class LinuxWindow : public Window {
         std::uint32_t width() const override;
         std::uint32_t height() const override;
 
+        void set_event_callback(const EventCallbackFn& callback) override;
         void* get_native_window() const override;
 };
 

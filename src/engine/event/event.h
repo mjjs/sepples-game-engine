@@ -1,7 +1,10 @@
 #ifndef _SGE_EVENT_H
 #define _SGE_EVENT_H
 
+#include <functional>
 #include <string>
+
+#define BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 namespace SGE {
 
@@ -31,6 +34,7 @@ enum EventCategory {
     MOUSEBUTTON = bit(4),
 };
 
+
 class Event {
     public:
         Event() = default;
@@ -52,6 +56,8 @@ class Event {
             return (categories() & category) != 0;
         }
 };
+
+using EventCallbackFn = std::function<void(Event&)>;
 
 } // namespace SGE
 

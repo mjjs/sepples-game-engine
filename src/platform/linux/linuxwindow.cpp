@@ -1,4 +1,5 @@
 #include "linuxwindow.h"
+#include "windowcloseevent.h"
 
 #include <stdexcept>
 #include <GL/glew.h>
@@ -71,7 +72,6 @@ void LinuxWindow::fill(const float r, const float g, const float b, const float 
 {
     glClearColor(r, g, b, a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 }
 
 void LinuxWindow::flip() const
@@ -81,6 +81,15 @@ void LinuxWindow::flip() const
 
 void LinuxWindow::update()
 {
+    SDL_Event event;
+
+    while (SDL_PollEvent(&event) == 1) {
+        if (event.type == SDL_QUIT) {
+            WindowCloseEvent event;
+            event_callback_(event);
+        }
+    }
+
     flip();
     clear();
 }
@@ -98,6 +107,11 @@ std::uint32_t LinuxWindow::height() const
 void* LinuxWindow::get_native_window() const
 {
     return window_;
+}
+
+void LinuxWindow::set_event_callback(const EventCallbackFn& callback)
+{
+    event_callback_ = callback;
 }
 
 } // namespace SGE

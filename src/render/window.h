@@ -1,6 +1,8 @@
 #ifndef _SGE_WINDOW_H
 #define _SGE_WINDOW_H
 
+#include "event.h"
+
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -8,6 +10,11 @@
 namespace SGE {
 
 class Window {
+    protected:
+        static constexpr std::uint32_t default_window_width = 1270;
+        static constexpr std::uint32_t default_window_height = 800;
+        static constexpr auto default_window_title = "Sepples Game Engine";
+
     public:
         Window() = default;
         virtual ~Window() = default;
@@ -18,6 +25,7 @@ class Window {
         Window& operator=(const Window&&) = delete;
 
         virtual void update() = 0;
+        virtual void set_event_callback(const EventCallbackFn& callback) = 0;
 
         virtual std::uint32_t width() const = 0;
         virtual std::uint32_t height() const = 0;
@@ -29,10 +37,6 @@ class Window {
                 std::uint32_t width = default_window_width,
                 std::uint32_t height = default_window_height
                 );
-
-        static constexpr std::uint32_t default_window_width = 1270;
-        static constexpr std::uint32_t default_window_height = 800;
-        static constexpr auto default_window_title = "Sepples Game Engine";
 };
 
 } // namespace SGE
