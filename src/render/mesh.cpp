@@ -6,6 +6,7 @@
 
 #include <assimp/material.h>
 #include <glad/glad.h>
+#include <memory>
 #include <stdexcept>
 #include <vector>
 
@@ -14,28 +15,19 @@ namespace SGE {
 // TODO: Pass by value and std::move
 Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices,
                 const Material& material) :
-    vertices_{vertices},
     indices_{indices},
     material_{material}
 {
+    vertex_buffer_ = VertexBuffer::create(vertices);
     init();
 }
 
 void Mesh::init()
 {
-    glGenBuffers(1, &vbo_);
     glGenBuffers(1, &ibo_);
     glGenVertexArrays(1, &vao_);
 
     glBindVertexArray(vao_);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-    glBufferData(
-            GL_ARRAY_BUFFER,
-            vertices_.size() * sizeof(Vertex),
-            vertices_.data(),
-            GL_STATIC_DRAW
-            );
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_);
     glBufferData(

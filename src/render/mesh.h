@@ -4,19 +4,22 @@
 #include "material.h"
 #include "shader.h"
 #include "vertex.h"
+#include "vertexbuffer.h"
 
 #include <cstddef>
+#include <memory>
 #include <vector>
 
 namespace SGE {
 
 class Mesh {
     private:
-        GLuint vbo_;
         GLuint ibo_;
         GLuint vao_;
 
-        std::vector<Vertex> vertices_;
+        // TODO: Make this a smart pointer
+        VertexBuffer* vertex_buffer_;
+
         std::vector<int> indices_;
         Material material_;
 
