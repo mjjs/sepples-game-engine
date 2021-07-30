@@ -5,7 +5,7 @@ A 3D game engine purely for learning purposes.
 ## Dependencies
 * SDL2 2.0.12 or greater
 * OpenGL
-* GLEW
+* Glad
 * Assimp
 * spdlog
 
