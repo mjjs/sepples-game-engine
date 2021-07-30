@@ -56,6 +56,12 @@ LinuxWindow::~LinuxWindow()
 
 void LinuxWindow::update()
 {
+    poll_events();
+    context_->swap_buffers();
+}
+
+void LinuxWindow::poll_events() const
+{
     SDL_Event event;
 
     while (SDL_PollEvent(&event) == 1) {
@@ -112,8 +118,6 @@ void LinuxWindow::update()
 
         }
     }
-
-    context_->swap_buffers();
 }
 
 std::uint32_t LinuxWindow::width() const

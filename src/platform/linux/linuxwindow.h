@@ -23,6 +23,8 @@ class LinuxWindow : public Window {
 
         SDL_Window* window_;
 
+        void poll_events() const;
+
     public:
         LinuxWindow(
                 const std::string& title = default_window_title,
