@@ -6,7 +6,7 @@
 #include <assimp/material.h>
 #include <cstdint>
 #include <stdexcept>
-#include <GL/glew.h>
+#include <glad/glad.h>
 
 namespace SGE {
 

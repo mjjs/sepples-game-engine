@@ -6,7 +6,7 @@
 #include "matrix4.h"
 #include "transform.h"
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <string>
 #include <unordered_map>
 #include <utility>

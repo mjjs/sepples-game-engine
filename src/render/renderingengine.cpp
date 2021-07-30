@@ -6,7 +6,7 @@
 #include "sgemath.h"
 #include "vector3.h"
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <SDL2/SDL_scancode.h>
 #include <cstddef>
 #include <string>

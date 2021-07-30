@@ -9,8 +9,8 @@
 #include "log.h"
 
 #include <stdexcept>
-#include <GL/glew.h>
 #include <SDL2/SDL.h>
+#include <glad/glad.h>
 
 namespace SGE {
 
@@ -47,10 +47,9 @@ LinuxWindow::LinuxWindow(
     SDL_GL_SetSwapInterval(1);
 
     context_ = SDL_GL_CreateContext(window_);
-    // Is this needed?
-	glewExperimental = GL_TRUE;
 
-    if (glewInit() != GLEW_OK) {
+    int status = gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress);
+    if (status == 0) {
         throw std::runtime_error("Could not init GLEW");
     }
 

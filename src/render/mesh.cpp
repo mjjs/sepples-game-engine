@@ -5,7 +5,7 @@
 #include "vector3.h"
 
 #include <assimp/material.h>
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <stdexcept>
 #include <vector>
 

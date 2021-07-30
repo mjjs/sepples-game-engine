@@ -5,8 +5,6 @@
 #include "shader.h"
 #include "vertex.h"
 
-#include <GL/glew.h>
-
 #include <cstddef>
 #include <vector>
 
