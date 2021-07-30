@@ -1,13 +1,14 @@
 #ifndef _SGE_LINUX_WINDOW_H
 #define _SGE_LINUX_WINDOW_H
 
+#include "openglcontext.h"
 #include "window.h"
 
 #include <cstdint>
 #include <memory>
 #include <string>
 
-#include <SDL2/SDL.h>
+struct SDL_Window;
 
 namespace SGE {
 
@@ -18,14 +19,9 @@ class LinuxWindow : public Window {
         std::string title_;
 
         EventCallbackFn event_callback_;
+        std::unique_ptr<OpenGLContext> context_;
 
-        // TODO: implement platform agnostic Context class
-        SDL_GLContext context_;
         SDL_Window* window_;
-
-        void clear() const;
-        void fill(float r, float g, float b, float a) const;
-        void flip() const;
 
     public:
         LinuxWindow(

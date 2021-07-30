@@ -10,7 +10,6 @@
 
 #include <stdexcept>
 #include <SDL2/SDL.h>
-#include <glad/glad.h>
 
 namespace SGE {
 
@@ -25,6 +24,10 @@ LinuxWindow::LinuxWindow(
         throw std::runtime_error("SDL init failed");
     }
 
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+
     window_ = SDL_CreateWindow(
             title.c_str(),
             SDL_WINDOWPOS_CENTERED,
@@ -38,51 +41,17 @@ LinuxWindow::LinuxWindow(
         throw std::runtime_error("Could not create SDL window");
     }
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
     // TODO: Move into vsync
     SDL_GL_SetSwapInterval(1);
 
-    context_ = SDL_GL_CreateContext(window_);
-
-    int status = gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress);
-    if (status == 0) {
-        throw std::runtime_error("Could not init GLEW");
-    }
-
-    glFrontFace(GL_CW);
-    glCullFace(GL_BACK);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_DEPTH_CLAMP);
-
-    clear();
+    context_ = std::make_unique<OpenGLContext>(window_);
 }
 
 LinuxWindow::~LinuxWindow()
 {
-    SDL_GL_DeleteContext(context_);
+    context_->delete_context();
     SDL_DestroyWindow(window_);
     SDL_Quit();
-}
-
-void LinuxWindow::clear() const
-{
-    fill(0.0F, 0.0F, 0.0F, 1.0F);
-}
-
-void LinuxWindow::fill(const float r, const float g, const float b, const float a) const
-{
-    glClearColor(r, g, b, a);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-void LinuxWindow::flip() const
-{
-    SDL_GL_SwapWindow(window_);
 }
 
 void LinuxWindow::update()
@@ -144,8 +113,7 @@ void LinuxWindow::update()
         }
     }
 
-    flip();
-    clear();
+    context_->swap_buffers();
 }
 
 std::uint32_t LinuxWindow::width() const
