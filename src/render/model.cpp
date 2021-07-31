@@ -7,20 +7,24 @@
 #include "vector3.h"
 #include "vertex.h"
 
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>
-
 #include <cstddef>
+#include <cstdint>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
 
 namespace SGE {
 
 constexpr char const * COLOUR_AMBIENT = "AMBIENT";
 constexpr char const * COLOUR_DIFFUSE = "DIFFUSE";
 constexpr char const * COLOUR_SPECULAR = "SPECULAR";
+
+static Vector3 get_colour(const aiMaterial& material, const std::string& type);
+static float get_shininess(const aiMaterial& material);
 
 Model::Model(const std::string& path)
 {
@@ -62,7 +66,7 @@ void Model::process_node(aiNode* node, const aiScene* scene)
 Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 {
     std::vector<Vertex> vertices;
-    std::vector<int> indices;
+    std::vector<std::uint32_t> indices;
     std::vector<Texture> textures;
 
     for (std::size_t i = 0; i < mesh->mNumVertices; ++i) {

@@ -5,6 +5,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <vector>
 
 namespace SGE {
@@ -22,7 +23,7 @@ class IndexBuffer {
 
         virtual std::size_t count() const = 0;
 
-        static IndexBuffer* create(const std::vector<int>& indices);
+        static std::shared_ptr<IndexBuffer> create(const std::vector<std::uint32_t>& indices);
 };
 
 } // SGE

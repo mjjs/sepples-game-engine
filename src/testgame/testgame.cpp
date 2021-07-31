@@ -18,6 +18,7 @@
 #include "vertex.h"
 #include "quaternion.h"
 
+#include <cstdint>
 #include <memory>
 #include <vector>
 
@@ -87,7 +88,7 @@ void TestGame::init()
         {{10, 2, 10}, {0, 1, 0}, {1, 1}},
     };
 
-    std::vector<int> indices = {0, 1, 2, 2, 1, 3};
+    std::vector<std::uint32_t> indices = {0, 1, 2, 2, 1, 3};
 
     auto default_texture = SGE::load_diffuse_texture("defaultTexture.png", "res/textures");
 

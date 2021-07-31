@@ -16,7 +16,7 @@ class OpenGLIndexBuffer : public IndexBuffer {
         std::size_t count_ = 0;
 
     public:
-        OpenGLIndexBuffer(const std::vector<int>& indices);
+        OpenGLIndexBuffer(const std::vector<std::uint32_t>& indices);
         ~OpenGLIndexBuffer();
 
         OpenGLIndexBuffer(const OpenGLIndexBuffer&) = delete;

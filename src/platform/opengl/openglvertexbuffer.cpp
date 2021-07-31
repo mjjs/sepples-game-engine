@@ -1,3 +1,4 @@
+#include "bufferlayout.h"
 #include "openglvertexbuffer.h"
 #include "vertex.h"
 
@@ -6,10 +7,15 @@
 
 namespace SGE {
 
-OpenGLVertexBuffer::OpenGLVertexBuffer(const std::vector<Vertex>& vertices)
+OpenGLVertexBuffer::OpenGLVertexBuffer(
+        const std::vector<Vertex>& vertices,
+        const BufferLayout layout
+        )
+    : layout_{layout}
 {
     glCreateBuffers(1, &buffer_id_);
     glBindBuffer(GL_ARRAY_BUFFER, buffer_id_);
+
     glBufferData(
             GL_ARRAY_BUFFER,
             vertices.size() * sizeof(vertices[0]),
@@ -26,6 +32,11 @@ OpenGLVertexBuffer::~OpenGLVertexBuffer()
 void OpenGLVertexBuffer::bind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, buffer_id_);
+}
+
+const BufferLayout& OpenGLVertexBuffer::layout() const
+{
+    return layout_;
 }
 
 } // namespace SGE

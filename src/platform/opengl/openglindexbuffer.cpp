@@ -2,12 +2,14 @@
 #include "vertex.h"
 
 #include <cstddef>
-#include <glad/glad.h>
+#include <cstdint>
 #include <vector>
+
+#include <glad/glad.h>
 
 namespace SGE {
 
-OpenGLIndexBuffer::OpenGLIndexBuffer(const std::vector<int>& indices)
+OpenGLIndexBuffer::OpenGLIndexBuffer(const std::vector<std::uint32_t>& indices)
     : count_{indices.size()}
 {
     glCreateBuffers(1, &buffer_id_);

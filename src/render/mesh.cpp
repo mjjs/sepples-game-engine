@@ -5,40 +5,23 @@
 #include "shader.h"
 #include "texture.h"
 #include "vector3.h"
+#include "vertexarray.h"
 #include "vertexbuffer.h"
 
-#include <assimp/material.h>
-#include <glad/glad.h>
+#include <cstdint>
 #include <memory>
 #include <stdexcept>
 #include <vector>
 
+#include <assimp/material.h>
+#include <glad/glad.h>
+
 namespace SGE {
 
 // TODO: Pass by value and std::move
-Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices,
+Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<std::uint32_t>& indices,
                 const Material& material) :
     material_{material}
-{
-    glGenVertexArrays(1, &vao_);
-    glBindVertexArray(vao_);
-
-    vertex_buffer_ = VertexBuffer::create(vertices);
-    index_buffer_ = IndexBuffer::create(indices);
-
-    init();
-}
-
-static GLenum shader_data_type_to_opengl_base_type(ShaderDataType type)
-{
-    switch (type) {
-    case ShaderDataType::NONE: return -1;
-    case ShaderDataType::VEC2:
-    case ShaderDataType::VEC3: return GL_FLOAT;
-    }
-}
-
-void Mesh::init()
 {
     BufferLayout layout{
         { ShaderDataType::VEC3, "position" },
@@ -46,21 +29,13 @@ void Mesh::init()
         { ShaderDataType::VEC2, "texture_coordinate" },
     };
 
-    std::size_t i = 0;
-    for (const auto& element : layout) {
-        glEnableVertexAttribArray(i);
-        glVertexAttribPointer(
-                i++,
-                element.component_count(),
-                shader_data_type_to_opengl_base_type(element.type),
-                element.normalized ? GL_TRUE : GL_FALSE,
-                layout.stride(),
-                (const void*) element.offset
-                );
-        glDisableVertexAttribArray(i);
-    }
+    vertex_array_ = VertexArray::create();
 
-    glBindVertexArray(0);
+    const auto index_buffer = IndexBuffer::create(indices);
+    const auto vertex_buffer = VertexBuffer::create(vertices, layout);
+
+    vertex_array_->add_vertex_buffer(vertex_buffer);
+    vertex_array_->set_index_buffer(index_buffer);
 }
 
 void Mesh::draw(Shader& shader) const
@@ -92,8 +67,8 @@ void Mesh::draw(Shader& shader) const
 
     shader.set_material(material_);
 
-    glBindVertexArray(vao_);
-    glDrawElements(GL_TRIANGLES, index_buffer_->count(), GL_UNSIGNED_INT, nullptr);
+    vertex_array_->bind();
+    glDrawElements(GL_TRIANGLES, vertex_array_->index_buffer()->count(), GL_UNSIGNED_INT, nullptr);
 
     for (std::size_t i = 0; i < textures.size(); ++i) {
         glActiveTexture(GL_TEXTURE0 + i);
