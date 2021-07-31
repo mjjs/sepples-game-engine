@@ -15,28 +15,19 @@ namespace SGE {
 // TODO: Pass by value and std::move
 Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices,
                 const Material& material) :
-    indices_{indices},
     material_{material}
 {
+    glGenVertexArrays(1, &vao_);
+    glBindVertexArray(vao_);
+
     vertex_buffer_ = VertexBuffer::create(vertices);
+    index_buffer_ = IndexBuffer::create(indices);
+
     init();
 }
 
 void Mesh::init()
 {
-    glGenBuffers(1, &ibo_);
-    glGenVertexArrays(1, &vao_);
-
-    glBindVertexArray(vao_);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_);
-    glBufferData(
-            GL_ELEMENT_ARRAY_BUFFER,
-            indices_.size() * sizeof(int),
-            indices_.data(),
-            GL_STATIC_DRAW
-            );
-
     // Vertex positions
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
@@ -86,7 +77,7 @@ void Mesh::draw(Shader& shader) const
     shader.set_material(material_);
 
     glBindVertexArray(vao_);
-    glDrawElements(GL_TRIANGLES, indices_.size(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, index_buffer_->count(), GL_UNSIGNED_INT, nullptr);
 
     for (std::size_t i = 0; i < textures.size(); ++i) {
         glActiveTexture(GL_TEXTURE0 + i);

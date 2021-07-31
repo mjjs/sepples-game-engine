@@ -1,6 +1,7 @@
 #ifndef _SGE_MESH_H
 #define _SGE_MESH_H
 
+#include "indexbuffer.h"
 #include "material.h"
 #include "shader.h"
 #include "vertex.h"
@@ -14,13 +15,12 @@ namespace SGE {
 
 class Mesh {
     private:
-        GLuint ibo_;
         GLuint vao_;
 
         // TODO: Make this a smart pointer
         VertexBuffer* vertex_buffer_;
+        IndexBuffer* index_buffer_;
 
-        std::vector<int> indices_;
         Material material_;
 
         void init();
