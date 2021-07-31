@@ -1,8 +1,11 @@
+#include "bufferlayout.h"
+#include "indexbuffer.h"
 #include "material.h"
 #include "mesh.h"
 #include "shader.h"
 #include "texture.h"
 #include "vector3.h"
+#include "vertexbuffer.h"
 
 #include <assimp/material.h>
 #include <glad/glad.h>
@@ -26,25 +29,38 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<int>& indices,
     init();
 }
 
+static GLenum shader_data_type_to_opengl_base_type(ShaderDataType type)
+{
+    switch (type) {
+    case ShaderDataType::NONE: return -1;
+    case ShaderDataType::VEC2:
+    case ShaderDataType::VEC3: return GL_FLOAT;
+    }
+}
+
 void Mesh::init()
 {
-    // Vertex positions
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+    BufferLayout layout{
+        { ShaderDataType::VEC3, "position" },
+        { ShaderDataType::VEC3, "normal" },
+        { ShaderDataType::VEC2, "texture_coordinate" },
+    };
 
-    // Vertex normals
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-
-    // Vertex texture coordinates
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texture_coordinate));
+    std::size_t i = 0;
+    for (const auto& element : layout) {
+        glEnableVertexAttribArray(i);
+        glVertexAttribPointer(
+                i++,
+                element.component_count(),
+                shader_data_type_to_opengl_base_type(element.type),
+                element.normalized ? GL_TRUE : GL_FALSE,
+                layout.stride(),
+                (const void*) element.offset
+                );
+        glDisableVertexAttribArray(i);
+    }
 
     glBindVertexArray(0);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
 }
 
 void Mesh::draw(Shader& shader) const
