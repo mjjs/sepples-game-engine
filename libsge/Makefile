@@ -1,8 +1,9 @@
 CXX = clang++
+ARCHIVER = llvm-ar-11
 CPPFLAGS ?= -Wall -Wextra -Wpedantic -std=c++20 -g
 
-TARGET ?= game_engine
 BUILD_DIR ?= build
+TARGET ?= libsge.a
 VENDOR_DIR ?= ../vendor
 
 DEFINES = SPDLOG_COMPILED_LIB
@@ -36,7 +37,8 @@ ASSIMP_STATIC_LIB = $(VENDOR_DIR)/assimp/build/lib/libassimp.a
 STATIC_LIBS = $(GLAD_STATIC_LIB) $(SPDLOG_STATIC_LIB) $(SDL_STATIC_LIB) $(ASSIMP_STATIC_LIB)
 
 $(BUILD_DIR)/$(TARGET): $(OBJS) deps
-	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+	$(ARCHIVER) rc $@ $(OBJS)
+	./scripts/combine-static-libs.sh
 
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
