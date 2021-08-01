@@ -3,7 +3,7 @@ CPPFLAGS ?= -Wall -Wextra -Wpedantic -std=c++20 -g
 
 TARGET ?= game_engine
 BUILD_DIR ?= build
-VENDOR_DIR ?= vendor
+VENDOR_DIR ?= ../vendor
 
 DEFINES = SPDLOG_COMPILED_LIB
 DEFINE_FLAGS = $(addprefix -D,$(DEFINES))
