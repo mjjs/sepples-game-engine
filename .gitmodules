@@ -6,3 +6,11 @@
 	path = vendor/spdlog
 	url = https://github.com/gabime/spdlog
     ignore = all
+[submodule "vendor/assimp"]
+	path = vendor/assimp
+	url = https://github.com/assimp/assimp
+    ignore = all
+[submodule "vendor/sdl"]
+	path = vendor/sdl
+	url = https://github.com/libsdl-org/SDL
+    ignore = all
