@@ -1,16 +1,10 @@
 #include "camera.h"
-#include "input.h"
 #include "light.h"
 #include "gameobject.h"
 #include "renderingengine.h"
-#include "sgemath.h"
 #include "vector3.h"
 
 #include <glad/glad.h>
-#include <SDL2/SDL_scancode.h>
-#include <cstddef>
-#include <string>
-#include <memory>
 
 namespace SGE {
 
