@@ -7,7 +7,8 @@
 
 namespace SGE {
 
-API GraphicsAPI::api_ = API::OPENGL; // NOLINT
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+API GraphicsAPI::api_ = API::OPENGL;
 
 std::unique_ptr<GraphicsAPI> GraphicsAPI::create()
 {

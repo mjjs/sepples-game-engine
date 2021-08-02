@@ -12,9 +12,18 @@ enum class API {
 
 class GraphicsAPI {
     private:
-        static API api_; // NOLINT
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+        static API api_;
 
     public:
+        GraphicsAPI() = default;
+        virtual ~GraphicsAPI() = default;
+
+        GraphicsAPI(const GraphicsAPI&) = delete;
+        GraphicsAPI(const GraphicsAPI&&) = delete;
+        GraphicsAPI& operator=(const GraphicsAPI&) = delete;
+        GraphicsAPI& operator=(const GraphicsAPI&&) = delete;
+
         static std::unique_ptr<GraphicsAPI> create();
 
         virtual void clear_screen() = 0;

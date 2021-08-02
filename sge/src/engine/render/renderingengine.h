@@ -25,18 +25,21 @@ class RenderingEngine {
         std::vector<Light*> lights_{};
         Light* active_light_ = nullptr;
 
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
         static std::unique_ptr<GraphicsAPI> graphics_api_;
 
     public:
+        static void clear_screen();
+        static void set_clear_colour(const Vector3& colour);
+
+        // OLD API
+
         void render(GameObject& gameobject);
 
         void set_camera(Camera* camera);
         Camera* camera() const;
         Light* active_light() const;
         void add_light(Light* light);
-
-        static void clear_screen();
-        static void set_clear_colour(const Vector3& colour);
 };
 
 } // namespace SGE
