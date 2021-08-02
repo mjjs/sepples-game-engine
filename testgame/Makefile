@@ -24,14 +24,21 @@ LIBS = sge z dl pthread
 LIB_PATHS = ../libsge/build
 LDFLAGS = $(addprefix -l,$(LIBS)) $(addprefix -L,$(LIB_PATHS))
 
-$(BUILD_DIR)/$(TARGET): $(OBJS)
+.PHONY: clean run engine
+
+$(BUILD_DIR)/$(TARGET): $(OBJS) engine
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
 	$(CXX) $(CPPFLAGS) $(INC_FLAGS) -c $< -o $@
 
-.PHONY: clean
+engine:
+	$(MAKE) -C ../libsge
+
+run: $(BUILD_DIR)/$(TARGET)
+	./$<
+
 clean:
 	$(RM) -rf $(BUILD_DIR)
 

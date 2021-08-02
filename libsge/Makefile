@@ -61,9 +61,6 @@ $(ASSIMP_STATIC_LIB):
 	$(MKDIR_P) $(VENDOR_DIR)/assimp/build
 	cd $(VENDOR_DIR)/assimp/build && cmake -D BUILD_SHARED_LIBS=OFF .. && $(MAKE) -j
 
-run: $(BUILD_DIR)/$(TARGET)
-	./build/game_engine
-
 .PHONY: clean
 clean:
 	$(RM) -rf $(BUILD_DIR)
