@@ -19,8 +19,8 @@ class Camera : public GameComponent {
         Camera(float fov_radians, float aspect_ratio, float z_near, float z_far);
 
         void move(const Vector3& direction, float amount);
-        void rotate_x(float radians);
-        void rotate_y(float radians);
+        void rotate_x(float degrees);
+        void rotate_y(float degrees);
 
         Matrix4 get_view_projection() const;
 

@@ -1,5 +1,6 @@
 #include "vector3.h"
 #include "matrix4.h"
+#include "sgemath.h"
 #include "quaternion.h"
 
 #include <cmath>
@@ -13,13 +14,26 @@ Quaternion::Quaternion(const float x, const float y, const float z, const float 
 
 Quaternion::Quaternion(const Vector3& axis, float angle)
 {
-    float sin_half_angle = std::sin(angle / 2);
-    float cos_half_angle = std::cos(angle / 2);
+    const float angle_radians = to_radians(angle);
+
+    float sin_half_angle = std::sin(angle_radians / 2);
+    float cos_half_angle = std::cos(angle_radians / 2);
 
     x = axis.x * sin_half_angle;
     y = axis.y * sin_half_angle;
     z = axis.z * sin_half_angle;
     w = cos_half_angle;
+}
+
+Quaternion Quaternion::euler(const float x, const float y, const float z)
+{
+    const Quaternion identity = Quaternion{0,0,0,1};
+
+    Quaternion x_rot = x == 0.0F ? identity : Quaternion{{1,0,0}, x};
+    Quaternion y_rot = y == 0.0F ? identity : Quaternion{{0,1,0}, y};
+    Quaternion z_rot = z == 0.0F ? identity : Quaternion{{0,0,1}, z};
+
+    return x_rot * y_rot * z_rot;
 }
 
 Matrix4 Quaternion::to_rotation_matrix() const

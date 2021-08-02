@@ -31,17 +31,17 @@ void Camera::move(const Vector3& direction, float amount)
             );
 }
 
-void Camera::rotate_x(float radians)
+void Camera::rotate_x(float degrees)
 {
     get_transform().set_rotation(
-            get_transform().rotation() * Quaternion{get_transform().rotation().get_right(), radians}.normalized()
+            get_transform().rotation() * Quaternion{get_transform().rotation().get_right(), degrees}.normalized()
             );
 }
 
-void Camera::rotate_y(float radians)
+void Camera::rotate_y(float degrees)
 {
     get_transform().set_rotation(
-            get_transform().rotation() * Quaternion{world_up_, radians}.normalized()
+            get_transform().rotation() * Quaternion{world_up_, degrees}.normalized()
             );
 }
 
@@ -72,19 +72,19 @@ void Camera::update(const float delta)
     }
 
     if (Input::is_key_down(SDLK_UP)) {
-        rotate_x(to_radians(rotate_speed) * delta);
+        rotate_x(rotate_speed * delta);
     }
 
     if (Input::is_key_down(SDLK_DOWN)) {
-        rotate_x(to_radians(-rotate_speed) * delta);
+        rotate_x(-rotate_speed * delta);
     }
 
     if (Input::is_key_down(SDLK_LEFT)) {
-        rotate_y(to_radians(rotate_speed) * delta);
+        rotate_y(rotate_speed * delta);
     }
 
     if (Input::is_key_down(SDLK_RIGHT)) {
-        rotate_y(to_radians(-rotate_speed) * delta);
+        rotate_y(-rotate_speed * delta);
     }
 }
 

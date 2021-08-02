@@ -64,10 +64,7 @@ std::shared_ptr<SGE::GameObject> get_lights()
 
     light_object->transform().set_position(SGE::Vector3{5, 0, 0});
     light_object->transform()
-        .set_rotation(SGE::Quaternion{
-                SGE::Vector3{0, 1, 0},
-                SGE::to_radians(-90.0F)
-                });
+        .set_rotation(SGE::Quaternion::euler(0, -90, 0));
 
     return light_object;
 }
@@ -134,15 +131,23 @@ void TestGame::init()
 
     small_floor_go
         ->transform()
-        .set_rotation(SGE::Quaternion{SGE::Vector3{0,1,0}, SGE::to_radians(30)});
+        .set_rotation(SGE::Quaternion::euler(0, 30, 0));
 
     small_floor_go_2
         ->transform()
-        .set_rotation(SGE::Quaternion{SGE::Vector3{0,1,0}, SGE::to_radians(-45)});
+        .set_rotation(SGE::Quaternion::euler(0, -45, 0));
 
     root()->add_component(std::make_shared<SGE::MeshRenderer>(floor));
     root()->add_child(small_floor_go);
-    root()->add_component(std::make_shared<SGE::ModelRenderer>(SGE::Model("res/models/backpack.obj")));
+
+    auto model_renderer_object = std::make_shared<SGE::GameObject>();
+    auto model_renderer = std::make_shared<SGE::ModelRenderer>(SGE::Model("res/models/backpack.obj"));
+    model_renderer_object->add_component(model_renderer);
+
+    model_renderer_object->
+        transform().set_rotation(SGE::Quaternion::euler(30, 45, 90));
+
+    root()->add_child(model_renderer_object);
 
     std::shared_ptr<SGE::GameObject> lights = get_lights();
 

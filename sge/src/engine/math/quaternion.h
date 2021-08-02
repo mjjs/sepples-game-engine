@@ -17,6 +17,8 @@ class Quaternion {
         Quaternion(float x, float y, float z, float w);
         Quaternion(const Vector3& axis, float angle);
 
+        static Quaternion euler(float x, float y, float z);
+
         Matrix4 to_rotation_matrix() const;
         Vector3 get_forward() const;
         Vector3 get_back() const;
