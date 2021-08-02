@@ -7,8 +7,7 @@
 #include "input.h"
 #include "vector3.h"
 
-
-class TestGame : public SGE::Game::Game {
+class TestGame : public SGE::Game {
     public:
         TestGame();
 

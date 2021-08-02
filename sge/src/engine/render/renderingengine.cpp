@@ -4,9 +4,24 @@
 #include "renderingengine.h"
 #include "vector3.h"
 
+#include <memory>
+
 #include <glad/glad.h>
 
 namespace SGE {
+
+// NOLINTNEXTLINE
+std::unique_ptr<GraphicsAPI> RenderingEngine::graphics_api_ = GraphicsAPI::create();
+
+void RenderingEngine::clear_screen()
+{
+    graphics_api_->clear_screen();
+}
+
+void RenderingEngine::set_clear_colour(const Vector3& colour)
+{
+    graphics_api_->set_clear_colour(colour);
+}
 
 void RenderingEngine::render(GameObject& gameobject)
 {

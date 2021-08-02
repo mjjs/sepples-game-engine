@@ -1,4 +1,5 @@
 #include "openglcontext.h"
+#include "renderingengine.h"
 
 #include <glad/glad.h>
 #include <memory>
@@ -24,8 +25,7 @@ OpenGLContext::OpenGLContext(SDL_Window* window)
 void OpenGLContext::swap_buffers()
 {
     SDL_GL_SwapWindow(window_);
-    glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    RenderingEngine::clear_screen();
 }
 
 void OpenGLContext::delete_context()

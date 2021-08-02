@@ -3,7 +3,7 @@ ARCHIVER = llvm-ar-11
 CPPFLAGS ?= -Wall -Wextra -Wpedantic -std=c++20 -g
 
 BUILD_DIR ?= build
-TARGET ?= libsge.a
+TARGET ?= testgame
 VENDOR_DIR ?= ../vendor
 
 DEFINES = SPDLOG_COMPILED_LIB
@@ -15,13 +15,14 @@ SRCS := $(shell find $(SRC_DIRS) -name *.cpp)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 # INCLUDES
-VENDOR_INCLUDES = $(VENDOR_DIR)/stb
+VENDOR_INCLUDES =  $(VENDOR_DIR)/stb
 VENDOR_INCLUDES += $(VENDOR_DIR)/spdlog/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/glad/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/assimp/include
 
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_DIRS += $(VENDOR_INCLUDES)
+
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 # LIBRARIES
@@ -37,8 +38,7 @@ ASSIMP_STATIC_LIB = $(VENDOR_DIR)/assimp/build/lib/libassimp.a
 STATIC_LIBS = $(GLAD_STATIC_LIB) $(SPDLOG_STATIC_LIB) $(SDL_STATIC_LIB) $(ASSIMP_STATIC_LIB)
 
 $(BUILD_DIR)/$(TARGET): $(OBJS) deps
-	$(ARCHIVER) rc $@ $(OBJS)
-	./scripts/combine-static-libs.sh
+	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
@@ -61,7 +61,11 @@ $(ASSIMP_STATIC_LIB):
 	$(MKDIR_P) $(VENDOR_DIR)/assimp/build
 	cd $(VENDOR_DIR)/assimp/build && cmake -D BUILD_SHARED_LIBS=OFF .. && $(MAKE) -j
 
-.PHONY: clean
+.PHONY: clean run deps
+
+run: $(BUILD_DIR)/$(TARGET)
+	./$<
+
 clean:
 	$(RM) -rf $(BUILD_DIR)
 

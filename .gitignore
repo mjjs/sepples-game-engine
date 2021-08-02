@@ -1,6 +1,6 @@
 build
 .clangd
 .cache
-core
 compile_commands.json
 res/models/notrack
+sge/core
