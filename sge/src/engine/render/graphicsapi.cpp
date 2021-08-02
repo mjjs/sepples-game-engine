@@ -8,16 +8,21 @@
 namespace SGE {
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-API GraphicsAPI::api_ = API::OPENGL;
+GraphicsAPI::VENDOR GraphicsAPI::vendor_ = VENDOR::OPENGL;
 
 std::unique_ptr<GraphicsAPI> GraphicsAPI::create()
 {
-    switch(api_) {
-        case API::OPENGL:
+    switch(GraphicsAPI::vendor()) {
+    case GraphicsAPI::VENDOR::OPENGL:
             return std::make_unique<OpenGLGraphicsAPI>();
-        case API::VULKAN:
-            throw std::runtime_error("Vulkan is not supported currently");
+    case GraphicsAPI::VENDOR::VULKAN:
+        throw std::runtime_error{"Vulkan is not supported yet!"};
     }
+}
+
+GraphicsAPI::VENDOR GraphicsAPI::vendor()
+{
+    return vendor_;
 }
 
 } // namespace SGE
