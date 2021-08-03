@@ -10,6 +10,7 @@
 #include "input.h"
 #include "vector3.h"
 #include "sgemath.h"
+#include "uniformbuffer.h"
 
 #include <cstddef>
 #include <string>
@@ -27,8 +28,11 @@ class RenderingEngine {
 
         // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
         static std::unique_ptr<GraphicsAPI> graphics_api_;
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+        static std::shared_ptr<UniformBuffer> camera_buffer_;
 
     public:
+        static void init();
         static void clear_screen();
         static void set_clear_colour(const Vector3& colour);
 
@@ -40,6 +44,7 @@ class RenderingEngine {
         Camera* camera() const;
         Light* active_light() const;
         void add_light(Light* light);
+
 };
 
 } // namespace SGE

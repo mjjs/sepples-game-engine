@@ -3,6 +3,9 @@
 #include "gameobject.h"
 #include "renderingengine.h"
 #include "vector3.h"
+#include "matrix4.h"
+#include "uniformbuffer.h"
+#include "log.h"
 
 #include <memory>
 
@@ -10,8 +13,16 @@
 
 namespace SGE {
 
-// NOLINTNEXTLINE
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 std::unique_ptr<GraphicsAPI> RenderingEngine::graphics_api_ = GraphicsAPI::create();
+
+// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+std::shared_ptr<UniformBuffer> RenderingEngine::camera_buffer_;
+
+void RenderingEngine::init()
+{
+    camera_buffer_ = UniformBuffer::create(sizeof(Matrix4), 0);
+}
 
 void RenderingEngine::clear_screen()
 {
@@ -29,6 +40,9 @@ void RenderingEngine::render(GameObject& gameobject)
     // all lights every frame.
     lights_.clear();
     gameobject.add_to_rendering_engine(*this);
+
+    auto view_projection = main_camera_->get_view_projection();
+    camera_buffer_->set_data(view_projection[0].data(), sizeof(view_projection));
 
     bool first_pass = true;
 

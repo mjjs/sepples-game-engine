@@ -24,6 +24,7 @@ Engine::Engine(const std::size_t width, const std::size_t height, const std::str
     window_ = Window::create(window_title, width, height);
     window_->set_event_callback(BIND_EVENT_FN(Engine::handle_event));
     Log::init();
+    RenderingEngine::init();
 }
 
 void Engine::load_game(std::unique_ptr<Game> game)
