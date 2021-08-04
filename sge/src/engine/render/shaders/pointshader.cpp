@@ -18,7 +18,6 @@ void PointShader::update_uniforms(
         const Material& material,
         const RenderingEngine& rendering_engine) const
 {
-    set_uniform("projection_u", transform.get_transformation());
     set_uniform("transform_u", transform.get_transformation());
 
     set_uniform("view_position_u", rendering_engine.camera()->get_transform().position());

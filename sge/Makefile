@@ -6,7 +6,7 @@ BUILD_DIR ?= build
 TARGET ?= testgame
 VENDOR_DIR ?= ../vendor
 
-DEFINES = SPDLOG_COMPILED_LIB
+DEFINES =  SPDLOG_COMPILED_LIB
 DEFINE_FLAGS = $(addprefix -D,$(DEFINES))
 
 # SOURCES
@@ -37,14 +37,12 @@ ASSIMP_STATIC_LIB = $(VENDOR_DIR)/assimp/build/lib/libassimp.a
 
 STATIC_LIBS = $(GLAD_STATIC_LIB) $(SPDLOG_STATIC_LIB) $(SDL_STATIC_LIB) $(ASSIMP_STATIC_LIB)
 
-$(BUILD_DIR)/$(TARGET): $(OBJS) deps
+$(BUILD_DIR)/$(TARGET): $(OBJS) $(STATIC_LIBS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
 	$(CXX) $(CPPFLAGS) $(INC_FLAGS) $(DEFINE_FLAGS) -c $< -o $@
-
-deps: $(STATIC_LIBS)
 
 $(GLAD_STATIC_LIB):
 	$(MAKE) -C $(VENDOR_DIR)/glad
@@ -62,6 +60,8 @@ $(ASSIMP_STATIC_LIB):
 	cd $(VENDOR_DIR)/assimp/build && cmake -D BUILD_SHARED_LIBS=OFF .. && $(MAKE) -j
 
 .PHONY: clean run deps
+
+deps: $(STATIC_LIBS)
 
 run: $(BUILD_DIR)/$(TARGET)
 	./$<

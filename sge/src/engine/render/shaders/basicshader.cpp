@@ -14,9 +14,9 @@ BasicShader::BasicShader() :
 void BasicShader::update_uniforms(
         const Transform& transform,
         const Material& material,
-        const RenderingEngine& rendering_engine) const
+        [[ maybe_unused ]] const RenderingEngine& rendering_engine) const
 {
-    set_uniform("transform_u", transform.get_projected_transformation(*rendering_engine.camera()));
+    set_uniform("transform_u", transform.get_transformation());
 
     set_uniform("material_u.ambient", material.ambient_colour());
     set_uniform("material_u.diffuse", material.diffuse_colour());
