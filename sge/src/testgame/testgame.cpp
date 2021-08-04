@@ -97,9 +97,9 @@ class TestGame : public SGE::Game
         }
 
         SGE::RenderingEngine::prepare_frame(camera_);
-        SGE::RenderingEngine::submit(basic_shader_, *floor_, floor_transform);
+        SGE::RenderingEngine::submit(basic_shader_, floor_, floor_transform);
 
-        SGE::RenderingEngine::submit(basic_shader_, *floor_,
+        SGE::RenderingEngine::submit(basic_shader_, floor_,
                                      smaller_floor_transform);
 
         backpack_transform.set_rotation(SGE::Quaternion::euler(30, 45, 15));

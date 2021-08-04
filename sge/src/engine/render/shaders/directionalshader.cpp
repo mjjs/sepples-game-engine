@@ -27,19 +27,19 @@ void DirectionalShader::update_uniforms(
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
-    set_uniform("view_position_u",
-                rendering_engine.camera()->transform().position());
+    // set_uniform("view_position_u",
+    //            rendering_engine.camera()->transform().position());
 
-    auto* light =
-        dynamic_cast<DirectionalLight*>(rendering_engine.active_light());
+    // auto* light =
+    //    dynamic_cast<DirectionalLight*>(rendering_engine.active_light());
 
-    if (light == nullptr) {
-        throw std::runtime_error{"A directional light has malfunctioned."};
-    }
+    // if (light == nullptr) {
+    //    throw std::runtime_error{"A directional light has malfunctioned."};
+    //}
 
-    set_uniform("directional_light_u.direction", light->direction());
-    set_uniform("directional_light_u.base.colour", light->colour());
-    set_uniform("directional_light_u.base.intensity", light->intensity());
+    // set_uniform("directional_light_u.direction", light->direction());
+    // set_uniform("directional_light_u.base.colour", light->colour());
+    // set_uniform("directional_light_u.base.intensity", light->intensity());
 }
 
 } // namespace SGE

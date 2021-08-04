@@ -1,13 +1,15 @@
 #include "game.h"
+
 #include "eventdispatcher.h"
 #include "log.h"
+#include "timer.h"
 #include "window.h"
 #include "windowcloseevent.h"
-#include "timer.h"
 
 #include <memory>
 
-namespace SGE {
+namespace SGE
+{
 
 Game* Game::instance_ = nullptr; // NOLINT
 
@@ -56,34 +58,18 @@ void Game::run()
 void Game::handle_event(Event& event)
 {
     EventDispatcher dispatcher(event);
-    dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Game::handle_window_close));
+    dispatcher.dispatch<WindowCloseEvent>(
+        BIND_EVENT_FN(Game::handle_window_close));
 
     if (event.is_in_category(EventCategory::INPUT)) {
         Input::handle_input_event(event);
     }
 }
 
-bool Game::handle_window_close([[ maybe_unused ]] WindowCloseEvent& event)
+bool Game::handle_window_close([[maybe_unused]] WindowCloseEvent& event)
 {
     running_ = false;
     return true;
-}
-
-// OLD API TO BE REMOVED
-
-void Game::render(Shader& shader, const RenderingEngine& rendering_engine)
-{
-    root_->render(shader, rendering_engine);
-}
-
-void Game::set_root(std::shared_ptr<GameObject> gameobject)
-{
-    root_ = gameobject;
-}
-
-std::shared_ptr<GameObject> Game::root() const
-{
-    return root_;
 }
 
 } // namespace SGE

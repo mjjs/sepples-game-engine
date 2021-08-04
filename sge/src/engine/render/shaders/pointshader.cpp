@@ -22,25 +22,25 @@ void PointShader::update_uniforms(const Transform& transform,
 {
     set_uniform("transform_u", transform.get_transformation());
 
-    set_uniform("view_position_u",
-                rendering_engine.camera()->transform().position());
+    // set_uniform("view_position_u",
+    //            rendering_engine.camera()->transform().position());
 
     set_uniform("material_u.ambient", material.ambient_colour());
     set_uniform("material_u.diffuse", material.diffuse_colour());
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
-    auto* light = dynamic_cast<PointLight*>(rendering_engine.active_light());
-    if (light == nullptr) {
-        throw std::runtime_error{"A point light has malfunctioned."};
-    }
+    // auto* light = dynamic_cast<PointLight*>(rendering_engine.active_light());
+    // if (light == nullptr) {
+    //    throw std::runtime_error{"A point light has malfunctioned."};
+    //}
 
-    set_uniform("point_light_u.position", light->get_transform().position());
-    set_uniform("point_light_u.base.colour", light->colour());
-    set_uniform("point_light_u.base.intensity", light->intensity());
-    set_uniform("point_light_u.attenuation.constant", light->constant());
-    set_uniform("point_light_u.attenuation.linear", light->linear());
-    set_uniform("point_light_u.attenuation.quadratic", light->quadratic());
+    // set_uniform("point_light_u.position", light->get_transform().position());
+    // set_uniform("point_light_u.base.colour", light->colour());
+    // set_uniform("point_light_u.base.intensity", light->intensity());
+    // set_uniform("point_light_u.attenuation.constant", light->constant());
+    // set_uniform("point_light_u.attenuation.linear", light->linear());
+    // set_uniform("point_light_u.attenuation.quadratic", light->quadratic());
 }
 
 } // namespace SGE

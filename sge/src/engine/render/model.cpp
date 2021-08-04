@@ -1,27 +1,29 @@
+#include "model.h"
+
 #include "material.h"
 #include "mesh.h"
-#include "model.h"
 #include "shader.h"
 #include "texture.h"
 #include "vector2.h"
 #include "vector3.h"
 #include "vertex.h"
 
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>
+namespace SGE
+{
 
-namespace SGE {
-
-constexpr char const * COLOUR_AMBIENT = "AMBIENT";
-constexpr char const * COLOUR_DIFFUSE = "DIFFUSE";
-constexpr char const * COLOUR_SPECULAR = "SPECULAR";
+constexpr char const* COLOUR_AMBIENT  = "AMBIENT";
+constexpr char const* COLOUR_DIFFUSE  = "DIFFUSE";
+constexpr char const* COLOUR_SPECULAR = "SPECULAR";
 
 static Vector3 get_colour(const aiMaterial& material, const std::string& type);
 static float get_shininess(const aiMaterial& material);
@@ -35,15 +37,12 @@ void Model::load_model(const std::string& path)
 {
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(
-            path,
-            aiProcess_JoinIdenticalVertices |
-            aiProcess_Triangulate
-            );
+        path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
 
-    if (scene == nullptr ||
-            scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
-            scene->mRootNode == nullptr) {
-        throw std::runtime_error("Error loading model: " + std::string(importer.GetErrorString()));
+    if (scene == nullptr || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
+        scene->mRootNode == nullptr) {
+        throw std::runtime_error("Error loading model: " +
+                                 std::string(importer.GetErrorString()));
     }
 
     directory_ = path.substr(0, path.find_last_of('/'));
@@ -54,8 +53,9 @@ void Model::load_model(const std::string& path)
 void Model::process_node(aiNode* node, const aiScene* scene)
 {
     for (std::size_t i = 0; i < node->mNumMeshes; ++i) {
-        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        meshes_.push_back(process_mesh(mesh, scene));
+        aiMesh* mesh  = scene->mMeshes[node->mMeshes[i]];
+        auto mesh_ptr = std::make_shared<Mesh>(process_mesh(mesh, scene));
+        meshes_.push_back(mesh_ptr);
     }
 
     for (std::size_t i = 0; i < node->mNumChildren; ++i) {
@@ -71,25 +71,17 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 
     for (std::size_t i = 0; i < mesh->mNumVertices; ++i) {
         Vertex vertex;
-        vertex.position = Vector3{
-            mesh->mVertices[i].x,
-                mesh->mVertices[i].y,
-                mesh->mVertices[i].z
-        };
+        vertex.position = Vector3{mesh->mVertices[i].x, mesh->mVertices[i].y,
+                                  mesh->mVertices[i].z};
 
         if (mesh->HasNormals()) {
-            vertex.normal = Vector3{
-                mesh->mNormals[i].x,
-                    mesh->mNormals[i].y,
-                    mesh->mNormals[i].z
-            };
+            vertex.normal = Vector3{mesh->mNormals[i].x, mesh->mNormals[i].y,
+                                    mesh->mNormals[i].z};
         }
 
         if (mesh->HasTextureCoords(0)) {
-            vertex.texture_coordinate = Vector2{
-                mesh->mTextureCoords[0][i].x,
-                mesh->mTextureCoords[0][i].y
-            };
+            vertex.texture_coordinate = Vector2{mesh->mTextureCoords[0][i].x,
+                                                mesh->mTextureCoords[0][i].y};
         } else {
             vertex.texture_coordinate = Vector2{0.0F, 0.0F};
         }
@@ -109,13 +101,15 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
     Material material;
 
     if (assimp_material != nullptr) {
-        std::vector<Texture> diffuse_maps = load_material_textures(assimp_material,
-                TextureType::DIFFUSE);
-        textures.insert(textures.end(), diffuse_maps.begin(), diffuse_maps.end());
+        std::vector<Texture> diffuse_maps =
+            load_material_textures(assimp_material, TextureType::DIFFUSE);
+        textures.insert(textures.end(), diffuse_maps.begin(),
+                        diffuse_maps.end());
 
-        std::vector<Texture> specular_maps = load_material_textures(assimp_material,
-                TextureType::SPECULAR);
-        textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
+        std::vector<Texture> specular_maps =
+            load_material_textures(assimp_material, TextureType::SPECULAR);
+        textures.insert(textures.end(), specular_maps.begin(),
+                        specular_maps.end());
 
         material.set_ambient(get_colour(*assimp_material, COLOUR_AMBIENT));
         material.set_diffuse(get_colour(*assimp_material, COLOUR_DIFFUSE));
@@ -128,13 +122,15 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
     return Mesh{vertices, indices, material};
 }
 
-std::vector<Texture> Model::load_material_textures(
-        aiMaterial* material, const TextureType texture_type)
+std::vector<Texture>
+Model::load_material_textures(aiMaterial* material,
+                              const TextureType texture_type)
 {
     std::vector<Texture> textures;
     aiTextureType ai_texture_type = from_texture_type(texture_type);
 
-    for (std::size_t i = 0; i < material->GetTextureCount(ai_texture_type); ++i) {
+    for (std::size_t i = 0; i < material->GetTextureCount(ai_texture_type);
+         ++i) {
         aiString path;
         material->GetTexture(ai_texture_type, i, &path);
         std::string filename{path.C_Str()};
@@ -161,8 +157,8 @@ std::vector<Texture> Model::load_material_textures(
 
 void Model::draw(Shader& shader) const
 {
-    for (const Mesh& mesh : meshes_) {
-        mesh.draw(shader);
+    for (const auto& mesh : meshes_) {
+        mesh->draw(shader);
     }
 }
 
@@ -188,7 +184,7 @@ float get_shininess(const aiMaterial& material)
     return shininess;
 }
 
-const std::vector<Mesh>& Model::meshes() const
+const std::vector<std::shared_ptr<Mesh>>& Model::meshes() const
 {
     return meshes_;
 }

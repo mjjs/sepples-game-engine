@@ -33,10 +33,6 @@ class Game
 
     friend int ::main(int argc, char** argv);
 
-    // OLD STUFF TO BE REMOVED
-    RenderingEngine rendering_engine_;
-    std::shared_ptr<GameObject> root_ = std::make_shared<GameObject>();
-
   public:
     Game();
     virtual ~Game() = default;
@@ -49,15 +45,10 @@ class Game
     virtual void update([[maybe_unused]] float delta)
     {
     }
+
     virtual void fixed_update()
     {
     }
-
-    // OLD API TO BE REMOVED
-    virtual void render(Shader& shader,
-                        const RenderingEngine& rendering_engine);
-    void set_root(std::shared_ptr<GameObject> gameobject);
-    std::shared_ptr<GameObject> root() const;
 };
 
 std::unique_ptr<Game> CreateGame(int argc, char** argv);

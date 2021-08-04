@@ -42,17 +42,9 @@ class RenderingEngine
                        const std::shared_ptr<Model>& model,
                        const Transform& transform);
 
-    static void submit(const std::shared_ptr<Shader>& shader, const Mesh& mesh,
+    static void submit(const std::shared_ptr<Shader>& shader,
+                       const std::shared_ptr<Mesh>& mesh,
                        const Transform& transform);
-
-    // OLD API
-
-    void render(GameObject& gameobject);
-
-    void set_camera(Camera* camera);
-    Camera* camera() const;
-    Light* active_light() const;
-    void add_light(Light* light);
 };
 
 } // namespace SGE
