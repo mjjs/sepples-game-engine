@@ -4,38 +4,42 @@
 #include "camera.h"
 #include "gamecomponent.h"
 #include "input.h"
-#include "transform.h"
 #include "shader.h"
+#include "transform.h"
 
 #include <memory>
 #include <vector>
 
-namespace SGE {
+namespace SGE
+{
 class RenderingEngine;
 
-class GameObject {
-    private:
-        Transform transform_{};
-        std::vector<std::shared_ptr<GameObject>> children_{};
-        std::vector<std::shared_ptr<GameComponent>> components_{};
+class GameObject
+{
+  private:
+    Transform transform_{};
+    std::vector<std::shared_ptr<GameObject>> children_{};
+    std::vector<std::shared_ptr<GameComponent>> components_{};
 
-    public:
-        GameObject() = default;
-        GameObject(const GameObject&) = default;
-        GameObject(GameObject&&) = default;
-        GameObject& operator=(const GameObject&) = default;
-        GameObject& operator=(GameObject&&) = default;
-        virtual ~GameObject() = default;
+  public:
+    GameObject()                  = default;
+    GameObject(const GameObject&) = default;
+    GameObject(GameObject&&)      = default;
+    GameObject& operator=(const GameObject&) = default;
+    GameObject& operator=(GameObject&&) = default;
+    virtual ~GameObject()               = default;
 
-        virtual void update(float delta);
-        virtual void fixed_update();
-        virtual void render(Shader& shader, const RenderingEngine& rendering_engine);
-        virtual void add_to_rendering_engine(RenderingEngine& rendering_engine) const;
+    virtual void update(float delta);
+    virtual void fixed_update();
+    virtual void render(Shader& shader,
+                        const RenderingEngine& rendering_engine);
+    virtual void
+    add_to_rendering_engine(RenderingEngine& rendering_engine) const;
 
-        void add_child(std::shared_ptr<GameObject> child);
-        void add_component(std::shared_ptr<GameComponent> component);
-        void set_transform(const Transform& transform);
-        Transform& transform();
+    void add_child(std::shared_ptr<GameObject> child);
+    void add_component(std::shared_ptr<GameComponent> component);
+    void set_transform(const Transform& transform);
+    Transform& transform();
 };
 
 } // namespace SGE

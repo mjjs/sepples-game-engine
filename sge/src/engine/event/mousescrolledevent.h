@@ -3,26 +3,29 @@
 
 #include "event.h"
 #include "vector2.h"
+
 #include <string>
 
-namespace SGE {
+namespace SGE
+{
 
-class MouseScrolledEvent : public Event {
-    private:
-        Vector2 offsets_;
+class MouseScrolledEvent : public Event
+{
+  private:
+    Vector2 offsets_;
 
-    public:
-        MouseScrolledEvent(const Vector2& offsets);
+  public:
+    MouseScrolledEvent(const Vector2& offsets);
 
-        float x_offset() const;
-        float y_offset() const;
-        Vector2 offsets() const;
+    float x_offset() const;
+    float y_offset() const;
+    Vector2 offsets() const;
 
-        int categories() const override;
-        std::string name() const override;
-        EventType type() const override;
+    int categories() const override;
+    std::string name() const override;
+    EventType type() const override;
 
-        static EventType static_type();
+    static EventType static_type();
 };
 
 } // namespace SGE

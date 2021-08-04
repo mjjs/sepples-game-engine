@@ -5,17 +5,19 @@
 
 #include <string>
 
-namespace SGE {
+namespace SGE
+{
 
-class KeyPressedEvent : public KeyboardEvent {
-    public:
-        KeyPressedEvent(SDL_Keycode key_code);
+class KeyPressedEvent : public KeyboardEvent
+{
+  public:
+    KeyPressedEvent(SDL_Keycode key_code);
 
-        int categories() const override;
-        std::string name() const override;
-        EventType type() const override;
+    int categories() const override;
+    std::string name() const override;
+    EventType type() const override;
 
-        static EventType static_type();
+    static EventType static_type();
 };
 
 } // namespace SGE

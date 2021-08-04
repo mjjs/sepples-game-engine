@@ -5,28 +5,27 @@
 
 #include <cstdint>
 
-namespace SGE {
+namespace SGE
+{
 
-class OpenGLUniformBuffer : public UniformBuffer {
-    private:
-        std::uint32_t buffer_id_ = 0;
+class OpenGLUniformBuffer : public UniformBuffer
+{
+  private:
+    std::uint32_t buffer_id_ = 0;
 
-    public:
-        OpenGLUniformBuffer(std::uint32_t size, std::uint32_t binding);
-        ~OpenGLUniformBuffer();
+  public:
+    OpenGLUniformBuffer(std::uint32_t size, std::uint32_t binding);
+    ~OpenGLUniformBuffer();
 
-        OpenGLUniformBuffer(const OpenGLUniformBuffer&) = delete;
-        OpenGLUniformBuffer(const OpenGLUniformBuffer&&) = delete;
-        OpenGLUniformBuffer& operator=(const OpenGLUniformBuffer&) = delete;
-        OpenGLUniformBuffer& operator=(const OpenGLUniformBuffer&&) = delete;
+    OpenGLUniformBuffer(const OpenGLUniformBuffer&)  = delete;
+    OpenGLUniformBuffer(const OpenGLUniformBuffer&&) = delete;
+    OpenGLUniformBuffer& operator=(const OpenGLUniformBuffer&) = delete;
+    OpenGLUniformBuffer& operator=(const OpenGLUniformBuffer&&) = delete;
 
-        void set_data(
-                const void* data,
-                std::uint32_t size,
-                std::uint32_t offset = 0
-                ) const override;
+    void set_data(const void* data, std::uint32_t size,
+                  std::uint32_t offset = 0) const override;
 };
 
-} // SGE
+} // namespace SGE
 
 #endif

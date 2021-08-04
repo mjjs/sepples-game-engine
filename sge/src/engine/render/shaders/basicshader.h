@@ -1,18 +1,19 @@
 #ifndef _SGE_BASICSHADER_H
 #define _SGE_BASICSHADER_H
-#include "shader.h"
 #include "material.h"
+#include "shader.h"
 #include "transform.h"
 
-namespace SGE {
+namespace SGE
+{
 
-class BasicShader : public Shader {
-    public:
-        BasicShader();
-        void update_uniforms(
-                const Transform& transformation,
-                const Material& material,
-                const SGE::RenderingEngine& rendering_engine) const override;
+class BasicShader : public Shader
+{
+  public:
+    BasicShader();
+    void update_uniforms(
+        const Transform& transformation, const Material& material,
+        const SGE::RenderingEngine& rendering_engine) const override;
 };
 
 } // namespace SGE

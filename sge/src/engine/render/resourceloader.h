@@ -7,7 +7,8 @@
 #include <cstdint>
 #include <string>
 
-namespace SGE {
+namespace SGE
+{
 
 std::string load_shader(const std::string& filename);
 

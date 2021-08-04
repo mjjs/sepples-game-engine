@@ -3,7 +3,8 @@
 #include "vector2.h"
 #include "vector3.h"
 
-namespace SGE {
+namespace SGE
+{
 
 struct Vertex {
     Vector3 position{};

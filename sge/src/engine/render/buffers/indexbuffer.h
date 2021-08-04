@@ -8,24 +8,27 @@
 #include <memory>
 #include <vector>
 
-namespace SGE {
+namespace SGE
+{
 
-class IndexBuffer {
-    public:
-        IndexBuffer() = default;
-        virtual ~IndexBuffer() = default;
-        virtual void bind() const = 0;
+class IndexBuffer
+{
+  public:
+    IndexBuffer()             = default;
+    virtual ~IndexBuffer()    = default;
+    virtual void bind() const = 0;
 
-        IndexBuffer(const IndexBuffer&) = delete;
-        IndexBuffer(const IndexBuffer&&) = delete;
-        IndexBuffer& operator=(const IndexBuffer&) = delete;
-        IndexBuffer& operator=(const IndexBuffer&&) = delete;
+    IndexBuffer(const IndexBuffer&)  = delete;
+    IndexBuffer(const IndexBuffer&&) = delete;
+    IndexBuffer& operator=(const IndexBuffer&) = delete;
+    IndexBuffer& operator=(const IndexBuffer&&) = delete;
 
-        virtual std::size_t count() const = 0;
+    virtual std::size_t count() const = 0;
 
-        static std::shared_ptr<IndexBuffer> create(const std::vector<std::uint32_t>& indices);
+    static std::shared_ptr<IndexBuffer>
+    create(const std::vector<std::uint32_t>& indices);
 };
 
-} // SGE
+} // namespace SGE
 
 #endif

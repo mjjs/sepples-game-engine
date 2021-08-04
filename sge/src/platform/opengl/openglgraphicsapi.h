@@ -4,15 +4,17 @@
 #include "graphicsapi.h"
 #include "vector3.h"
 
-namespace SGE {
+namespace SGE
+{
 
-class OpenGLGraphicsAPI : public GraphicsAPI {
-    private:
-        Vector3 clear_colour_;
+class OpenGLGraphicsAPI : public GraphicsAPI
+{
+  private:
+    Vector3 clear_colour_;
 
-    public:
-        void clear_screen() override;
-        void set_clear_colour(const Vector3& colour) override;
+  public:
+    void clear_screen() override;
+    void set_clear_colour(const Vector3& colour) override;
 };
 
 } // namespace SGE

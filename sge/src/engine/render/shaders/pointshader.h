@@ -3,16 +3,17 @@
 #include "shader.h"
 #include "vector3.h"
 
-namespace SGE {
+namespace SGE
+{
 
-class PointShader : public Shader {
-    public:
-        PointShader();
+class PointShader : public Shader
+{
+  public:
+    PointShader();
 
-        void update_uniforms(
-                const Transform& transform,
-                const Material& material,
-                const SGE::RenderingEngine& rendering_engine) const override;
+    void update_uniforms(
+        const Transform& transform, const Material& material,
+        const SGE::RenderingEngine& rendering_engine) const override;
 };
 
 } // namespace SGE

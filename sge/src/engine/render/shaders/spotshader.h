@@ -3,16 +3,17 @@
 #include "shader.h"
 #include "vector3.h"
 
-namespace SGE {
+namespace SGE
+{
 
-class SpotShader : public Shader {
-    public:
-        SpotShader();
+class SpotShader : public Shader
+{
+  public:
+    SpotShader();
 
-        void update_uniforms(
-                const Transform& transform,
-                const Material& material,
-                const RenderingEngine& rendering_engine) const override;
+    void
+    update_uniforms(const Transform& transform, const Material& material,
+                    const RenderingEngine& rendering_engine) const override;
 };
 
 } // namespace SGE

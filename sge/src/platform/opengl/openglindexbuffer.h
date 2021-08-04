@@ -8,26 +8,28 @@
 #include <cstdint>
 #include <vector>
 
-namespace SGE {
+namespace SGE
+{
 
-class OpenGLIndexBuffer : public IndexBuffer {
-    private:
-        std::uint32_t buffer_id_ = 0;
-        std::size_t count_ = 0;
+class OpenGLIndexBuffer : public IndexBuffer
+{
+  private:
+    std::uint32_t buffer_id_ = 0;
+    std::size_t count_       = 0;
 
-    public:
-        OpenGLIndexBuffer(const std::vector<std::uint32_t>& indices);
-        ~OpenGLIndexBuffer();
+  public:
+    OpenGLIndexBuffer(const std::vector<std::uint32_t>& indices);
+    ~OpenGLIndexBuffer();
 
-        OpenGLIndexBuffer(const OpenGLIndexBuffer&) = delete;
-        OpenGLIndexBuffer(const OpenGLIndexBuffer&&) = delete;
-        OpenGLIndexBuffer& operator=(const OpenGLIndexBuffer&) = delete;
-        OpenGLIndexBuffer& operator=(const OpenGLIndexBuffer&&) = delete;
+    OpenGLIndexBuffer(const OpenGLIndexBuffer&)  = delete;
+    OpenGLIndexBuffer(const OpenGLIndexBuffer&&) = delete;
+    OpenGLIndexBuffer& operator=(const OpenGLIndexBuffer&) = delete;
+    OpenGLIndexBuffer& operator=(const OpenGLIndexBuffer&&) = delete;
 
-        void bind() const override;
-        std::size_t count() const override;
+    void bind() const override;
+    std::size_t count() const override;
 };
 
-} // SGE
+} // namespace SGE
 
 #endif

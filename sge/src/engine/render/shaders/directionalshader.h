@@ -4,16 +4,17 @@
 #include "shader.h"
 #include "vector3.h"
 
-namespace SGE {
+namespace SGE
+{
 
-class DirectionalShader : public Shader {
-    public:
-        DirectionalShader();
+class DirectionalShader : public Shader
+{
+  public:
+    DirectionalShader();
 
-        void update_uniforms(
-                const Transform& transform,
-                const Material& material,
-                const SGE::RenderingEngine& rendering_engine) const override;
+    void update_uniforms(
+        const Transform& transform, const Material& material,
+        const SGE::RenderingEngine& rendering_engine) const override;
 };
 
 } // namespace SGE

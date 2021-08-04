@@ -4,9 +4,13 @@
 #include <functional>
 #include <string>
 
-#define BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
+#define BIND_EVENT_FN(fn)                                                      \
+    [this](auto&&... args) -> decltype(auto) {                                 \
+        return this->fn(std::forward<decltype(args)>(args)...);                \
+    }
 
-namespace SGE {
+namespace SGE
+{
 
 constexpr int bit(int x)
 {
@@ -26,35 +30,35 @@ enum class EventType {
 };
 
 enum EventCategory {
-    NONE = 0,
-    WINDOW = bit(0),
-    INPUT = bit(1),
-    KEYBOARD = bit(2),
-    MOUSE = bit(3),
+    NONE        = 0,
+    WINDOW      = bit(0),
+    INPUT       = bit(1),
+    KEYBOARD    = bit(2),
+    MOUSE       = bit(3),
     MOUSEBUTTON = bit(4),
 };
 
+class Event
+{
+  public:
+    Event()          = default;
+    virtual ~Event() = default;
 
-class Event {
-    public:
-        Event() = default;
-        virtual ~Event() = default;
+    Event(const Event&)  = delete;
+    Event(const Event&&) = delete;
+    Event& operator=(const Event&) = delete;
+    Event& operator=(const Event&&) = delete;
 
-        Event(const Event&) = delete;
-        Event(const Event&&) = delete;
-        Event& operator=(const Event&) = delete;
-        Event& operator=(const Event&&) = delete;
+    bool handled = false;
 
-        bool handled = false;
+    virtual EventType type() const   = 0;
+    virtual std::string name() const = 0;
+    virtual int categories() const   = 0;
 
-        virtual EventType type() const = 0;
-        virtual std::string name() const = 0;
-        virtual int categories() const = 0;
-
-        bool is_in_category(EventCategory category) const
-        {
-            return (categories() & category) != 0;
-        }
+    bool is_in_category(EventCategory category) const
+    {
+        return (categories() & category) != 0;
+    }
 };
 
 using EventCallbackFn = std::function<void(Event&)>;

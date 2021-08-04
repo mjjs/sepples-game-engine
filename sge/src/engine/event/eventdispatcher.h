@@ -3,28 +3,28 @@
 
 #include "event.h"
 
-namespace SGE {
+namespace SGE
+{
 
-class EventDispatcher {
-    private:
-        Event& event_;
+class EventDispatcher
+{
+  private:
+    Event& event_;
 
-    public:
-        EventDispatcher(Event& event)
-            : event_{event}
-        {
+  public:
+    EventDispatcher(Event& event) : event_{event}
+    {
+    }
+
+    template <typename T, typename F> bool dispatch(const F& event_handler)
+    {
+        if (event_.type() == T::static_type()) {
+            event_.handled |= event_handler(static_cast<T&>(event_));
+            return true;
         }
 
-        template<typename T, typename F>
-        bool dispatch(const F& event_handler)
-        {
-            if (event_.type() == T::static_type()) {
-                event_.handled |= event_handler(static_cast<T&>(event_));
-                return true;
-            }
-
-            return false;
-        }
+        return false;
+    }
 };
 
 } // namespace SGE

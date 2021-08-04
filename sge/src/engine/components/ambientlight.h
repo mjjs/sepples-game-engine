@@ -4,14 +4,16 @@
 #include "light.h"
 #include "vector3.h"
 
-namespace SGE {
-class AmbientLight : public Light {
-    private:
-        Vector3 direction_;
+namespace SGE
+{
+class AmbientLight : public Light
+{
+  private:
+    Vector3 direction_;
 
-    public:
-        AmbientLight();
-        explicit AmbientLight(float intensity);
+  public:
+    AmbientLight();
+    explicit AmbientLight(float intensity);
 };
 } // namespace SGE
 

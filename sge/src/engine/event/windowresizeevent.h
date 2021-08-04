@@ -6,24 +6,26 @@
 
 #include <string>
 
-namespace SGE {
+namespace SGE
+{
 
-class WindowResizeEvent : public Event {
-    private:
-        unsigned int width_;
-        unsigned int height_;
+class WindowResizeEvent : public Event
+{
+  private:
+    unsigned int width_;
+    unsigned int height_;
 
-    public:
-        WindowResizeEvent(unsigned int width, unsigned int height);
+  public:
+    WindowResizeEvent(unsigned int width, unsigned int height);
 
-        unsigned int width() const;
-        unsigned int height() const;
+    unsigned int width() const;
+    unsigned int height() const;
 
-        int categories() const override;
-        std::string name() const override;
-        EventType type() const override;
+    int categories() const override;
+    std::string name() const override;
+    EventType type() const override;
 
-        static EventType static_type();
+    static EventType static_type();
 };
 
 } // namespace SGE

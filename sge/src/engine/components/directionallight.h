@@ -8,17 +8,16 @@
 
 #include <memory>
 
-namespace SGE {
+namespace SGE
+{
 
-class DirectionalLight : public Light {
-    public:
-        DirectionalLight();
-        explicit DirectionalLight(
-            const Vector3& colour,
-            float intensity
-        );
+class DirectionalLight : public Light
+{
+  public:
+    DirectionalLight();
+    explicit DirectionalLight(const Vector3& colour, float intensity);
 
-        Vector3 direction() const;
+    Vector3 direction() const;
 };
 
 } // namespace SGE
