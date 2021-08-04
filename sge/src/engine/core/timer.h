@@ -5,10 +5,10 @@
 
 namespace SGE {
 
-class Engine;
+class Game;
 
 class Timer {
-    friend class Engine;
+    friend class Game;
 
     private:
         const float fixed_time_step_ = 0.01F;

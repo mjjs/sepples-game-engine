@@ -188,4 +188,9 @@ float get_shininess(const aiMaterial& material)
     return shininess;
 }
 
+const std::vector<Mesh>& Model::meshes() const
+{
+    return meshes_;
+}
+
 } // namespace SGE

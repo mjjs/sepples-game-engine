@@ -1,26 +1,29 @@
 #include "pointshader.h"
-#include "pointlight.h"
+
 #include "material.h"
-#include "transform.h"
-#include "shader.h"
-#include "vector3.h"
+#include "pointlight.h"
 #include "renderingengine.h"
+#include "shader.h"
+#include "transform.h"
+#include "vector3.h"
 
-namespace SGE {
+namespace SGE
+{
 
-PointShader::PointShader() :
-    Shader{"res/shaders/point_light_vertex.glsl", "res/shaders/point_light_fragment.glsl"}
+PointShader::PointShader()
+    : Shader{"res/shaders/point_light_vertex.glsl",
+             "res/shaders/point_light_fragment.glsl"}
 {
 }
 
-void PointShader::update_uniforms(
-        const Transform& transform,
-        const Material& material,
-        const RenderingEngine& rendering_engine) const
+void PointShader::update_uniforms(const Transform& transform,
+                                  const Material& material,
+                                  const RenderingEngine& rendering_engine) const
 {
     set_uniform("transform_u", transform.get_transformation());
 
-    set_uniform("view_position_u", rendering_engine.camera()->get_transform().position());
+    set_uniform("view_position_u",
+                rendering_engine.camera()->transform().position());
 
     set_uniform("material_u.ambient", material.ambient_colour());
     set_uniform("material_u.diffuse", material.diffuse_colour());

@@ -1,22 +1,24 @@
 #include "directionalshader.h"
+
 #include "directionallight.h"
 #include "material.h"
-#include "transform.h"
-#include "shader.h"
-#include "vector3.h"
 #include "renderingengine.h"
+#include "shader.h"
+#include "transform.h"
+#include "vector3.h"
 
-namespace SGE {
+namespace SGE
+{
 
-DirectionalShader::DirectionalShader() :
-    Shader{"res/shaders/directional_light_vertex.glsl", "res/shaders/directional_light_fragment.glsl"}
+DirectionalShader::DirectionalShader()
+    : Shader{"res/shaders/directional_light_vertex.glsl",
+             "res/shaders/directional_light_fragment.glsl"}
 {
 }
 
 void DirectionalShader::update_uniforms(
-        const Transform& transform,
-        const Material& material,
-        const RenderingEngine& rendering_engine) const
+    const Transform& transform, const Material& material,
+    const RenderingEngine& rendering_engine) const
 {
     set_uniform("transform_u", transform.get_transformation());
 
@@ -25,9 +27,11 @@ void DirectionalShader::update_uniforms(
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
-    set_uniform("view_position_u", rendering_engine.camera()->get_transform().position());
+    set_uniform("view_position_u",
+                rendering_engine.camera()->transform().position());
 
-    auto* light = dynamic_cast<DirectionalLight*>(rendering_engine.active_light());
+    auto* light =
+        dynamic_cast<DirectionalLight*>(rendering_engine.active_light());
 
     if (light == nullptr) {
         throw std::runtime_error{"A directional light has malfunctioned."};

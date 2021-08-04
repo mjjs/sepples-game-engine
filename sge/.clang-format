@@ -1,6 +1,6 @@
 BasedOnStyle: LLVM
 Language: Cpp
-IndentWidth: 8
+IndentWidth: 4
 UseTab: Never
 BreakBeforeBraces: Linux
 AllowShortIfStatementsOnASingleLine: false

@@ -15,10 +15,11 @@
 #include <SDL2/SDL_keycode.h>
 
 namespace SGE {
-    class Engine;
+
+class Game;
 
 class Input {
-    friend class Engine;
+    friend class Game;
 
     private:
         static Input* instance_; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)

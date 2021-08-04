@@ -29,6 +29,8 @@ class Model {
     public:
         explicit Model(const std::string& path);
         void draw(Shader& shader) const;
+
+        const std::vector<Mesh>& meshes() const;
 };
 
 } // namespace SGE

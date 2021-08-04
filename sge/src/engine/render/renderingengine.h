@@ -1,50 +1,58 @@
 #ifndef _SGE_RENDERINGENGINE_H
 #define _SGE_RENDERINGENGINE_H
 
-#include "graphicsapi.h"
-
-#include "light.h"
-#include "camera.h"
 #include "gameobject.h"
-#include "window.h"
-#include "input.h"
-#include "vector3.h"
+#include "graphicsapi.h"
+#include "light.h"
 #include "sgemath.h"
 #include "uniformbuffer.h"
+#include "vector3.h"
 
-#include <cstddef>
-#include <string>
-#include <vector>
 #include <memory>
+#include <vector>
 
-namespace SGE {
+namespace SGE
+{
 
-class RenderingEngine {
-    private:
-        Camera* main_camera_ = nullptr;
+class Camera;
+class Mesh;
+class Model;
+class Transform;
 
-        std::vector<Light*> lights_{};
-        Light* active_light_ = nullptr;
+class RenderingEngine
+{
+  private:
+    Camera* main_camera_ = nullptr;
 
-        // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-        static std::unique_ptr<GraphicsAPI> graphics_api_;
-        // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-        static std::shared_ptr<UniformBuffer> camera_buffer_;
+    std::vector<Light*> lights_{};
+    Light* active_light_ = nullptr;
 
-    public:
-        static void init();
-        static void clear_screen();
-        static void set_clear_colour(const Vector3& colour);
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+    static std::unique_ptr<GraphicsAPI> graphics_api_;
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
+    static std::shared_ptr<UniformBuffer> camera_buffer_;
 
-        // OLD API
+  public:
+    static void init();
+    static void clear_screen();
+    static void set_clear_colour(const Vector3& colour);
 
-        void render(GameObject& gameobject);
+    static void prepare_frame(const Camera& camera);
+    static void submit(const std::shared_ptr<Shader>& shader,
+                       const std::shared_ptr<Model>& model,
+                       const Transform& transform);
 
-        void set_camera(Camera* camera);
-        Camera* camera() const;
-        Light* active_light() const;
-        void add_light(Light* light);
+    static void submit(const std::shared_ptr<Shader>& shader, const Mesh& mesh,
+                       const Transform& transform);
 
+    // OLD API
+
+    void render(GameObject& gameobject);
+
+    void set_camera(Camera* camera);
+    Camera* camera() const;
+    Light* active_light() const;
+    void add_light(Light* light);
 };
 
 } // namespace SGE

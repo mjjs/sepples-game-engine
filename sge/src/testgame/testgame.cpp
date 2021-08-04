@@ -1,166 +1,120 @@
-#include <assert.h>
-#include "ambientlight.h"
+#include "basicshader.h"
 #include "camera.h"
-#include "sgemath.h"
+#include "game.h"
 #include "gamecomponent.h"
-#include "directionallight.h"
-#include "spotlight.h"
-#include "pointlight.h"
 #include "material.h"
 #include "mesh.h"
-#include "meshrenderer.h"
 #include "model.h"
-#include "modelrenderer.h"
-#include "testgame.h"
 #include "texture.h"
-#include "vector3.h"
 #include "transform.h"
+#include "vector3.h"
 #include "vertex.h"
-#include "quaternion.h"
 
 #include <cstdint>
 #include <memory>
 #include <vector>
 
-std::shared_ptr<SGE::GameObject> get_lights();
-
-TestGame::TestGame()
+class TestGame : public SGE::Game
 {
-    SGE::Transform transform{};
-    root()->set_transform(transform);
-}
+  private:
+    std::shared_ptr<SGE::Shader> basic_shader_;
+    std::shared_ptr<SGE::Mesh> floor_;
+    std::shared_ptr<SGE::Model> backpack_;
+    SGE::Camera camera_;
 
-std::shared_ptr<SGE::GameObject> get_lights()
-{
-    auto light_object = std::make_shared<SGE::GameObject>();
-    auto ambient_light = std::make_shared<SGE::AmbientLight>(0.2F);
-    auto directional_light_blue = std::make_shared<SGE::DirectionalLight>(
-            SGE::Vector3{0.0F, 0.0F, 1.0F},
-            .5F
-            );
+  public:
+    TestGame() : camera_{70, (float)1270 / (float)800, .1, 1000}
+    {
+        basic_shader_ = std::make_shared<SGE::BasicShader>();
 
-    auto point_light = std::make_shared<SGE::PointLight>(
-            SGE::Vector3{0, 1.0F, 0},
-            2.0F,
-            1,
-            0,
-            1
-            );
+        std::vector<SGE::Vertex> floor_vertices{
+            {{-10, -2, -10}, {0, 1, 0}, {0, 0}},
+            {{-10, -2, 30}, {0, 1, 0}, {0, 1}},
+            {{30, -2, -10}, {0, 1, 0}, {1, 0}},
+            {{30, -2, 30}, {0, 1, 0}, {1, 1}},
+        };
 
-    auto spot_light = std::make_shared<SGE::SpotLight>(
-            SGE::Vector3{1, 1, 1},
-            1.0F,
-            std::cos(SGE::to_radians(12.5F)),
-            std::cos(SGE::to_radians(17.5F)),
-            1.0F,
-            0.09F,
-            0.032F
-            );
+        std::vector<std::uint32_t> floor_indices = {0, 1, 2, 2, 1, 3};
 
-    light_object->add_component(ambient_light);
-    light_object->add_component(directional_light_blue);
-    light_object->add_component(point_light);
-    light_object->add_component(spot_light);
+        auto default_texture =
+            SGE::load_diffuse_texture("defaultTexture.png", "res/textures");
 
-    light_object->transform().set_position(SGE::Vector3{5, 0, 0});
-    light_object->transform()
-        .set_rotation(SGE::Quaternion::euler(0, -90, 0));
+        floor_ = std::make_shared<SGE::Mesh>(
+            floor_vertices, floor_indices,
+            SGE::Material{std::vector<SGE::Texture>{default_texture},
+                          SGE::Vector3{.5F, 1.0F, 1.0F},
+                          SGE::Vector3{.3F, 1.0F, 1.0F},
+                          SGE::Vector3{.8F, .8F, .8F}});
 
-    return light_object;
-}
+        backpack_ = std::make_shared<SGE::Model>("res/models/backpack.obj");
+    }
 
-void TestGame::init()
-{
-    std::vector<SGE::Vertex> vertices = {
-        {{-10, -2, -10}, {0, 1, 0}, {0, 0}},
-        {{-10, -2, 30}, {0, 1, 0}, {0, 1}},
-        {{30, -2, -10}, {0, 1, 0}, {1, 0}},
-        {{30, -2, 30}, {0, 1, 0}, {1, 1}},
-    };
+    void update(float delta) override
+    {
+        const auto floor_transform   = SGE::Transform{};
+        auto smaller_floor_transform = SGE::Transform{};
+        smaller_floor_transform.set_scale(SGE::Vector3{.5F, .5F, .5F});
+        smaller_floor_transform.set_position(SGE::Vector3{0, 8.0F, 3.0F});
+        auto backpack_transform = SGE::Transform{};
 
-    std::vector<SGE::Vertex> small_vertices = {
-        {{-5, 2, -5}, {0, 1, 0}, {0, 0}},
-        {{-5, 2, 10}, {0, 1, 0}, {0, 1}},
-        {{10, 2, -5}, {0, 1, 0}, {1, 0}},
-        {{10, 2, 10}, {0, 1, 0}, {1, 1}},
-    };
+        const float move_speed   = 25;
+        const float rotate_speed = 90;
 
-    std::vector<std::uint32_t> indices = {0, 1, 2, 2, 1, 3};
-
-    auto default_texture = SGE::load_diffuse_texture("defaultTexture.png", "res/textures");
-
-    auto floor = std::make_shared<SGE::Mesh>(
-        vertices,
-        indices,
-        SGE::Material{
-            std::vector<SGE::Texture>{default_texture},
-            SGE::Vector3{.5F, 1.0F, 1.0F},
-            SGE::Vector3{.3F, 1.0F, 1.0F},
-            SGE::Vector3{.8F, .8F, .8F}
+        if (SGE::Input::is_key_down(SDLK_w)) {
+            camera_.move(camera_.transform().rotation().get_forward(),
+                         move_speed * delta);
         }
-    );
 
-    auto small_floor = std::make_shared<SGE::Mesh>(
-        small_vertices,
-        indices,
-        SGE::Material{
-            std::vector<SGE::Texture>{default_texture},
-            SGE::Vector3{.5F, 1.0F, 1.0F},
-            SGE::Vector3{.3F, 1.0F, 1.0F},
-            SGE::Vector3{.8F, .8F, .8F}
+        if (SGE::Input::is_key_down(SDLK_s)) {
+            camera_.move(camera_.transform().rotation().get_back(),
+                         move_speed * delta);
         }
-    );
 
-    auto small_floor_go = std::make_shared<SGE::GameObject>();
-    auto small_floor_go_2 = std::make_shared<SGE::GameObject>();
-    small_floor_go->add_component(
-            std::make_shared<SGE::MeshRenderer>(small_floor)
-    );
-    small_floor_go_2->add_component(
-            std::make_shared<SGE::MeshRenderer>(small_floor)
-    );
+        if (SGE::Input::is_key_down(SDLK_a)) {
+            camera_.move(camera_.transform().rotation().get_left(),
+                         move_speed * delta);
+        }
 
-    small_floor_go->add_child(small_floor_go_2);
+        if (SGE::Input::is_key_down(SDLK_d)) {
+            camera_.move(camera_.transform().rotation().get_right(),
+                         move_speed * delta);
+        }
 
-    small_floor_go
-        ->transform()
-        .set_position(SGE::Vector3{0, 2, 0});
-    small_floor_go_2
-        ->transform()
-        .set_position(SGE::Vector3{0, 0, 15});
+        if (SGE::Input::is_key_down(SDLK_UP)) {
+            camera_.rotate_x(rotate_speed * delta);
+        }
 
-    small_floor_go
-        ->transform()
-        .set_rotation(SGE::Quaternion::euler(0, 30, 0));
+        if (SGE::Input::is_key_down(SDLK_DOWN)) {
+            camera_.rotate_x(-rotate_speed * delta);
+        }
 
-    small_floor_go_2
-        ->transform()
-        .set_rotation(SGE::Quaternion::euler(0, -45, 0));
+        if (SGE::Input::is_key_down(SDLK_LEFT)) {
+            camera_.rotate_y(rotate_speed * delta);
+        }
 
-    root()->add_component(std::make_shared<SGE::MeshRenderer>(floor));
-    root()->add_child(small_floor_go);
+        if (SGE::Input::is_key_down(SDLK_RIGHT)) {
+            camera_.rotate_y(-rotate_speed * delta);
+        }
 
-    auto model_renderer_object = std::make_shared<SGE::GameObject>();
-    auto model_renderer = std::make_shared<SGE::ModelRenderer>(SGE::Model("res/models/backpack.obj"));
-    model_renderer_object->add_component(model_renderer);
+        SGE::RenderingEngine::prepare_frame(camera_);
+        SGE::RenderingEngine::submit(basic_shader_, *floor_, floor_transform);
 
-    model_renderer_object->
-        transform().set_rotation(SGE::Quaternion::euler(30, 45, 90));
+        SGE::RenderingEngine::submit(basic_shader_, *floor_,
+                                     smaller_floor_transform);
 
-    root()->add_child(model_renderer_object);
+        backpack_transform.set_rotation(SGE::Quaternion::euler(30, 45, 15));
 
-    std::shared_ptr<SGE::GameObject> lights = get_lights();
+        SGE::RenderingEngine::submit(basic_shader_, backpack_,
+                                     backpack_transform);
+    }
 
-    root()->add_child(lights);
+    void fixed_update() override
+    {
+    }
+};
 
-    auto child = std::make_shared<SGE::GameObject>();
-    auto camera = std::make_shared<SGE::Camera>(
-            SGE::to_radians(70),
-            static_cast<float>(1270)/static_cast<float>(800),
-            .1,
-            1000
-            );
-
-    child->add_component(camera);
-    root()->add_child(child);
+std::unique_ptr<SGE::Game> SGE::CreateGame([[maybe_unused]] int argc,
+                                           [[maybe_unused]] char** argv)
+{
+    return std::make_unique<TestGame>();
 }

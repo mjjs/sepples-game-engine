@@ -105,11 +105,13 @@ Matrix4 Matrix4::scale(const Vector3& scale_vector)
 }
 
 Matrix4 Matrix4::perspective(
-        const float fov_radians,
+        const float fov_degrees,
         const float aspect_ratio,
         const float z_near,
         const float z_far)
 {
+    const float fov_radians = SGE::to_radians(fov_degrees);
+
     const float tan_half_fov = std::tan(fov_radians / 2);
     const float z_range = z_near - z_far;
 

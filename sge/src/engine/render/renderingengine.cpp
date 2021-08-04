@@ -1,20 +1,24 @@
-#include "camera.h"
-#include "light.h"
-#include "gameobject.h"
 #include "renderingengine.h"
-#include "vector3.h"
-#include "matrix4.h"
-#include "uniformbuffer.h"
-#include "log.h"
 
-#include <memory>
+#include "camera.h"
+#include "gameobject.h"
+#include "light.h"
+#include "matrix4.h"
+#include "mesh.h"
+#include "model.h"
+#include "shader.h"
+#include "uniformbuffer.h"
+#include "vector3.h"
 
 #include <glad/glad.h>
+#include <memory>
 
-namespace SGE {
+namespace SGE
+{
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-std::unique_ptr<GraphicsAPI> RenderingEngine::graphics_api_ = GraphicsAPI::create();
+std::unique_ptr<GraphicsAPI> RenderingEngine::graphics_api_ =
+    GraphicsAPI::create();
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
 std::shared_ptr<UniformBuffer> RenderingEngine::camera_buffer_;
@@ -34,6 +38,42 @@ void RenderingEngine::set_clear_colour(const Vector3& colour)
     graphics_api_->set_clear_colour(colour);
 }
 
+void RenderingEngine::prepare_frame(const Camera& camera)
+{
+    auto view_projection = camera.get_view_projection();
+    camera_buffer_->set_data(view_projection[0].data(),
+                             sizeof(view_projection));
+}
+
+void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
+                             const std::shared_ptr<Model>& model,
+                             const Transform& transform)
+{
+    shader->bind();
+
+    for (const auto& mesh : model->meshes()) {
+        submit(shader, mesh, transform);
+    }
+}
+
+void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
+                             const Mesh& mesh, const Transform& transform)
+{
+    shader->bind();
+    shader->set_uniform("transform_u", transform.get_transformation());
+
+    const auto material = mesh.material();
+
+    shader->set_uniform("material_u.ambient", material.ambient_colour());
+    shader->set_uniform("material_u.diffuse", material.diffuse_colour());
+    shader->set_uniform("material_u.specular", material.specular_colour());
+    shader->set_uniform("material_u.shininess", material.shininess());
+
+    mesh.draw(*shader);
+}
+
+// OLD API
+
 void RenderingEngine::render(GameObject& gameobject)
 {
     // TODO: Make light list persistent instead of clearing and re-adding
@@ -42,7 +82,8 @@ void RenderingEngine::render(GameObject& gameobject)
     gameobject.add_to_rendering_engine(*this);
 
     auto view_projection = main_camera_->get_view_projection();
-    camera_buffer_->set_data(view_projection[0].data(), sizeof(view_projection));
+    camera_buffer_->set_data(view_projection[0].data(),
+                             sizeof(view_projection));
 
     bool first_pass = true;
 

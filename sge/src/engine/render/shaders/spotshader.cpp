@@ -1,22 +1,24 @@
 #include "spotshader.h"
+
 #include "material.h"
-#include "transform.h"
-#include "shader.h"
-#include "vector3.h"
-#include "spotlight.h"
 #include "renderingengine.h"
+#include "shader.h"
+#include "spotlight.h"
+#include "transform.h"
+#include "vector3.h"
 
-namespace SGE {
+namespace SGE
+{
 
-SpotShader::SpotShader() :
-    Shader{"res/shaders/spot_light_vertex.glsl", "res/shaders/spot_light_fragment.glsl"}
+SpotShader::SpotShader()
+    : Shader{"res/shaders/spot_light_vertex.glsl",
+             "res/shaders/spot_light_fragment.glsl"}
 {
 }
 
-void SpotShader::update_uniforms(
-        const Transform& transform,
-        const Material& material,
-        const RenderingEngine& rendering_engine) const
+void SpotShader::update_uniforms(const Transform& transform,
+                                 const Material& material,
+                                 const RenderingEngine& rendering_engine) const
 {
     set_uniform("transform_u", transform.get_transformation());
 
@@ -25,7 +27,8 @@ void SpotShader::update_uniforms(
     set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
-    set_uniform("view_position_u", rendering_engine.camera()->get_transform().position());
+    set_uniform("view_position_u",
+                rendering_engine.camera()->transform().position());
 
     auto* light = dynamic_cast<SpotLight*>(rendering_engine.active_light());
     if (light == nullptr) {
