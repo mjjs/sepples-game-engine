@@ -1,9 +1,9 @@
 #ifndef _SGE_LIGHT_H
 #define _SGE_LIGHT_H
 
-#include "gamecomponent.h"
-#include "shader.h"
-#include "vector3.h"
+#include "engine/components/gamecomponent.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 

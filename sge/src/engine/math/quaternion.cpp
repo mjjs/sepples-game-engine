@@ -1,7 +1,7 @@
-#include "vector3.h"
-#include "matrix4.h"
-#include "sgemath.h"
-#include "quaternion.h"
+#include "engine/math/vector3.h"
+#include "engine/math/matrix4.h"
+#include "engine/math/sgemath.h"
+#include "engine/math/quaternion.h"
 
 #include <cmath>
 

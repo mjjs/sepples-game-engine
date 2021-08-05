@@ -1,6 +1,6 @@
-#include "gamecomponent.h"
-#include "gameobject.h"
-#include "transform.h"
+#include "engine/components/gamecomponent.h"
+#include "engine/core/gameobject.h"
+#include "engine/core/transform.h"
 
 namespace SGE {
 void GameComponent::init()

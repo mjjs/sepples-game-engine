@@ -1,6 +1,6 @@
-#include "event.h"
-#include "mousescrolledevent.h"
-#include "vector2.h"
+#include "engine/event/event.h"
+#include "engine/event/mousescrolledevent.h"
+#include "engine/math/vector2.h"
 
 #include <string>
 

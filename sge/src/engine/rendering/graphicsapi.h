@@ -1,7 +1,7 @@
 #ifndef _SGE_GRAPHICSAPI_H
 #define _SGE_GRAPHICSAPI_H
 
-#include "vector3.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 

@@ -1,6 +1,6 @@
-#include "vertexarray.h"
-#include "openglvertexarray.h"
-#include "graphicsapi.h"
+#include "engine/rendering/buffers/vertexarray.h"
+#include "platform/opengl/openglvertexarray.h"
+#include "engine/rendering/graphicsapi.h"
 
 #include <memory>
 #include <stdexcept>

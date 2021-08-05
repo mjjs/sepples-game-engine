@@ -1,8 +1,8 @@
 #ifndef _SGE_QUATERNION_H
 #define _SGE_QUATERNION_H
 
-#include "matrix4.h"
-#include "vector3.h"
+#include "engine/math/matrix4.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

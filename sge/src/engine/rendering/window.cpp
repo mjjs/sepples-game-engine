@@ -1,5 +1,5 @@
-#include "linuxwindow.h"
-#include "window.h"
+#include "platform/linux/linuxwindow.h"
+#include "engine/rendering/window.h"
 
 #include <cstdint>
 #include <memory>

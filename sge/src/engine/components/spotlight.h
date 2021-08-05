@@ -1,8 +1,8 @@
 #ifndef _SGE_SPOTLIGHT_H
 #define _SGE_SPOTLIGHT_H
 
-#include "light.h"
-#include "vector3.h"
+#include "engine/components/light.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 

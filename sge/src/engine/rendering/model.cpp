@@ -1,14 +1,14 @@
-#include "model.h"
+#include "engine/rendering/model.h"
 
-#include "log.h"
-#include "material.h"
-#include "mesh.h"
-#include "shader.h"
-#include "texture.h"
-#include "texture2d.h"
-#include "vector2.h"
-#include "vector3.h"
-#include "vertex.h"
+#include "engine/core/log.h"
+#include "engine/rendering/material.h"
+#include "engine/rendering/mesh.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/texture.h"
+#include "engine/rendering/texture2d.h"
+#include "engine/math/vector2.h"
+#include "engine/math/vector3.h"
+#include "engine/rendering/vertex.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>

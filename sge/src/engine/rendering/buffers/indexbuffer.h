@@ -1,7 +1,7 @@
 #ifndef _SGE_INDEXBUFFER_H
 #define _SGE_INDEXBUFFER_H
 
-#include "vertex.h"
+#include "engine/rendering/vertex.h"
 
 #include <cstddef>
 #include <cstdint>

@@ -1,7 +1,7 @@
 #ifndef _SGE_MOUSE_BUTTON_EVENT_H
 #define _SGE_MOUSE_BUTTON_EVENT_H
 
-#include "event.h"
+#include "engine/event/event.h"
 
 namespace SGE
 {

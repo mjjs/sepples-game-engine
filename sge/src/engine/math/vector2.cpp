@@ -1,5 +1,5 @@
-#include "vector2.h"
-#include "sgemath.h"
+#include "engine/math/vector2.h"
+#include "engine/math/sgemath.h"
 
 namespace SGE {
 

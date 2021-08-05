@@ -1,11 +1,11 @@
-#include "spotshader.h"
+#include "engine/rendering/shaders/spotshader.h"
 
-#include "material.h"
-#include "renderingengine.h"
-#include "shader.h"
-#include "spotlight.h"
-#include "transform.h"
-#include "vector3.h"
+#include "engine/rendering/material.h"
+#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/components/spotlight.h"
+#include "engine/core/transform.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

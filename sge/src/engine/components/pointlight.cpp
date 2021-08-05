@@ -1,7 +1,7 @@
-#include "light.h"
-#include "pointlight.h"
-#include "pointshader.h"
-#include "vector3.h"
+#include "engine/components/light.h"
+#include "engine/components/pointlight.h"
+#include "engine/rendering/shaders/pointshader.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 

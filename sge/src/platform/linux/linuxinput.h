@@ -1,15 +1,15 @@
 #ifndef _SGE_LINUXINPUT_H
 #define _SGE_LINUXINPUT_H
 
-#include "event.h"
-#include "input.h"
-#include "keypressedevent.h"
-#include "keyreleasedevent.h"
-#include "mousebuttonpressedevent.h"
-#include "mousebuttonreleasedevent.h"
-#include "mousemovedevent.h"
-#include "mousescrolledevent.h"
-#include "vector2.h"
+#include "engine/event/event.h"
+#include "engine/core/input.h"
+#include "engine/event/keypressedevent.h"
+#include "engine/event/keyreleasedevent.h"
+#include "engine/event/mousebuttonpressedevent.h"
+#include "engine/event/mousebuttonreleasedevent.h"
+#include "engine/event/mousemovedevent.h"
+#include "engine/event/mousescrolledevent.h"
+#include "engine/math/vector2.h"
 
 #include <SDL2/SDL_keyboard.h>
 #include <SDL2/SDL_mouse.h>

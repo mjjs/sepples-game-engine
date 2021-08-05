@@ -1,11 +1,11 @@
 #ifndef _SGE_GAMEOBJECT_H
 #define _SGE_GAMEOBJECT_H
 
-#include "camera.h"
-#include "gamecomponent.h"
-#include "input.h"
-#include "shader.h"
-#include "transform.h"
+#include "engine/components/camera.h"
+#include "engine/components/gamecomponent.h"
+#include "engine/core/input.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/core/transform.h"
 
 #include <memory>
 #include <vector>

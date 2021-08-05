@@ -1,9 +1,11 @@
-#include "camera.h"
-#include "matrix4.h"
-#include "transform.h"
-#include "vector3.h"
+#include "engine/core/transform.h"
 
-namespace SGE {
+#include "engine/components/camera.h"
+#include "engine/math/matrix4.h"
+#include "engine/math/vector3.h"
+
+namespace SGE
+{
 
 void Transform::set_parent(Transform* transform)
 {
@@ -14,12 +16,11 @@ Matrix4 Transform::get_transformation() const
 {
     const Matrix4 position = Matrix4::translation(position_);
     const Matrix4 rotation = rotation_.to_rotation_matrix();
-    const Matrix4 scale = Matrix4::scale(scale_);
+    const Matrix4 scale    = Matrix4::scale(scale_);
 
     // TODO: A more efficient way of handling parent changes.
-    Matrix4 parent_matrix = parent_ == nullptr
-        ? Matrix4::identity()
-        : parent_->get_transformation();
+    Matrix4 parent_matrix = parent_ == nullptr ? Matrix4::identity()
+                                               : parent_->get_transformation();
 
     return parent_matrix * position * rotation * scale;
 }

@@ -1,11 +1,11 @@
-#include "pointshader.h"
+#include "engine/rendering/shaders/pointshader.h"
 
-#include "material.h"
-#include "pointlight.h"
-#include "renderingengine.h"
-#include "shader.h"
-#include "transform.h"
-#include "vector3.h"
+#include "engine/rendering/material.h"
+#include "engine/components/pointlight.h"
+#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/core/transform.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

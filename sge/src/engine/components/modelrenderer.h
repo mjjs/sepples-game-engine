@@ -1,15 +1,15 @@
 #ifndef _TESTGAME_MODELRENDERER_H
 #define _TESTGAME_MODELRENDERER_H
 
-#include "basicshader.h"
-#include "camera.h"
-#include "gamecomponent.h"
-#include "input.h"
-#include "mesh.h"
-#include "model.h"
-#include "renderingengine.h"
-#include "shader.h"
-#include "transform.h"
+#include "engine/rendering/shaders/basicshader.h"
+#include "engine/components/camera.h"
+#include "engine/components/gamecomponent.h"
+#include "engine/core/input.h"
+#include "engine/rendering/mesh.h"
+#include "engine/rendering/model.h"
+#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/core/transform.h"
 
 namespace SGE
 {

@@ -1,7 +1,7 @@
-#include "light.h"
-#include "spotshader.h"
-#include "spotlight.h"
-#include "vector3.h"
+#include "engine/components/light.h"
+#include "engine/rendering/shaders/spotshader.h"
+#include "engine/components/spotlight.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 

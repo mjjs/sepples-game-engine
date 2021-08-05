@@ -1,8 +1,8 @@
-#include "texture2d.h"
+#include "engine/rendering/texture2d.h"
 
-#include "graphicsapi.h"
-#include "opengltexture2d.h"
-#include "vector3.h"
+#include "engine/rendering/graphicsapi.h"
+#include "platform/opengl/opengltexture2d.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 #include <stdexcept>

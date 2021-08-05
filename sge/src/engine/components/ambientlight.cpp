@@ -1,8 +1,8 @@
-#include "ambientlight.h"
-#include "ambientshader.h"
-#include "light.h"
-#include "renderingengine.h"
-#include "vector3.h"
+#include "engine/components/ambientlight.h"
+#include "engine/rendering/shaders/ambientshader.h"
+#include "engine/components/light.h"
+#include "engine/rendering/renderingengine.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 

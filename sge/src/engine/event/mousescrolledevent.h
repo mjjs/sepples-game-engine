@@ -1,8 +1,8 @@
 #ifndef _SGE_MOUSE_SCROLLED_EVENT_H
 #define _SGE_MOUSE_SCROLLED_EVENT_H
 
-#include "event.h"
-#include "vector2.h"
+#include "engine/event/event.h"
+#include "engine/math/vector2.h"
 
 #include <string>
 

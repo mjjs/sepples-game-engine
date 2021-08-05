@@ -1,8 +1,8 @@
 #ifndef _SGE_VERTEXBUFFER_H
 #define _SGE_VERTEXBUFFER_H
 
-#include "bufferlayout.h"
-#include "vertex.h"
+#include "engine/rendering/buffers/bufferlayout.h"
+#include "engine/rendering/vertex.h"
 
 #include <cstdint>
 #include <memory>

@@ -1,9 +1,9 @@
-#include "basicshader.h"
+#include "engine/rendering/shaders/basicshader.h"
 
-#include "material.h"
-#include "renderingengine.h"
-#include "shader.h"
-#include "transform.h"
+#include "engine/rendering/material.h"
+#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/core/transform.h"
 
 namespace SGE
 {

@@ -1,5 +1,5 @@
-#include "event.h"
-#include "windowcloseevent.h"
+#include "engine/event/event.h"
+#include "engine/event/windowcloseevent.h"
 
 #include <string>
 

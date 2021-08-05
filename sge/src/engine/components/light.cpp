@@ -1,8 +1,8 @@
-#include "light.h"
+#include "engine/components/light.h"
 
-#include "renderingengine.h"
-#include "shader.h"
-#include "vector3.h"
+#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 

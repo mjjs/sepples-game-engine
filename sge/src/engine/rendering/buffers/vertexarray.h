@@ -1,8 +1,8 @@
 #ifndef _SGE_VERTEXARRAY_H
 #define _SGE_VERTEXARRAY_H
 
-#include "indexbuffer.h"
-#include "vertexbuffer.h"
+#include "engine/rendering/buffers/indexbuffer.h"
+#include "engine/rendering/buffers/vertexbuffer.h"
 
 #include <memory>
 #include <vector>

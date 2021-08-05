@@ -1,7 +1,7 @@
 #ifndef _SGE_KEY_PRESSED_EVENT_H
 #define _SGE_KEY_PRESSED_EVENT_H
 
-#include "keyboardevent.h"
+#include "engine/event/keyboardevent.h"
 
 #include <string>
 

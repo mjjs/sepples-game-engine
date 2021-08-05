@@ -1,11 +1,11 @@
 #ifndef _SGE_CAMERA_H
 #define _SGE_CAMERA_H
 
-#include "gamecomponent.h"
-#include "matrix4.h"
-#include "sgemath.h"
-#include "transform.h"
-#include "vector3.h"
+#include "engine/components/gamecomponent.h"
+#include "engine/math/matrix4.h"
+#include "engine/math/sgemath.h"
+#include "engine/core/transform.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

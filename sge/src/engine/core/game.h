@@ -1,12 +1,12 @@
 #ifndef _SGE_GAME_H
 #define _SGE_GAME_H
 
-#include "camera.h"
-#include "gameobject.h"
-#include "input.h"
-#include "renderingengine.h"
-#include "shader.h"
-#include "window.h"
+#include "engine/components/camera.h"
+#include "engine/core/gameobject.h"
+#include "engine/core/input.h"
+#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/window.h"
 
 #include <memory>
 

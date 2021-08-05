@@ -1,8 +1,8 @@
-#include "directionallight.h"
-#include "directionalshader.h"
-#include "light.h"
-#include "vector3.h"
-#include "renderingengine.h"
+#include "engine/components/directionallight.h"
+#include "engine/rendering/shaders/directionalshader.h"
+#include "engine/components/light.h"
+#include "engine/math/vector3.h"
+#include "engine/rendering/renderingengine.h"
 
 #include <memory>
 

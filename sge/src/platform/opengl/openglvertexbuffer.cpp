@@ -1,6 +1,6 @@
-#include "bufferlayout.h"
-#include "openglvertexbuffer.h"
-#include "vertex.h"
+#include "engine/rendering/buffers/bufferlayout.h"
+#include "platform/opengl/openglvertexbuffer.h"
+#include "engine/rendering/vertex.h"
 
 #include <glad/glad.h>
 #include <vector>

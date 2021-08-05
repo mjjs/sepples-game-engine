@@ -1,8 +1,8 @@
 #ifndef _SGE_OPENGL_GRAPHICSAPI_H
 #define _SGE_OPENGL_GRAPHICSAPI_H
 
-#include "graphicsapi.h"
-#include "vector3.h"
+#include "engine/rendering/graphicsapi.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

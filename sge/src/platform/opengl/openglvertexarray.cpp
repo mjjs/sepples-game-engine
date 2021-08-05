@@ -1,6 +1,6 @@
-#include "indexbuffer.h"
-#include "vertexbuffer.h"
-#include "openglvertexarray.h"
+#include "engine/rendering/buffers/indexbuffer.h"
+#include "engine/rendering/buffers/vertexbuffer.h"
+#include "platform/opengl/openglvertexarray.h"
 
 #include <cstdint>
 #include <memory>

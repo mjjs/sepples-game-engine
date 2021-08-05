@@ -1,6 +1,6 @@
-#include "graphicsapi.h"
-#include "vector3.h"
-#include "openglgraphicsapi.h"
+#include "engine/rendering/graphicsapi.h"
+#include "engine/math/vector3.h"
+#include "platform/opengl/openglgraphicsapi.h"
 
 #include <stdexcept>
 #include <memory>

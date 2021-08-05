@@ -1,8 +1,8 @@
 #ifndef _SGE_LINUX_WINDOW_H
 #define _SGE_LINUX_WINDOW_H
 
-#include "openglcontext.h"
-#include "window.h"
+#include "platform/opengl/openglcontext.h"
+#include "engine/rendering/window.h"
 
 #include <cstdint>
 #include <memory>

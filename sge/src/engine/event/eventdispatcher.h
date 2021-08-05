@@ -1,7 +1,7 @@
 #ifndef _SGE_EVENT_DISPATCHER_H
 #define _SGE_EVENT_DISPATCHER_H
 
-#include "event.h"
+#include "engine/event/event.h"
 
 namespace SGE
 {

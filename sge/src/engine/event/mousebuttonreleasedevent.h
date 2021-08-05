@@ -1,8 +1,8 @@
 #ifndef _SGE_MOUSE_BUTTON_RELEASED_EVENT_H
 #define _SGE_MOUSE_BUTTON_RELEASED_EVENT_H
 
-#include "event.h"
-#include "mousebuttonevent.h"
+#include "engine/event/event.h"
+#include "engine/event/mousebuttonevent.h"
 
 #include <cstdint>
 

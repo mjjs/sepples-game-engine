@@ -1,9 +1,9 @@
 #ifndef _SGE_MATH_H
 #define _SGE_MATH_H
 
-#include "quaternion.h"
-#include "vector2.h"
-#include "vector3.h"
+#include "engine/math/quaternion.h"
+#include "engine/math/vector2.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

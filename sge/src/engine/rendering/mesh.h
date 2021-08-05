@@ -1,9 +1,9 @@
 #ifndef _SGE_MESH_H
 #define _SGE_MESH_H
 
-#include "material.h"
-#include "vertex.h"
-#include "vertexarray.h"
+#include "engine/rendering/material.h"
+#include "engine/rendering/vertex.h"
+#include "engine/rendering/buffers/vertexarray.h"
 
 #include <cstdint>
 #include <memory>

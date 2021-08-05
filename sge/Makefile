@@ -4,14 +4,14 @@ CPPFLAGS ?= -Wall -Wextra -Wpedantic -std=c++20 -g
 
 BUILD_DIR ?= build
 TARGET ?= testgame
-VENDOR_DIR ?= ../vendor
+VENDOR_DIR ?= ./vendor
 
 DEFINES =  SPDLOG_COMPILED_LIB
 DEFINE_FLAGS = $(addprefix -D,$(DEFINES))
 
 # SOURCES
-SRC_DIRS ?= src
-SRCS := $(shell find $(SRC_DIRS) -name *.cpp)
+SRC_DIR ?= src
+SRCS := $(shell find $(SRC_DIR) -name *.cpp)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 # INCLUDES
@@ -20,7 +20,7 @@ VENDOR_INCLUDES += $(VENDOR_DIR)/spdlog/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/glad/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/assimp/include
 
-INC_DIRS := $(shell find $(SRC_DIRS) -type d)
+INC_DIRS := $(SRC_DIR)
 INC_DIRS += $(VENDOR_INCLUDES)
 
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))

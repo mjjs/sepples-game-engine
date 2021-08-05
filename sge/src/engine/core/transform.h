@@ -1,9 +1,9 @@
 #ifndef _SGE_TRANSFORM_H
 #define _SGE_TRANSFORM_H
 
-#include "matrix4.h"
-#include "quaternion.h"
-#include "vector3.h"
+#include "engine/math/matrix4.h"
+#include "engine/math/quaternion.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

@@ -1,5 +1,5 @@
-#include "openglcontext.h"
-#include "renderingengine.h"
+#include "platform/opengl/openglcontext.h"
+#include "engine/rendering/renderingengine.h"
 
 #include <glad/glad.h>
 #include <memory>

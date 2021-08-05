@@ -1,15 +1,4 @@
-#include "basicshader.h"
-#include "camera.h"
-#include "game.h"
-#include "gamecomponent.h"
-#include "material.h"
-#include "mesh.h"
-#include "model.h"
-#include "texture.h"
-#include "texture2d.h"
-#include "transform.h"
-#include "vector3.h"
-#include "vertex.h"
+#include "sge.h"
 
 #include <cstdint>
 #include <memory>

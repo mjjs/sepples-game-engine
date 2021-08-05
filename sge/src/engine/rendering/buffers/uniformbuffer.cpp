@@ -1,6 +1,6 @@
-#include "uniformbuffer.h"
-#include "opengluniformbuffer.h"
-#include "graphicsapi.h"
+#include "engine/rendering/buffers/uniformbuffer.h"
+#include "platform/opengl/opengluniformbuffer.h"
+#include "engine/rendering/graphicsapi.h"
 
 #include <cstdint>
 #include <memory>

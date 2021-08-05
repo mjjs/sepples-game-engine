@@ -1,4 +1,4 @@
-#include "opengluniformbuffer.h"
+#include "platform/opengl/opengluniformbuffer.h"
 
 #include <cstdint>
 #include <glad/glad.h>

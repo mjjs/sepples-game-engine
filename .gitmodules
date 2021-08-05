@@ -1,16 +1,16 @@
-[submodule "vendor/stb"]
-	path = vendor/stb
+[submodule "sge/vendor/stb"]
+	path = sge/vendor/stb
 	url = https://github.com/nothings/stb/
     ignore = all
-[submodule "vendor/spdlog"]
-	path = vendor/spdlog
+[submodule "sge/vendor/spdlog"]
+	path = sge/vendor/spdlog
 	url = https://github.com/gabime/spdlog
     ignore = all
-[submodule "vendor/assimp"]
-	path = vendor/assimp
+[submodule "sge/vendor/assimp"]
+	path = sge/vendor/assimp
 	url = https://github.com/assimp/assimp
     ignore = all
-[submodule "vendor/sdl"]
-	path = vendor/sdl
+[submodule "sge/vendor/sdl"]
+	path = sge/vendor/sdl
 	url = https://github.com/libsdl-org/SDL
     ignore = all

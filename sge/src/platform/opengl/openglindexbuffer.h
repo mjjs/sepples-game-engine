@@ -1,8 +1,8 @@
 #ifndef _SGE_OPENGL_INDEXBUFFER_H
 #define _SGE_OPENGL_INDEXBUFFER_H
 
-#include "indexbuffer.h"
-#include "vertex.h"
+#include "engine/rendering/buffers/indexbuffer.h"
+#include "engine/rendering/vertex.h"
 
 #include <cstddef>
 #include <cstdint>

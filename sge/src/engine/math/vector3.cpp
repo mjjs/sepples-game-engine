@@ -1,6 +1,6 @@
-#include "vector3.h"
-#include "quaternion.h"
-#include "sgemath.h"
+#include "engine/math/vector3.h"
+#include "engine/math/quaternion.h"
+#include "engine/math/sgemath.h"
 
 namespace SGE {
 

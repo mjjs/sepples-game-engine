@@ -1,5 +1,5 @@
-#include "event.h"
-#include "mousebuttonevent.h"
+#include "engine/event/event.h"
+#include "engine/event/mousebuttonevent.h"
 
 #include <string>
 

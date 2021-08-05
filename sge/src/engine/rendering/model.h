@@ -1,10 +1,10 @@
 #ifndef _SGE_MODEL_H
 #define _SGE_MODEL_H
 
-#include "mesh.h"
-#include "shader.h"
-#include "texture.h"
-#include "vector3.h"
+#include "engine/rendering/mesh.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/texture.h"
+#include "engine/math/vector3.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>

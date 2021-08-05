@@ -1,9 +1,9 @@
 #ifndef _SGE_OPENGL_VERTEXBUFFER_H
 #define _SGE_OPENGL_VERTEXBUFFER_H
 
-#include "bufferlayout.h"
-#include "vertex.h"
-#include "vertexbuffer.h"
+#include "engine/rendering/buffers/bufferlayout.h"
+#include "engine/rendering/vertex.h"
+#include "engine/rendering/buffers/vertexbuffer.h"
 
 #include <cstdint>
 #include <vector>

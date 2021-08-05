@@ -1,5 +1,5 @@
-#include "openglgraphicsapi.h"
-#include "vector3.h"
+#include "platform/opengl/openglgraphicsapi.h"
+#include "engine/math/vector3.h"
 
 #include <glad/glad.h>
 

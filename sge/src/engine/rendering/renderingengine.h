@@ -1,12 +1,12 @@
 #ifndef _SGE_RENDERINGENGINE_H
 #define _SGE_RENDERINGENGINE_H
 
-#include "gameobject.h"
-#include "graphicsapi.h"
-#include "light.h"
-#include "sgemath.h"
-#include "uniformbuffer.h"
-#include "vector3.h"
+#include "engine/core/gameobject.h"
+#include "engine/rendering/graphicsapi.h"
+#include "engine/components/light.h"
+#include "engine/math/sgemath.h"
+#include "engine/rendering/buffers/uniformbuffer.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 #include <vector>

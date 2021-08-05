@@ -1,8 +1,8 @@
 #ifndef _SGE_AMBIENTLIGHT_H
 #define _SGE_AMBIENTLIGHT_H
 
-#include "light.h"
-#include "vector3.h"
+#include "engine/components/light.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

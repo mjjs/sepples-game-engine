@@ -1,7 +1,7 @@
 #ifndef _SGE_KEYBOARD_EVENT_H
 #define _SGE_KEYBOARD_EVENT_H
 
-#include "event.h"
+#include "engine/event/event.h"
 
 #include <SDL2/SDL_keycode.h>
 #include <string>

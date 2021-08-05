@@ -1,10 +1,10 @@
 #ifndef _SGE_DIRECTIONALLIGHT_H
 #define _SGE_DIRECTIONALLIGHT_H
 
-#include "gamecomponent.h"
-#include "light.h"
-#include "shader.h"
-#include "vector3.h"
+#include "engine/components/gamecomponent.h"
+#include "engine/components/light.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 

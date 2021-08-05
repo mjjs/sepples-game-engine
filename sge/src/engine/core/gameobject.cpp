@@ -1,10 +1,10 @@
-#include "camera.h"
-#include "gamecomponent.h"
-#include "gameobject.h"
-#include "renderingengine.h"
-#include "input.h"
-#include "shader.h"
-#include "transform.h"
+#include "engine/components/camera.h"
+#include "engine/components/gamecomponent.h"
+#include "engine/core/gameobject.h"
+#include "engine/rendering/renderingengine.h"
+#include "engine/core/input.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/core/transform.h"
 
 #include <memory>
 

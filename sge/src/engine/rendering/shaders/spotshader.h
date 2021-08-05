@@ -1,7 +1,7 @@
 #ifndef _SGE_SPOTSHADER_H
 #define _SGE_SPOTSHADER_H
-#include "shader.h"
-#include "vector3.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

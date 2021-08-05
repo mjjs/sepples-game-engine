@@ -1,8 +1,8 @@
 #ifndef _SGE_TEXTURE2D_H
 #define _SGE_TEXTURE2D_H
 
-#include "texture.h"
-#include "vector3.h"
+#include "engine/rendering/texture.h"
+#include "engine/math/vector3.h"
 
 #include <cstdint>
 #include <memory>

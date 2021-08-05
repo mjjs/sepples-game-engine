@@ -1,9 +1,9 @@
 #ifndef _SGE_OPENGL_TEXTURE2D_H
 #define _SGE_OPENGL_TEXTURE2D_H
 
-#include "texture.h"
-#include "texture2d.h"
-#include "vector3.h"
+#include "engine/rendering/texture.h"
+#include "engine/rendering/texture2d.h"
+#include "engine/math/vector3.h"
 
 #include <cstdint>
 #include <string>

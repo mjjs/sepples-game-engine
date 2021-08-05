@@ -1,7 +1,7 @@
 #ifndef _SGE_WINDOW_H
 #define _SGE_WINDOW_H
 
-#include "event.h"
+#include "engine/event/event.h"
 
 #include <cstdint>
 #include <memory>

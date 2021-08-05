@@ -1,12 +1,12 @@
-#include "renderingengine.h"
+#include "engine/rendering/renderingengine.h"
 
-#include "camera.h"
-#include "matrix4.h"
-#include "mesh.h"
-#include "model.h"
-#include "shader.h"
-#include "uniformbuffer.h"
-#include "vector3.h"
+#include "engine/components/camera.h"
+#include "engine/math/matrix4.h"
+#include "engine/rendering/mesh.h"
+#include "engine/rendering/model.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/buffers/uniformbuffer.h"
+#include "engine/math/vector3.h"
 
 #include <memory>
 

@@ -1,11 +1,11 @@
 #ifndef _SGE_INPUT_H
 #define _SGE_INPUT_H
 
-#include "keyboardevent.h"
-#include "mousebuttonevent.h"
-#include "mousemovedevent.h"
-#include "mousescrolledevent.h"
-#include "vector2.h"
+#include "engine/event/keyboardevent.h"
+#include "engine/event/mousebuttonevent.h"
+#include "engine/event/mousemovedevent.h"
+#include "engine/event/mousescrolledevent.h"
+#include "engine/math/vector2.h"
 
 #include <SDL2/SDL_keycode.h>
 #include <cstdint>

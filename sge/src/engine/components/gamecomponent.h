@@ -1,9 +1,9 @@
 #ifndef _SGE_GAMECOMPONENT_H
 #define _SGE_GAMECOMPONENT_H
 
-#include "input.h"
-#include "shader.h"
-#include "transform.h"
+#include "engine/core/input.h"
+#include "engine/core/transform.h"
+#include "engine/rendering/shaders/shader.h"
 
 #include <memory>
 

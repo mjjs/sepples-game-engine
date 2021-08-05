@@ -1,14 +1,14 @@
 #ifndef _SGE_MESHRENDERER_H
 #define _SGE_MESHRENDERER_H
 
-#include "basicshader.h"
-#include "camera.h"
-#include "gamecomponent.h"
-#include "material.h"
-#include "mesh.h"
-#include "renderingengine.h"
-#include "shader.h"
-#include "transform.h"
+#include "engine/rendering/shaders/basicshader.h"
+#include "engine/components/camera.h"
+#include "engine/components/gamecomponent.h"
+#include "engine/rendering/material.h"
+#include "engine/rendering/mesh.h"
+#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/core/transform.h"
 
 #include <memory>
 

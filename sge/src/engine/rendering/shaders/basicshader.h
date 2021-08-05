@@ -1,8 +1,8 @@
 #ifndef _SGE_BASICSHADER_H
 #define _SGE_BASICSHADER_H
-#include "material.h"
-#include "shader.h"
-#include "transform.h"
+#include "engine/rendering/material.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/core/transform.h"
 
 namespace SGE
 {

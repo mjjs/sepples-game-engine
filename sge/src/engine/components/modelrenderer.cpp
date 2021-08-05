@@ -1,10 +1,10 @@
-#include "camera.h"
-#include "model.h"
-#include "modelrenderer.h"
-#include "transform.h"
-#include "input.h"
-#include "shader.h"
-#include "renderingengine.h"
+#include "engine/components/camera.h"
+#include "engine/rendering/model.h"
+#include "engine/components/modelrenderer.h"
+#include "engine/core/transform.h"
+#include "engine/core/input.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/renderingengine.h"
 
 SGE::ModelRenderer::ModelRenderer(const SGE::Model& model) : model_{model}
 {

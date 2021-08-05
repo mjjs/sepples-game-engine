@@ -1,9 +1,9 @@
 #ifndef _SGE_OPENGL_VERTEXARRAY_H
 #define _SGE_OPENGL_VERTEXARRAY_H
 
-#include "indexbuffer.h"
-#include "vertexarray.h"
-#include "vertexbuffer.h"
+#include "engine/rendering/buffers/indexbuffer.h"
+#include "engine/rendering/buffers/vertexarray.h"
+#include "engine/rendering/buffers/vertexbuffer.h"
 
 #include <cstdint>
 #include <memory>

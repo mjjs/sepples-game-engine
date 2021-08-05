@@ -1,7 +1,7 @@
 #ifndef _SGE_OPENGL_UNIFORMBUFFER_H
 #define _SGE_OPENGL_UNIFORMBUFFER_H
 
-#include "uniformbuffer.h"
+#include "engine/rendering/buffers/uniformbuffer.h"
 
 #include <cstdint>
 

@@ -1,4 +1,4 @@
-#include "resourceloader.h"
+#include "engine/rendering/resourceloader.h"
 
 #include <fstream>
 #include <sstream>

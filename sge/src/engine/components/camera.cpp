@@ -1,7 +1,7 @@
-#include "camera.h"
+#include "engine/components/camera.h"
 
-#include "matrix4.h"
-#include "vector3.h"
+#include "engine/math/matrix4.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

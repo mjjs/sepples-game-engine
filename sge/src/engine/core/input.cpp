@@ -1,4 +1,4 @@
-#include "input.h"
+#include "engine/core/input.h"
 
 namespace SGE {
 

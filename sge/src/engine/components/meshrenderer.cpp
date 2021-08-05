@@ -1,12 +1,12 @@
-#include "camera.h"
-#include "meshrenderer.h"
-#include "material.h"
-#include "mesh.h"
-#include "transform.h"
-#include "input.h"
-#include "shader.h"
-#include "matrix4.h"
-#include "renderingengine.h"
+#include "engine/components/camera.h"
+#include "engine/components/meshrenderer.h"
+#include "engine/rendering/material.h"
+#include "engine/rendering/mesh.h"
+#include "engine/core/transform.h"
+#include "engine/core/input.h"
+#include "engine/rendering/shaders/shader.h"
+#include "engine/math/matrix4.h"
+#include "engine/rendering/renderingengine.h"
 
 #include <memory>
 #include <utility>

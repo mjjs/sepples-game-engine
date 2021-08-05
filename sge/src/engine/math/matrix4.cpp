@@ -1,6 +1,6 @@
-#include "sgemath.h"
-#include "matrix4.h"
-#include "vector3.h"
+#include "engine/math/sgemath.h"
+#include "engine/math/matrix4.h"
+#include "engine/math/vector3.h"
 
 #include <algorithm>
 #include <array>

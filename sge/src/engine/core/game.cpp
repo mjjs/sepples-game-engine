@@ -1,10 +1,10 @@
-#include "game.h"
+#include "engine/core/game.h"
 
-#include "eventdispatcher.h"
-#include "log.h"
-#include "timer.h"
-#include "window.h"
-#include "windowcloseevent.h"
+#include "engine/event/eventdispatcher.h"
+#include "engine/core/log.h"
+#include "engine/core/timer.h"
+#include "engine/rendering/window.h"
+#include "engine/event/windowcloseevent.h"
 
 #include <memory>
 

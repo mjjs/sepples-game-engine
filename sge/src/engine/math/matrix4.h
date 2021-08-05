@@ -1,7 +1,7 @@
 #ifndef _SGE_MATRIX_4_H
 #define _SGE_MATRIX_4_H
 
-#include "vector3.h"
+#include "engine/math/vector3.h"
 
 #include <array>
 #include <cstddef>

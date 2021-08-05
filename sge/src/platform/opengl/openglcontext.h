@@ -1,7 +1,7 @@
 #ifndef _SGE_OPENGLCONTEXT_H
 #define _SGE_OPENGLCONTEXT_H
 
-#include "renderingcontext.h"
+#include "engine/rendering/renderingcontext.h"
 
 #include <SDL2/SDL.h>
 #include <memory>

@@ -1,6 +1,6 @@
-#include "opengltexture2d.h"
+#include "platform/opengl/opengltexture2d.h"
 
-#include "log.h"
+#include "engine/core/log.h"
 #include "stb_image.h"
 
 #include <cmath>

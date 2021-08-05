@@ -1,7 +1,7 @@
 #ifndef _SGE_VERTEX_H
 #define _SGE_VERTEX_H
-#include "vector2.h"
-#include "vector3.h"
+#include "engine/math/vector2.h"
+#include "engine/math/vector3.h"
 
 namespace SGE
 {

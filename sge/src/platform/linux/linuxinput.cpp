@@ -1,14 +1,14 @@
-#include "input.h"
-#include "linuxinput.h"
+#include "engine/core/input.h"
+#include "platform/linux/linuxinput.h"
 
-#include "event.h"
-#include "eventdispatcher.h"
-#include "mousebuttonpressedevent.h"
-#include "mousebuttonreleasedevent.h"
-#include "mousemovedevent.h"
-#include "mousescrolledevent.h"
-#include "keypressedevent.h"
-#include "keyreleasedevent.h"
+#include "engine/event/event.h"
+#include "engine/event/eventdispatcher.h"
+#include "engine/event/mousebuttonpressedevent.h"
+#include "engine/event/mousebuttonreleasedevent.h"
+#include "engine/event/mousemovedevent.h"
+#include "engine/event/mousescrolledevent.h"
+#include "engine/event/keypressedevent.h"
+#include "engine/event/keyreleasedevent.h"
 
 #include <cstdint>
 #include <SDL2/SDL_events.h>

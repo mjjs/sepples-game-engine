@@ -1,12 +1,12 @@
-#include "linuxwindow.h"
-#include "keypressedevent.h"
-#include "keyreleasedevent.h"
-#include "mousebuttonpressedevent.h"
-#include "mousebuttonreleasedevent.h"
-#include "mousemovedevent.h"
-#include "mousescrolledevent.h"
-#include "windowcloseevent.h"
-#include "log.h"
+#include "platform/linux/linuxwindow.h"
+#include "engine/event/keypressedevent.h"
+#include "engine/event/keyreleasedevent.h"
+#include "engine/event/mousebuttonpressedevent.h"
+#include "engine/event/mousebuttonreleasedevent.h"
+#include "engine/event/mousemovedevent.h"
+#include "engine/event/mousescrolledevent.h"
+#include "engine/event/windowcloseevent.h"
+#include "engine/core/log.h"
 
 #include <stdexcept>
 #include <SDL2/SDL.h>

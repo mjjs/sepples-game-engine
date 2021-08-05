@@ -1,6 +1,6 @@
-#include "event.h"
-#include "mousemovedevent.h"
-#include "vector2.h"
+#include "engine/event/event.h"
+#include "engine/event/mousemovedevent.h"
+#include "engine/math/vector2.h"
 
 namespace SGE {
 

@@ -1,6 +1,6 @@
-#include "indexbuffer.h"
-#include "openglindexbuffer.h"
-#include "graphicsapi.h"
+#include "engine/rendering/buffers/indexbuffer.h"
+#include "platform/opengl/openglindexbuffer.h"
+#include "engine/rendering/graphicsapi.h"
 
 #include <cstdint>
 #include <memory>

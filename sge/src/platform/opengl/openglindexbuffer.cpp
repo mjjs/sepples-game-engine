@@ -1,5 +1,5 @@
-#include "openglindexbuffer.h"
-#include "vertex.h"
+#include "platform/opengl/openglindexbuffer.h"
+#include "engine/rendering/vertex.h"
 
 #include <cstddef>
 #include <cstdint>

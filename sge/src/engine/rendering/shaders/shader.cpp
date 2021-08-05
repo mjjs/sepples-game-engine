@@ -1,6 +1,6 @@
-#include "shader.h"
+#include "engine/rendering/shaders/shader.h"
 
-#include "resourceloader.h"
+#include "engine/rendering/resourceloader.h"
 
 #include <cstddef>
 #include <stdexcept>

@@ -1,8 +1,8 @@
 #ifndef _SGE_RESOURCELOADER_H
 #define _SGE_RESOURCELOADER_H
 
-#include "mesh.h"
-#include "texture.h"
+#include "engine/rendering/mesh.h"
+#include "engine/rendering/texture.h"
 
 #include <cstdint>
 #include <string>

@@ -1,8 +1,8 @@
-#include "bufferlayout.h"
-#include "openglvertexbuffer.h"
-#include "vertex.h"
-#include "vertexbuffer.h"
-#include "graphicsapi.h"
+#include "engine/rendering/buffers/bufferlayout.h"
+#include "platform/opengl/openglvertexbuffer.h"
+#include "engine/rendering/vertex.h"
+#include "engine/rendering/buffers/vertexbuffer.h"
+#include "engine/rendering/graphicsapi.h"
 
 #include <memory>
 #include <vector>
