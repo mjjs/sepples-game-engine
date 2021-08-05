@@ -37,8 +37,8 @@ class TestGame : public SGE::Game
 
         std::vector<std::uint32_t> floor_indices = {0, 1, 2, 2, 1, 3};
 
-        auto default_texture = SGE::Texture2D::create(
-            "res/textures/defaultTexture.png", SGE::Texture::Type::DIFFUSE);
+        auto default_texture =
+            SGE::Texture2D::create(SGE::Vector3{.8, .2, .3}, 1, 1);
 
         floor_ = std::make_shared<SGE::Mesh>(
             floor_vertices, floor_indices,

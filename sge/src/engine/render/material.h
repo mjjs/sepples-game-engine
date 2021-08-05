@@ -1,7 +1,6 @@
 #ifndef _SGE_MATERIAL_H
 #define _SGE_MATERIAL_H
 
-#include "texture.h"
 #include "vector3.h"
 
 #include <memory>
@@ -9,6 +8,8 @@
 
 namespace SGE
 {
+
+class Texture;
 
 class Material
 {

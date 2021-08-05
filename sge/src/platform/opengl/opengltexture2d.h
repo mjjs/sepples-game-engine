@@ -3,6 +3,7 @@
 
 #include "texture.h"
 #include "texture2d.h"
+#include "vector3.h"
 
 #include <cstdint>
 #include <string>
@@ -19,6 +20,8 @@ class OpenGLTexture2D : public Texture2D
 
   public:
     OpenGLTexture2D(const std::string& path, Texture::Type type);
+    OpenGLTexture2D(const Vector3& colour, std::uint32_t width,
+                    std::uint32_t height);
     ~OpenGLTexture2D();
 
     OpenGLTexture2D(const OpenGLTexture2D&)  = delete;
