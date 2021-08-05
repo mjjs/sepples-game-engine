@@ -13,3 +13,6 @@ AlignConsecutiveAssignments: true
 AlignTrailingComments: true
 AllowShortBlocksOnASingleLine: Never
 AllowShortFunctionsOnASingleLine: None
+BreakConstructorInitializers: BeforeColon
+AlwaysBreakAfterReturnType: None
+PenaltyReturnTypeOnItsOwnLine: 9999

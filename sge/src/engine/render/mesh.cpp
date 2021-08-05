@@ -1,37 +1,39 @@
+#include "mesh.h"
+
 #include "bufferlayout.h"
 #include "indexbuffer.h"
+#include "log.h"
 #include "material.h"
-#include "mesh.h"
 #include "shader.h"
 #include "texture.h"
 #include "vector3.h"
 #include "vertexarray.h"
 #include "vertexbuffer.h"
 
+#include <assimp/material.h>
 #include <cstdint>
+#include <glad/glad.h>
 #include <memory>
 #include <stdexcept>
 #include <vector>
 
-#include <assimp/material.h>
-#include <glad/glad.h>
-
-namespace SGE {
+namespace SGE
+{
 
 // TODO: Pass by value and std::move
-Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<std::uint32_t>& indices,
-                const Material& material) :
-    material_{material}
+Mesh::Mesh(const std::vector<Vertex>& vertices,
+           const std::vector<std::uint32_t>& indices, const Material& material)
+    : material_{material}
 {
     BufferLayout layout{
-        { ShaderDataType::VEC3, "position" },
-        { ShaderDataType::VEC3, "normal" },
-        { ShaderDataType::VEC2, "texture_coordinate" },
+        {ShaderDataType::VEC3, "position"},
+        {ShaderDataType::VEC3, "normal"},
+        {ShaderDataType::VEC2, "texture_coordinate"},
     };
 
     vertex_array_ = VertexArray::create();
 
-    const auto index_buffer = IndexBuffer::create(indices);
+    const auto index_buffer  = IndexBuffer::create(indices);
     const auto vertex_buffer = VertexBuffer::create(vertices, layout);
 
     vertex_array_->add_vertex_buffer(vertex_buffer);
@@ -40,42 +42,38 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<std::uint32_t>
 
 void Mesh::draw(Shader& shader) const
 {
-    std::uint32_t diffuse_i = 1;
-    std::uint32_t specular_i = 1;
+    shader.bind();
 
-    std::vector<Texture> textures = material_.textures();
+    std::vector<std::shared_ptr<Texture>> textures = material_.textures();
 
     for (std::size_t i = 0; i < textures.size(); ++i) {
-        glActiveTexture(GL_TEXTURE0 + i);
+        auto texture = textures[i];
 
-        std::string uniform_name{};
-        TextureType texture_type = textures[i].type;
-
-        if (texture_type == TextureType::DIFFUSE) {
-            uniform_name = "texture_diffuse" + std::to_string(diffuse_i++) + "_u";
-        } else if (texture_type == TextureType::SPECULAR) {
-            uniform_name = "texture_specular" + std::to_string(specular_i++) + "_u";
-        } else {
-            throw std::runtime_error{"Unsupported texture type"};
+        switch (texture->type()) {
+        case Texture::Type::DIFFUSE:
+            shader.set_uniform("texture_diffuse_u", static_cast<int>(i));
+            break;
+        case Texture::Type::SPECULAR:
+            shader.set_uniform("texture_specular_u", static_cast<int>(i));
+            break;
+        case Texture::Type::NORMAL:
+            LOG_INFO("Unsupported texture type: NORMAL");
         }
 
-        shader.add_uniform(uniform_name);
-        shader.set_uniform(uniform_name, static_cast<int>(i));
-
-        glBindTexture(GL_TEXTURE_2D, textures[i].id);
+        texture->bind(i);
     }
 
     shader.set_material(material_);
 
     vertex_array_->bind();
-    glDrawElements(GL_TRIANGLES, vertex_array_->index_buffer()->count(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, vertex_array_->index_buffer()->count(),
+                   GL_UNSIGNED_INT, nullptr);
 
-    for (std::size_t i = 0; i < textures.size(); ++i) {
-        glActiveTexture(GL_TEXTURE0 + i);
-        glBindTexture(GL_TEXTURE_2D, 0);
+    for (const auto& texture : textures) {
+        texture->unbind();
     }
 
-    glBindVertexArray(0);
+    vertex_array_->unbind();
 }
 
 const Material& Mesh::material() const

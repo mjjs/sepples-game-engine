@@ -4,6 +4,7 @@
 #include "mesh.h"
 #include "shader.h"
 #include "texture.h"
+#include "texture2d.h"
 #include "vector2.h"
 #include "vector3.h"
 #include "vertex.h"
@@ -67,7 +68,7 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 {
     std::vector<Vertex> vertices;
     std::vector<std::uint32_t> indices;
-    std::vector<Texture> textures;
+    std::vector<std::shared_ptr<Texture>> textures;
 
     for (std::size_t i = 0; i < mesh->mNumVertices; ++i) {
         Vertex vertex;
@@ -101,13 +102,15 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
     Material material;
 
     if (assimp_material != nullptr) {
-        std::vector<Texture> diffuse_maps =
-            load_material_textures(assimp_material, TextureType::DIFFUSE);
+        std::vector<std::shared_ptr<Texture>> diffuse_maps =
+            load_material_textures(assimp_material, aiTextureType_DIFFUSE);
+
         textures.insert(textures.end(), diffuse_maps.begin(),
                         diffuse_maps.end());
 
-        std::vector<Texture> specular_maps =
-            load_material_textures(assimp_material, TextureType::SPECULAR);
+        std::vector<std::shared_ptr<Texture>> specular_maps =
+            load_material_textures(assimp_material, aiTextureType_SPECULAR);
+
         textures.insert(textures.end(), specular_maps.begin(),
                         specular_maps.end());
 
@@ -122,33 +125,28 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
     return Mesh{vertices, indices, material};
 }
 
-std::vector<Texture>
-Model::load_material_textures(aiMaterial* material,
-                              const TextureType texture_type)
+std::vector<std::shared_ptr<Texture>> Model::load_material_textures(
+    aiMaterial* material, const aiTextureType texture_type)
 {
-    std::vector<Texture> textures;
-    aiTextureType ai_texture_type = from_texture_type(texture_type);
+    std::vector<std::shared_ptr<Texture>> textures;
 
-    for (std::size_t i = 0; i < material->GetTextureCount(ai_texture_type);
-         ++i) {
+    for (std::size_t i = 0; i < material->GetTextureCount(texture_type); ++i) {
         aiString path;
-        material->GetTexture(ai_texture_type, i, &path);
+        material->GetTexture(texture_type, i, &path);
         std::string filename{path.C_Str()};
 
-        bool already_loaded = false;
+        auto full_path = directory_ + "/" + filename;
 
-        for (const Texture& texture : loaded_textures_) {
-            if (filename == texture.filename) {
-                textures.push_back(texture);
-                already_loaded = true;
-                break;
-            }
-        }
+        if (loaded_textures_.contains(full_path)) {
+            textures.push_back(loaded_textures_[full_path]);
+        } else {
+            auto tt = texture_type == aiTextureType_DIFFUSE
+                          ? Texture::Type::DIFFUSE
+                          : Texture::Type::SPECULAR;
 
-        if (!already_loaded) {
-            Texture texture = load_texture(filename, directory_, texture_type);
+            auto texture = Texture2D::create(full_path, tt);
             textures.push_back(texture);
-            loaded_textures_.push_back(texture);
+            loaded_textures_[full_path] = texture;
         }
     }
 

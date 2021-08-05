@@ -6,6 +6,7 @@
 #include "mesh.h"
 #include "model.h"
 #include "texture.h"
+#include "texture2d.h"
 #include "transform.h"
 #include "vector3.h"
 #include "vertex.h"
@@ -36,12 +37,12 @@ class TestGame : public SGE::Game
 
         std::vector<std::uint32_t> floor_indices = {0, 1, 2, 2, 1, 3};
 
-        auto default_texture =
-            SGE::load_diffuse_texture("defaultTexture.png", "res/textures");
+        auto default_texture = SGE::Texture2D::create(
+            "res/textures/defaultTexture.png", SGE::Texture::Type::DIFFUSE);
 
         floor_ = std::make_shared<SGE::Mesh>(
             floor_vertices, floor_indices,
-            SGE::Material{std::vector<SGE::Texture>{default_texture},
+            SGE::Material{{default_texture},
                           SGE::Vector3{.5F, 1.0F, 1.0F},
                           SGE::Vector3{.3F, 1.0F, 1.0F},
                           SGE::Vector3{.8F, .8F, .8F}});

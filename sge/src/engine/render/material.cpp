@@ -1,32 +1,29 @@
 #include "material.h"
+
 #include "texture.h"
+
+#include <memory>
 #include <vector>
 
-namespace SGE {
+namespace SGE
+{
 
-Material::Material(
-        const std::vector<Texture>& textures,
-        const Vector3& ambient_colour,
-        const Vector3& diffuse_colour,
-        const Vector3& specular_colour
-        ) :
-    textures_{textures},
-    ambient_colour_{ambient_colour},
-    diffuse_colour_{diffuse_colour},
-    specular_colour_{specular_colour}
-{}
+Material::Material(const std::vector<std::shared_ptr<Texture>>& textures,
+                   const Vector3& ambient_colour, const Vector3& diffuse_colour,
+                   const Vector3& specular_colour)
+    : textures_{textures}, ambient_colour_{ambient_colour},
+      diffuse_colour_{diffuse_colour}, specular_colour_{specular_colour}
+{
+}
 
-Material::Material(
-        const Vector3& ambient_colour,
-        const Vector3& diffuse_colour,
-        const Vector3& specular_colour
-        ) :
-    ambient_colour_{ambient_colour},
-    diffuse_colour_{diffuse_colour},
-    specular_colour_{specular_colour}
-{}
+Material::Material(const Vector3& ambient_colour, const Vector3& diffuse_colour,
+                   const Vector3& specular_colour)
+    : ambient_colour_{ambient_colour}, diffuse_colour_{diffuse_colour},
+      specular_colour_{specular_colour}
+{
+}
 
-std::vector<Texture> Material::textures() const
+std::vector<std::shared_ptr<Texture>> Material::textures() const
 {
     return textures_;
 }
@@ -66,7 +63,8 @@ void Material::set_specular(const Vector3& colour)
     specular_colour_ = colour;
 }
 
-void Material::set_textures(const std::vector<Texture>& textures)
+void Material::set_textures(
+    const std::vector<std::shared_ptr<Texture>>& textures)
 {
     textures_ = textures;
 }

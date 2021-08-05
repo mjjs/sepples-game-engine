@@ -4,6 +4,7 @@
 #include "texture.h"
 #include "vector3.h"
 
+#include <memory>
 #include <vector>
 
 namespace SGE
@@ -12,7 +13,7 @@ namespace SGE
 class Material
 {
   private:
-    std::vector<Texture> textures_{};
+    std::vector<std::shared_ptr<Texture>> textures_{};
     Vector3 ambient_colour_{};
     Vector3 diffuse_colour_{};
     Vector3 specular_colour_{};
@@ -23,12 +24,11 @@ class Material
     Material(const Vector3& ambient_colour, const Vector3& diffuse_colour,
              const Vector3& specular_colour);
 
-    explicit Material(const std::vector<Texture>& textures,
-                      const Vector3& ambient_colour,
-                      const Vector3& diffuse_colour,
-                      const Vector3& specular_colour);
+    Material(const std::vector<std::shared_ptr<Texture>>& textures,
+             const Vector3& ambient_colour, const Vector3& diffuse_colour,
+             const Vector3& specular_colour);
 
-    std::vector<Texture> textures() const;
+    std::vector<std::shared_ptr<Texture>> textures() const;
     Vector3 ambient_colour() const;
     Vector3 diffuse_colour() const;
     Vector3 specular_colour() const;
@@ -36,7 +36,7 @@ class Material
     void set_ambient(const Vector3& colour);
     void set_diffuse(const Vector3& colour);
     void set_specular(const Vector3& colour);
-    void set_textures(const std::vector<Texture>& textures);
+    void set_textures(const std::vector<std::shared_ptr<Texture>>& textures);
     void set_shininess(float shininess);
 };
 

@@ -22,9 +22,8 @@ class Mesh
 
   public:
     Mesh() = delete;
-    explicit Mesh(const std::vector<Vertex>& vertices,
-                  const std::vector<std::uint32_t>& indices,
-                  const Material& material);
+    Mesh(const std::vector<Vertex>& vertices,
+         const std::vector<std::uint32_t>& indices, const Material& material);
 
     void draw(Shader& shader) const;
     const Material& material() const;
