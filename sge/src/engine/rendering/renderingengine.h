@@ -2,11 +2,10 @@
 #define _SGE_RENDERINGENGINE_H
 
 #include "engine/core/gameobject.h"
-#include "engine/rendering/graphicsapi.h"
-#include "engine/components/light.h"
 #include "engine/math/sgemath.h"
-#include "engine/rendering/buffers/uniformbuffer.h"
 #include "engine/math/vector3.h"
+#include "engine/rendering/buffers/uniformbuffer.h"
+#include "engine/rendering/graphicsapi.h"
 
 #include <memory>
 #include <vector>
@@ -22,11 +21,6 @@ class Transform;
 class RenderingEngine
 {
   private:
-    Camera* main_camera_ = nullptr;
-
-    std::vector<Light*> lights_{};
-    Light* active_light_ = nullptr;
-
     // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
     static std::unique_ptr<GraphicsAPI> graphics_api_;
     // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)

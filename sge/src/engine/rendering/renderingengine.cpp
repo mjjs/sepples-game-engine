@@ -4,7 +4,7 @@
 #include "engine/math/matrix4.h"
 #include "engine/rendering/mesh.h"
 #include "engine/rendering/model.h"
-#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/shader.h"
 #include "engine/rendering/buffers/uniformbuffer.h"
 #include "engine/math/vector3.h"
 

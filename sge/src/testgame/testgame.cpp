@@ -15,7 +15,8 @@ class TestGame : public SGE::Game
   public:
     TestGame() : camera_{70, (float)1270 / (float)800, .1, 1000}
     {
-        basic_shader_ = std::make_shared<SGE::BasicShader>();
+        basic_shader_ = SGE::Shader::create("res/shaders/basic_vertex.glsl",
+                                            "res/shaders/basic_fragment.glsl");
 
         std::vector<SGE::Vertex> floor_vertices{
             {{-10, -2, -10}, {0, 1, 0}, {0, 0}},

@@ -3,7 +3,7 @@
 #include "engine/core/log.h"
 #include "engine/rendering/material.h"
 #include "engine/rendering/mesh.h"
-#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/shader.h"
 #include "engine/rendering/texture.h"
 #include "engine/rendering/texture2d.h"
 #include "engine/math/vector2.h"

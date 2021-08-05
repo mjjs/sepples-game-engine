@@ -3,7 +3,7 @@
 
 #include "engine/core/input.h"
 #include "engine/core/transform.h"
-#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/shader.h"
 
 #include <memory>
 

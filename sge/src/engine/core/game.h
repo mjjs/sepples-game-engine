@@ -5,7 +5,7 @@
 #include "engine/core/gameobject.h"
 #include "engine/core/input.h"
 #include "engine/rendering/renderingengine.h"
-#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/shader.h"
 #include "engine/rendering/window.h"
 
 #include <memory>

@@ -4,7 +4,7 @@
 #include "engine/rendering/buffers/indexbuffer.h"
 #include "engine/core/log.h"
 #include "engine/rendering/material.h"
-#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/shader.h"
 #include "engine/rendering/texture.h"
 #include "engine/math/vector3.h"
 #include "engine/rendering/buffers/vertexarray.h"

@@ -4,7 +4,7 @@
 #include "engine/components/camera.h"
 #include "engine/components/gamecomponent.h"
 #include "engine/core/input.h"
-#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/shader.h"
 #include "engine/core/transform.h"
 
 #include <memory>

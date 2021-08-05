@@ -2,7 +2,7 @@
 #define _SGE_MODEL_H
 
 #include "engine/rendering/mesh.h"
-#include "engine/rendering/shaders/shader.h"
+#include "engine/rendering/shader.h"
 #include "engine/rendering/texture.h"
 #include "engine/math/vector3.h"
 
