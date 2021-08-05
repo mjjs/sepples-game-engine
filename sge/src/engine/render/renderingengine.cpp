@@ -62,11 +62,6 @@ void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
 
     const auto material = mesh->material();
 
-    shader->set_uniform("material_u.ambient", material.ambient_colour());
-    shader->set_uniform("material_u.diffuse", material.diffuse_colour());
-    shader->set_uniform("material_u.specular", material.specular_colour());
-    shader->set_uniform("material_u.shininess", material.shininess());
-
     mesh->draw(*shader);
 }
 

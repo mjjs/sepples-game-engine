@@ -44,33 +44,41 @@ void Mesh::draw(Shader& shader) const
 {
     shader.bind();
 
-    std::vector<std::shared_ptr<Texture>> textures = material_.textures();
+    const auto diffuse_map  = material_.diffuse_texture();
+    const auto specular_map = material_.specular_texture();
+    const auto normal_map   = material_.normal_texture();
 
-    for (std::size_t i = 0; i < textures.size(); ++i) {
-        auto texture = textures[i];
-
-        switch (texture->type()) {
-        case Texture::Type::DIFFUSE:
-            shader.set_uniform("texture_diffuse_u", static_cast<int>(i));
-            break;
-        case Texture::Type::SPECULAR:
-            shader.set_uniform("texture_specular_u", static_cast<int>(i));
-            break;
-        case Texture::Type::NORMAL:
-            LOG_INFO("Unsupported texture type: NORMAL");
-        }
-
-        texture->bind(i);
+    if (diffuse_map) {
+        diffuse_map->bind(0);
+        shader.set_uniform("material_u.texture_diffuse", 0);
     }
 
-    shader.set_material(material_);
+    if (specular_map) {
+        specular_map->bind(1);
+        shader.set_uniform("material_u.texture_specular", 1);
+    }
+
+    if (normal_map) {
+        normal_map->bind(2);
+        shader.set_uniform("material_u.texture_normal", 2);
+    }
+
+    shader.set_uniform("material_u.shininess", material_.shininess());
 
     vertex_array_->bind();
     glDrawElements(GL_TRIANGLES, vertex_array_->index_buffer()->count(),
                    GL_UNSIGNED_INT, nullptr);
 
-    for (const auto& texture : textures) {
-        texture->unbind();
+    if (diffuse_map) {
+        diffuse_map->unbind();
+    }
+
+    if (specular_map) {
+        specular_map->unbind();
+    }
+
+    if (normal_map) {
+        normal_map->unbind();
     }
 
     vertex_array_->unbind();

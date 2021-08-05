@@ -1,6 +1,8 @@
 #include "material.h"
 
 #include "texture.h"
+#include "texture2d.h"
+#include "vector3.h"
 
 #include <memory>
 #include <vector>
@@ -8,70 +10,41 @@
 namespace SGE
 {
 
-Material::Material(const std::vector<std::shared_ptr<Texture>>& textures,
-                   const Vector3& ambient_colour, const Vector3& diffuse_colour,
-                   const Vector3& specular_colour)
-    : textures_{textures}, ambient_colour_{ambient_colour},
-      diffuse_colour_{diffuse_colour}, specular_colour_{specular_colour}
+Material::Material()
+    : diffuse_texture_{Texture2D::create(Vector3{1, 0, 1}, 1, 1)}
 {
 }
 
-Material::Material(const Vector3& ambient_colour, const Vector3& diffuse_colour,
-                   const Vector3& specular_colour)
-    : ambient_colour_{ambient_colour}, diffuse_colour_{diffuse_colour},
-      specular_colour_{specular_colour}
+Material::Material(const std::shared_ptr<Texture>& diffuse_texture,
+                   const std::shared_ptr<Texture>& specular_texture,
+                   const std::shared_ptr<Texture>& normal_texture,
+                   float shininess)
+    : diffuse_texture_{diffuse_texture}, specular_texture_{specular_texture},
+      normal_texture_{normal_texture}, shininess_{shininess}
 {
+    if (diffuse_texture == nullptr) {
+        diffuse_texture_ = Texture2D::create(Vector3{1, 0, 1}, 1, 1);
+    }
 }
 
-std::vector<std::shared_ptr<Texture>> Material::textures() const
+const std::shared_ptr<Texture>& Material::diffuse_texture() const
 {
-    return textures_;
+    return diffuse_texture_;
 }
 
-Vector3 Material::ambient_colour() const
+const std::shared_ptr<Texture>& Material::specular_texture() const
 {
-    return ambient_colour_;
+    return specular_texture_;
 }
 
-Vector3 Material::diffuse_colour() const
+const std::shared_ptr<Texture>& Material::normal_texture() const
 {
-    return diffuse_colour_;
-}
-
-Vector3 Material::specular_colour() const
-{
-    return specular_colour_;
+    return normal_texture_;
 }
 
 float Material::shininess() const
 {
     return shininess_;
-}
-
-void Material::set_ambient(const Vector3& colour)
-{
-    ambient_colour_ = colour;
-}
-
-void Material::set_diffuse(const Vector3& colour)
-{
-    diffuse_colour_ = colour;
-}
-
-void Material::set_specular(const Vector3& colour)
-{
-    specular_colour_ = colour;
-}
-
-void Material::set_textures(
-    const std::vector<std::shared_ptr<Texture>>& textures)
-{
-    textures_ = textures;
-}
-
-void Material::set_shininess(float shininess)
-{
-    shininess_ = shininess;
 }
 
 } // namespace SGE

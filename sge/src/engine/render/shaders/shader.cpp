@@ -1,23 +1,25 @@
-#include "resourceloader.h"
 #include "shader.h"
+
+#include "resourceloader.h"
 
 #include <cstddef>
 #include <stdexcept>
 #include <string>
-#include <utility>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
-namespace SGE {
+namespace SGE
+{
 
-Shader::Shader(const std::string& vertex_path, const std::string& fragment_path) :
-    shader_program_{glCreateProgram()}
+Shader::Shader(const std::string& vertex_path, const std::string& fragment_path)
+    : shader_program_{glCreateProgram()}
 {
     if (shader_program_ == 0) {
         throw std::runtime_error{"Shader creation failed"};
     }
 
-    std::string vertex_shader_name = load_shader(vertex_path);
+    std::string vertex_shader_name   = load_shader(vertex_path);
     std::string fragment_shader_name = load_shader(fragment_path);
 
     add_vertex_shader(vertex_shader_name);
@@ -57,7 +59,8 @@ void Shader::add_program(const std::string& shader_name, GLenum shader_type)
     }
 
     if (shader == GL_INVALID_ENUM) {
-        throw std::runtime_error{"Invalid shader type: " + std::to_string(shader_type)};
+        throw std::runtime_error{"Invalid shader type: " +
+                                 std::to_string(shader_type)};
     }
 
     const GLchar* programs[1]{shader_name.c_str()};
@@ -65,8 +68,8 @@ void Shader::add_program(const std::string& shader_name, GLenum shader_type)
     glShaderSource(shader, 1, programs, nullptr);
     glCompileShader(shader);
 
-    std::pair<bool, std::string> error = check_shader_error(ShaderErrorCheckType::SHADER,
-            GL_COMPILE_STATUS, shader);
+    std::pair<bool, std::string> error = check_shader_error(
+        ShaderErrorCheckType::SHADER, GL_COMPILE_STATUS, shader);
 
     if (error.first == true) {
         throw std::runtime_error("Could not compile shader: " + error.second);
@@ -80,8 +83,8 @@ void Shader::compile_shader()
 {
     glLinkProgram(shader_program_);
 
-    std::pair<bool, std::string> error = check_shader_error(ShaderErrorCheckType::PROGRAM,
-            GL_LINK_STATUS, shader_program_);
+    std::pair<bool, std::string> error = check_shader_error(
+        ShaderErrorCheckType::PROGRAM, GL_LINK_STATUS, shader_program_);
 
     if (error.first == true) {
         throw std::runtime_error("Could not link shader: " + error.second);
@@ -90,7 +93,7 @@ void Shader::compile_shader()
     glValidateProgram(shader_program_);
 
     error = check_shader_error(ShaderErrorCheckType::PROGRAM,
-            GL_VALIDATE_STATUS, shader_program_);
+                               GL_VALIDATE_STATUS, shader_program_);
 
     if (error.first == true) {
         throw std::runtime_error("Shader not valid: " + error.second);
@@ -106,8 +109,8 @@ void Shader::bind() const
     glUseProgram(shader_program_);
 }
 
-std::pair<bool, std::string> Shader::check_shader_error(ShaderErrorCheckType check_type, GLenum check_name,
-        GLuint to_check)
+std::pair<bool, std::string> Shader::check_shader_error(
+    ShaderErrorCheckType check_type, GLenum check_name, GLuint to_check)
 {
     GLint success;
 
@@ -126,9 +129,11 @@ std::pair<bool, std::string> Shader::check_shader_error(ShaderErrorCheckType che
     GLsizei error_length = 0;
 
     if (check_type == ShaderErrorCheckType::PROGRAM) {
-        glGetProgramInfoLog(to_check, sizeof(error_message), &error_length, error_message);
+        glGetProgramInfoLog(to_check, sizeof(error_message), &error_length,
+                            error_message);
     } else {
-        glGetShaderInfoLog(to_check, error_message_max_length, &error_length, error_message);
+        glGetShaderInfoLog(to_check, error_message_max_length, &error_length,
+                           error_message);
     }
 
     return std::pair<bool, std::string>{true, std::string(error_message)};
@@ -140,9 +145,11 @@ void Shader::add_uniform(const std::string& variable_name) const
         return;
     }
 
-    const GLint uniform_location = glGetUniformLocation(shader_program_, variable_name.c_str());
+    const GLint uniform_location =
+        glGetUniformLocation(shader_program_, variable_name.c_str());
     if (uniform_location == -1) {
-        // std::cerr << "Uniform variable " << variable_name << " not found in the shader program\n";
+        // std::cerr << "Uniform variable " << variable_name << " not found in
+        // the shader program\n";
         return;
     }
 
@@ -167,37 +174,33 @@ void Shader::set_uniform(const std::string& variable_name, float value) const
     glUniform1f(uniform_variables_[variable_name], value);
 }
 
-void Shader::set_uniform(const std::string& variable_name, const Vector3& vector) const
+void Shader::set_uniform(const std::string& variable_name,
+                         const Vector3& vector) const
 {
     if (!uniform_exists(variable_name)) {
         return;
     }
 
-    glUniform3f(uniform_variables_[variable_name], vector.x, vector.y, vector.z);
+    glUniform3f(uniform_variables_[variable_name], vector.x, vector.y,
+                vector.z);
 }
 
-void Shader::set_uniform(const std::string& variable_name, const Matrix4& matrix) const
+void Shader::set_uniform(const std::string& variable_name,
+                         const Matrix4& matrix) const
 {
     if (!uniform_exists(variable_name)) {
         return;
     }
 
-    glUniformMatrix4fv(uniform_variables_[variable_name], 1, GL_TRUE, &(matrix[0][0]));
+    glUniformMatrix4fv(uniform_variables_[variable_name], 1, GL_TRUE,
+                       &(matrix[0][0]));
 }
 
 void Shader::set_transformations(const Matrix4& transformation,
-        const Matrix4& projection) const
+                                 const Matrix4& projection) const
 {
     set_uniform("transform_u", transformation);
     set_uniform("projection_u", projection);
-}
-
-void Shader::set_material(const Material& material) const
-{
-    set_uniform("material_u.ambient", material.ambient_colour());
-    set_uniform("material_u.diffuse", material.diffuse_colour());
-    set_uniform("material_u.specular", material.specular_colour());
-    set_uniform("material_u.shininess", material.shininess());
 }
 
 bool Shader::uniform_exists(const std::string& variable_name) const
@@ -206,9 +209,9 @@ bool Shader::uniform_exists(const std::string& variable_name) const
 }
 
 void Shader::update_uniforms(
-        [[maybe_unused]] const Transform& transform,
-        [[maybe_unused]] const Material& material,
-        [[maybe_unused]] const RenderingEngine& rendering_engine) const
+    [[maybe_unused]] const Transform& transform,
+    [[maybe_unused]] const Material& material,
+    [[maybe_unused]] const RenderingEngine& rendering_engine) const
 {
 }
 
@@ -217,7 +220,7 @@ void Shader::add_all_uniforms(const std::string& shader_code)
     auto structs = get_struct_uniforms(shader_code);
 
     const std::string uniform_keyword = "uniform ";
-    std::size_t uniform_pos = shader_code.find(uniform_keyword);
+    std::size_t uniform_pos           = shader_code.find(uniform_keyword);
 
     while (uniform_pos != std::string::npos) {
         std::size_t semi_pos = shader_code.find(';', uniform_pos);
@@ -254,9 +257,8 @@ void Shader::add_all_uniforms(const std::string& shader_code)
 }
 
 void Shader::add_struct_uniform(
-        const std::string& name,
-        const std::string& type,
-        std::unordered_map<std::string, std::vector<UniformField>> structs)
+    const std::string& name, const std::string& type,
+    std::unordered_map<std::string, std::vector<UniformField>> structs)
 {
     if (!structs.contains(type)) {
         add_uniform(name);
@@ -270,13 +272,11 @@ void Shader::add_struct_uniform(
     }
 }
 
-std::unordered_map<std::string, std::vector<Shader::UniformField>> Shader::get_struct_uniforms(
-        const std::string& shader_code)
+std::unordered_map<std::string, std::vector<Shader::UniformField>> Shader::
+    get_struct_uniforms(const std::string& shader_code)
 {
-    auto structs = std::unordered_map<
-        std::string,
-        std::vector<Shader::UniformField>
-    >{};
+    auto structs =
+        std::unordered_map<std::string, std::vector<Shader::UniformField>>{};
 
     const std::string struct_keyword = "struct ";
 
@@ -284,10 +284,11 @@ std::unordered_map<std::string, std::vector<Shader::UniformField>> Shader::get_s
 
     while (struct_pos != std::string::npos) {
         std::size_t curly_begin = shader_code.find('{', struct_pos);
-        std::size_t curly_end = shader_code.find('}', struct_pos);
+        std::size_t curly_end   = shader_code.find('}', struct_pos);
 
         std::string type;
-        for (auto i = struct_pos + struct_keyword.size(); i < curly_begin; ++i) {
+        for (auto i = struct_pos + struct_keyword.size(); i < curly_begin;
+             ++i) {
             char c = shader_code[i];
 
             if (std::isspace(c) == 0) {
@@ -312,7 +313,7 @@ std::unordered_map<std::string, std::vector<Shader::UniformField>> Shader::get_s
 
             if (c == ';') {
                 type_set = false;
-                fields.push_back({ field_name, field_type });
+                fields.push_back({field_name, field_type});
 
                 field_name.clear();
                 field_type.clear();
@@ -328,7 +329,7 @@ std::unordered_map<std::string, std::vector<Shader::UniformField>> Shader::get_s
         }
 
         structs[type] = fields;
-        struct_pos = shader_code.find(struct_keyword, curly_end);
+        struct_pos    = shader_code.find(struct_keyword, curly_end);
     }
 
     return structs;

@@ -32,9 +32,8 @@ class Shader
     mutable std::unordered_map<std::string, GLint> uniform_variables_{};
 
     void add_program(const std::string& shader_name, GLenum shader_type);
-    static std::pair<bool, std::string>
-    check_shader_error(ShaderErrorCheckType check_type, GLenum check_name,
-                       GLuint to_check);
+    static std::pair<bool, std::string> check_shader_error(
+        ShaderErrorCheckType check_type, GLenum check_name, GLuint to_check);
 
     void add_vertex_shader(const std::string& shader_name);
     void add_geometry_shader(const std::string& shader_name);
@@ -75,7 +74,6 @@ class Shader
                                  const Material& material,
                                  const RenderingEngine& rendering_engine) const;
 
-    void set_material(const Material& material) const;
     void set_transformations(const Matrix4& transformation,
                              const Matrix4& projection) const;
 };

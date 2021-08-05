@@ -25,9 +25,6 @@ void PointShader::update_uniforms(const Transform& transform,
     // set_uniform("view_position_u",
     //            rendering_engine.camera()->transform().position());
 
-    set_uniform("material_u.ambient", material.ambient_colour());
-    set_uniform("material_u.diffuse", material.diffuse_colour());
-    set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
     // auto* light = dynamic_cast<PointLight*>(rendering_engine.active_light());

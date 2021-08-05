@@ -22,9 +22,6 @@ void SpotShader::update_uniforms(const Transform& transform,
 {
     set_uniform("transform_u", transform.get_transformation());
 
-    set_uniform("material_u.ambient", material.ambient_colour());
-    set_uniform("material_u.diffuse", material.diffuse_colour());
-    set_uniform("material_u.specular", material.specular_colour());
     set_uniform("material_u.shininess", material.shininess());
 
     // set_uniform("view_position_u",

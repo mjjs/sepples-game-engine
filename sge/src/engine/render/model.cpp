@@ -1,5 +1,6 @@
 #include "model.h"
 
+#include "log.h"
 #include "material.h"
 #include "mesh.h"
 #include "shader.h"
@@ -26,7 +27,7 @@ constexpr char const* COLOUR_AMBIENT  = "AMBIENT";
 constexpr char const* COLOUR_DIFFUSE  = "DIFFUSE";
 constexpr char const* COLOUR_SPECULAR = "SPECULAR";
 
-static Vector3 get_colour(const aiMaterial& material, const std::string& type);
+static Vector3 get_colour(const aiMaterial* material, const std::string& type);
 static float get_shininess(const aiMaterial& material);
 
 Model::Model(const std::string& path)
@@ -102,55 +103,66 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
     Material material;
 
     if (assimp_material != nullptr) {
-        std::vector<std::shared_ptr<Texture>> diffuse_maps =
-            load_material_textures(assimp_material, aiTextureType_DIFFUSE);
+        std::shared_ptr<Texture> diffuse_map =
+            load_material_texture(assimp_material, aiTextureType_DIFFUSE);
 
-        textures.insert(textures.end(), diffuse_maps.begin(),
-                        diffuse_maps.end());
+        if (!diffuse_map) {
+            Vector3 diffuse_colour =
+                get_colour(assimp_material, COLOUR_DIFFUSE);
+            diffuse_map = Texture2D::create(diffuse_colour, 1, 1);
+        }
 
-        std::vector<std::shared_ptr<Texture>> specular_maps =
-            load_material_textures(assimp_material, aiTextureType_SPECULAR);
+        std::shared_ptr<Texture> specular_map =
+            load_material_texture(assimp_material, aiTextureType_SPECULAR);
 
-        textures.insert(textures.end(), specular_maps.begin(),
-                        specular_maps.end());
+        float shininess = get_shininess(*assimp_material);
 
-        material.set_ambient(get_colour(*assimp_material, COLOUR_AMBIENT));
-        material.set_diffuse(get_colour(*assimp_material, COLOUR_DIFFUSE));
-        material.set_specular(get_colour(*assimp_material, COLOUR_SPECULAR));
-        material.set_shininess(get_shininess(*assimp_material));
-
-        material.set_textures(textures);
+        material = Material{diffuse_map, specular_map, nullptr, shininess};
     }
 
     return Mesh{vertices, indices, material};
 }
 
-std::vector<std::shared_ptr<Texture>> Model::load_material_textures(
+std::shared_ptr<Texture> Model::load_material_texture(
     aiMaterial* material, const aiTextureType texture_type)
 {
-    std::vector<std::shared_ptr<Texture>> textures;
+    const std::size_t texture_count = material->GetTextureCount(texture_type);
 
-    for (std::size_t i = 0; i < material->GetTextureCount(texture_type); ++i) {
-        aiString path;
-        material->GetTexture(texture_type, i, &path);
-        std::string filename{path.C_Str()};
-
-        auto full_path = directory_ + "/" + filename;
-
-        if (loaded_textures_.contains(full_path)) {
-            textures.push_back(loaded_textures_[full_path]);
-        } else {
-            auto tt = texture_type == aiTextureType_DIFFUSE
-                          ? Texture::Type::DIFFUSE
-                          : Texture::Type::SPECULAR;
-
-            auto texture = Texture2D::create(full_path, tt);
-            textures.push_back(texture);
-            loaded_textures_[full_path] = texture;
-        }
+    if (texture_count <= 0) {
+        return nullptr;
     }
 
-    return textures;
+    aiString path;
+    material->GetTexture(texture_type, 0, &path);
+    std::string filename{path.C_Str()};
+
+    auto full_path = directory_ + "/" + filename;
+
+    if (loaded_textures_.contains(full_path)) {
+        return loaded_textures_[full_path];
+    }
+
+    Texture::Type tt;
+
+    switch (texture_type) {
+    case aiTextureType_DIFFUSE:
+        tt = Texture::Type::DIFFUSE;
+        break;
+    case aiTextureType_SPECULAR:
+        tt = Texture::Type::SPECULAR;
+        break;
+    case aiTextureType_NORMALS:
+        tt = Texture::Type::NORMAL;
+        break;
+    default:
+        LOG_ERROR("Unsupported texture type {} encountered", texture_type);
+        throw std::runtime_error{"Texture type not supported"};
+        break;
+    }
+
+    auto texture                = Texture2D::create(full_path, tt);
+    loaded_textures_[full_path] = texture;
+    return texture;
 }
 
 void Model::draw(Shader& shader) const
@@ -160,16 +172,16 @@ void Model::draw(Shader& shader) const
     }
 }
 
-Vector3 get_colour(const aiMaterial& material, const std::string& type)
+Vector3 get_colour(const aiMaterial* material, const std::string& type)
 {
     aiColor3D colour{};
 
     if (type == COLOUR_AMBIENT) {
-        material.Get(AI_MATKEY_COLOR_AMBIENT, colour);
+        material->Get(AI_MATKEY_COLOR_AMBIENT, colour);
     } else if (type == COLOUR_DIFFUSE) {
-        material.Get(AI_MATKEY_COLOR_DIFFUSE, colour);
+        material->Get(AI_MATKEY_COLOR_DIFFUSE, colour);
     } else if (type == COLOUR_SPECULAR) {
-        material.Get(AI_MATKEY_COLOR_SPECULAR, colour);
+        material->Get(AI_MATKEY_COLOR_SPECULAR, colour);
     }
 
     return Vector3{colour.r, colour.g, colour.b};

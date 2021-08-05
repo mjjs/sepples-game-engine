@@ -27,8 +27,8 @@ class Model
     void load_model(const std::string& path);
     void process_node(aiNode* node, const aiScene* scene);
     Mesh process_mesh(aiMesh* mesh, const aiScene* scene);
-    std::vector<std::shared_ptr<Texture>> load_material_textures(
-        aiMaterial* material, aiTextureType texture_type);
+    std::shared_ptr<Texture> load_material_texture(aiMaterial* material,
+                                                   aiTextureType texture_type);
 
   public:
     explicit Model(const std::string& path);

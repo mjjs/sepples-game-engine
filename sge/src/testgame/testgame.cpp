@@ -42,10 +42,7 @@ class TestGame : public SGE::Game
 
         floor_ = std::make_shared<SGE::Mesh>(
             floor_vertices, floor_indices,
-            SGE::Material{{default_texture},
-                          SGE::Vector3{.5F, 1.0F, 1.0F},
-                          SGE::Vector3{.3F, 1.0F, 1.0F},
-                          SGE::Vector3{.8F, .8F, .8F}});
+            SGE::Material{default_texture, nullptr, nullptr});
 
         backpack_ = std::make_shared<SGE::Model>("res/models/backpack.obj");
     }
