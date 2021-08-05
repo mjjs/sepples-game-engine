@@ -16,3 +16,4 @@ AllowShortFunctionsOnASingleLine: None
 BreakConstructorInitializers: BeforeColon
 AlwaysBreakAfterReturnType: None
 PenaltyReturnTypeOnItsOwnLine: 9999
+AlwaysBreakTemplateDeclarations: Yes

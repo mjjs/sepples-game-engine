@@ -59,6 +59,17 @@ class Event
     {
         return (categories() & category) != 0;
     }
+
+    template <typename EventType, typename FunctionHandlerFn>
+    static bool dispatch(Event& event, const FunctionHandlerFn& event_handler)
+    {
+        if (event.type() == EventType::static_type()) {
+            event.handled |= event_handler(static_cast<EventType&>(event));
+            return true;
+        }
+
+        return false;
+    }
 };
 
 using EventCallbackFn = std::function<void(Event&)>;

@@ -1,10 +1,10 @@
 #include "engine/core/game.h"
 
-#include "engine/event/eventdispatcher.h"
 #include "engine/core/log.h"
 #include "engine/core/timer.h"
-#include "engine/rendering/window.h"
+#include "engine/event/event.h"
 #include "engine/event/windowcloseevent.h"
+#include "engine/rendering/window.h"
 
 #include <memory>
 
@@ -57,9 +57,8 @@ void Game::run()
 
 void Game::handle_event(Event& event)
 {
-    EventDispatcher dispatcher(event);
-    dispatcher.dispatch<WindowCloseEvent>(
-        BIND_EVENT_FN(Game::handle_window_close));
+    Event::dispatch<WindowCloseEvent>(event,
+                                      BIND_EVENT_FN(Game::handle_window_close));
 
     if (event.is_in_category(EventCategory::INPUT)) {
         Input::handle_input_event(event);
