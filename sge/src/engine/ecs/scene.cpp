@@ -1,5 +1,6 @@
 #include "engine/ecs/scene.h"
 
+#include "engine/ecs/components/cppscriptcomponent.h"
 #include "engine/ecs/components/meshrenderercomponent.h"
 #include "engine/ecs/components/modelrenderercomponent.h"
 #include "engine/ecs/components/tagcomponent.h"
@@ -12,6 +13,18 @@ namespace SGE
 
 void Scene::update(float delta)
 {
+    auto scriptables = components_.view<CPPScriptComponent>();
+    scriptables.each([=](auto entity, auto& script) {
+        if (!script.instance) {
+            script.instance               = script.instantiate_script();
+            script.instance->game_object_ = GameObject{entity, this};
+
+            script.instance->on_create();
+        }
+
+        script.instance->update(delta);
+    });
+
     auto meshes = components_.view<MeshRendererComponent, TransformComponent>();
 
     for (const auto& game_object : meshes) {
