@@ -37,6 +37,11 @@ OpenGLShader::OpenGLShader(const std::string& vertex_path,
     glDeleteShader(fragment_program_id);
 }
 
+OpenGLShader::OpenGLShader(const std::string& shader_name)
+    : OpenGLShader{shader_name + "_vertex.glsl", shader_name + "_fragment.glsl"}
+{
+}
+
 OpenGLShader::~OpenGLShader()
 {
     glDeleteProgram(shader_id_);

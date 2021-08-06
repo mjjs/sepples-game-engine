@@ -17,4 +17,14 @@ std::shared_ptr<Shader> Shader::create(const std::string& vertex_path,
     }
 }
 
+std::shared_ptr<Shader> Shader::create(const std::string& shader_name)
+{
+    switch (GraphicsAPI::vendor()) {
+    case GraphicsAPI::VENDOR::OPENGL:
+        return std::make_shared<OpenGLShader>(shader_name);
+    case GraphicsAPI::VENDOR::VULKAN:
+        throw std::runtime_error{"Vulkan is not supported yet!"};
+    }
+}
+
 } // namespace SGE

@@ -41,6 +41,8 @@ class Shader
 
     static std::shared_ptr<Shader> create(const std::string& vertex_path,
                                           const std::string& fragment_path);
+
+    static std::shared_ptr<Shader> create(const std::string& shader_name);
 };
 
 } // namespace SGE

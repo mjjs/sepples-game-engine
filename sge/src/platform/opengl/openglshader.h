@@ -25,6 +25,7 @@ class OpenGLShader : public Shader
   public:
     OpenGLShader(const std::string& vertex_path,
                  const std::string& fragment_path);
+    OpenGLShader(const std::string& shader_name);
     ~OpenGLShader();
 
     OpenGLShader(const OpenGLShader&)  = delete;
