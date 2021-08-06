@@ -1,16 +1,11 @@
 #ifndef _SGE_SHADER_H
 #define _SGE_SHADER_H
 
-#include "engine/core/transform.h"
 #include "engine/math/matrix4.h"
 #include "engine/math/vector3.h"
-#include "engine/rendering/material.h"
 
-#include <glad/glad.h>
 #include <memory>
 #include <string>
-#include <unordered_map>
-#include <utility>
 #include <vector>
 
 namespace SGE
