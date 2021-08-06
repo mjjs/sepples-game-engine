@@ -19,6 +19,7 @@ VENDOR_INCLUDES =  $(VENDOR_DIR)/stb
 VENDOR_INCLUDES += $(VENDOR_DIR)/spdlog/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/glad/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/assimp/include
+VENDOR_INCLUDES += $(VENDOR_DIR)/entt/single_include/entt
 
 INC_DIRS := $(SRC_DIR)
 INC_DIRS += $(VENDOR_INCLUDES)

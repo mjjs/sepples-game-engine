@@ -14,3 +14,7 @@
 	path = sge/vendor/sdl
 	url = https://github.com/libsdl-org/SDL
     ignore = all
+[submodule "sge/vendor/entt"]
+	path = sge/vendor/entt
+	url = https://github.com/skypjack/entt
+    ignore = all
