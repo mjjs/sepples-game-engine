@@ -1,4 +1,4 @@
-#include "engine/components/camera.h"
+#include "engine/rendering/camera.h"
 
 #include "engine/math/matrix4.h"
 #include "engine/math/vector3.h"

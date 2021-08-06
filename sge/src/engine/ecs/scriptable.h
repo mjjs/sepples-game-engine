@@ -27,6 +27,7 @@ class Scriptable
     virtual void on_create(){};
     virtual void on_destroy(){};
     virtual void update([[maybe_unused]] float delta){};
+    virtual void fixed_update(){};
 
     template <typename ComponentType>
     ComponentType& get_component()

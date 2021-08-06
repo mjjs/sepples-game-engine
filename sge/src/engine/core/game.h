@@ -1,8 +1,8 @@
 #ifndef _SGE_GAME_H
 #define _SGE_GAME_H
 
-#include "engine/components/camera.h"
 #include "engine/core/input.h"
+#include "engine/rendering/camera.h"
 #include "engine/rendering/renderingengine.h"
 #include "engine/rendering/shader.h"
 #include "engine/rendering/window.h"

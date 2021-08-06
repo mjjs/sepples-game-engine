@@ -1,8 +1,8 @@
 #include "engine/core/transform.h"
 
-#include "engine/components/camera.h"
 #include "engine/math/matrix4.h"
 #include "engine/math/vector3.h"
+#include "engine/rendering/camera.h"
 
 namespace SGE
 {

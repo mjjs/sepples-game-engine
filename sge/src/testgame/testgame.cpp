@@ -4,20 +4,70 @@
 #include <memory>
 #include <vector>
 
+class CameraScript : public SGE::Scriptable
+{
+  private:
+    const float camera_move_speed_   = 25;
+    const float camera_rotate_speed_ = 90;
+
+  public:
+    void update(const float delta) override
+    {
+        auto& camera = get_component<SGE::CameraComponent>().camera();
+
+        if (SGE::Input::is_key_down(SDLK_w)) {
+            camera.move(camera.transform().rotation().get_forward(),
+                        camera_move_speed_ * delta);
+        }
+
+        if (SGE::Input::is_key_down(SDLK_s)) {
+            camera.move(camera.transform().rotation().get_back(),
+                        camera_move_speed_ * delta);
+        }
+
+        if (SGE::Input::is_key_down(SDLK_a)) {
+            camera.move(camera.transform().rotation().get_left(),
+                        camera_move_speed_ * delta);
+        }
+
+        if (SGE::Input::is_key_down(SDLK_d)) {
+            camera.move(camera.transform().rotation().get_right(),
+                        camera_move_speed_ * delta);
+        }
+
+        if (SGE::Input::is_key_down(SDLK_UP)) {
+            camera.rotate_x(camera_rotate_speed_ * delta);
+        }
+
+        if (SGE::Input::is_key_down(SDLK_DOWN)) {
+            camera.rotate_x(-camera_rotate_speed_ * delta);
+        }
+
+        if (SGE::Input::is_key_down(SDLK_LEFT)) {
+            camera.rotate_y(camera_rotate_speed_ * delta);
+        }
+
+        if (SGE::Input::is_key_down(SDLK_RIGHT)) {
+            camera.rotate_y(-camera_rotate_speed_ * delta);
+        }
+    }
+
+    void fixed_update() override
+    {
+    }
+};
+
 class TestGame : public SGE::Game
 {
   private:
     std::unique_ptr<SGE::Scene> current_scene_;
-    SGE::Camera camera_;
 
     std::shared_ptr<SGE::Shader> basic_shader_;
     std::shared_ptr<SGE::Mesh> floor_;
     std::shared_ptr<SGE::Model> backpack_;
 
   public:
-    TestGame()
-        : current_scene_(std::make_unique<SGE::Scene>()),
-          camera_{70, (float)1270 / (float)800, .1, 1000}
+    TestGame() : current_scene_(std::make_unique<SGE::Scene>())
     {
         auto backpack = current_scene_->add_game_object("backpack");
         backpack.add_component<SGE::ModelRendererComponent>(
@@ -42,55 +92,20 @@ class TestGame : public SGE::Game
             SGE::Material{red_texture, nullptr, nullptr});
 
         floor.add_component<SGE::MeshRendererComponent>(floor_mesh);
+
+        auto camera = current_scene_->add_game_object("camera");
+        camera.add_component<SGE::CameraComponent>();
+        camera.add_component<SGE::CPPScriptComponent>().bind<CameraScript>();
     }
 
     void update(float delta) override
     {
-        const float move_speed   = 25;
-        const float rotate_speed = 90;
-
-        if (SGE::Input::is_key_down(SDLK_w)) {
-            camera_.move(camera_.transform().rotation().get_forward(),
-                         move_speed * delta);
-        }
-
-        if (SGE::Input::is_key_down(SDLK_s)) {
-            camera_.move(camera_.transform().rotation().get_back(),
-                         move_speed * delta);
-        }
-
-        if (SGE::Input::is_key_down(SDLK_a)) {
-            camera_.move(camera_.transform().rotation().get_left(),
-                         move_speed * delta);
-        }
-
-        if (SGE::Input::is_key_down(SDLK_d)) {
-            camera_.move(camera_.transform().rotation().get_right(),
-                         move_speed * delta);
-        }
-
-        if (SGE::Input::is_key_down(SDLK_UP)) {
-            camera_.rotate_x(rotate_speed * delta);
-        }
-
-        if (SGE::Input::is_key_down(SDLK_DOWN)) {
-            camera_.rotate_x(-rotate_speed * delta);
-        }
-
-        if (SGE::Input::is_key_down(SDLK_LEFT)) {
-            camera_.rotate_y(rotate_speed * delta);
-        }
-
-        if (SGE::Input::is_key_down(SDLK_RIGHT)) {
-            camera_.rotate_y(-rotate_speed * delta);
-        }
-
-        SGE::RenderingEngine::prepare_frame(camera_);
         current_scene_->update(delta);
     }
 
     void fixed_update() override
     {
+        current_scene_->fixed_update();
     }
 };
 

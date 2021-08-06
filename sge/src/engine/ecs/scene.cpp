@@ -1,5 +1,6 @@
 #include "engine/ecs/scene.h"
 
+#include "engine/ecs/components/cameracomponent.h"
 #include "engine/ecs/components/cppscriptcomponent.h"
 #include "engine/ecs/components/meshrenderercomponent.h"
 #include "engine/ecs/components/modelrenderercomponent.h"
@@ -13,17 +14,13 @@ namespace SGE
 
 void Scene::update(float delta)
 {
-    auto scriptables = components_.view<CPPScriptComponent>();
-    scriptables.each([=](auto entity, auto& script) {
-        if (!script.instance) {
-            script.instance               = script.instantiate_script();
-            script.instance->game_object_ = GameObject{entity, this};
+    script_update(delta);
 
-            script.instance->on_create();
-        }
+    // TODO: Make sure there is only one camera
+    auto cameras      = components_.view<CameraComponent>();
+    auto scene_camera = cameras.get<CameraComponent>(cameras.front());
 
-        script.instance->update(delta);
-    });
+    RenderingEngine::prepare_frame(scene_camera.camera());
 
     auto meshes = components_.view<MeshRendererComponent, TransformComponent>();
 
@@ -47,6 +44,11 @@ void Scene::update(float delta)
     }
 }
 
+void Scene::fixed_update()
+{
+    script_fixed_update();
+}
+
 GameObject Scene::add_game_object(const std::string& tag)
 {
     auto game_object = GameObject{components_.create(), this};
@@ -55,6 +57,38 @@ GameObject Scene::add_game_object(const std::string& tag)
     game_object.add_component<TransformComponent>();
 
     return game_object;
+}
+
+void Scene::script_update(const float delta)
+{
+    auto scriptables = components_.view<CPPScriptComponent>();
+
+    scriptables.each([=](auto entity, auto& script) {
+        if (!script.instance) {
+            script.instance               = script.instantiate_script();
+            script.instance->game_object_ = GameObject{entity, this};
+
+            script.instance->on_create();
+        }
+
+        script.instance->update(delta);
+    });
+}
+
+void Scene::script_fixed_update()
+{
+    auto scriptables = components_.view<CPPScriptComponent>();
+
+    scriptables.each([=](auto entity, auto& script) {
+        if (!script.instance) {
+            script.instance               = script.instantiate_script();
+            script.instance->game_object_ = GameObject{entity, this};
+
+            script.instance->on_create();
+        }
+
+        script.instance->fixed_update();
+    });
 }
 
 } // namespace SGE

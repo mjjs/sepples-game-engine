@@ -17,6 +17,7 @@
 #include "engine/rendering/buffers/uniformbuffer.h"
 #include "engine/rendering/buffers/vertexarray.h"
 #include "engine/rendering/buffers/vertexbuffer.h"
+#include "engine/rendering/camera.h"
 #include "engine/rendering/mesh.h"
 #include "engine/rendering/model.h"
 #include "engine/rendering/renderingengine.h"
@@ -26,6 +27,7 @@
 #include "engine/rendering/vertex.h"
 
 // SCENE
+#include "engine/ecs/components/cameracomponent.h"
 #include "engine/ecs/components/cppscriptcomponent.h"
 #include "engine/ecs/components/meshrenderercomponent.h"
 #include "engine/ecs/components/modelrenderercomponent.h"
