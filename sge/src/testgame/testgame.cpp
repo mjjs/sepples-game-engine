@@ -7,15 +7,23 @@
 class TestGame : public SGE::Game
 {
   private:
+    std::unique_ptr<SGE::Scene> current_scene_;
+    SGE::Camera camera_;
+
     std::shared_ptr<SGE::Shader> basic_shader_;
     std::shared_ptr<SGE::Mesh> floor_;
     std::shared_ptr<SGE::Model> backpack_;
-    SGE::Camera camera_;
 
   public:
-    TestGame() : camera_{70, (float)1270 / (float)800, .1, 1000}
+    TestGame()
+        : current_scene_(std::make_unique<SGE::Scene>()),
+          camera_{70, (float)1270 / (float)800, .1, 1000}
     {
-        basic_shader_ = SGE::Shader::create("res/shaders/basic");
+        auto backpack = current_scene_->add_game_object("backpack");
+        backpack.add_component<SGE::ModelRendererComponent>(
+            std::make_shared<SGE::Model>("res/models/backpack.obj"));
+
+        auto floor = current_scene_->add_game_object("floor");
 
         std::vector<SGE::Vertex> floor_vertices{
             {{-10, -2, -10}, {0, 1, 0}, {0, 0}},
@@ -26,24 +34,18 @@ class TestGame : public SGE::Game
 
         std::vector<std::uint32_t> floor_indices = {0, 1, 2, 2, 1, 3};
 
-        auto default_texture =
+        auto red_texture =
             SGE::Texture2D::create(SGE::Vector3{.8, .2, .3}, 1, 1);
 
-        floor_ = std::make_shared<SGE::Mesh>(
+        auto floor_mesh = std::make_shared<SGE::Mesh>(
             floor_vertices, floor_indices,
-            SGE::Material{default_texture, nullptr, nullptr});
+            SGE::Material{red_texture, nullptr, nullptr});
 
-        backpack_ = std::make_shared<SGE::Model>("res/models/backpack.obj");
+        floor.add_component<SGE::MeshRendererComponent>(floor_mesh);
     }
 
     void update(float delta) override
     {
-        const auto floor_transform   = SGE::Transform{};
-        auto smaller_floor_transform = SGE::Transform{};
-        smaller_floor_transform.set_scale(SGE::Vector3{.5F, .5F, .5F});
-        smaller_floor_transform.set_position(SGE::Vector3{0, 8.0F, 3.0F});
-        auto backpack_transform = SGE::Transform{};
-
         const float move_speed   = 25;
         const float rotate_speed = 90;
 
@@ -84,15 +86,7 @@ class TestGame : public SGE::Game
         }
 
         SGE::RenderingEngine::prepare_frame(camera_);
-        SGE::RenderingEngine::submit(basic_shader_, floor_, floor_transform);
-
-        SGE::RenderingEngine::submit(basic_shader_, floor_,
-                                     smaller_floor_transform);
-
-        backpack_transform.set_rotation(SGE::Quaternion::euler(30, 45, 15));
-
-        SGE::RenderingEngine::submit(basic_shader_, backpack_,
-                                     backpack_transform);
+        current_scene_->update(delta);
     }
 
     void fixed_update() override

@@ -2,7 +2,6 @@
 #define _SGE_GAME_H
 
 #include "engine/components/camera.h"
-#include "engine/core/gameobject.h"
 #include "engine/core/input.h"
 #include "engine/rendering/renderingengine.h"
 #include "engine/rendering/shader.h"

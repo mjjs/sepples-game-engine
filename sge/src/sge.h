@@ -24,3 +24,9 @@
 #include "engine/rendering/texture.h"
 #include "engine/rendering/texture2d.h"
 #include "engine/rendering/vertex.h"
+
+// SCENE
+#include "engine/ecs/components/meshrenderercomponent.h"
+#include "engine/ecs/components/modelrenderercomponent.h"
+#include "engine/ecs/gameobject.h"
+#include "engine/ecs/scene.h"
