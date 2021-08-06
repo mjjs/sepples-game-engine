@@ -31,6 +31,7 @@
 #include "engine/ecs/components/cppscriptcomponent.h"
 #include "engine/ecs/components/meshrenderercomponent.h"
 #include "engine/ecs/components/modelrenderercomponent.h"
+#include "engine/ecs/components/transformcomponent.h"
 #include "engine/ecs/gameobject.h"
 #include "engine/ecs/scene.h"
 #include "engine/ecs/scriptable.h"
