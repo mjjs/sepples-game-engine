@@ -4,3 +4,4 @@ build
 compile_commands.json
 res/models/notrack
 sge/core
+profiler*.json

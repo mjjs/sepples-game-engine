@@ -1,14 +1,15 @@
 #include "engine/rendering/mesh.h"
 
+#include "engine/core/log.h"
+#include "engine/debug/profiler.h"
+#include "engine/math/vector3.h"
 #include "engine/rendering/buffers/bufferlayout.h"
 #include "engine/rendering/buffers/indexbuffer.h"
-#include "engine/core/log.h"
+#include "engine/rendering/buffers/vertexarray.h"
+#include "engine/rendering/buffers/vertexbuffer.h"
 #include "engine/rendering/material.h"
 #include "engine/rendering/shader.h"
 #include "engine/rendering/texture.h"
-#include "engine/math/vector3.h"
-#include "engine/rendering/buffers/vertexarray.h"
-#include "engine/rendering/buffers/vertexbuffer.h"
 
 #include <assimp/material.h>
 #include <cstdint>
@@ -25,6 +26,8 @@ Mesh::Mesh(const std::vector<Vertex>& vertices,
            const std::vector<std::uint32_t>& indices, const Material& material)
     : material_{material}
 {
+    SGE_PROFILE_FUNCTION();
+
     BufferLayout layout{
         {ShaderDataType::VEC3, "position"},
         {ShaderDataType::VEC3, "normal"},
@@ -42,6 +45,8 @@ Mesh::Mesh(const std::vector<Vertex>& vertices,
 
 void Mesh::draw(Shader& shader) const
 {
+    SGE_PROFILE_FUNCTION();
+
     shader.bind();
 
     const auto diffuse_map  = material_.diffuse_texture();

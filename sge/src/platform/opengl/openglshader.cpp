@@ -1,5 +1,7 @@
 #include "platform/opengl/openglshader.h"
 
+#include "engine/debug/profiler.h"
+
 #include <array>
 #include <cassert>
 #include <cstdint>
@@ -20,6 +22,8 @@ static std::pair<bool, std::string> check_shader_error(
 OpenGLShader::OpenGLShader(const std::string& vertex_path,
                            const std::string& fragment_path)
 {
+    SGE_PROFILE_FUNCTION();
+
     shader_id_ = glCreateProgram();
 
     const std::string vertex_src = read_shader_code(vertex_path);
@@ -50,6 +54,8 @@ OpenGLShader::~OpenGLShader()
 GLuint OpenGLShader::compile_program(const std::string& shader_src,
                                      GLenum shader_type) const
 {
+    SGE_PROFILE_FUNCTION();
+
     const GLuint shader = glCreateShader(shader_type);
 
     assert(shader);                    // NOLINT
@@ -74,6 +80,8 @@ GLuint OpenGLShader::compile_program(const std::string& shader_src,
 
 void OpenGLShader::link() const
 {
+    SGE_PROFILE_FUNCTION();
+
     glLinkProgram(shader_id_);
 
     auto [linking_failed, linking_error] = check_shader_error(
@@ -95,11 +103,15 @@ void OpenGLShader::link() const
 
 void OpenGLShader::bind() const
 {
+    SGE_PROFILE_FUNCTION();
+
     glUseProgram(shader_id_);
 }
 
 void OpenGLShader::unbind() const
 {
+    SGE_PROFILE_FUNCTION();
+
     glUseProgram(0);
 }
 

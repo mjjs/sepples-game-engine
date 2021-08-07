@@ -1,6 +1,9 @@
 #include "engine/core/input.h"
 
-namespace SGE {
+#include "engine/debug/profiler.h"
+
+namespace SGE
+{
 
 void Input::handle_input_event(Event& event)
 {
@@ -9,6 +12,8 @@ void Input::handle_input_event(Event& event)
 
 void Input::update()
 {
+    SGE_PROFILE_FUNCTION();
+
     instance_->update_impl();
 }
 

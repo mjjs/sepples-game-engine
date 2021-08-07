@@ -1,4 +1,7 @@
 #include "platform/linux/linuxwindow.h"
+
+#include "engine/core/log.h"
+#include "engine/debug/profiler.h"
 #include "engine/event/keypressedevent.h"
 #include "engine/event/keyreleasedevent.h"
 #include "engine/event/mousebuttonpressedevent.h"
@@ -6,36 +9,29 @@
 #include "engine/event/mousemovedevent.h"
 #include "engine/event/mousescrolledevent.h"
 #include "engine/event/windowcloseevent.h"
-#include "engine/core/log.h"
 
-#include <stdexcept>
 #include <SDL2/SDL.h>
+#include <stdexcept>
 
-namespace SGE {
+namespace SGE
+{
 
-LinuxWindow::LinuxWindow(
-        const std::string& title,
-        std::uint32_t width,
-        std::uint32_t height
-        )
+LinuxWindow::LinuxWindow(const std::string& title, std::uint32_t width,
+                         std::uint32_t height)
     : width_{width}, height_{height}, title_{title}
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         throw std::runtime_error("SDL init failed");
     }
 
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+                        SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
 
-    window_ = SDL_CreateWindow(
-            title.c_str(),
-            SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED,
-            width,
-            height,
-            SDL_WINDOW_OPENGL
-            );
+    window_ = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
+                               SDL_WINDOWPOS_CENTERED, width, height,
+                               SDL_WINDOW_OPENGL);
 
     if (window_ == nullptr) {
         throw std::runtime_error("Could not create SDL window");
@@ -62,6 +58,8 @@ void LinuxWindow::update()
 
 void LinuxWindow::poll_events() const
 {
+    SGE_PROFILE_FUNCTION();
+
     SDL_Event event;
 
     while (SDL_PollEvent(&event) == 1) {
@@ -104,7 +102,8 @@ void LinuxWindow::poll_events() const
             auto x = event.motion.x;
             auto y = event.motion.y;
 
-            MouseMovedEvent event{Vector2{static_cast<float>(x), static_cast<float>(y)}};
+            MouseMovedEvent event{
+                Vector2{static_cast<float>(x), static_cast<float>(y)}};
             event_callback_(event);
         }
 
@@ -112,10 +111,10 @@ void LinuxWindow::poll_events() const
             auto x = event.wheel.x;
             auto y = event.wheel.y;
 
-            MouseScrolledEvent event{Vector2{static_cast<float>(x), static_cast<float>(y)}};
+            MouseScrolledEvent event{
+                Vector2{static_cast<float>(x), static_cast<float>(y)}};
             event_callback_(event);
         }
-
         }
     }
 }

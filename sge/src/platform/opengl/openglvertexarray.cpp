@@ -1,21 +1,25 @@
-#include "engine/rendering/buffers/indexbuffer.h"
-#include "engine/rendering/buffers/vertexbuffer.h"
 #include "platform/opengl/openglvertexarray.h"
 
+#include "engine/debug/profiler.h"
+#include "engine/rendering/buffers/indexbuffer.h"
+#include "engine/rendering/buffers/vertexbuffer.h"
+
 #include <cstdint>
+#include <glad/glad.h>
 #include <memory>
 #include <vector>
 
-#include <glad/glad.h>
-
-namespace SGE {
+namespace SGE
+{
 
 static GLenum shader_data_type_to_opengl_base_type(ShaderDataType type)
 {
     switch (type) {
-    case ShaderDataType::NONE: return -1;
+    case ShaderDataType::NONE:
+        return -1;
     case ShaderDataType::VEC2:
-    case ShaderDataType::VEC3: return GL_FLOAT;
+    case ShaderDataType::VEC3:
+        return GL_FLOAT;
     }
 }
 
@@ -39,11 +43,13 @@ void OpenGLVertexArray::unbind() const
     glBindVertexArray(0);
 }
 
-void OpenGLVertexArray::add_vertex_buffer(const std::shared_ptr<VertexBuffer>& vertex_buffer)
+void OpenGLVertexArray::add_vertex_buffer(
+    const std::shared_ptr<VertexBuffer>& vertex_buffer)
 {
+    SGE_PROFILE_FUNCTION();
+
     glBindVertexArray(buffer_id_);
     vertex_buffer->bind();
-
 
     const auto& layout = vertex_buffer->layout();
 
@@ -52,13 +58,10 @@ void OpenGLVertexArray::add_vertex_buffer(const std::shared_ptr<VertexBuffer>& v
         glEnableVertexAttribArray(i);
 
         glVertexAttribPointer(
-                i++,
-                element.component_count(),
-                shader_data_type_to_opengl_base_type(element.type),
-                element.normalized ? GL_TRUE : GL_FALSE,
-                layout.stride(),
-                (const void*) element.offset
-                );
+            i++, element.component_count(),
+            shader_data_type_to_opengl_base_type(element.type),
+            element.normalized ? GL_TRUE : GL_FALSE, layout.stride(),
+            (const void*)element.offset);
 
         glDisableVertexAttribArray(i);
     }
@@ -67,7 +70,8 @@ void OpenGLVertexArray::add_vertex_buffer(const std::shared_ptr<VertexBuffer>& v
     glBindVertexArray(0);
 }
 
-void OpenGLVertexArray::set_index_buffer(const std::shared_ptr<IndexBuffer>& index_buffer)
+void OpenGLVertexArray::set_index_buffer(
+    const std::shared_ptr<IndexBuffer>& index_buffer)
 {
     glBindVertexArray(buffer_id_);
     index_buffer->bind();
@@ -76,7 +80,8 @@ void OpenGLVertexArray::set_index_buffer(const std::shared_ptr<IndexBuffer>& ind
     glBindVertexArray(0);
 }
 
-const std::vector<std::shared_ptr<VertexBuffer>>& OpenGLVertexArray::vertex_buffers()
+const std::vector<std::shared_ptr<VertexBuffer>>& OpenGLVertexArray::
+    vertex_buffers()
 {
     return vertex_buffers_;
 }

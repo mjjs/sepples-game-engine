@@ -2,6 +2,7 @@
 
 #include "engine/core/log.h"
 #include "engine/core/timer.h"
+#include "engine/debug/profiler.h"
 #include "engine/event/event.h"
 #include "engine/event/windowcloseevent.h"
 #include "engine/rendering/window.h"
@@ -26,12 +27,15 @@ Game::Game()
 
 void Game::run()
 {
+    SGE_PROFILE_FUNCTION();
+
     Timer timer{};
 
     timer.start_timer();
     unsigned int frames_rendered_this_second = 0;
 
     while (running_) {
+
         timer.update_times();
 
         window_->update();
@@ -75,6 +79,11 @@ bool Game::handle_window_close([[maybe_unused]] WindowCloseEvent& event)
 
 int main(int argc, char** argv)
 {
+    SGE_PROFILER_START("profiler-create-game.json");
     auto game = SGE::CreateGame(argc, argv);
+    SGE_PROFILER_STOP();
+
+    SGE_PROFILER_START("profiler-main-loop.json");
     game->run();
+    SGE_PROFILER_STOP();
 }

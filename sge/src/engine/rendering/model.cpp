@@ -1,13 +1,14 @@
 #include "engine/rendering/model.h"
 
 #include "engine/core/log.h"
+#include "engine/debug/profiler.h"
+#include "engine/math/vector2.h"
+#include "engine/math/vector3.h"
 #include "engine/rendering/material.h"
 #include "engine/rendering/mesh.h"
 #include "engine/rendering/shader.h"
 #include "engine/rendering/texture.h"
 #include "engine/rendering/texture2d.h"
-#include "engine/math/vector2.h"
-#include "engine/math/vector3.h"
 #include "engine/rendering/vertex.h"
 
 #include <assimp/Importer.hpp>
@@ -37,6 +38,8 @@ Model::Model(const std::string& path)
 
 void Model::load_model(const std::string& path)
 {
+    SGE_PROFILE_FUNCTION();
+
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(
         path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate);
@@ -54,6 +57,8 @@ void Model::load_model(const std::string& path)
 
 void Model::process_node(aiNode* node, const aiScene* scene)
 {
+    SGE_PROFILE_FUNCTION();
+
     for (std::size_t i = 0; i < node->mNumMeshes; ++i) {
         aiMesh* mesh  = scene->mMeshes[node->mMeshes[i]];
         auto mesh_ptr = std::make_shared<Mesh>(process_mesh(mesh, scene));
@@ -67,6 +72,8 @@ void Model::process_node(aiNode* node, const aiScene* scene)
 
 Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 {
+    SGE_PROFILE_FUNCTION();
+
     std::vector<Vertex> vertices;
     std::vector<std::uint32_t> indices;
     std::vector<std::shared_ptr<Texture>> textures;
@@ -126,6 +133,8 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 std::shared_ptr<Texture> Model::load_material_texture(
     aiMaterial* material, const aiTextureType texture_type)
 {
+    SGE_PROFILE_FUNCTION();
+
     const std::size_t texture_count = material->GetTextureCount(texture_type);
 
     if (texture_count <= 0) {
@@ -167,6 +176,8 @@ std::shared_ptr<Texture> Model::load_material_texture(
 
 void Model::draw(Shader& shader) const
 {
+    SGE_PROFILE_FUNCTION();
+
     for (const auto& mesh : meshes_) {
         mesh->draw(shader);
     }

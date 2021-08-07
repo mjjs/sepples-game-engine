@@ -1,5 +1,6 @@
 #include "engine/rendering/renderingengine.h"
 
+#include "engine/debug/profiler.h"
 #include "engine/math/matrix4.h"
 #include "engine/math/vector3.h"
 #include "engine/rendering/buffers/uniformbuffer.h"
@@ -37,6 +38,8 @@ void RenderingEngine::set_clear_colour(const Vector3& colour)
 
 void RenderingEngine::prepare_frame(const Camera& camera)
 {
+    SGE_PROFILE_FUNCTION();
+
     auto view_projection = camera.get_view_projection();
     camera_buffer_->set_data(view_projection[0].data(),
                              sizeof(view_projection));
@@ -46,6 +49,8 @@ void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
                              const std::shared_ptr<Model>& model,
                              const Transform& transform)
 {
+    SGE_PROFILE_FUNCTION();
+
     shader->bind();
 
     for (const auto& mesh : model->meshes()) {
@@ -57,6 +62,8 @@ void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
                              const std::shared_ptr<Mesh>& mesh,
                              const Transform& transform)
 {
+    SGE_PROFILE_FUNCTION();
+
     shader->bind();
     shader->set_uniform("transform_u", transform.get_transformation());
 

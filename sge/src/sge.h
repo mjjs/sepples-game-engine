@@ -35,3 +35,6 @@
 #include "engine/ecs/gameobject.h"
 #include "engine/ecs/scene.h"
 #include "engine/ecs/scriptable.h"
+
+// DEBUGGING
+#include "engine/debug/profiler.h"

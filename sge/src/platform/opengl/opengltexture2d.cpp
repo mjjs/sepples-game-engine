@@ -1,6 +1,7 @@
 #include "platform/opengl/opengltexture2d.h"
 
 #include "engine/core/log.h"
+#include "engine/debug/profiler.h"
 #include "stb_image.h"
 
 #include <cmath>
@@ -27,13 +28,20 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path,
                                  const Texture::Type type)
     : texture_id_{0}, path_{path}, type_{type}
 {
+    SGE_PROFILE_FUNCTION();
+
     int width{};
     int height{};
     int channel_amount{};
 
     LOG_INFO("Loading texture {0}", path);
-    auto* texture_bytes =
-        stbi_load(path.c_str(), &width, &height, &channel_amount, 0);
+    unsigned char* texture_bytes{nullptr};
+
+    {
+        SGE_PROFILE_SCOPE("stbi_load");
+        texture_bytes =
+            stbi_load(path.c_str(), &width, &height, &channel_amount, 0);
+    }
 
     GLenum format{};
     GLenum sub_format{};
@@ -81,6 +89,8 @@ OpenGLTexture2D::OpenGLTexture2D(const Vector3& colour,
                                  const std::uint32_t height)
     : texture_id_{0}, type_{Texture::Type::DIFFUSE}
 {
+    SGE_PROFILE_FUNCTION();
+
     GLenum format     = GL_RGB8;
     GLenum sub_format = GL_RGB;
 
@@ -112,11 +122,15 @@ Texture::Type OpenGLTexture2D::type() const
 
 void OpenGLTexture2D::bind(const std::uint32_t slot) const
 {
+    SGE_PROFILE_FUNCTION();
+
     glBindTextureUnit(slot, texture_id_);
 }
 
 void OpenGLTexture2D::unbind() const
 {
+    SGE_PROFILE_FUNCTION();
+
     glBindTextureUnit(0, texture_id_);
 }
 
