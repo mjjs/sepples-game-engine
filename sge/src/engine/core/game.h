@@ -15,6 +15,7 @@ namespace SGE
 {
 
 class WindowCloseEvent;
+class WindowResizeEvent;
 
 class Game
 {
@@ -29,6 +30,7 @@ class Game
 
     void handle_event(Event& event);
     bool handle_window_close(WindowCloseEvent& event);
+    bool handle_window_resize(WindowResizeEvent& event);
 
     friend int ::main(int argc, char** argv);
 

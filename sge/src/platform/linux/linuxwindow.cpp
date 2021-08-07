@@ -9,6 +9,7 @@
 #include "engine/event/mousemovedevent.h"
 #include "engine/event/mousescrolledevent.h"
 #include "engine/event/windowcloseevent.h"
+#include "engine/event/windowresizeevent.h"
 
 #include <SDL2/SDL.h>
 #include <stdexcept>
@@ -31,7 +32,7 @@ LinuxWindow::LinuxWindow(const std::string& title, std::uint32_t width,
 
     window_ = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
                                SDL_WINDOWPOS_CENTERED, width, height,
-                               SDL_WINDOW_OPENGL);
+                               SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
     if (window_ == nullptr) {
         throw std::runtime_error("Could not create SDL window");
@@ -56,7 +57,7 @@ void LinuxWindow::update()
     context_->swap_buffers();
 }
 
-void LinuxWindow::poll_events() const
+void LinuxWindow::poll_events()
 {
     SGE_PROFILE_FUNCTION();
 
@@ -105,6 +106,7 @@ void LinuxWindow::poll_events() const
             MouseMovedEvent event{
                 Vector2{static_cast<float>(x), static_cast<float>(y)}};
             event_callback_(event);
+            break;
         }
 
         case SDL_MOUSEWHEEL: {
@@ -114,8 +116,33 @@ void LinuxWindow::poll_events() const
             MouseScrolledEvent event{
                 Vector2{static_cast<float>(x), static_cast<float>(y)}};
             event_callback_(event);
+            break;
+        }
+
+        case SDL_WINDOWEVENT: {
+            dispatch_window_event(event.window);
+            break;
         }
         }
+    }
+}
+
+void LinuxWindow::dispatch_window_event(const SDL_WindowEvent& event)
+{
+    switch (event.event) {
+    case SDL_WINDOWEVENT_SIZE_CHANGED: {
+        auto width  = event.data1;
+        auto height = event.data2;
+
+        width_  = width;
+        height_ = height;
+
+        WindowResizeEvent event{static_cast<unsigned int>(width),
+                                static_cast<unsigned int>(height)};
+
+        event_callback_(event);
+        break;
+    }
     }
 }
 

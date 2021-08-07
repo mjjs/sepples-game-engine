@@ -1,8 +1,8 @@
 #ifndef _SGE_LINUX_WINDOW_H
 #define _SGE_LINUX_WINDOW_H
 
-#include "platform/opengl/openglcontext.h"
 #include "engine/rendering/window.h"
+#include "platform/opengl/openglcontext.h"
 
 #include <cstdint>
 #include <memory>
@@ -25,7 +25,8 @@ class LinuxWindow : public Window
 
     SDL_Window* window_;
 
-    void poll_events() const;
+    void poll_events();
+    void dispatch_window_event(const SDL_WindowEvent& event);
 
   public:
     LinuxWindow(const std::string& title = default_window_title,

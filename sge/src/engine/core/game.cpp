@@ -5,6 +5,7 @@
 #include "engine/debug/profiler.h"
 #include "engine/event/event.h"
 #include "engine/event/windowcloseevent.h"
+#include "engine/event/windowresizeevent.h"
 #include "engine/rendering/window.h"
 
 #include <memory>
@@ -64,6 +65,9 @@ void Game::handle_event(Event& event)
     Event::dispatch<WindowCloseEvent>(event,
                                       BIND_EVENT_FN(Game::handle_window_close));
 
+    Event::dispatch<WindowResizeEvent>(
+        event, BIND_EVENT_FN(Game::handle_window_resize));
+
     if (event.is_in_category(EventCategory::INPUT)) {
         Input::handle_input_event(event);
     }
@@ -73,6 +77,12 @@ bool Game::handle_window_close([[maybe_unused]] WindowCloseEvent& event)
 {
     running_ = false;
     return true;
+}
+
+bool Game::handle_window_resize(WindowResizeEvent& event)
+{
+    RenderingEngine::on_window_resize(event.width(), event.height());
+    return false;
 }
 
 } // namespace SGE

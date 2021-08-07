@@ -13,6 +13,7 @@
 namespace SGE
 {
 
+class Game;
 class Camera;
 class Mesh;
 class Model;
@@ -20,11 +21,15 @@ class Transform;
 
 class RenderingEngine
 {
+    friend class Game;
+
   private:
     // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
     static std::unique_ptr<GraphicsAPI> graphics_api_;
     // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
     static std::shared_ptr<UniformBuffer> camera_buffer_;
+
+    static void on_window_resize(unsigned int width, unsigned int height);
 
   public:
     static void init();

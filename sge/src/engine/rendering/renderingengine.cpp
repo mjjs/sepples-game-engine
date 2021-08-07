@@ -72,4 +72,10 @@ void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
     mesh->draw(*shader);
 }
 
+void RenderingEngine::on_window_resize(const unsigned int width,
+                                       const unsigned int height)
+{
+    graphics_api_->set_viewport(width, height);
+}
+
 } // namespace SGE

@@ -32,8 +32,9 @@ class GraphicsAPI
     static std::unique_ptr<GraphicsAPI> create();
     static VENDOR vendor();
 
-    virtual void clear_screen()                          = 0;
-    virtual void set_clear_colour(const Vector3& colour) = 0;
+    virtual void clear_screen()                                        = 0;
+    virtual void set_clear_colour(const Vector3& colour)               = 0;
+    virtual void set_viewport(unsigned int width, unsigned int height) = 0;
 };
 
 } // namespace SGE
