@@ -36,27 +36,26 @@ void Game::run()
     unsigned int frames_rendered_this_second = 0;
 
     while (running_) {
-
         timer.update_times();
-
         window_->update();
 
-        update(timer.fixed_time_step());
+        if (!minimized_) {
+            update(timer.fixed_time_step());
+            Input::update();
 
-        Input::update();
+            while (timer.game_needs_updating()) {
+                fixed_update();
+                timer.use_unprocessed_time();
 
-        while (timer.game_needs_updating()) {
-            fixed_update();
-            timer.use_unprocessed_time();
-
-            if (timer.has_second_passed()) {
-                LOG_INFO("FPS: {0}", frames_rendered_this_second);
-                frames_rendered_this_second = 0;
-                timer.reset_seconds_spent_this_frame();
+                if (timer.has_second_passed()) {
+                    LOG_INFO("FPS: {0}", frames_rendered_this_second);
+                    frames_rendered_this_second = 0;
+                    timer.reset_seconds_spent_this_frame();
+                }
             }
-        }
 
-        frames_rendered_this_second++;
+            frames_rendered_this_second++;
+        }
     }
 }
 
@@ -67,6 +66,10 @@ void Game::handle_event(Event& event)
 
     Event::dispatch<WindowResizeEvent>(
         event, BIND_EVENT_FN(Game::handle_window_resize));
+    Event::dispatch<WindowMinimizeEvent>(
+        event, BIND_EVENT_FN(Game::handle_window_minimize));
+    Event::dispatch<WindowRestoreEvent>(
+        event, BIND_EVENT_FN(Game::handle_window_restore));
 
     if (event.is_in_category(EventCategory::INPUT)) {
         Input::handle_input_event(event);
@@ -83,6 +86,18 @@ bool Game::handle_window_resize(WindowResizeEvent& event)
 {
     RenderingEngine::on_window_resize(event.width(), event.height());
     return false;
+}
+
+bool Game::handle_window_minimize([[maybe_unused]] WindowMinimizeEvent& event)
+{
+    minimized_ = true;
+    return true;
+}
+
+bool Game::handle_window_restore([[maybe_unused]] WindowRestoreEvent& event)
+{
+    minimized_ = false;
+    return true;
 }
 
 } // namespace SGE

@@ -9,7 +9,9 @@
 #include "engine/event/mousemovedevent.h"
 #include "engine/event/mousescrolledevent.h"
 #include "engine/event/windowcloseevent.h"
+#include "engine/event/windowminimizeevent.h"
 #include "engine/event/windowresizeevent.h"
+#include "engine/event/windowrestoreevent.h"
 
 #include <SDL2/SDL.h>
 #include <stdexcept>
@@ -140,6 +142,20 @@ void LinuxWindow::dispatch_window_event(const SDL_WindowEvent& event)
         WindowResizeEvent event{static_cast<unsigned int>(width),
                                 static_cast<unsigned int>(height)};
 
+        event_callback_(event);
+        break;
+    }
+
+    case SDL_WINDOWEVENT_MINIMIZED: {
+        LOG_INFO("Window minimized");
+        WindowMinimizeEvent event{};
+        event_callback_(event);
+        break;
+    }
+
+    case SDL_WINDOWEVENT_RESTORED: {
+        LOG_INFO("Window restored");
+        WindowRestoreEvent event{};
         event_callback_(event);
         break;
     }

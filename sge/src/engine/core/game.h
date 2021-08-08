@@ -2,6 +2,8 @@
 #define _SGE_GAME_H
 
 #include "engine/core/input.h"
+#include "engine/event/windowminimizeevent.h"
+#include "engine/event/windowrestoreevent.h"
 #include "engine/rendering/camera.h"
 #include "engine/rendering/renderingengine.h"
 #include "engine/rendering/shader.h"
@@ -24,13 +26,16 @@ class Game
     static Game* instance_;
 
     std::unique_ptr<Window> window_;
-    bool running_ = true;
+    bool running_   = true;
+    bool minimized_ = false;
 
     void run();
 
     void handle_event(Event& event);
     bool handle_window_close(WindowCloseEvent& event);
     bool handle_window_resize(WindowResizeEvent& event);
+    bool handle_window_minimize(WindowMinimizeEvent& event);
+    bool handle_window_restore(WindowRestoreEvent& event);
 
     friend int ::main(int argc, char** argv);
 
