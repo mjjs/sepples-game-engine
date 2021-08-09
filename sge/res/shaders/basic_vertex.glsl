@@ -6,7 +6,7 @@ layout(location = 2) in vec2 texture_coordinate_l;
 
 out vec2 texture_coordinate_v;
 
-layout(row_major, std140, binding = 0) uniform Camera {
+layout(std140, binding = 0) uniform Camera {
     mat4 view_projection_u;
 };
 
@@ -14,6 +14,6 @@ uniform mat4 transform_u;
 
 void main()
 {
-    gl_Position = view_projection_u * transform_u * vec4(position_l, 1.0);
+    gl_Position = vec4(position_l, 1.0) * transform_u * view_projection_u;
     texture_coordinate_v = texture_coordinate_l;
 }
