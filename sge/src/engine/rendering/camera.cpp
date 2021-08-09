@@ -8,8 +8,9 @@ namespace SGE
 
 Camera::Camera(const float fov_degrees, const float aspect_ratio,
                const float z_near, const float z_far)
-    : projection_{
-          Matrix4::perspective(fov_degrees, aspect_ratio, z_near, z_far)}
+    : fov_degrees_{fov_degrees}, aspect_ratio_{aspect_ratio}, z_near_{z_near},
+      z_far_{z_far}, projection_{Matrix4::perspective(fov_degrees, aspect_ratio,
+                                                      z_near, z_far)}
 {
 }
 
@@ -38,6 +39,14 @@ void Camera::rotate_y(float degrees)
 {
     auto rotation = Quaternion{world_up_, degrees}.normalized();
     transform_.set_rotation(transform_.rotation() * rotation);
+}
+
+void Camera::update_aspect_ratio(const unsigned int width,
+                                 const unsigned int height)
+{
+    aspect_ratio_ = (float)width / (float)height;
+    projection_ =
+        Matrix4::perspective(fov_degrees_, aspect_ratio_, z_near_, z_far_);
 }
 
 const Transform& Camera::transform() const

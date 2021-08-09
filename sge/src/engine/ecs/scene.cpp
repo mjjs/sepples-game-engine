@@ -17,6 +17,7 @@ void Scene::update(float delta)
     script_update(delta);
 
     // TODO: Make sure there is only one camera
+    // (or better, support multiple cameras and have a MAIN camera)
     auto cameras      = components_.view<CameraComponent>();
     auto scene_camera = cameras.get<CameraComponent>(cameras.front());
 
@@ -47,6 +48,16 @@ void Scene::update(float delta)
 void Scene::fixed_update()
 {
     script_fixed_update();
+}
+
+void Scene::on_window_resized(const unsigned int width,
+                              const unsigned int height)
+{
+    auto cameras = components_.view<CameraComponent>();
+    for (const auto& game_object : cameras) {
+        auto& camera = cameras.get<CameraComponent>(game_object);
+        camera.camera().update_aspect_ratio(width, height);
+    }
 }
 
 GameObject Scene::add_game_object(const std::string& tag)

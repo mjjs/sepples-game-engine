@@ -60,20 +60,24 @@ class CameraScript : public SGE::Scriptable
 class TestGame : public SGE::Game
 {
   private:
-    std::unique_ptr<SGE::Scene> current_scene_;
-
     std::shared_ptr<SGE::Shader> basic_shader_;
     std::shared_ptr<SGE::Mesh> floor_;
     std::shared_ptr<SGE::Model> backpack_;
 
   public:
-    TestGame() : current_scene_(std::make_unique<SGE::Scene>())
+    TestGame()
     {
-        auto backpack = current_scene_->add_game_object("backpack");
+        auto test_scene = std::make_unique<SGE::Scene>();
+
+        auto backpack = test_scene->add_game_object("backpack");
+        auto floor    = test_scene->add_game_object("floor");
+        auto camera   = test_scene->add_game_object("camera");
+
+        camera.add_component<SGE::CameraComponent>();
+        camera.add_component<SGE::CPPScriptComponent>().bind<CameraScript>();
+
         backpack.add_component<SGE::ModelRendererComponent>(
             std::make_shared<SGE::Model>("res/models/backpack.obj"));
-
-        auto floor = current_scene_->add_game_object("floor");
 
         std::vector<SGE::Vertex> floor_vertices{
             {{-10, -2, -10}, {0, 1, 0}, {0, 0}},
@@ -93,19 +97,7 @@ class TestGame : public SGE::Game
 
         floor.add_component<SGE::MeshRendererComponent>(floor_mesh);
 
-        auto camera = current_scene_->add_game_object("camera");
-        camera.add_component<SGE::CameraComponent>();
-        camera.add_component<SGE::CPPScriptComponent>().bind<CameraScript>();
-    }
-
-    void update(float delta) override
-    {
-        current_scene_->update(delta);
-    }
-
-    void fixed_update() override
-    {
-        current_scene_->fixed_update();
+        set_active_scene(test_scene);
     }
 };
 

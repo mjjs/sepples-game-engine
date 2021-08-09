@@ -28,6 +28,8 @@ class Scene
   public:
     void update(float delta);
     void fixed_update();
+
+    void on_window_resized(unsigned int width, unsigned int height);
     GameObject add_game_object(const std::string& tag = "");
 };
 

@@ -29,7 +29,8 @@ class RenderingEngine
     // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
     static std::shared_ptr<UniformBuffer> camera_buffer_;
 
-    static void on_window_resize(unsigned int width, unsigned int height);
+    static void set_viewport(unsigned int x, unsigned int y, unsigned int width,
+                             unsigned int height);
 
   public:
     static void init();

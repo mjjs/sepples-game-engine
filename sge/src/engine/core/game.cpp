@@ -1,14 +1,18 @@
 #include "engine/core/game.h"
 
+#include "engine/core/input.h"
 #include "engine/core/log.h"
 #include "engine/core/timer.h"
 #include "engine/debug/profiler.h"
+#include "engine/ecs/scene.h"
 #include "engine/event/event.h"
 #include "engine/event/windowcloseevent.h"
 #include "engine/event/windowresizeevent.h"
+#include "engine/rendering/renderingengine.h"
 #include "engine/rendering/window.h"
 
 #include <memory>
+#include <utility>
 
 namespace SGE
 {
@@ -39,23 +43,31 @@ void Game::run()
         timer.update_times();
         window_->update();
 
-        if (!minimized_) {
-            update(timer.fixed_time_step());
-            Input::update();
+        if (minimized_) {
+            continue;
+        }
 
-            while (timer.game_needs_updating()) {
-                fixed_update();
-                timer.use_unprocessed_time();
+        if (active_scene_) {
+            active_scene_->update(timer.fixed_time_step());
+        }
 
-                if (timer.has_second_passed()) {
-                    LOG_INFO("FPS: {0}", frames_rendered_this_second);
-                    frames_rendered_this_second = 0;
-                    timer.reset_seconds_spent_this_frame();
-                }
+        Input::update();
+
+        while (timer.game_needs_updating()) {
+            if (active_scene_) {
+                active_scene_->fixed_update();
             }
 
-            frames_rendered_this_second++;
+            timer.use_unprocessed_time();
+
+            if (timer.has_second_passed()) {
+                LOG_INFO("FPS: {0}", frames_rendered_this_second);
+                frames_rendered_this_second = 0;
+                timer.reset_seconds_spent_this_frame();
+            }
         }
+
+        frames_rendered_this_second++;
     }
 }
 
@@ -84,7 +96,14 @@ bool Game::handle_window_close([[maybe_unused]] WindowCloseEvent& event)
 
 bool Game::handle_window_resize(WindowResizeEvent& event)
 {
-    RenderingEngine::on_window_resize(event.width(), event.height());
+    auto width  = event.width();
+    auto height = event.height();
+
+    RenderingEngine::set_viewport(0, 0, width, height);
+    if (active_scene_) {
+        active_scene_->on_window_resized(width, height);
+    }
+
     return false;
 }
 
@@ -98,6 +117,16 @@ bool Game::handle_window_restore([[maybe_unused]] WindowRestoreEvent& event)
 {
     minimized_ = false;
     return true;
+}
+
+void Game::set_active_scene(std::unique_ptr<Scene>& scene)
+{
+    active_scene_ = std::move(scene);
+}
+
+std::unique_ptr<Scene>& Game::active_scene()
+{
+    return active_scene_;
 }
 
 } // namespace SGE

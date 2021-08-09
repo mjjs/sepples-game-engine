@@ -1,12 +1,15 @@
+#include "engine/event/windowresizeevent.h"
+
 #include "engine/event/event.h"
 #include "engine/math/vector2.h"
-#include "engine/event/windowresizeevent.h"
 
 #include <string>
 
-namespace SGE {
+namespace SGE
+{
 
-WindowResizeEvent::WindowResizeEvent(const unsigned int width, const unsigned int height)
+WindowResizeEvent::WindowResizeEvent(const unsigned int width,
+                                     const unsigned int height)
     : width_{width}, height_{height}
 {
 }

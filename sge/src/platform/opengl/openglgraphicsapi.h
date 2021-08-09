@@ -15,7 +15,8 @@ class OpenGLGraphicsAPI : public GraphicsAPI
   public:
     void clear_screen() override;
     void set_clear_colour(const Vector3& colour) override;
-    void set_viewport(unsigned int width, unsigned int height) override;
+    void set_viewport(unsigned int x, unsigned int y, unsigned int width,
+                      unsigned int height) override;
 };
 
 } // namespace SGE

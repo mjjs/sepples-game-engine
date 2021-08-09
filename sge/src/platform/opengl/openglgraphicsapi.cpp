@@ -19,9 +19,10 @@ void OpenGLGraphicsAPI::set_clear_colour(const Vector3& colour)
     clear_colour_ = colour;
 }
 
-void OpenGLGraphicsAPI::set_viewport(unsigned int width, unsigned int height)
+void OpenGLGraphicsAPI::set_viewport(unsigned int x, unsigned int y,
+                                     unsigned int width, unsigned int height)
 {
-    glViewport(0, 0, width, height);
+    glViewport(x, y, width, height);
 }
 
 } // namespace SGE

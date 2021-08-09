@@ -14,6 +14,11 @@ class RenderingEngine;
 class Camera
 {
   private:
+    float fov_degrees_;
+    float aspect_ratio_;
+    float z_near_;
+    float z_far_;
+
     Matrix4 projection_;
     Transform transform_;
 
@@ -25,6 +30,8 @@ class Camera
     void move(const Vector3& direction, float amount);
     void rotate_x(float degrees);
     void rotate_y(float degrees);
+
+    void update_aspect_ratio(unsigned int width, unsigned int height);
 
     Matrix4 get_view_projection() const;
 

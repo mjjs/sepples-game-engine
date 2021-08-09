@@ -1,12 +1,8 @@
 #ifndef _SGE_GAME_H
 #define _SGE_GAME_H
 
-#include "engine/core/input.h"
 #include "engine/event/windowminimizeevent.h"
 #include "engine/event/windowrestoreevent.h"
-#include "engine/rendering/camera.h"
-#include "engine/rendering/renderingengine.h"
-#include "engine/rendering/shader.h"
 #include "engine/rendering/window.h"
 
 #include <memory>
@@ -18,12 +14,15 @@ namespace SGE
 
 class WindowCloseEvent;
 class WindowResizeEvent;
+class Scene;
 
 class Game
 {
   private:
     // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
     static Game* instance_;
+
+    std::unique_ptr<Scene> active_scene_;
 
     std::unique_ptr<Window> window_;
     bool running_   = true;
@@ -55,6 +54,9 @@ class Game
     virtual void fixed_update()
     {
     }
+
+    void set_active_scene(std::unique_ptr<Scene>& scene);
+    std::unique_ptr<Scene>& active_scene();
 };
 
 std::unique_ptr<Game> CreateGame(int argc, char** argv);

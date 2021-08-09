@@ -2,7 +2,6 @@
 #define _SGE_WINDOW_RESIZE_EVENT_H
 
 #include "engine/event/event.h"
-#include "engine/math/vector2.h"
 
 #include <string>
 
