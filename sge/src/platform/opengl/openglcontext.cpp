@@ -1,7 +1,7 @@
 #include "platform/opengl/openglcontext.h"
 
 #include "engine/debug/profiler.h"
-#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/renderer.h"
 
 #include <SDL2/SDL.h>
 #include <glad/glad.h>
@@ -33,7 +33,7 @@ void OpenGLContext::swap_buffers()
     SGE_PROFILE_FUNCTION();
 
     SDL_GL_SwapWindow(window_);
-    RenderingEngine::clear_screen();
+    Renderer::clear_screen();
 }
 
 void OpenGLContext::delete_context()

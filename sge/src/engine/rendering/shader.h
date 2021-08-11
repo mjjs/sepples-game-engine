@@ -11,7 +11,7 @@
 namespace SGE
 {
 
-class RenderingEngine;
+class Renderer;
 
 class Shader
 {

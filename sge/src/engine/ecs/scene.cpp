@@ -7,7 +7,7 @@
 #include "engine/ecs/components/tagcomponent.h"
 #include "engine/ecs/components/transformcomponent.h"
 #include "engine/ecs/gameobject.h"
-#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/renderer.h"
 
 namespace SGE
 {
@@ -21,7 +21,7 @@ void Scene::update(float delta)
     auto cameras      = components_.view<CameraComponent>();
     auto scene_camera = cameras.get<CameraComponent>(cameras.front());
 
-    RenderingEngine::prepare_frame(scene_camera.camera());
+    Renderer::prepare_frame(scene_camera.camera());
 
     auto meshes = components_.view<MeshRendererComponent, TransformComponent>();
 
@@ -29,8 +29,8 @@ void Scene::update(float delta)
         auto [mesh_component, transform_component] =
             meshes.get<MeshRendererComponent, TransformComponent>(game_object);
 
-        RenderingEngine::submit(shader_, mesh_component.mesh(),
-                                transform_component.transform());
+        Renderer::submit(shader_, mesh_component.mesh(),
+                         transform_component.transform());
     }
 
     auto models =
@@ -40,8 +40,8 @@ void Scene::update(float delta)
         auto [model_component, transform_component] =
             models.get<ModelRendererComponent, TransformComponent>(game_object);
 
-        RenderingEngine::submit(shader_, model_component.model(),
-                                transform_component.transform());
+        Renderer::submit(shader_, model_component.model(),
+                         transform_component.transform());
     }
 }
 

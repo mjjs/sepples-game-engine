@@ -1,5 +1,5 @@
-#ifndef _SGE_RENDERINGENGINE_H
-#define _SGE_RENDERINGENGINE_H
+#ifndef _SGE_RENDERER_H
+#define _SGE_RENDERER_H
 
 #include "engine/math/sgemath.h"
 #include "engine/math/vector3.h"
@@ -19,7 +19,7 @@ class Mesh;
 class Model;
 class Transform;
 
-class RenderingEngine
+class Renderer
 {
     friend class Game;
 

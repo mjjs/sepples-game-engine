@@ -8,7 +8,7 @@
 #include "engine/event/event.h"
 #include "engine/event/windowcloseevent.h"
 #include "engine/event/windowresizeevent.h"
-#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/renderer.h"
 #include "engine/rendering/window.h"
 
 #include <memory>
@@ -27,7 +27,7 @@ Game::Game()
     window_->set_event_callback(BIND_EVENT_FN(Game::handle_event));
 
     Log::init();
-    RenderingEngine::init();
+    Renderer::init();
 }
 
 void Game::run()
@@ -99,7 +99,7 @@ bool Game::handle_window_resize(WindowResizeEvent& event)
     auto width  = event.width();
     auto height = event.height();
 
-    RenderingEngine::set_viewport(0, 0, width, height);
+    Renderer::set_viewport(0, 0, width, height);
     if (active_scene_) {
         active_scene_->on_window_resized(width, height);
     }

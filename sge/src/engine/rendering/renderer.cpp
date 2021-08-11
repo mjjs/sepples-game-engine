@@ -1,4 +1,4 @@
-#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/renderer.h"
 
 #include "engine/debug/profiler.h"
 #include "engine/math/matrix4.h"
@@ -15,28 +15,27 @@ namespace SGE
 {
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-std::unique_ptr<GraphicsAPI> RenderingEngine::graphics_api_ =
-    GraphicsAPI::create();
+std::unique_ptr<GraphicsAPI> Renderer::graphics_api_ = GraphicsAPI::create();
 
 // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-std::shared_ptr<UniformBuffer> RenderingEngine::camera_buffer_;
+std::shared_ptr<UniformBuffer> Renderer::camera_buffer_;
 
-void RenderingEngine::init()
+void Renderer::init()
 {
     camera_buffer_ = UniformBuffer::create(sizeof(Matrix4), 0);
 }
 
-void RenderingEngine::clear_screen()
+void Renderer::clear_screen()
 {
     graphics_api_->clear_screen();
 }
 
-void RenderingEngine::set_clear_colour(const Vector3& colour)
+void Renderer::set_clear_colour(const Vector3& colour)
 {
     graphics_api_->set_clear_colour(colour);
 }
 
-void RenderingEngine::prepare_frame(const Camera& camera)
+void Renderer::prepare_frame(const Camera& camera)
 {
     SGE_PROFILE_FUNCTION();
 
@@ -45,9 +44,9 @@ void RenderingEngine::prepare_frame(const Camera& camera)
                              sizeof(view_projection));
 }
 
-void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
-                             const std::shared_ptr<Model>& model,
-                             const Transform& transform)
+void Renderer::submit(const std::shared_ptr<Shader>& shader,
+                      const std::shared_ptr<Model>& model,
+                      const Transform& transform)
 {
     SGE_PROFILE_FUNCTION();
 
@@ -58,9 +57,9 @@ void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
     }
 }
 
-void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
-                             const std::shared_ptr<Mesh>& mesh,
-                             const Transform& transform)
+void Renderer::submit(const std::shared_ptr<Shader>& shader,
+                      const std::shared_ptr<Mesh>& mesh,
+                      const Transform& transform)
 {
     SGE_PROFILE_FUNCTION();
 
@@ -72,9 +71,8 @@ void RenderingEngine::submit(const std::shared_ptr<Shader>& shader,
     mesh->draw(*shader);
 }
 
-void RenderingEngine::set_viewport(const unsigned int x, const unsigned int y,
-                                   const unsigned int width,
-                                   const unsigned int height)
+void Renderer::set_viewport(const unsigned int x, const unsigned int y,
+                            const unsigned int width, const unsigned int height)
 {
     graphics_api_->set_viewport(x, y, width, height);
 }

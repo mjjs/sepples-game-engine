@@ -9,8 +9,6 @@
 namespace SGE
 {
 
-class RenderingEngine;
-
 class Camera
 {
   private:

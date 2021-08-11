@@ -20,7 +20,7 @@
 #include "engine/rendering/camera.h"
 #include "engine/rendering/mesh.h"
 #include "engine/rendering/model.h"
-#include "engine/rendering/renderingengine.h"
+#include "engine/rendering/renderer.h"
 #include "engine/rendering/shader.h"
 #include "engine/rendering/texture.h"
 #include "engine/rendering/texture2d.h"
