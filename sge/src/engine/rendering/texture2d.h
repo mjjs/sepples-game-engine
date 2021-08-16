@@ -2,9 +2,9 @@
 #define _SGE_TEXTURE2D_H
 
 #include "engine/rendering/texture.h"
-#include "engine/math/vector3.h"
 
 #include <cstdint>
+#include <glm/glm.hpp>
 #include <memory>
 #include <string>
 
@@ -17,7 +17,7 @@ class Texture2D : public Texture
     static std::shared_ptr<Texture2D> create(const std::string& path,
                                              Type type);
 
-    static std::shared_ptr<Texture2D> create(const Vector3& colour,
+    static std::shared_ptr<Texture2D> create(const glm::vec4& colour,
                                              std::uint32_t width,
                                              std::uint32_t height);
 };

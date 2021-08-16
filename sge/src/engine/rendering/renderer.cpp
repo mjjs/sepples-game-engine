@@ -1,14 +1,13 @@
 #include "engine/rendering/renderer.h"
 
 #include "engine/debug/profiler.h"
-#include "engine/math/matrix4.h"
-#include "engine/math/vector3.h"
 #include "engine/rendering/buffers/uniformbuffer.h"
 #include "engine/rendering/camera.h"
 #include "engine/rendering/mesh.h"
 #include "engine/rendering/model.h"
 #include "engine/rendering/shader.h"
 
+#include <glm/glm.hpp>
 #include <memory>
 
 namespace SGE
@@ -22,7 +21,7 @@ std::shared_ptr<UniformBuffer> Renderer::camera_buffer_;
 
 void Renderer::init()
 {
-    camera_buffer_ = UniformBuffer::create(sizeof(Matrix4), 0);
+    camera_buffer_ = UniformBuffer::create(sizeof(glm::mat4), 0);
 }
 
 void Renderer::clear_screen()
@@ -30,7 +29,7 @@ void Renderer::clear_screen()
     graphics_api_->clear_screen();
 }
 
-void Renderer::set_clear_colour(const Vector3& colour)
+void Renderer::set_clear_colour(const glm::vec4& colour)
 {
     graphics_api_->set_clear_colour(colour);
 }
@@ -40,8 +39,7 @@ void Renderer::prepare_frame(const Camera& camera)
     SGE_PROFILE_FUNCTION();
 
     auto view_projection = camera.get_view_projection();
-    camera_buffer_->set_data(view_projection[0].data(),
-                             sizeof(view_projection));
+    camera_buffer_->set_data(&view_projection, sizeof(view_projection));
 }
 
 void Renderer::submit(const std::shared_ptr<Shader>& shader,

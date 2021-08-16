@@ -139,14 +139,14 @@ void OpenGLShader::set_uniform(const std::string& variable_name, float value)
 }
 
 void OpenGLShader::set_uniform(const std::string& variable_name,
-                               const Vector3& vector)
+                               const glm::vec3& vector)
 {
     GLuint location = register_uniform_if_not_exists(variable_name);
     glUniform3f(location, vector.x, vector.y, vector.z);
 }
 
 void OpenGLShader::set_uniform(const std::string& variable_name,
-                               const Matrix4& matrix)
+                               const glm::mat4& matrix)
 {
     GLuint location = register_uniform_if_not_exists(variable_name);
     glUniformMatrix4fv(location, 1, GL_TRUE, &(matrix[0][0]));

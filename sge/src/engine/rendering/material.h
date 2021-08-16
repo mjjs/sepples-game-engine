@@ -1,7 +1,6 @@
 #ifndef _SGE_MATERIAL_H
 #define _SGE_MATERIAL_H
 
-#include "engine/math/vector3.h"
 
 #include <memory>
 #include <vector>

@@ -112,7 +112,7 @@ bool LinuxInput::is_mouse_button_just_pressed_impl(std::uint8_t key_code)
            last_mouse_keys_.find(key_code) == last_mouse_keys_.end();
 }
 
-Vector2 LinuxInput::get_mouse_position_impl()
+std::pair<float, float> LinuxInput::get_mouse_position_impl()
 {
     return mouse_position_;
 }

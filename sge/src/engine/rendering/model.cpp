@@ -2,8 +2,6 @@
 
 #include "engine/core/log.h"
 #include "engine/debug/profiler.h"
-#include "engine/math/vector2.h"
-#include "engine/math/vector3.h"
 #include "engine/rendering/material.h"
 #include "engine/rendering/mesh.h"
 #include "engine/rendering/shader.h"
@@ -16,6 +14,7 @@
 #include <assimp/scene.h>
 #include <cstddef>
 #include <cstdint>
+#include <glm/glm.hpp>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -28,7 +27,8 @@ constexpr char const* COLOUR_AMBIENT  = "AMBIENT";
 constexpr char const* COLOUR_DIFFUSE  = "DIFFUSE";
 constexpr char const* COLOUR_SPECULAR = "SPECULAR";
 
-static Vector3 get_colour(const aiMaterial* material, const std::string& type);
+static glm::vec3 get_colour(const aiMaterial* material,
+                            const std::string& type);
 static float get_shininess(const aiMaterial& material);
 
 Model::Model(const std::string& path)
@@ -80,19 +80,19 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
 
     for (std::size_t i = 0; i < mesh->mNumVertices; ++i) {
         Vertex vertex;
-        vertex.position = Vector3{mesh->mVertices[i].x, mesh->mVertices[i].y,
-                                  mesh->mVertices[i].z};
+        vertex.position = glm::vec3{mesh->mVertices[i].x, mesh->mVertices[i].y,
+                                    mesh->mVertices[i].z};
 
         if (mesh->HasNormals()) {
-            vertex.normal = Vector3{mesh->mNormals[i].x, mesh->mNormals[i].y,
-                                    mesh->mNormals[i].z};
+            vertex.normal = glm::vec3{mesh->mNormals[i].x, mesh->mNormals[i].y,
+                                      mesh->mNormals[i].z};
         }
 
         if (mesh->HasTextureCoords(0)) {
-            vertex.texture_coordinate = Vector2{mesh->mTextureCoords[0][i].x,
-                                                mesh->mTextureCoords[0][i].y};
+            vertex.texture_coordinate = glm::vec2{mesh->mTextureCoords[0][i].x,
+                                                  mesh->mTextureCoords[0][i].y};
         } else {
-            vertex.texture_coordinate = Vector2{0.0F, 0.0F};
+            vertex.texture_coordinate = glm::vec2{0.0F, 0.0F};
         }
 
         vertices.push_back(vertex);
@@ -114,9 +114,9 @@ Mesh Model::process_mesh(aiMesh* mesh, const aiScene* scene)
             load_material_texture(assimp_material, aiTextureType_DIFFUSE);
 
         if (!diffuse_map) {
-            Vector3 diffuse_colour =
+            glm::vec3 diffuse_colour =
                 get_colour(assimp_material, COLOUR_DIFFUSE);
-            diffuse_map = Texture2D::create(diffuse_colour, 1, 1);
+            diffuse_map = Texture2D::create(glm::vec4(diffuse_colour, 1), 1, 1);
         }
 
         std::shared_ptr<Texture> specular_map =
@@ -183,7 +183,7 @@ void Model::draw(Shader& shader) const
     }
 }
 
-Vector3 get_colour(const aiMaterial* material, const std::string& type)
+glm::vec3 get_colour(const aiMaterial* material, const std::string& type)
 {
     aiColor3D colour{};
 
@@ -195,7 +195,7 @@ Vector3 get_colour(const aiMaterial* material, const std::string& type)
         material->Get(AI_MATKEY_COLOR_SPECULAR, colour);
     }
 
-    return Vector3{colour.r, colour.g, colour.b};
+    return glm::vec3{colour.r, colour.g, colour.b};
 }
 
 float get_shininess(const aiMaterial& material)

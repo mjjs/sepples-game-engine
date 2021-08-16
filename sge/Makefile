@@ -21,6 +21,7 @@ VENDOR_INCLUDES += $(VENDOR_DIR)/spdlog/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/glad/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/assimp/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/entt/single_include/entt
+VENDOR_INCLUDES += $(VENDOR_DIR)/glm/glm
 
 INC_DIRS := $(SRC_DIR)
 INC_DIRS += $(VENDOR_INCLUDES)

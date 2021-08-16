@@ -1,12 +1,11 @@
 #ifndef _SGE_RENDERER_H
 #define _SGE_RENDERER_H
 
-#include "engine/math/sgemath.h"
-#include "engine/math/vector3.h"
 #include "engine/rendering/buffers/uniformbuffer.h"
 #include "engine/rendering/graphicsapi.h"
 #include "engine/rendering/shader.h"
 
+#include <glm/glm.hpp>
 #include <memory>
 #include <vector>
 
@@ -35,7 +34,7 @@ class Renderer
   public:
     static void init();
     static void clear_screen();
-    static void set_clear_colour(const Vector3& colour);
+    static void set_clear_colour(const glm::vec4& colour);
 
     static void prepare_frame(const Camera& camera);
     static void submit(const std::shared_ptr<Shader>& shader,

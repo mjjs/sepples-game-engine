@@ -7,13 +7,14 @@
 #include <cmath>
 #include <cstdint>
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 #include <stdexcept>
 #include <string>
 
 namespace SGE
 {
 
-static std::uint32_t colour_vector_to_hex(const Vector3& rgb)
+static std::uint32_t colour_vector_to_hex(const glm::vec3& rgb)
 {
     const std::uint32_t r = std::floor(rgb.x >= 1.0 ? 255 : rgb.x * 256.0);
     const std::uint32_t g = std::floor(rgb.y >= 1.0 ? 255 : rgb.y * 256.0);
@@ -84,7 +85,7 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path,
     stbi_image_free(texture_bytes);
 }
 
-OpenGLTexture2D::OpenGLTexture2D(const Vector3& colour,
+OpenGLTexture2D::OpenGLTexture2D(const glm::vec4& colour,
                                  const std::uint32_t width,
                                  const std::uint32_t height)
     : texture_id_{0}, type_{Texture::Type::DIFFUSE}

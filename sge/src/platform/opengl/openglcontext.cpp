@@ -21,7 +21,7 @@ OpenGLContext::OpenGLContext(SDL_Window* window)
         throw std::runtime_error("Could not init GLEW");
     }
 
-    glFrontFace(GL_CW);
+    // glFrontFace(GL_CW);
     glCullFace(GL_BACK);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);

@@ -2,7 +2,6 @@
 
 #include "engine/core/log.h"
 #include "engine/debug/profiler.h"
-#include "engine/math/vector3.h"
 #include "engine/rendering/buffers/bufferlayout.h"
 #include "engine/rendering/buffers/indexbuffer.h"
 #include "engine/rendering/buffers/vertexarray.h"

@@ -5,12 +5,12 @@
 #include "engine/event/mousebuttonevent.h"
 #include "engine/event/mousemovedevent.h"
 #include "engine/event/mousescrolledevent.h"
-#include "engine/math/vector2.h"
 
 #include <SDL2/SDL_keycode.h>
 #include <cstdint>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 namespace SGE
@@ -41,7 +41,7 @@ class Input
     virtual bool is_mouse_button_up_impl(std::uint8_t key_code)           = 0;
     virtual bool is_mouse_button_just_pressed_impl(std::uint8_t key_code) = 0;
 
-    virtual Vector2 get_mouse_position_impl() = 0;
+    virtual std::pair<float, float> get_mouse_position_impl() = 0;
 
   public:
     static bool is_key_down(SDL_Keycode key_code);
@@ -50,7 +50,7 @@ class Input
     static bool is_mouse_button_down(std::uint8_t key_code);
     static bool is_mouse_button_up(std::uint8_t key_code);
     static bool is_mouse_button_just_pressed(std::uint8_t key_code);
-    static Vector2 get_mouse_position();
+    static std::pair<float, float> get_mouse_position();
 };
 
 } // namespace SGE

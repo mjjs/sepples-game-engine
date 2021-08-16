@@ -1,9 +1,9 @@
 #ifndef _SGE_TRANSFORM_H
 #define _SGE_TRANSFORM_H
 
-#include "engine/math/matrix4.h"
-#include "engine/math/quaternion.h"
-#include "engine/math/vector3.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 namespace SGE
 {
@@ -17,20 +17,20 @@ class Transform
   private:
     Transform* parent_ = nullptr;
 
-    Vector3 position_;
-    Quaternion rotation_;
-    Vector3 scale_{1, 1, 1};
+    glm::vec3 position_;
+    glm::quat rotation_{0, 0, 0, 1};
+    glm::vec3 scale_{1.0F, 1.0F, 1.0F};
 
     void set_parent(Transform* transform);
 
   public:
-    void set_position(const Vector3& position_vector);
-    const Vector3& position() const;
-    void set_rotation(const Quaternion& rotation);
-    Quaternion rotation() const;
-    void set_scale(const Vector3& scale_vector);
-    Matrix4 get_projected_transformation(const Camera& camera) const;
-    Matrix4 get_transformation() const;
+    void set_position(const glm::vec3& position_vector);
+    const glm::vec3& position() const;
+    void set_rotation(const glm::quat& rotation);
+    glm::quat rotation() const;
+    void set_scale(const glm::vec3& scale_vector);
+    glm::mat4 get_projected_transformation(const Camera& camera) const;
+    glm::mat4 get_transformation() const;
 };
 
 } // namespace SGE

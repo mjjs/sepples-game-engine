@@ -1,7 +1,6 @@
 #include "engine/event/windowresizeevent.h"
 
 #include "engine/event/event.h"
-#include "engine/math/vector2.h"
 
 #include <string>
 

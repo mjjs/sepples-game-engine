@@ -2,7 +2,8 @@
 #define _SGE_MOUSE_MOVED_EVENT_H
 
 #include "engine/event/event.h"
-#include "engine/math/vector2.h"
+
+#include <utility>
 
 namespace SGE
 {
@@ -10,14 +11,15 @@ namespace SGE
 class MouseMovedEvent : public Event
 {
   private:
-    Vector2 position_;
+    std::pair<float, float> position_;
 
   public:
-    MouseMovedEvent(const Vector2& position);
+    MouseMovedEvent(float x, float y);
+    MouseMovedEvent(const std::pair<float, float>& position);
 
     float x() const;
     float y() const;
-    Vector2 position() const;
+    std::pair<float, float> position() const;
 
     int categories() const override;
     std::string name() const override;

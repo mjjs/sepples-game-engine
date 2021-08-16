@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 #include <unordered_map>
 
 namespace SGE
@@ -39,9 +40,9 @@ class OpenGLShader : public Shader
     void set_uniform(const std::string& variable_name, int value) override;
     void set_uniform(const std::string& variable_name, float value) override;
     void set_uniform(const std::string& variable_name,
-                     const Vector3& vector) override;
+                     const glm::vec3& vector) override;
     void set_uniform(const std::string& variable_name,
-                     const Matrix4& matrix) override;
+                     const glm::mat4& matrix) override;
 };
 
 } // namespace SGE

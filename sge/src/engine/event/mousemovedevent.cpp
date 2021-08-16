@@ -1,25 +1,34 @@
-#include "engine/event/event.h"
 #include "engine/event/mousemovedevent.h"
-#include "engine/math/vector2.h"
 
-namespace SGE {
+#include "engine/event/event.h"
 
-MouseMovedEvent::MouseMovedEvent(const Vector2& position)
+#include <utility>
+
+namespace SGE
+{
+
+MouseMovedEvent::MouseMovedEvent(const float x, const float y) : position_{x, y}
+{
+}
+
+MouseMovedEvent::MouseMovedEvent(const std::pair<float, float>& position)
     : position_{position}
 {
 }
 
 float MouseMovedEvent::x() const
 {
-    return position_.x;
+    auto [x, _] = position();
+    return x;
 }
 
 float MouseMovedEvent::y() const
 {
-    return position_.y;
+    auto [_, y] = position();
+    return y;
 }
 
-Vector2 MouseMovedEvent::position() const
+std::pair<float, float> MouseMovedEvent::position() const
 {
     return position_;
 }

@@ -4,7 +4,6 @@
 #include "engine/rendering/mesh.h"
 #include "engine/rendering/shader.h"
 #include "engine/rendering/texture.h"
-#include "engine/math/vector3.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>

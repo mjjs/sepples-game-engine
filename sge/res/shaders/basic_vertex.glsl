@@ -14,6 +14,6 @@ uniform mat4 transform_u;
 
 void main()
 {
-    gl_Position = vec4(position_l, 1.0) * transform_u * view_projection_u;
+    gl_Position = view_projection_u * transform_u * vec4(position_l, 1.0);
     texture_coordinate_v = texture_coordinate_l;
 }

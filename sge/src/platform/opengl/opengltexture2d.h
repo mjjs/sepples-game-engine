@@ -3,9 +3,9 @@
 
 #include "engine/rendering/texture.h"
 #include "engine/rendering/texture2d.h"
-#include "engine/math/vector3.h"
 
 #include <cstdint>
+#include <glm/glm.hpp>
 #include <string>
 
 namespace SGE
@@ -20,7 +20,7 @@ class OpenGLTexture2D : public Texture2D
 
   public:
     OpenGLTexture2D(const std::string& path, Texture::Type type);
-    OpenGLTexture2D(const Vector3& colour, std::uint32_t width,
+    OpenGLTexture2D(const glm::vec4& colour, std::uint32_t width,
                     std::uint32_t height);
     ~OpenGLTexture2D();
 

@@ -105,8 +105,7 @@ void LinuxWindow::poll_events()
             auto x = event.motion.x;
             auto y = event.motion.y;
 
-            MouseMovedEvent event{
-                Vector2{static_cast<float>(x), static_cast<float>(y)}};
+            MouseMovedEvent event{static_cast<float>(x), static_cast<float>(y)};
             event_callback_(event);
             break;
         }
@@ -115,8 +114,8 @@ void LinuxWindow::poll_events()
             auto x = event.wheel.x;
             auto y = event.wheel.y;
 
-            MouseScrolledEvent event{
-                Vector2{static_cast<float>(x), static_cast<float>(y)}};
+            MouseScrolledEvent event{static_cast<float>(x),
+                                     static_cast<float>(y)};
             event_callback_(event);
             break;
         }

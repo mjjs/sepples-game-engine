@@ -2,6 +2,8 @@
 
 #include "engine/debug/profiler.h"
 
+#include <utility>
+
 namespace SGE
 {
 
@@ -47,7 +49,7 @@ bool Input::is_mouse_button_just_pressed(std::uint8_t key_code)
     return instance_->is_mouse_button_just_pressed_impl(key_code);
 }
 
-Vector2 Input::get_mouse_position()
+std::pair<float, float> Input::get_mouse_position()
 {
     return instance_->get_mouse_position_impl();
 }

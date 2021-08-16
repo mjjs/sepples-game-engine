@@ -1,9 +1,8 @@
 #ifndef _SGE_SHADER_H
 #define _SGE_SHADER_H
 
-#include "engine/math/matrix4.h"
-#include "engine/math/vector3.h"
 
+#include <glm/glm.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -30,9 +29,9 @@ class Shader
     virtual void set_uniform(const std::string& variable_name, int value)   = 0;
     virtual void set_uniform(const std::string& variable_name, float value) = 0;
     virtual void set_uniform(const std::string& variable_name,
-                             const Vector3& vector)                         = 0;
+                             const glm::vec3& vector)                       = 0;
     virtual void set_uniform(const std::string& variable_name,
-                             const Matrix4& matrix)                         = 0;
+                             const glm::mat4& matrix)                       = 0;
 
     static std::shared_ptr<Shader> create(const std::string& vertex_path,
                                           const std::string& fragment_path);

@@ -1,18 +1,18 @@
 #ifndef _SGE_LINUXINPUT_H
 #define _SGE_LINUXINPUT_H
 
-#include "engine/event/event.h"
 #include "engine/core/input.h"
+#include "engine/event/event.h"
 #include "engine/event/keypressedevent.h"
 #include "engine/event/keyreleasedevent.h"
 #include "engine/event/mousebuttonpressedevent.h"
 #include "engine/event/mousebuttonreleasedevent.h"
 #include "engine/event/mousemovedevent.h"
 #include "engine/event/mousescrolledevent.h"
-#include "engine/math/vector2.h"
 
 #include <SDL2/SDL_keyboard.h>
 #include <SDL2/SDL_mouse.h>
+#include <utility>
 
 namespace SGE
 {
@@ -27,7 +27,7 @@ class LinuxInput : public Input
     // Mouse
     std::unordered_set<std::uint8_t> last_mouse_keys_{};
     std::unordered_set<std::uint8_t> current_mouse_keys_{};
-    Vector2 mouse_position_{};
+    std::pair<float, float> mouse_position_{};
 
     bool handle_key_down(KeyPressedEvent& event);
     bool handle_key_up(KeyReleasedEvent& event);
@@ -45,7 +45,7 @@ class LinuxInput : public Input
     bool is_mouse_button_down_impl(std::uint8_t key_code) override;
     bool is_mouse_button_up_impl(std::uint8_t key_code) override;
     bool is_mouse_button_just_pressed_impl(std::uint8_t key_code) override;
-    Vector2 get_mouse_position_impl() override;
+    std::pair<float, float> get_mouse_position_impl() override;
 };
 
 } // namespace SGE

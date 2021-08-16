@@ -1,8 +1,9 @@
 #include "engine/core/transform.h"
 
-#include "engine/math/matrix4.h"
-#include "engine/math/vector3.h"
 #include "engine/rendering/camera.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 namespace SGE
 {
@@ -12,45 +13,38 @@ void Transform::set_parent(Transform* transform)
     parent_ = transform;
 }
 
-Matrix4 Transform::get_transformation() const
+glm::mat4 Transform::get_transformation() const
 {
-    const Matrix4 position = Matrix4::translation(position_);
-    const Matrix4 rotation = rotation_.to_rotation_matrix();
-    const Matrix4 scale    = Matrix4::scale(scale_);
-
-    // TODO: A more efficient way of handling parent changes.
-    Matrix4 parent_matrix = parent_ == nullptr ? Matrix4::identity()
-                                               : parent_->get_transformation();
-
-    return parent_matrix * position * rotation * scale;
+    return glm::translate(glm::mat4(1.0F), position_) *
+           glm::mat4_cast(rotation_) * glm::scale(glm::mat4(1.0F), scale_);
 }
 
-void Transform::set_position(const Vector3& position_vector)
+void Transform::set_position(const glm::vec3& position_vector)
 {
     position_ = position_vector;
 }
 
-const Vector3& Transform::position() const
+const glm::vec3& Transform::position() const
 {
     return position_;
 }
 
-void Transform::set_rotation(const Quaternion& rotation)
+void Transform::set_rotation(const glm::quat& rotation)
 {
     rotation_ = rotation;
 }
 
-Quaternion Transform::rotation() const
+glm::quat Transform::rotation() const
 {
     return rotation_;
 }
 
-void Transform::set_scale(const Vector3& scale_vector)
+void Transform::set_scale(const glm::vec3& scale_vector)
 {
     scale_ = scale_vector;
 }
 
-Matrix4 Transform::get_projected_transformation(const Camera& camera) const
+glm::mat4 Transform::get_projected_transformation(const Camera& camera) const
 {
     return camera.get_view_projection() * get_transformation();
 }

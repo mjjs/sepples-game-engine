@@ -1,8 +1,8 @@
 #ifndef _SGE_GRAPHICSAPI_H
 #define _SGE_GRAPHICSAPI_H
 
-#include "engine/math/vector3.h"
 
+#include <glm/glm.hpp>
 #include <memory>
 
 namespace SGE
@@ -33,7 +33,7 @@ class GraphicsAPI
     static VENDOR vendor();
 
     virtual void clear_screen()                                        = 0;
-    virtual void set_clear_colour(const Vector3& colour)               = 0;
+    virtual void set_clear_colour(const glm::vec4& colour)             = 0;
     virtual void set_viewport(unsigned int x, unsigned int y,
                               unsigned int width, unsigned int height) = 0;
 };

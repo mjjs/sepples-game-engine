@@ -5,11 +5,6 @@
 #include "engine/core/transform.h"
 
 // MATH
-#include "engine/math/matrix4.h"
-#include "engine/math/quaternion.h"
-#include "engine/math/sgemath.h"
-#include "engine/math/vector2.h"
-#include "engine/math/vector3.h"
 
 // RENDERING
 #include "engine/rendering/buffers/bufferlayout.h"

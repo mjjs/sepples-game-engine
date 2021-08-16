@@ -2,8 +2,8 @@
 
 #include "engine/rendering/graphicsapi.h"
 #include "platform/opengl/opengltexture2d.h"
-#include "engine/math/vector3.h"
 
+#include <glm/glm.hpp>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -22,7 +22,7 @@ std::shared_ptr<Texture2D> Texture2D::create(const std::string& path,
     }
 }
 
-std::shared_ptr<Texture2D> Texture2D::create(const Vector3& colour,
+std::shared_ptr<Texture2D> Texture2D::create(const glm::vec4& colour,
                                              const std::uint32_t width,
                                              const std::uint32_t height)
 {

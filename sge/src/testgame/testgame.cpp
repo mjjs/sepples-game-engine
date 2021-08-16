@@ -1,6 +1,7 @@
 #include "sge.h"
 
 #include <cstdint>
+#include <glm/glm.hpp>
 #include <memory>
 #include <vector>
 
@@ -13,26 +14,26 @@ class CameraScript : public SGE::Scriptable
   public:
     void update(const float delta) override
     {
-        auto& camera = get_component<SGE::CameraComponent>().camera();
+        auto& camera           = get_component<SGE::CameraComponent>().camera();
+        const auto& camera_rot = camera.transform().rotation();
+
+        auto front = camera_rot * glm::vec3{0, 0, -1};
+        auto right = camera_rot * glm::vec3{1, 0, 0};
 
         if (SGE::Input::is_key_down(SDLK_w)) {
-            camera.move(camera.transform().rotation().get_forward(),
-                        camera_move_speed_ * delta);
+            camera.move(front, camera_move_speed_ * delta);
         }
 
         if (SGE::Input::is_key_down(SDLK_s)) {
-            camera.move(camera.transform().rotation().get_back(),
-                        camera_move_speed_ * delta);
+            camera.move(front, -camera_move_speed_ * delta);
         }
 
         if (SGE::Input::is_key_down(SDLK_a)) {
-            camera.move(camera.transform().rotation().get_left(),
-                        camera_move_speed_ * delta);
+            camera.move(right, -camera_move_speed_ * delta);
         }
 
         if (SGE::Input::is_key_down(SDLK_d)) {
-            camera.move(camera.transform().rotation().get_right(),
-                        camera_move_speed_ * delta);
+            camera.move(right, camera_move_speed_ * delta);
         }
 
         if (SGE::Input::is_key_down(SDLK_UP)) {
@@ -44,11 +45,11 @@ class CameraScript : public SGE::Scriptable
         }
 
         if (SGE::Input::is_key_down(SDLK_LEFT)) {
-            camera.rotate_y(camera_rotate_speed_ * delta);
+            camera.rotate_y(-camera_rotate_speed_ * delta);
         }
 
         if (SGE::Input::is_key_down(SDLK_RIGHT)) {
-            camera.rotate_y(-camera_rotate_speed_ * delta);
+            camera.rotate_y(camera_rotate_speed_ * delta);
         }
     }
 
@@ -89,7 +90,7 @@ class TestGame : public SGE::Game
         std::vector<std::uint32_t> floor_indices = {0, 1, 2, 2, 1, 3};
 
         auto red_texture =
-            SGE::Texture2D::create(SGE::Vector3{.8, .2, .3}, 1, 1);
+            SGE::Texture2D::create(glm::vec4{.8, .2, .3, 1}, 1, 1);
 
         auto floor_mesh = std::make_shared<SGE::Mesh>(
             floor_vertices, floor_indices,
