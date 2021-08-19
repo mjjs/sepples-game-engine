@@ -1,7 +1,6 @@
 #ifndef _SGE_TRANSFORM_H
 #define _SGE_TRANSFORM_H
 
-
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
@@ -17,9 +16,9 @@ class Transform
   private:
     Transform* parent_ = nullptr;
 
-    glm::vec3 position_;
-    glm::quat rotation_{0, 0, 0, 1};
-    glm::vec3 scale_{1.0F, 1.0F, 1.0F};
+    glm::vec3 position_{};
+    glm::quat rotation_{1.0F, 0.0F, 0.0F, 0.0F};
+    glm::vec3 scale_{1.0F};
 
     void set_parent(Transform* transform);
 

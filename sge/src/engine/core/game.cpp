@@ -9,6 +9,7 @@
 #include "engine/event/windowcloseevent.h"
 #include "engine/event/windowresizeevent.h"
 #include "engine/rendering/renderer.h"
+#include "engine/rendering/renderer2d.h"
 #include "engine/rendering/window.h"
 
 #include <memory>
@@ -28,6 +29,7 @@ Game::Game()
 
     Log::init();
     Renderer::init();
+    Renderer2D::init();
 }
 
 void Game::run()

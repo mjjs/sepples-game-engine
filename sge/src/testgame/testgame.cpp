@@ -45,11 +45,11 @@ class CameraScript : public SGE::Scriptable
         }
 
         if (SGE::Input::is_key_down(SDLK_LEFT)) {
-            camera.rotate_y(-camera_rotate_speed_ * delta);
+            camera.rotate_y(camera_rotate_speed_ * delta);
         }
 
         if (SGE::Input::is_key_down(SDLK_RIGHT)) {
-            camera.rotate_y(camera_rotate_speed_ * delta);
+            camera.rotate_y(-camera_rotate_speed_ * delta);
         }
     }
 

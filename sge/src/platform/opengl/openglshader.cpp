@@ -152,6 +152,13 @@ void OpenGLShader::set_uniform(const std::string& variable_name,
     glUniformMatrix4fv(location, 1, GL_TRUE, &(matrix[0][0]));
 }
 
+void OpenGLShader::set_uniform(const std::string& variable_name,
+                               const std::vector<int>& ints)
+{
+    GLuint location = register_uniform_if_not_exists(variable_name);
+    glUniform1iv(location, ints.size(), ints.data());
+}
+
 static std::string read_shader_code(const std::string& path)
 {
     std::ifstream shader_file{path, std::ios_base::in};

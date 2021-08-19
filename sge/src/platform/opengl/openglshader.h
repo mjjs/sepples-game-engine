@@ -43,6 +43,8 @@ class OpenGLShader : public Shader
                      const glm::vec3& vector) override;
     void set_uniform(const std::string& variable_name,
                      const glm::mat4& matrix) override;
+    void set_uniform(const std::string& variable_name,
+                     const std::vector<int>& ints) override;
 };
 
 } // namespace SGE

@@ -1,6 +1,5 @@
 #include "platform/opengl/openglgraphicsapi.h"
 
-
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
@@ -23,6 +22,13 @@ void OpenGLGraphicsAPI::set_viewport(unsigned int x, unsigned int y,
                                      unsigned int width, unsigned int height)
 {
     glViewport(x, y, width, height);
+}
+
+void OpenGLGraphicsAPI::draw_indexed(
+    const std::shared_ptr<VertexArray>& vertex_array)
+{
+    glDrawElements(GL_TRIANGLES, vertex_array->index_buffer()->count(),
+                   GL_UNSIGNED_INT, nullptr);
 }
 
 } // namespace SGE

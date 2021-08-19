@@ -15,5 +15,5 @@ AllowShortBlocksOnASingleLine: Never
 AllowShortFunctionsOnASingleLine: None
 BreakConstructorInitializers: BeforeColon
 AlwaysBreakAfterReturnType: None
-PenaltyReturnTypeOnItsOwnLine: 9999
+PenaltyReturnTypeOnItsOwnLine: 9999999
 AlwaysBreakTemplateDeclarations: Yes

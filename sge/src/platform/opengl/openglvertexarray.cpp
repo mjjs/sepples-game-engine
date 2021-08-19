@@ -17,8 +17,10 @@ static GLenum shader_data_type_to_opengl_base_type(ShaderDataType type)
     switch (type) {
     case ShaderDataType::NONE:
         return -1;
+    case ShaderDataType::FLOAT:
     case ShaderDataType::VEC2:
     case ShaderDataType::VEC3:
+    case ShaderDataType::VEC4:
         return GL_FLOAT;
     }
 }
@@ -58,12 +60,12 @@ void OpenGLVertexArray::add_vertex_buffer(
         glEnableVertexAttribArray(i);
 
         glVertexAttribPointer(
-            i++, element.component_count(),
+            i, element.component_count(),
             shader_data_type_to_opengl_base_type(element.type),
             element.normalized ? GL_TRUE : GL_FALSE, layout.stride(),
             (const void*)element.offset);
 
-        glDisableVertexAttribArray(i);
+        ++i;
     }
 
     vertex_buffers_.push_back(vertex_buffer);

@@ -1,6 +1,7 @@
 #ifndef _SGE_GRAPHICSAPI_H
 #define _SGE_GRAPHICSAPI_H
 
+#include "engine/rendering/buffers/vertexarray.h"
 
 #include <glm/glm.hpp>
 #include <memory>
@@ -36,6 +37,8 @@ class GraphicsAPI
     virtual void set_clear_colour(const glm::vec4& colour)             = 0;
     virtual void set_viewport(unsigned int x, unsigned int y,
                               unsigned int width, unsigned int height) = 0;
+    virtual void draw_indexed(
+        const std::shared_ptr<VertexArray>& vertex_array) = 0;
 };
 
 } // namespace SGE

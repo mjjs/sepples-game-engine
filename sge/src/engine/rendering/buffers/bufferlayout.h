@@ -14,6 +14,8 @@ enum class ShaderDataType {
     NONE = 0,
     VEC2,
     VEC3,
+    VEC4,
+    FLOAT,
 };
 
 struct BufferElement {
@@ -38,6 +40,7 @@ class BufferLayout
     void calculate_offsets_and_stride();
 
   public:
+    BufferLayout() = default;
     BufferLayout(std::initializer_list<BufferElement> elements);
     std::uint32_t stride() const;
     const std::vector<BufferElement>& elements() const;

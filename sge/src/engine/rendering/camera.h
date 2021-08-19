@@ -10,19 +10,39 @@ namespace SGE
 
 class Camera
 {
-  private:
-    float fov_degrees_;
-    float aspect_ratio_;
-    float z_near_;
-    float z_far_;
+    enum class ProjectionType {
+        PERSPECTIVE,
+        ORTHOGRAPHIC,
+    };
 
-    glm::mat4 projection_;
+  private:
+    float z_near_{0};
+    float z_far_{0};
+
+    // Perspective camera
+    float fov_degrees_{0};
+    float aspect_ratio_{0};
+
+    // Orthographic camera
+    float left_{0};
+    float right_{0};
+    float bottom_{0};
+    float top_{0};
+
+    ProjectionType projection_type_;
+
+    glm::mat4 projection_{1.0F};
     Transform transform_;
 
   public:
-    constexpr static const glm::vec3 world_up_{0, 1, 0};
+    constexpr static const glm::vec3 world_up_{0.0F, 1.0F, 0.0F};
 
+    // Perspective constructor
     Camera(float fov_degrees, float aspect_ratio, float z_near, float z_far);
+
+    // Orthographic constructor
+    Camera(float left, float right, float bottom, float top, float z_near,
+           float z_far);
 
     void move(const glm::vec3& direction, float amount);
     void rotate_x(float degrees);
