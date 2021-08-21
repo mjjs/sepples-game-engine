@@ -1,24 +1,21 @@
 [submodule "sge/vendor/stb"]
 	path = sge/vendor/stb
 	url = https://github.com/nothings/stb/
-    ignore = all
 [submodule "sge/vendor/spdlog"]
 	path = sge/vendor/spdlog
 	url = https://github.com/gabime/spdlog
-    ignore = all
 [submodule "sge/vendor/assimp"]
 	path = sge/vendor/assimp
 	url = https://github.com/assimp/assimp
-    ignore = all
 [submodule "sge/vendor/sdl"]
 	path = sge/vendor/sdl
 	url = https://github.com/libsdl-org/SDL
-    ignore = all
 [submodule "sge/vendor/entt"]
 	path = sge/vendor/entt
 	url = https://github.com/skypjack/entt
-    ignore = all
 [submodule "sge/vendor/glm"]
 	path = sge/vendor/glm
 	url = https://github.com/g-truc/glm
-    ignore = all
+[submodule "sge/vendor/imgui"]
+	path = sge/vendor/imgui
+	url = https://github.com/ocornut/imgui
