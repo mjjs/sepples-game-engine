@@ -1,7 +1,10 @@
 #ifndef _SGE_LINUX_WINDOW_H
 #define _SGE_LINUX_WINDOW_H
 
+#include "engine/imgui/imguirenderer.h"
+#include "engine/rendering/renderingcontext.h"
 #include "engine/rendering/window.h"
+#include "platform/linux/linuximguirenderer.h"
 #include "platform/opengl/openglcontext.h"
 
 #include <cstdint>
@@ -22,6 +25,7 @@ class LinuxWindow : public Window
 
     EventCallbackFn event_callback_;
     std::unique_ptr<OpenGLContext> context_;
+    std::unique_ptr<LinuxImguiRenderer> imgui_renderer_;
 
     SDL_Window* window_;
 
@@ -45,7 +49,11 @@ class LinuxWindow : public Window
     std::uint32_t width() const override;
     std::uint32_t height() const override;
 
+    void begin_imgui_rendering() override;
+    void end_imgui_rendering() override;
+
     void set_event_callback(const EventCallbackFn& callback) override;
+
     void* get_native_window() const override;
 };
 

@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <glm/glm.hpp>
+#include <imgui.h>
 #include <memory>
 #include <vector>
 
@@ -100,10 +101,16 @@ class TestGame : public SGE::Game
 
         set_active_scene(test_scene);
     }
+
+    void render_imgui() override
+    {
+        bool t = true;
+        ImGui::ShowDemoWindow(&t);
+    }
 };
 
-std::unique_ptr<SGE::Game> SGE::CreateGame([[maybe_unused]] int argc,
-                                           [[maybe_unused]] char** argv)
+std::unique_ptr<SGE::Game> SGE::create_game([[maybe_unused]] int argc,
+                                            [[maybe_unused]] char** argv)
 {
     return std::make_unique<TestGame>();
 }

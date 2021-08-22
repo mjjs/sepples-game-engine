@@ -3,6 +3,7 @@
 
 #include "engine/event/windowminimizeevent.h"
 #include "engine/event/windowrestoreevent.h"
+#include "engine/imgui/imguirenderer.h"
 #include "engine/rendering/window.h"
 
 #include <memory>
@@ -23,8 +24,8 @@ class Game
     static Game* instance_;
 
     std::unique_ptr<Scene> active_scene_;
-
     std::unique_ptr<Window> window_;
+
     bool running_   = true;
     bool minimized_ = false;
 
@@ -55,11 +56,25 @@ class Game
     {
     }
 
+    virtual void render_imgui()
+    {
+    }
+
     void set_active_scene(std::unique_ptr<Scene>& scene);
     std::unique_ptr<Scene>& active_scene();
+
+    const Window& window() const
+    {
+        return *window_;
+    }
+
+    static Game& get()
+    {
+        return *instance_;
+    }
 };
 
-std::unique_ptr<Game> CreateGame(int argc, char** argv);
+std::unique_ptr<Game> create_game(int argc, char** argv);
 
 } // namespace SGE
 

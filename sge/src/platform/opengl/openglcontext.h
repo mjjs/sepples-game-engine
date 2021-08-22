@@ -18,6 +18,12 @@ class OpenGLContext : public RenderingContext
   public:
     OpenGLContext(SDL_Window* window);
     void swap_buffers() override;
+
+    void* raw_context() const override
+    {
+        return context_.get();
+    }
+
     void delete_context();
 };
 

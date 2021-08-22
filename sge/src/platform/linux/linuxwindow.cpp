@@ -1,5 +1,6 @@
 #include "platform/linux/linuxwindow.h"
 
+#include "backends/imgui_impl_sdl.h"
 #include "engine/core/log.h"
 #include "engine/debug/profiler.h"
 #include "engine/event/keypressedevent.h"
@@ -12,6 +13,7 @@
 #include "engine/event/windowminimizeevent.h"
 #include "engine/event/windowresizeevent.h"
 #include "engine/event/windowrestoreevent.h"
+#include "engine/imgui/imguirenderer.h"
 
 #include <SDL2/SDL.h>
 #include <stdexcept>
@@ -44,6 +46,8 @@ LinuxWindow::LinuxWindow(const std::string& title, std::uint32_t width,
     SDL_GL_SetSwapInterval(1);
 
     context_ = std::make_unique<OpenGLContext>(window_);
+    imgui_renderer_ =
+        std::make_unique<LinuxImguiRenderer>(window_, context_->raw_context());
 }
 
 LinuxWindow::~LinuxWindow()
@@ -66,8 +70,11 @@ void LinuxWindow::poll_events()
     SDL_Event event;
 
     while (SDL_PollEvent(&event) == 1) {
+        bool handled = imgui_renderer_->handle_event(event);
+
         switch (event.type) {
         case SDL_QUIT: {
+            LOG_INFO("QUIT EVENT");
             WindowCloseEvent event;
             event_callback_(event);
             break;
@@ -76,6 +83,7 @@ void LinuxWindow::poll_events()
         case SDL_KEYDOWN: {
             const SDL_Keycode key_code = event.key.keysym.sym;
             KeyPressedEvent event{key_code};
+            event.handled = handled;
             event_callback_(event);
             break;
         }
@@ -83,6 +91,7 @@ void LinuxWindow::poll_events()
         case SDL_KEYUP: {
             const SDL_Keycode key_code = event.key.keysym.sym;
             KeyReleasedEvent event{key_code};
+            event.handled = handled;
             event_callback_(event);
             break;
         }
@@ -90,6 +99,7 @@ void LinuxWindow::poll_events()
         case SDL_MOUSEBUTTONDOWN: {
             const std::uint8_t mouse_button_code = event.button.button;
             MouseButtonPressedEvent event{mouse_button_code};
+            event.handled = handled;
             event_callback_(event);
             break;
         }
@@ -97,6 +107,7 @@ void LinuxWindow::poll_events()
         case SDL_MOUSEBUTTONUP: {
             const std::uint8_t mouse_button_code = event.button.button;
             MouseButtonReleasedEvent event{mouse_button_code};
+            event.handled = handled;
             event_callback_(event);
             break;
         }
@@ -106,6 +117,7 @@ void LinuxWindow::poll_events()
             auto y = event.motion.y;
 
             MouseMovedEvent event{static_cast<float>(x), static_cast<float>(y)};
+            event.handled = handled;
             event_callback_(event);
             break;
         }
@@ -116,6 +128,7 @@ void LinuxWindow::poll_events()
 
             MouseScrolledEvent event{static_cast<float>(x),
                                      static_cast<float>(y)};
+            event.handled = handled;
             event_callback_(event);
             break;
         }
@@ -131,6 +144,12 @@ void LinuxWindow::poll_events()
 void LinuxWindow::dispatch_window_event(const SDL_WindowEvent& event)
 {
     switch (event.event) {
+    case SDL_WINDOWEVENT_CLOSE: {
+        WindowCloseEvent event;
+        event_callback_(event);
+        break;
+    }
+
     case SDL_WINDOWEVENT_SIZE_CHANGED: {
         auto width  = event.data1;
         auto height = event.data2;
@@ -179,6 +198,21 @@ void* LinuxWindow::get_native_window() const
 void LinuxWindow::set_event_callback(const EventCallbackFn& callback)
 {
     event_callback_ = callback;
+}
+
+void LinuxWindow::begin_imgui_rendering()
+{
+    imgui_renderer_->start_rendering();
+}
+
+void LinuxWindow::end_imgui_rendering()
+{
+    auto [width, height] = imgui_renderer_->end_rendering();
+
+    WindowResizeEvent event{static_cast<unsigned int>(width),
+                            static_cast<unsigned int>(height)};
+
+    event_callback_(event);
 }
 
 } // namespace SGE

@@ -13,6 +13,11 @@ DEFINE_FLAGS = $(addprefix -D,$(DEFINES))
 # SOURCES
 SRC_DIR ?= src
 SRCS := $(shell find $(SRC_DIR) -name *.cpp)
+
+SRCS += $(shell find $(VENDOR_DIR)/imgui/ -maxdepth 1 -name *.cpp)
+SRCS += $(VENDOR_DIR)/imgui/backends/imgui_impl_sdl.cpp
+SRCS += $(VENDOR_DIR)/imgui/backends/imgui_impl_opengl3.cpp
+
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 # INCLUDES
@@ -22,8 +27,11 @@ VENDOR_INCLUDES += $(VENDOR_DIR)/glad/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/assimp/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/entt/single_include/entt
 VENDOR_INCLUDES += $(VENDOR_DIR)/glm/glm
+VENDOR_INCLUDES += $(VENDOR_DIR)/imgui
+VENDOR_INCLUDES += $(VENDOR_DIR)/sdl/include
 
 INC_DIRS := $(SRC_DIR)
+INC_DIRS += $(VENDOR_DIR)
 INC_DIRS += $(VENDOR_INCLUDES)
 
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))

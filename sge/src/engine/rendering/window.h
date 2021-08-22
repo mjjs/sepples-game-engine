@@ -2,6 +2,8 @@
 #define _SGE_WINDOW_H
 
 #include "engine/event/event.h"
+#include "engine/imgui/imguirenderer.h"
+#include "engine/rendering/renderingcontext.h"
 
 #include <cstdint>
 #include <memory>
@@ -26,18 +28,20 @@ class Window
     Window& operator=(const Window&) = delete;
     Window& operator=(const Window&&) = delete;
 
-    virtual void update()                                            = 0;
-    virtual void set_event_callback(const EventCallbackFn& callback) = 0;
+    virtual void update()                = 0;
+    virtual void begin_imgui_rendering() = 0;
+    virtual void end_imgui_rendering()   = 0;
 
-    virtual std::uint32_t width() const  = 0;
-    virtual std::uint32_t height() const = 0;
-
+    virtual std::uint32_t width() const     = 0;
+    virtual std::uint32_t height() const    = 0;
     virtual void* get_native_window() const = 0;
 
-    static std::unique_ptr<Window>
-    create(const std::string& title = default_window_title,
-           std::uint32_t width      = default_window_width,
-           std::uint32_t height     = default_window_height);
+    virtual void set_event_callback(const EventCallbackFn& callback) = 0;
+
+    static std::unique_ptr<Window> create(
+        const std::string& title = default_window_title,
+        std::uint32_t width      = default_window_width,
+        std::uint32_t height     = default_window_height);
 };
 
 } // namespace SGE

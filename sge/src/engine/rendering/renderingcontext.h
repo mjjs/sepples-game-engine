@@ -14,7 +14,8 @@ class RenderingContext
     RenderingContext& operator=(const RenderingContext&&) = delete;
     virtual ~RenderingContext()                           = default;
 
-    virtual void swap_buffers() = 0;
+    virtual void swap_buffers()       = 0;
+    virtual void* raw_context() const = 0;
 };
 
 } // namespace SGE

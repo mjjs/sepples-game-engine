@@ -55,6 +55,10 @@ void Game::run()
 
         Input::update();
 
+        window_->begin_imgui_rendering();
+        render_imgui();
+        window_->end_imgui_rendering();
+
         while (timer.game_needs_updating()) {
             if (active_scene_) {
                 active_scene_->fixed_update();
@@ -84,6 +88,10 @@ void Game::handle_event(Event& event)
         event, BIND_EVENT_FN(Game::handle_window_minimize));
     Event::dispatch<WindowRestoreEvent>(
         event, BIND_EVENT_FN(Game::handle_window_restore));
+
+    if (event.handled) {
+        return;
+    }
 
     if (event.is_in_category(EventCategory::INPUT)) {
         Input::handle_input_event(event);
@@ -136,7 +144,7 @@ std::unique_ptr<Scene>& Game::active_scene()
 int main(int argc, char** argv)
 {
     SGE_PROFILER_START("profiler-create-game.json");
-    auto game = SGE::CreateGame(argc, argv);
+    auto game = SGE::create_game(argc, argv);
     SGE_PROFILER_STOP();
 
     SGE_PROFILER_START("profiler-main-loop.json");
