@@ -13,6 +13,7 @@
 #include "engine/rendering/buffers/vertexarray.h"
 #include "engine/rendering/buffers/vertexbuffer.h"
 #include "engine/rendering/camera.h"
+#include "engine/rendering/framebuffer.h"
 #include "engine/rendering/mesh.h"
 #include "engine/rendering/model.h"
 #include "engine/rendering/renderer.h"
