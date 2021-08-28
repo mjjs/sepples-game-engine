@@ -55,6 +55,11 @@ class LinuxWindow : public Window
     void set_event_callback(const EventCallbackFn& callback) override;
 
     void* get_native_window() const override;
+
+    void set_block_imgui_events(const bool should_block) override
+    {
+        imgui_renderer_->set_event_blocking(should_block);
+    }
 };
 
 } // namespace SGE

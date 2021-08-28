@@ -11,6 +11,9 @@ namespace SGE
 
 class LinuxImguiRenderer : public ImguiRenderer
 {
+  private:
+    bool block_events_ = true;
+
   public:
     LinuxImguiRenderer(SDL_Window* window, void* context);
     ~LinuxImguiRenderer();
@@ -24,6 +27,10 @@ class LinuxImguiRenderer : public ImguiRenderer
     std::pair<float, float> end_rendering() const override;
 
     bool handle_event(SDL_Event& event) const;
+    void set_event_blocking(bool should_block) override
+    {
+        block_events_ = should_block;
+    }
 };
 
 } // namespace SGE

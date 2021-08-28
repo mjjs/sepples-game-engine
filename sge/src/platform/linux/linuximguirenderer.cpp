@@ -82,13 +82,16 @@ std::pair<float, float> LinuxImguiRenderer::end_rendering() const
 
 bool LinuxImguiRenderer::handle_event(SDL_Event& event) const
 {
-    ImGuiIO& io  = ImGui::GetIO();
-    bool handled = (static_cast<int>(io.WantCaptureMouse) |
-                    static_cast<int>(io.WantCaptureKeyboard)) != 0;
+    if (block_events_) {
+        ImGuiIO& io  = ImGui::GetIO();
+        bool handled = (static_cast<int>(io.WantCaptureMouse) |
+                        static_cast<int>(io.WantCaptureKeyboard)) != 0;
 
-    ImGui_ImplSDL2_ProcessEvent(&event);
+        ImGui_ImplSDL2_ProcessEvent(&event);
+        return handled;
+    }
 
-    return handled;
+    return false;
 }
 
 } // namespace SGE

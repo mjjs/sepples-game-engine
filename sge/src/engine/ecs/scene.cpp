@@ -9,6 +9,8 @@
 #include "engine/ecs/gameobject.h"
 #include "engine/rendering/renderer.h"
 
+#include <cstdint>
+
 namespace SGE
 {
 
@@ -50,8 +52,8 @@ void Scene::fixed_update()
     script_fixed_update();
 }
 
-void Scene::on_window_resized(const unsigned int width,
-                              const unsigned int height)
+void Scene::on_window_resized(const std::uint32_t width,
+                              const std::uint32_t height)
 {
     auto cameras = components_.view<CameraComponent>();
     for (const auto& game_object : cameras) {

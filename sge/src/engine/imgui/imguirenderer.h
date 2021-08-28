@@ -19,6 +19,7 @@ class ImguiRenderer
 
     virtual void start_rendering() const                  = 0;
     virtual std::pair<float, float> end_rendering() const = 0;
+    virtual void set_event_blocking(bool should_block)    = 0;
 };
 
 } // namespace SGE

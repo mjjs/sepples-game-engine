@@ -3,7 +3,7 @@ ARCHIVER = llvm-ar-11
 CPPFLAGS ?= -Wall -Wextra -Wpedantic -std=c++20 -g
 
 BUILD_DIR ?= build
-TARGET ?= testgame
+TARGET ?= editor
 VENDOR_DIR ?= ./vendor
 
 DEFINES =  SPDLOG_COMPILED_LIB
@@ -12,7 +12,11 @@ DEFINE_FLAGS = $(addprefix -D,$(DEFINES))
 
 # SOURCES
 SRC_DIR ?= src
-SRCS := $(shell find $(SRC_DIR) -name *.cpp)
+SRCS := $(SRC_DIR)/stb_image.cpp
+
+SRCS += $(shell find $(SRC_DIR)/engine -name *.cpp)
+SRCS += $(shell find $(SRC_DIR)/platform -name *.cpp)
+SRCS += $(shell find $(SRC_DIR)/editor -name *.cpp)
 
 SRCS += $(shell find $(VENDOR_DIR)/imgui/ -maxdepth 1 -name *.cpp)
 SRCS += $(VENDOR_DIR)/imgui/backends/imgui_impl_sdl.cpp

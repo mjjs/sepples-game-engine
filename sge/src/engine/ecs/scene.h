@@ -4,6 +4,7 @@
 #include "engine/rendering/shader.h"
 #include "entt.hpp"
 
+#include <cstdint>
 #include <memory>
 #include <string>
 
@@ -29,7 +30,7 @@ class Scene
     void update(float delta);
     void fixed_update();
 
-    void on_window_resized(unsigned int width, unsigned int height);
+    void on_window_resized(std::uint32_t width, std::uint32_t height);
     GameObject add_game_object(const std::string& tag = "");
 };
 
