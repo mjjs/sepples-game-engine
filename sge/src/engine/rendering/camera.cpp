@@ -24,28 +24,6 @@ Camera::Camera(const float left, const float right, const float bottom,
 {
 }
 
-glm::mat4 Camera::get_view_projection() const
-{
-    return projection_ * glm::inverse(transform_.get_transformation());
-}
-
-void Camera::move(const glm::vec3& direction, float amount)
-{
-    transform_.set_position(transform_.position() + (direction * amount));
-}
-
-void Camera::rotate_x(float degrees)
-{
-    auto rot = glm::angleAxis(glm::radians(degrees), glm::vec3{1, 0, 0});
-    transform_.set_rotation(transform_.rotation() * rot);
-}
-
-void Camera::rotate_y(float degrees)
-{
-    auto rot = glm::angleAxis(glm::radians(degrees), world_up_);
-    transform_.set_rotation(rot * transform_.rotation());
-}
-
 void Camera::update_aspect_ratio(const unsigned int width,
                                  const unsigned int height)
 {
@@ -61,11 +39,6 @@ void Camera::update_aspect_ratio(const unsigned int width,
                                  static_cast<float>(height), z_near_, z_far_);
         break;
     };
-}
-
-const Transform& Camera::transform() const
-{
-    return transform_;
 }
 
 } // namespace SGE

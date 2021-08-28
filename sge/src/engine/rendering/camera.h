@@ -1,8 +1,6 @@
 #ifndef _SGE_CAMERA_H
 #define _SGE_CAMERA_H
 
-#include "engine/core/transform.h"
-
 #include <glm/glm.hpp>
 
 namespace SGE
@@ -32,7 +30,6 @@ class Camera
     ProjectionType projection_type_;
 
     glm::mat4 projection_{1.0F};
-    Transform transform_;
 
   public:
     constexpr static const glm::vec3 world_up_{0.0F, 1.0F, 0.0F};
@@ -50,9 +47,10 @@ class Camera
 
     void update_aspect_ratio(unsigned int width, unsigned int height);
 
-    glm::mat4 get_view_projection() const;
-
-    const Transform& transform() const;
+    const glm::mat4& projection() const
+    {
+        return projection_;
+    }
 };
 
 } // namespace SGE

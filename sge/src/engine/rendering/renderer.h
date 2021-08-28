@@ -36,7 +36,8 @@ class Renderer
     static void clear_screen();
     static void set_clear_colour(const glm::vec4& colour);
 
-    static void prepare_frame(const Camera& camera);
+    static void prepare_frame(const Camera& camera,
+                              const glm::mat4& view_matrix);
     static void submit(const std::shared_ptr<Shader>& shader,
                        const std::shared_ptr<Model>& model,
                        const Transform& transform);

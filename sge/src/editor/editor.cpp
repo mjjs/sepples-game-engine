@@ -1,63 +1,12 @@
 #include "editor.h"
 
+#include "camerascript.h"
+
 #include <imgui.h>
 #include <memory>
 
 namespace SGE
 {
-
-class CameraScript : public Scriptable
-{
-  private:
-    const float camera_move_speed_   = 25;
-    const float camera_rotate_speed_ = 90;
-
-  public:
-    void update(const float delta) override
-    {
-        auto& camera           = get_component<CameraComponent>().camera();
-        const auto& camera_rot = camera.transform().rotation();
-
-        auto front = camera_rot * glm::vec3{0, 0, -1};
-        auto right = camera_rot * glm::vec3{1, 0, 0};
-
-        if (Input::is_key_down(SDLK_w)) {
-            camera.move(front, camera_move_speed_ * delta);
-        }
-
-        if (Input::is_key_down(SDLK_s)) {
-            camera.move(front, -camera_move_speed_ * delta);
-        }
-
-        if (Input::is_key_down(SDLK_a)) {
-            camera.move(right, -camera_move_speed_ * delta);
-        }
-
-        if (Input::is_key_down(SDLK_d)) {
-            camera.move(right, camera_move_speed_ * delta);
-        }
-
-        if (Input::is_key_down(SDLK_UP)) {
-            camera.rotate_x(camera_rotate_speed_ * delta);
-        }
-
-        if (Input::is_key_down(SDLK_DOWN)) {
-            camera.rotate_x(-camera_rotate_speed_ * delta);
-        }
-
-        if (Input::is_key_down(SDLK_LEFT)) {
-            camera.rotate_y(camera_rotate_speed_ * delta);
-        }
-
-        if (Input::is_key_down(SDLK_RIGHT)) {
-            camera.rotate_y(-camera_rotate_speed_ * delta);
-        }
-    }
-
-    void fixed_update() override
-    {
-    }
-};
 
 Editor::Editor()
 {

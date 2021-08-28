@@ -30,7 +30,8 @@ class Renderer2D
                           const std::shared_ptr<Texture>& texture);
 
   public:
-    static void prepare_frame(const Camera& camera);
+    static void prepare_frame(const Camera& camera,
+                              const glm::mat4& view_matrix);
     static void end_frame();
 
     static void draw_quad(const Transform& transform, const glm::vec4& colour);

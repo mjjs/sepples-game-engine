@@ -20,10 +20,13 @@ void Scene::update(float delta)
 
     // TODO: Make sure there is only one camera
     // (or better, support multiple cameras and have a MAIN camera)
-    auto cameras      = components_.view<CameraComponent>();
-    auto scene_camera = cameras.get<CameraComponent>(cameras.front());
-
-    Renderer::prepare_frame(scene_camera.camera());
+    auto group = components_.group<CameraComponent, TransformComponent>();
+    for (const auto game_object : group) {
+        auto [camera, transform] =
+            group.get<CameraComponent, TransformComponent>(game_object);
+        Renderer::prepare_frame(camera.camera(),
+                                transform.transform().get_transformation());
+    }
 
     auto meshes = components_.view<MeshRendererComponent, TransformComponent>();
 
