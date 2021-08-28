@@ -44,9 +44,4 @@ void Transform::set_scale(const glm::vec3& scale_vector)
     scale_ = scale_vector;
 }
 
-glm::mat4 Transform::get_projected_transformation(const Camera& camera) const
-{
-    return camera.get_view_projection() * get_transformation();
-}
-
 } // namespace SGE

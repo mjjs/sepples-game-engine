@@ -28,7 +28,6 @@ class Transform
     void set_rotation(const glm::quat& rotation);
     glm::quat rotation() const;
     void set_scale(const glm::vec3& scale_vector);
-    glm::mat4 get_projected_transformation(const Camera& camera) const;
     glm::mat4 get_transformation() const;
 };
 
