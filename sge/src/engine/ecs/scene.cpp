@@ -30,7 +30,7 @@ void Scene::update(float delta)
 
     auto meshes = components_.view<MeshRendererComponent, TransformComponent>();
 
-    for (const auto& game_object : meshes) {
+    for (const auto game_object : meshes) {
         auto [mesh_component, transform_component] =
             meshes.get<MeshRendererComponent, TransformComponent>(game_object);
 
@@ -41,7 +41,7 @@ void Scene::update(float delta)
     auto models =
         components_.view<ModelRendererComponent, TransformComponent>();
 
-    for (const auto& game_object : models) {
+    for (const auto game_object : models) {
         auto [model_component, transform_component] =
             models.get<ModelRendererComponent, TransformComponent>(game_object);
 

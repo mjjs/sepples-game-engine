@@ -63,6 +63,11 @@ class GameObject
     {
         return !(*this == other);
     }
+
+    operator bool() const
+    {
+        return id_ != entt::null;
+    }
 };
 
 } // namespace SGE

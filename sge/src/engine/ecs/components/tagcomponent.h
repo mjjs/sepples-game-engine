@@ -16,6 +16,10 @@ class TagComponent
     TagComponent(const std::string& tag);
 
     const std::string& tag() const;
+    std::string& tag()
+    {
+        return tag_;
+    }
 };
 
 } // namespace SGE

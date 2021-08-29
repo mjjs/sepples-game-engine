@@ -22,6 +22,11 @@ class SceneHierarchyPanel
     SceneHierarchyPanel(const std::shared_ptr<Scene>& scene);
 
     void render_imgui();
+
+    GameObject selected_game_object() const
+    {
+        return selected_game_object_;
+    }
 };
 
 } // namespace SGE

@@ -101,6 +101,13 @@ void Editor::render_imgui()
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
 
     scene_hierarchy_panel_.render_imgui();
+    auto selected_game_object = scene_hierarchy_panel_.selected_game_object();
+
+    if (selected_game_object) {
+        GameObjectPropertiesPanel::render_imgui(selected_game_object);
+    } else {
+        GameObjectPropertiesPanel::render_imgui();
+    }
 
     ImGui::Begin("Scene");
     get().window().set_block_imgui_events(!ImGui::IsWindowFocused() ||

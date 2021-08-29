@@ -9,7 +9,7 @@ CameraComponent::CameraComponent()
     // Ortho
     //: camera_{0, 1270, 0, 800, -1, 1}
     // Perspective
-    : camera_{70, (float)1270 / (float)800, .1, 1000}
+    : camera_{70, (float)1270 / (float)800, .1, 100}
 {
 }
 

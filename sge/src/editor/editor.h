@@ -1,6 +1,7 @@
 #ifndef _SGE_EDITOR_H
 #define _SGE_EDITOR_H
 
+#include "gui/gameobjectpropertiespanel.h"
 #include "gui/scenehierarchypanel.h"
 #include "sge.h"
 
@@ -19,6 +20,7 @@ class Editor : public Game
     std::uint32_t scene_viewport_height_ = 0;
 
     SceneHierarchyPanel scene_hierarchy_panel_;
+    GameObjectPropertiesPanel game_object_properties_panel_;
 
   public:
     Editor();

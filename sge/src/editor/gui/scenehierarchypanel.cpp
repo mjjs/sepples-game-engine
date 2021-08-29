@@ -24,6 +24,11 @@ void SceneHierarchyPanel::render_imgui()
         draw_game_object_node(GameObject{game_object_id, scene_.get()});
     }
 
+    if (ImGui::IsWindowHovered() &&
+        ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+        selected_game_object_ = GameObject();
+    }
+
     ImGui::End();
 }
 

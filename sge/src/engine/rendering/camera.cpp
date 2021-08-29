@@ -11,7 +11,8 @@ Camera::Camera(const float fov_degrees, const float aspect_ratio,
     : z_near_{z_near}, z_far_{z_far}, fov_degrees_{fov_degrees},
       aspect_ratio_{aspect_ratio},
       projection_type_{ProjectionType::PERSPECTIVE},
-      projection_{glm::perspective(fov_degrees, aspect_ratio, z_near, z_far)}
+      projection_{glm::perspective(glm::radians(fov_degrees), aspect_ratio,
+                                   z_near, z_far)}
 {
 }
 
@@ -30,8 +31,8 @@ void Camera::update_aspect_ratio(const unsigned int width,
     switch (projection_type_) {
     case ProjectionType::PERSPECTIVE:
         aspect_ratio_ = (float)width / (float)height;
-        projection_ =
-            glm::perspective(fov_degrees_, aspect_ratio_, z_near_, z_far_);
+        projection_   = glm::perspective(glm::radians(fov_degrees_),
+                                       aspect_ratio_, z_near_, z_far_);
         break;
 
     case ProjectionType::ORTHOGRAPHIC:

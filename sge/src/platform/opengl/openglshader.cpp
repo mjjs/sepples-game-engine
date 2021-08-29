@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <fstream>
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -149,7 +151,7 @@ void OpenGLShader::set_uniform(const std::string& variable_name,
                                const glm::mat4& matrix)
 {
     GLuint location = register_uniform_if_not_exists(variable_name);
-    glUniformMatrix4fv(location, 1, GL_TRUE, &(matrix[0][0]));
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void OpenGLShader::set_uniform(const std::string& variable_name,

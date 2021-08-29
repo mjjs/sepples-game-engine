@@ -9,6 +9,7 @@
 #include "engine/rendering/shader.h"
 
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <memory>
 
 namespace SGE
@@ -40,7 +41,8 @@ void Renderer::prepare_frame(const Camera& camera, const glm::mat4& view_matrix)
     SGE_PROFILE_FUNCTION();
 
     auto view_projection = camera.projection() * glm::inverse(view_matrix);
-    camera_buffer_->set_data(&view_projection, sizeof(view_projection));
+    camera_buffer_->set_data(glm::value_ptr(view_projection),
+                             sizeof(view_projection));
 }
 
 void Renderer::submit(const std::shared_ptr<Shader>& shader,

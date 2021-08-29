@@ -25,9 +25,20 @@ class Transform
   public:
     void set_position(const glm::vec3& position_vector);
     const glm::vec3& position() const;
+    glm::vec3& position()
+    {
+        return position_;
+    }
+
     void set_rotation(const glm::quat& rotation);
     glm::quat rotation() const;
+
     void set_scale(const glm::vec3& scale_vector);
+    glm::vec3& scale()
+    {
+        return scale_;
+    }
+
     glm::mat4 get_transformation() const;
 };
 
