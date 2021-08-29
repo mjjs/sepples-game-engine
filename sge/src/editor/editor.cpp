@@ -16,7 +16,7 @@ Editor::Editor()
 
     framebuffer_ = Framebuffer::create(fb_config);
 
-    active_scene_ = std::make_unique<Scene>();
+    active_scene_ = std::make_shared<Scene>();
 
     auto backpack = active_scene_->add_game_object("backpack");
     auto floor    = active_scene_->add_game_object("floor");
@@ -43,6 +43,8 @@ Editor::Editor()
         floor_vertices, floor_indices, Material{red_texture, nullptr, nullptr});
 
     floor.add_component<MeshRendererComponent>(floor_mesh);
+
+    scene_hierarchy_panel_ = SceneHierarchyPanel{active_scene_};
 }
 
 void Editor::update(const float delta)
@@ -98,8 +100,7 @@ void Editor::render_imgui()
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
 
-    bool t = true;
-    ImGui::ShowDemoWindow(&t);
+    scene_hierarchy_panel_.render_imgui();
 
     ImGui::Begin("Scene");
     get().window().set_block_imgui_events(!ImGui::IsWindowFocused() ||

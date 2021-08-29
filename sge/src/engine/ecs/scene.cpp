@@ -69,7 +69,7 @@ GameObject Scene::add_game_object(const std::string& tag)
 {
     auto game_object = GameObject{components_.create(), this};
 
-    game_object.add_component<TagComponent>(tag);
+    game_object.add_component<TagComponent>(get_unique_name(tag));
     game_object.add_component<TransformComponent>();
 
     return game_object;
@@ -105,6 +105,21 @@ void Scene::script_fixed_update()
 
         script.instance->fixed_update();
     });
+}
+
+std::string Scene::get_unique_name(const std::string& name)
+{
+    std::uint32_t index = 1;
+
+    if (!reserved_names_.contains(name)) {
+        reserved_names_[name] = index;
+        return name;
+    }
+
+    index                 = reserved_names_[name];
+    reserved_names_[name] = index + 1;
+
+    return name + "_" + std::to_string(index);
 }
 
 } // namespace SGE
