@@ -6,6 +6,7 @@
 #include "sge.h"
 
 #include <cstdint>
+#include <memory>
 
 namespace SGE
 {
@@ -19,8 +20,8 @@ class Editor : public Game
     std::uint32_t scene_viewport_width_  = 0;
     std::uint32_t scene_viewport_height_ = 0;
 
-    SceneHierarchyPanel scene_hierarchy_panel_;
-    GameObjectPropertiesPanel game_object_properties_panel_;
+    std::shared_ptr<SceneHierarchyPanel> scene_hierarchy_panel_;
+    std::shared_ptr<GameObjectPropertiesPanel> game_object_properties_panel_;
 
   public:
     Editor();

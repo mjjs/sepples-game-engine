@@ -16,13 +16,9 @@ namespace SGE
 void GameObjectPropertiesPanel::render_imgui()
 {
     ImGui::Begin("Game object properties");
-    ImGui::End();
-}
-
-void GameObjectPropertiesPanel::render_imgui(GameObject game_object)
-{
-    ImGui::Begin("Game object properties");
-    draw_components(game_object);
+    if (auto game_object = scene_hierarchy_panel_->selected_game_object()) {
+        draw_components(game_object);
+    }
     ImGui::End();
 }
 

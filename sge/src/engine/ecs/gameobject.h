@@ -64,6 +64,11 @@ class GameObject
         return !(*this == other);
     }
 
+    operator entt::entity() const
+    {
+        return id_;
+    }
+
     operator bool() const
     {
         return id_ != entt::null;

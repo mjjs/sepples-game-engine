@@ -75,6 +75,11 @@ GameObject Scene::add_game_object(const std::string& tag)
     return game_object;
 }
 
+void Scene::remove_game_object(GameObject game_object)
+{
+    components_.destroy(game_object);
+}
+
 void Scene::script_update(const float delta)
 {
     auto scriptables = components_.view<CPPScriptComponent>();

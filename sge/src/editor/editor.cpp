@@ -44,7 +44,11 @@ Editor::Editor()
 
     floor.add_component<MeshRendererComponent>(floor_mesh);
 
-    scene_hierarchy_panel_ = SceneHierarchyPanel{active_scene_};
+    scene_hierarchy_panel_ =
+        std::make_shared<SceneHierarchyPanel>(active_scene_);
+
+    game_object_properties_panel_ = std::make_shared<GameObjectPropertiesPanel>(
+        scene_hierarchy_panel_, active_scene_);
 }
 
 void Editor::update(const float delta)
@@ -100,14 +104,8 @@ void Editor::render_imgui()
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
 
-    scene_hierarchy_panel_.render_imgui();
-    auto selected_game_object = scene_hierarchy_panel_.selected_game_object();
-
-    if (selected_game_object) {
-        GameObjectPropertiesPanel::render_imgui(selected_game_object);
-    } else {
-        GameObjectPropertiesPanel::render_imgui();
-    }
+    scene_hierarchy_panel_->render_imgui();
+    game_object_properties_panel_->render_imgui();
 
     ImGui::Begin("Scene");
     get().window().set_block_imgui_events(!ImGui::IsWindowFocused() ||
