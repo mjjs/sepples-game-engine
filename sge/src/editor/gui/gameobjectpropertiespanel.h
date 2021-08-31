@@ -3,6 +3,8 @@
 
 #include "engine/ecs/gameobject.h"
 
+#include <string>
+
 namespace SGE
 {
 

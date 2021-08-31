@@ -40,27 +40,21 @@ class CameraScript : public Scriptable
         }
 
         if (Input::is_key_down(SDLK_UP)) {
-            auto angle = glm::radians(camera_rotate_speed_ * delta);
-            auto rot   = glm::angleAxis(angle, glm::vec3{1, 0, 0});
-            transform.set_rotation(transform.rotation() * rot);
+            transform.rotate(glm::vec3{camera_rotate_speed_ * delta, 0, 0});
         }
 
         if (Input::is_key_down(SDLK_DOWN)) {
-            auto angle = -glm::radians(camera_rotate_speed_ * delta);
-            auto rot   = glm::angleAxis(angle, glm::vec3{1, 0, 0});
-            transform.set_rotation(transform.rotation() * rot);
+            transform.rotate(glm::vec3{-camera_rotate_speed_ * delta, 0, 0});
         }
 
         if (Input::is_key_down(SDLK_LEFT)) {
-            auto angle = glm::radians(camera_rotate_speed_ * delta);
-            auto rot   = glm::angleAxis(angle, glm::vec3{0, 1, 0});
-            transform.set_rotation(rot * transform.rotation());
+            transform.rotate(glm::vec3{0, camera_rotate_speed_ * delta, 0},
+                             Transform::RotationSpace::WORLD);
         }
 
         if (Input::is_key_down(SDLK_RIGHT)) {
-            auto angle = -glm::radians(camera_rotate_speed_ * delta);
-            auto rot   = glm::angleAxis(angle, glm::vec3{0, 1, 0});
-            transform.set_rotation(rot * transform.rotation());
+            transform.rotate(glm::vec3{0, -camera_rotate_speed_ * delta, 0},
+                             Transform::RotationSpace::WORLD);
         }
     }
 

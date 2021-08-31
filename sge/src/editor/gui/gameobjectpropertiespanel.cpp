@@ -48,6 +48,15 @@ void GameObjectPropertiesPanel::draw_components(GameObject game_object)
             ImGui::DragFloat3("Position", glm::value_ptr(transform.position()),
                               0.1F);
 
+            auto& rotation_eulers = transform.rotation_euler_hints();
+
+            if (ImGui::DragFloat3("Rotation", glm::value_ptr(rotation_eulers),
+                                  1.0F)) {
+                transform.set_rotation(rotation_eulers);
+            }
+
+            ImGui::DragFloat3("Scale", glm::value_ptr(transform.scale()), 0.1F);
+
             ImGui::TreePop();
         }
     }
