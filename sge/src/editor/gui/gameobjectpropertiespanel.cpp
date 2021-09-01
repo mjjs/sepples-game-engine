@@ -13,6 +13,8 @@
 namespace SGE
 {
 
+static constexpr auto ADD_COMPONENT_POPUP_ID = "add component popup";
+
 void GameObjectPropertiesPanel::render_imgui()
 {
     ImGui::Begin("Game object properties");
@@ -136,6 +138,30 @@ void GameObjectPropertiesPanel::draw_components(GameObject game_object)
 
             ImGui::TreePop();
         }
+    }
+
+    if (ImGui::BeginPopupContextItem(ADD_COMPONENT_POPUP_ID)) {
+
+        if (ImGui::Selectable("Camera component")) {
+            scene_hierarchy_panel_->selected_game_object()
+                .add_component<CameraComponent>();
+        }
+
+        if (ImGui::Selectable("A component")) {
+        }
+
+        if (ImGui::Selectable("B component")) {
+        }
+
+        if (ImGui::Button("Cancel")) {
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
+    }
+
+    if (ImGui::Button("Add component")) {
+        ImGui::OpenPopup(ADD_COMPONENT_POPUP_ID);
     }
 }
 

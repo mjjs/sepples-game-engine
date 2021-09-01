@@ -24,7 +24,7 @@ class LinuxImguiRenderer : public ImguiRenderer
     LinuxImguiRenderer& operator=(const LinuxImguiRenderer&&) = delete;
 
     void start_rendering() const override;
-    std::pair<float, float> end_rendering() const override;
+    void end_rendering() const override;
 
     bool handle_event(SDL_Event& event) const;
     void set_event_blocking(bool should_block) override

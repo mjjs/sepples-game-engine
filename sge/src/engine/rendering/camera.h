@@ -16,7 +16,7 @@ class Camera
 
   private:
     // Perspective camera
-    float fov_degrees_{glm::radians(75.0F)};
+    float fov_degrees_{75.0F};
     float aspect_ratio_{0};
     float perspective_z_near_{0.01F};
     float perspective_z_far_{1000.0F};
@@ -26,7 +26,7 @@ class Camera
     float orthographic_z_near_{-1.0F};
     float orthographic_z_far_{1.0F};
 
-    ProjectionType projection_type_;
+    ProjectionType projection_type_{ProjectionType::PERSPECTIVE};
 
     glm::mat4 projection_{1.0F};
 
@@ -35,11 +35,8 @@ class Camera
   public:
     constexpr static const glm::vec3 world_up_{0.0F, 1.0F, 0.0F};
 
-    // Perspective constructor
-    Camera(float fov_degrees, float aspect_ratio, float z_near, float z_far);
-
-    // Orthographic constructor
-    Camera(float size, float z_near, float z_far);
+    void set_orthographic(float size, float z_near, float z_far);
+    void set_perspective(float fov_degrees, float z_near, float z_far);
 
     void update_aspect_ratio(unsigned int width, unsigned int height);
 

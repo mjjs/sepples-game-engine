@@ -21,11 +21,13 @@ class Scene
 
   private:
     entt::registry components_{};
+    std::unordered_map<std::string, std::uint32_t> reserved_names_{};
+    std::uint32_t viewport_width_{0};
+    std::uint32_t viewport_height_{0};
 
     void script_update(float delta);
     void script_fixed_update();
 
-    std::unordered_map<std::string, std::uint32_t> reserved_names_{};
     std::string get_unique_name(const std::string& name);
 
     // TEMPORARY

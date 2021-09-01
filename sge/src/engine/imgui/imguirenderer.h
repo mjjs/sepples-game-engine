@@ -17,9 +17,9 @@ class ImguiRenderer
     ImguiRenderer& operator=(const ImguiRenderer&) = delete;
     ImguiRenderer& operator=(const ImguiRenderer&&) = delete;
 
-    virtual void start_rendering() const                  = 0;
-    virtual std::pair<float, float> end_rendering() const = 0;
-    virtual void set_event_blocking(bool should_block)    = 0;
+    virtual void start_rendering() const               = 0;
+    virtual void end_rendering() const                 = 0;
+    virtual void set_event_blocking(bool should_block) = 0;
 };
 
 } // namespace SGE

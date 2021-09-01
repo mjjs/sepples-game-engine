@@ -30,6 +30,8 @@ Game::Game()
     Log::init();
     Renderer::init();
     Renderer2D::init();
+
+    on_created();
 }
 
 void Game::run()

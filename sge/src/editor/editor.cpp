@@ -51,6 +51,10 @@ Editor::Editor()
         scene_hierarchy_panel_, active_scene_);
 }
 
+void Editor::on_created()
+{
+}
+
 void Editor::update(const float delta)
 {
     framebuffer_->bind();
@@ -110,6 +114,7 @@ void Editor::render_imgui()
     ImGui::Begin("Scene");
     get().window().set_block_imgui_events(!ImGui::IsWindowFocused() ||
                                           !ImGui::IsWindowHovered());
+    ImGui::ShowDemoWindow();
 
     auto [width, height] = ImGui::GetContentRegionAvail();
 

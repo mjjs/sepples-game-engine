@@ -63,6 +63,10 @@ class Game
     {
     }
 
+    virtual void on_created()
+    {
+    }
+
     const Window& window() const
     {
         return *window_;

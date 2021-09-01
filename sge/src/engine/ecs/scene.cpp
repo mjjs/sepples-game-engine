@@ -1,5 +1,6 @@
 #include "engine/ecs/scene.h"
 
+#include "engine/core/log.h"
 #include "engine/ecs/components/cameracomponent.h"
 #include "engine/ecs/components/cppscriptcomponent.h"
 #include "engine/ecs/components/meshrenderercomponent.h"
@@ -58,6 +59,9 @@ void Scene::fixed_update()
 void Scene::on_window_resized(const std::uint32_t width,
                               const std::uint32_t height)
 {
+    viewport_width_  = width;
+    viewport_height_ = height;
+
     auto cameras = components_.view<CameraComponent>();
     for (const auto& game_object : cameras) {
         auto& camera = cameras.get<CameraComponent>(game_object);

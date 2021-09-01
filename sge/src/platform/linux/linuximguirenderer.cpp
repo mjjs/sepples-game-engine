@@ -52,12 +52,9 @@ void LinuxImguiRenderer::start_rendering() const
     ImGui::NewFrame();
 }
 
-std::pair<float, float> LinuxImguiRenderer::end_rendering() const
+void LinuxImguiRenderer::end_rendering() const
 {
     ImGuiIO& io = ImGui::GetIO();
-
-    float x = io.DisplaySize.x;
-    float y = io.DisplaySize.y;
 
     const auto& window = Game::get().window();
 
@@ -76,8 +73,6 @@ std::pair<float, float> LinuxImguiRenderer::end_rendering() const
 
         SDL_GL_MakeCurrent(sdl_window, sdl_context);
     }
-
-    return {x, y};
 }
 
 bool LinuxImguiRenderer::handle_event(SDL_Event& event) const

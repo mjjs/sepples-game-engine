@@ -29,6 +29,7 @@ class Editor : public Game
     void update(float delta) override;
     void render_imgui() override;
     void on_viewport_resize(std::size_t width, std::size_t height) override;
+    void on_created() override;
 };
 
 } // namespace SGE
