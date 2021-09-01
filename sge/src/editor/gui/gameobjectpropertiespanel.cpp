@@ -138,13 +138,16 @@ void GameObjectPropertiesPanel::draw_components(GameObject game_object)
 
             ImGui::TreePop();
         }
+
+        if (ImGui::Button("-")) {
+            game_object.remove_component<CameraComponent>();
+        }
     }
 
     if (ImGui::BeginPopupContextItem(ADD_COMPONENT_POPUP_ID)) {
 
         if (ImGui::Selectable("Camera component")) {
-            scene_hierarchy_panel_->selected_game_object()
-                .add_component<CameraComponent>();
+            game_object.add_component<CameraComponent>();
         }
 
         if (ImGui::Selectable("A component")) {
