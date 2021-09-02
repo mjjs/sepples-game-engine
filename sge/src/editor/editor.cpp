@@ -2,6 +2,7 @@
 
 #include "camerascript.h"
 #include "engine/ecs/scene_serializer.h"
+#include "gui/file_utils.h"
 
 #include <imgui.h>
 #include <memory>
@@ -108,6 +109,49 @@ void Editor::render_imgui()
     }
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
+
+    if (ImGui::BeginMenuBar()) {
+        if (ImGui::BeginMenu("File")) {
+
+            if (ImGui::MenuItem("New scene")) {
+                active_scene_ = std::make_shared<Scene>();
+                active_scene_->on_window_resized(scene_viewport_width_,
+                                                 scene_viewport_height_);
+                scene_hierarchy_panel_->set_scene(active_scene_);
+            }
+
+            if (ImGui::MenuItem("Open scene...")) {
+                auto filepath =
+                    FileDialog::open_file({"SGE Scene Files", "*.sge"});
+
+                if (!filepath.empty()) {
+                    active_scene_ = std::make_shared<Scene>();
+                    active_scene_->on_window_resized(scene_viewport_width_,
+                                                     scene_viewport_height_);
+                    scene_hierarchy_panel_->set_scene(active_scene_);
+
+                    SceneSerializer::deserialize_yaml(active_scene_, filepath);
+                }
+            }
+
+            if (ImGui::MenuItem("Save scene as...")) {
+                auto filepath =
+                    FileDialog::save_file({"SGE Scene Files", "*.sge"});
+
+                if (!filepath.empty()) {
+                    SceneSerializer::serialize_yaml(active_scene_, filepath);
+                }
+            }
+
+            if (ImGui::MenuItem("Quit")) {
+                get().shutdown();
+            }
+
+            ImGui::EndMenu();
+        }
+
+        ImGui::EndMenuBar();
+    }
 
     scene_hierarchy_panel_->render_imgui();
     game_object_properties_panel_->render_imgui();

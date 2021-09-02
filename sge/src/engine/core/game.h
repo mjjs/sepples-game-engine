@@ -77,6 +77,11 @@ class Game
         return *window_;
     }
 
+    void shutdown()
+    {
+        running_ = false;
+    }
+
     static Game& get()
     {
         return *instance_;

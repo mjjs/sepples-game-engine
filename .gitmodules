@@ -22,3 +22,6 @@
 [submodule "sge/vendor/yaml-cpp"]
 	path = sge/vendor/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp
+[submodule "sge/vendor/portable-file-dialogs"]
+	path = sge/vendor/portable-file-dialogs
+	url = https://github.com/samhocevar/portable-file-dialogs

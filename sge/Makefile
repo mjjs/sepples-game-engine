@@ -35,6 +35,7 @@ VENDOR_INCLUDES += $(VENDOR_DIR)/glm/glm
 VENDOR_INCLUDES += $(VENDOR_DIR)/imgui
 VENDOR_INCLUDES += $(VENDOR_DIR)/sdl/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/yaml-cpp/include
+VENDOR_INCLUDES += $(VENDOR_DIR)/portable-file-dialogs
 
 INC_DIRS := $(SRC_DIR)
 INC_DIRS += $(VENDOR_DIR)
