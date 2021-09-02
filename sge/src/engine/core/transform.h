@@ -43,6 +43,11 @@ class Transform
         return rotation_euler_hints_;
     }
 
+    void set_rotation_euler_hints(const glm::vec3& euler_angles)
+    {
+        rotation_euler_hints_ = euler_angles;
+    }
+
     void set_rotation(const glm::quat& rotation)
     {
         rotation_ = rotation;

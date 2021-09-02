@@ -1,6 +1,7 @@
 #include "editor.h"
 
 #include "camerascript.h"
+#include "engine/ecs/scene_serializer.h"
 
 #include <imgui.h>
 #include <memory>
@@ -114,7 +115,6 @@ void Editor::render_imgui()
     ImGui::Begin("Scene");
     get().window().set_block_imgui_events(!ImGui::IsWindowFocused() ||
                                           !ImGui::IsWindowHovered());
-    ImGui::ShowDemoWindow();
 
     auto [width, height] = ImGui::GetContentRegionAvail();
 

@@ -19,3 +19,6 @@
 [submodule "sge/vendor/imgui"]
 	path = sge/vendor/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "sge/vendor/yaml-cpp"]
+	path = sge/vendor/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp

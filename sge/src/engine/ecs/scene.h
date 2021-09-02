@@ -18,6 +18,7 @@ class Scene
 {
     friend class GameObject;
     friend class SceneHierarchyPanel;
+    friend class SceneSerializer;
 
   private:
     entt::registry components_{};
