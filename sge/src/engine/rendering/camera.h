@@ -30,6 +30,8 @@ class Camera
 
     glm::mat4 projection_{1.0F};
 
+    bool primary_{true};
+
     void recalculate_projection();
 
   public:
@@ -134,6 +136,16 @@ class Camera
     {
         orthographic_z_far_ = z_far;
         recalculate_projection();
+    }
+
+    bool primary() const
+    {
+        return primary_;
+    }
+
+    void set_primary(bool primary)
+    {
+        primary_ = primary;
     }
 };
 

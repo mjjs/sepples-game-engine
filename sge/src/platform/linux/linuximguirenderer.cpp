@@ -10,6 +10,7 @@
 #include <backends/imgui_impl_sdl.h>
 #include <glad/glad.h>
 #include <imgui.h>
+#include <imguizmo/ImGuizmo.h>
 #include <utility>
 
 namespace SGE
@@ -50,6 +51,7 @@ void LinuxImguiRenderer::start_rendering() const
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
+    ImGuizmo::BeginFrame();
 }
 
 void LinuxImguiRenderer::end_rendering() const
@@ -78,12 +80,13 @@ void LinuxImguiRenderer::end_rendering() const
 bool LinuxImguiRenderer::handle_event(SDL_Event& event) const
 {
     if (block_events_) {
-        ImGuiIO& io  = ImGui::GetIO();
-        bool handled = (static_cast<int>(io.WantCaptureMouse) |
-                        static_cast<int>(io.WantCaptureKeyboard)) != 0;
+        //        ImGuiIO& io  = ImGui::GetIO();
+        //        bool handled = (static_cast<int>(io.WantCaptureMouse) |
+        //                        static_cast<int>(io.WantCaptureKeyboard)) !=
+        //                        0;
 
         ImGui_ImplSDL2_ProcessEvent(&event);
-        return handled;
+        return true;
     }
 
     return false;

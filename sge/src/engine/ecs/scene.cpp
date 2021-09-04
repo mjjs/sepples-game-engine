@@ -19,14 +19,17 @@ void Scene::update(float delta)
 {
     script_update(delta);
 
-    // TODO: Make sure there is only one camera
-    // (or better, support multiple cameras and have a MAIN camera)
     auto group = components_.group<CameraComponent, TransformComponent>();
     for (const auto game_object : group) {
         auto [camera, transform] =
             group.get<CameraComponent, TransformComponent>(game_object);
-        Renderer::prepare_frame(camera.camera(),
-                                transform.transform().get_transformation());
+
+        if (camera.camera().primary()) {
+            Renderer::prepare_frame(camera.camera(),
+                                    transform.transform().get_transformation());
+
+            break;
+        }
     }
 
     auto meshes = components_.view<MeshRendererComponent, TransformComponent>();
@@ -129,6 +132,21 @@ std::string Scene::get_unique_name(const std::string& name)
     reserved_names_[name] = index + 1;
 
     return name + "_" + std::to_string(index);
+}
+
+GameObject Scene::get_primary_camera()
+{
+    auto group = components_.group<CameraComponent, TransformComponent>();
+    for (const auto game_object_id : group) {
+        auto [camera, transform] =
+            group.get<CameraComponent, TransformComponent>(game_object_id);
+
+        if (camera.camera().primary()) {
+            return GameObject{game_object_id, this};
+        }
+    }
+
+    return GameObject{};
 }
 
 } // namespace SGE

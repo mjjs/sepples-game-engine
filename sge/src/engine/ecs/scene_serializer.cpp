@@ -75,6 +75,9 @@ void SceneSerializer::serialize_game_object(YAML::Emitter& out,
 
         auto& camera = game_object.get_component<CameraComponent>().camera();
 
+        out << YAML::Key << "Primary";
+        out << YAML::Value << camera.primary();
+
         out << YAML::Key << "ProjectionType";
         out << YAML::Value << static_cast<int>(camera.projection_type());
 
@@ -184,6 +187,9 @@ void SceneSerializer::deserialize_yaml(const std::shared_ptr<Scene>& scene,
             if (const auto& camera_component_field = field["CameraComponent"]) {
                 auto& camera =
                     game_object.add_component<CameraComponent>().camera();
+
+                camera.set_primary(
+                    camera_component_field["Primary"].as<bool>());
 
                 camera.set_projection_type(static_cast<Camera::ProjectionType>(
                     camera_component_field["ProjectionType"].as<int>()));

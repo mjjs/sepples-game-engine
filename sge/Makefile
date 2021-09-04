@@ -22,6 +22,7 @@ SRCS += $(shell find $(VENDOR_DIR)/imgui/ -maxdepth 1 -name *.cpp)
 SRCS += $(shell find $(VENDOR_DIR)/yaml-cpp/src -name *.cpp)
 SRCS += $(VENDOR_DIR)/imgui/backends/imgui_impl_sdl.cpp
 SRCS += $(VENDOR_DIR)/imgui/backends/imgui_impl_opengl3.cpp
+SRCS += $(VENDOR_DIR)/imguizmo/ImGuizmo.cpp
 
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
@@ -36,6 +37,7 @@ VENDOR_INCLUDES += $(VENDOR_DIR)/imgui
 VENDOR_INCLUDES += $(VENDOR_DIR)/sdl/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/yaml-cpp/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/portable-file-dialogs
+VENDOR_INCLUDES += $(VENDOR_DIR)/imguizmo
 
 INC_DIRS := $(SRC_DIR)
 INC_DIRS += $(VENDOR_DIR)

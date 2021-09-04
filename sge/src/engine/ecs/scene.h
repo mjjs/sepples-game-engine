@@ -41,6 +41,7 @@ class Scene
     void on_window_resized(std::uint32_t width, std::uint32_t height);
     GameObject add_game_object(const std::string& tag = "");
     void remove_game_object(GameObject game_object);
+    GameObject get_primary_camera();
 };
 
 } // namespace SGE

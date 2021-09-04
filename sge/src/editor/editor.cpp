@@ -1,10 +1,14 @@
 #include "editor.h"
 
 #include "camerascript.h"
+#include "engine/core/input.h"
 #include "engine/ecs/scene_serializer.h"
 #include "gui/file_utils.h"
 
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 #include <imgui.h>
+#include <imguizmo/ImGuizmo.h>
 #include <memory>
 
 namespace SGE
@@ -59,6 +63,16 @@ void Editor::on_created()
 
 void Editor::update(const float delta)
 {
+    if (Input::is_key_down(SDLK_q)) {
+        gizmo_operation_ = ImGuizmo::OPERATION::TRANSLATE;
+    }
+    if (Input::is_key_down(SDLK_e)) {
+        gizmo_operation_ = ImGuizmo::OPERATION::ROTATE;
+    }
+    if (Input::is_key_down(SDLK_t)) {
+        gizmo_operation_ = ImGuizmo::OPERATION::SCALE;
+    }
+
     framebuffer_->bind();
     Renderer::clear_screen();
     active_scene_->update(delta);
@@ -157,7 +171,7 @@ void Editor::render_imgui()
     game_object_properties_panel_->render_imgui();
 
     ImGui::Begin("Scene");
-    get().window().set_block_imgui_events(!ImGui::IsWindowFocused() ||
+    get().window().set_block_imgui_events(!ImGui::IsWindowFocused() &&
                                           !ImGui::IsWindowHovered());
 
     auto [width, height] = ImGui::GetContentRegionAvail();
@@ -173,6 +187,60 @@ void Editor::render_imgui()
     std::uint32_t texture_id = framebuffer_->colour_attachment_buffer_id();
     ImGui::Image((void*)texture_id, ImVec2{width, height}, ImVec2{0, 1},
                  ImVec2{1, 0});
+
+    // GIZMO STUFF
+    auto game_object = scene_hierarchy_panel_->selected_game_object();
+    if (game_object) {
+        ImGuizmo::SetOrthographic(false);
+        ImGuizmo::SetDrawlist();
+
+        float width  = ImGui::GetWindowWidth();
+        float height = ImGui::GetWindowHeight();
+        auto [x, y]  = ImGui::GetWindowPos();
+        ImGuizmo::SetRect(x, y, width, height);
+
+        auto camera_object = active_scene_->get_primary_camera();
+
+        auto& camera = camera_object.get_component<CameraComponent>().camera();
+
+        auto& camera_transform =
+            camera_object.get_component<TransformComponent>().transform();
+
+        auto view_matrix = glm::inverse(camera_transform.get_transformation());
+        const auto& projection = camera.projection();
+
+        auto& game_object_transform =
+            game_object.get_component<TransformComponent>().transform();
+        auto transform = game_object_transform.get_transformation();
+
+        ImGuizmo::Manipulate(glm::value_ptr(view_matrix),
+                             glm::value_ptr(projection),
+                             (ImGuizmo::OPERATION)gizmo_operation_,
+                             ImGuizmo::LOCAL, glm::value_ptr(transform));
+
+        if (ImGuizmo::IsUsing()) {
+            glm::vec3 scale;
+            glm::quat rotation;
+            glm::vec3 translation;
+
+            glm::vec3 skew;
+            glm::vec4 perspective;
+
+            glm::decompose(transform, scale, rotation, translation, skew,
+                           perspective);
+
+            game_object_transform.set_position(translation);
+            game_object_transform.set_rotation(rotation);
+            game_object_transform.set_scale(scale);
+
+            auto rot_eulers = glm::eulerAngles(rotation);
+            game_object_transform.set_rotation_euler_hints(glm::vec3{
+                glm::degrees(rot_eulers.x),
+                glm::degrees(rot_eulers.y),
+                glm::degrees(rot_eulers.z),
+            });
+        }
+    }
 
     ImGui::End();
 

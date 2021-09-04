@@ -23,6 +23,9 @@ class Editor : public Game
     std::shared_ptr<SceneHierarchyPanel> scene_hierarchy_panel_;
     std::shared_ptr<GameObjectPropertiesPanel> game_object_properties_panel_;
 
+    // ImGuizmo::OPERATION
+    int gizmo_operation_ = -1;
+
   public:
     Editor();
 
