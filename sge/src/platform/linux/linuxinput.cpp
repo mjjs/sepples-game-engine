@@ -1,5 +1,3 @@
-#include "platform/linux/linuxinput.h"
-
 #include "engine/core/input.h"
 #include "engine/event/event.h"
 #include "engine/event/keypressedevent.h"
@@ -12,109 +10,125 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keyboard.h>
 #include <cstdint>
+#include <unordered_set>
 #include <utility>
 
 namespace SGE
 {
 
-// NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-Input* Input::instance_ = new LinuxInput();
+static bool handle_key_down(KeyPressedEvent& event);
+static bool handle_key_up(KeyReleasedEvent& event);
+static bool handle_mouse_button_down(MouseButtonPressedEvent& event);
+static bool handle_mouse_button_released(MouseButtonReleasedEvent& event);
+static bool handle_mouse_motion(MouseMovedEvent& event);
+static bool handle_mouse_scroll(MouseScrolledEvent& event);
 
-void LinuxInput::update_impl()
+struct InputState {
+    // Keyboard
+    std::unordered_set<SDL_Keycode> last_keys_{};
+    std::unordered_set<SDL_Keycode> current_keys_{};
+
+    // Mouse
+    std::unordered_set<std::uint8_t> last_mouse_keys_{};
+    std::unordered_set<std::uint8_t> current_mouse_keys_{};
+    std::pair<float, float> mouse_position_{};
+} static input_state; // NOLINT
+
+void Input::update()
 {
-    last_keys_       = current_keys_;
-    last_mouse_keys_ = current_mouse_keys_;
+    input_state.last_keys_       = input_state.current_keys_;
+    input_state.last_mouse_keys_ = input_state.current_mouse_keys_;
 }
 
-void LinuxInput::handle_input_event_impl(Event& event)
+void Input::handle_input_event(Event& event)
 {
-    Event::dispatch<KeyPressedEvent>(
-        event, BIND_EVENT_FN(LinuxInput::handle_key_down));
-    Event::dispatch<KeyReleasedEvent>(event,
-                                      BIND_EVENT_FN(LinuxInput::handle_key_up));
+    Event::dispatch<KeyPressedEvent>(event, BIND_EVENT_FN(handle_key_down));
+    Event::dispatch<KeyReleasedEvent>(event, BIND_EVENT_FN(handle_key_up));
     Event::dispatch<MouseButtonPressedEvent>(
-        event, BIND_EVENT_FN(LinuxInput::handle_mouse_button_down));
+        event, BIND_EVENT_FN(handle_mouse_button_down));
     Event::dispatch<MouseButtonReleasedEvent>(
-        event, BIND_EVENT_FN(LinuxInput::handle_mouse_button_released));
-    Event::dispatch<MouseMovedEvent>(
-        event, BIND_EVENT_FN(LinuxInput::handle_mouse_motion));
-    Event::dispatch<MouseScrolledEvent>(
-        event, BIND_EVENT_FN(LinuxInput::handle_mouse_scroll));
+        event, BIND_EVENT_FN(handle_mouse_button_released));
+    Event::dispatch<MouseMovedEvent>(event, BIND_EVENT_FN(handle_mouse_motion));
+    Event::dispatch<MouseScrolledEvent>(event,
+                                        BIND_EVENT_FN(handle_mouse_scroll));
 }
 
-bool LinuxInput::handle_key_down(KeyPressedEvent& event)
+bool handle_key_down(KeyPressedEvent& event)
 {
-    current_keys_.insert(event.key_code());
+    input_state.current_keys_.insert(event.key_code());
     return true;
 }
 
-bool LinuxInput::handle_key_up(KeyReleasedEvent& event)
+bool handle_key_up(KeyReleasedEvent& event)
 {
-    last_keys_.insert(event.key_code());
-    current_keys_.erase(event.key_code());
+    input_state.last_keys_.insert(event.key_code());
+    input_state.current_keys_.erase(event.key_code());
     return true;
 }
 
-bool LinuxInput::handle_mouse_button_down(MouseButtonPressedEvent& event)
+bool handle_mouse_button_down(MouseButtonPressedEvent& event)
 {
-    current_mouse_keys_.insert(event.key_code());
+    input_state.current_mouse_keys_.insert(event.key_code());
     return true;
 }
 
-bool LinuxInput::handle_mouse_button_released(MouseButtonReleasedEvent& event)
+bool handle_mouse_button_released(MouseButtonReleasedEvent& event)
 {
-    last_mouse_keys_.insert(event.key_code());
-    current_mouse_keys_.erase(event.key_code());
+    input_state.last_mouse_keys_.insert(event.key_code());
+    input_state.current_mouse_keys_.erase(event.key_code());
     return true;
 }
 
-bool LinuxInput::handle_mouse_motion(MouseMovedEvent& event)
+bool handle_mouse_motion(MouseMovedEvent& event)
 {
-    mouse_position_ = event.position();
+    input_state.mouse_position_ = event.position();
     return true;
 }
 
 // TODO: Implement mouse scrolling
-bool LinuxInput::handle_mouse_scroll([[maybe_unused]] MouseScrolledEvent& event)
+bool handle_mouse_scroll([[maybe_unused]] MouseScrolledEvent& event)
 {
     return true;
 }
 
-bool LinuxInput::is_key_down_impl(SDL_Keycode key_code)
+bool Input::is_key_down(SDL_Keycode key_code)
 {
-    return current_keys_.find(key_code) != current_keys_.end();
+    return input_state.current_keys_.find(key_code) !=
+           input_state.current_keys_.end();
 }
 
-bool LinuxInput::is_key_up_impl(SDL_Keycode key_code)
+bool Input::is_key_up(SDL_Keycode key_code)
 {
-    return !is_key_down_impl(key_code);
+    return !is_key_down(key_code);
 }
 
-bool LinuxInput::is_key_just_pressed_impl(SDL_Keycode key_code)
+bool Input::is_key_just_pressed(SDL_Keycode key_code)
 {
-    return is_key_down_impl(key_code) &&
-           last_keys_.find(key_code) == last_keys_.end();
+    return is_key_down(key_code) && input_state.last_keys_.find(key_code) ==
+                                        input_state.last_keys_.end();
 }
 
-bool LinuxInput::is_mouse_button_down_impl(std::uint8_t key_code)
+bool Input::is_mouse_button_down(std::uint8_t key_code)
 {
-    return current_mouse_keys_.find(key_code) != current_mouse_keys_.end();
+    return input_state.current_mouse_keys_.find(key_code) !=
+           input_state.current_mouse_keys_.end();
 }
 
-bool LinuxInput::is_mouse_button_up_impl(std::uint8_t key_code)
+bool Input::is_mouse_button_up(std::uint8_t key_code)
 {
-    return !is_mouse_button_down_impl(key_code);
+    return !is_mouse_button_down(key_code);
 }
 
-bool LinuxInput::is_mouse_button_just_pressed_impl(std::uint8_t key_code)
+bool Input::is_mouse_button_just_pressed(std::uint8_t key_code)
 {
-    return is_mouse_button_down_impl(key_code) &&
-           last_mouse_keys_.find(key_code) == last_mouse_keys_.end();
+    return is_mouse_button_down(key_code) &&
+           input_state.last_mouse_keys_.find(key_code) ==
+               input_state.last_mouse_keys_.end();
 }
 
-std::pair<float, float> LinuxInput::get_mouse_position_impl()
+std::pair<float, float> Input::get_mouse_position()
 {
-    return mouse_position_;
+    return input_state.mouse_position_;
 }
 
 } // namespace SGE

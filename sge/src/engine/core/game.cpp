@@ -25,7 +25,7 @@ Game::Game()
     instance_ = this;
 
     window_ = Window::create();
-    window_->set_event_callback(BIND_EVENT_FN(Game::handle_event));
+    window_->set_event_callback(BIND_EVENT_MEMBER_FN(Game::handle_event));
 
     Log::init();
     Renderer::init();
@@ -79,15 +79,15 @@ void Game::run()
 
 void Game::handle_event(Event& event)
 {
-    Event::dispatch<WindowCloseEvent>(event,
-                                      BIND_EVENT_FN(Game::handle_window_close));
+    Event::dispatch<WindowCloseEvent>(
+        event, BIND_EVENT_MEMBER_FN(Game::handle_window_close));
 
     Event::dispatch<WindowResizeEvent>(
-        event, BIND_EVENT_FN(Game::handle_window_resize));
+        event, BIND_EVENT_MEMBER_FN(Game::handle_window_resize));
     Event::dispatch<WindowMinimizeEvent>(
-        event, BIND_EVENT_FN(Game::handle_window_minimize));
+        event, BIND_EVENT_MEMBER_FN(Game::handle_window_minimize));
     Event::dispatch<WindowRestoreEvent>(
-        event, BIND_EVENT_FN(Game::handle_window_restore));
+        event, BIND_EVENT_MEMBER_FN(Game::handle_window_restore));
 
     if (event.handled) {
         return;

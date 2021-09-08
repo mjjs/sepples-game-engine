@@ -4,9 +4,14 @@
 #include <functional>
 #include <string>
 
-#define BIND_EVENT_FN(fn)                                                      \
+#define BIND_EVENT_MEMBER_FN(fn)                                               \
     [this](auto&&... args) -> decltype(auto) {                                 \
         return this->fn(std::forward<decltype(args)>(args)...);                \
+    }
+
+#define BIND_EVENT_FN(fn)                                                      \
+    [](auto&&... args) -> decltype(auto) {                                     \
+        return fn(std::forward<decltype(args)>(args)...);                      \
     }
 
 namespace SGE
