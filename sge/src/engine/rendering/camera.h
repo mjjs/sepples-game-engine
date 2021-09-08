@@ -58,6 +58,16 @@ class Camera
         recalculate_projection();
     }
 
+    void set_projection_type_perspective()
+    {
+        set_projection_type(ProjectionType::PERSPECTIVE);
+    }
+
+    void set_projection_type_orthographic()
+    {
+        set_projection_type(ProjectionType::ORTHOGRAPHIC);
+    }
+
     // Perspective
     float fov() const
     {
@@ -146,6 +156,16 @@ class Camera
     void set_primary(bool primary)
     {
         primary_ = primary;
+    }
+
+    bool is_orthographic() const
+    {
+        return projection_type_ == ProjectionType::ORTHOGRAPHIC;
+    }
+
+    bool is_perspective() const
+    {
+        return projection_type_ == ProjectionType::PERSPECTIVE;
     }
 };
 
