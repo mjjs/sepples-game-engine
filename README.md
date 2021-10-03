@@ -12,6 +12,12 @@ All dependencies will be attempted to be added as git submodules under the vendo
 * Glad
 * Assimp
 * spdlog
+* imgui
+* imguizmo
+* portable-file-dialogs
+* yaml-cpp
+* glm
+* entt
 
 ## Building/running
 ```bash
