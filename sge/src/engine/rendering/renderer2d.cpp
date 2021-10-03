@@ -109,10 +109,12 @@ void Renderer2D::init()
     renderer_state.vertex_array->set_index_buffer(IndexBuffer::create(indices));
 }
 
-void Renderer2D::prepare_frame(const Camera& camera)
+void Renderer2D::prepare_frame(const Camera& camera,
+                               const glm::mat4& view_matrix)
 {
-    auto proj = camera.get_view_projection();
-    renderer_state.camera_buffer->set_data(&proj, sizeof(glm::mat4));
+    const auto view_projection =
+        camera.projection() * glm::inverse(view_matrix);
+    renderer_state.camera_buffer->set_data(&view_projection, sizeof(glm::mat4));
     initialize_batch();
 }
 

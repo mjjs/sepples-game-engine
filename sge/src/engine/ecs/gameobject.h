@@ -53,6 +53,26 @@ class GameObject
         assert(has_component<ComponentType>());
         scene_->components_.remove<ComponentType>(id_);
     }
+
+    bool operator==(const GameObject& other) const
+    {
+        return id_ == other.id_ && scene_ == other.scene_;
+    }
+
+    bool operator!=(const GameObject& other) const
+    {
+        return !(*this == other);
+    }
+
+    operator entt::entity() const
+    {
+        return id_;
+    }
+
+    operator bool() const
+    {
+        return id_ != entt::null;
+    }
 };
 
 } // namespace SGE

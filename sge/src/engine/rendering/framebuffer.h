@@ -28,7 +28,8 @@ class Framebuffer
     virtual void bind() const   = 0;
     virtual void unbind() const = 0;
 
-    virtual std::uint32_t colour_attachment_buffer_id() const = 0;
+    virtual std::uint32_t colour_attachment_buffer_id() const      = 0;
+    virtual void resize(std::uint32_t width, std::uint32_t height) = 0;
 
     static std::shared_ptr<Framebuffer> create(const FramebufferConfig& config);
 };

@@ -1,5 +1,6 @@
 #include "engine/rendering/renderer.h"
 
+#include "engine/core/transform.h"
 #include "engine/debug/profiler.h"
 #include "engine/rendering/buffers/uniformbuffer.h"
 #include "engine/rendering/camera.h"
@@ -8,6 +9,7 @@
 #include "engine/rendering/shader.h"
 
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <memory>
 
 namespace SGE
@@ -34,12 +36,13 @@ void Renderer::set_clear_colour(const glm::vec4& colour)
     graphics_api_->set_clear_colour(colour);
 }
 
-void Renderer::prepare_frame(const Camera& camera)
+void Renderer::prepare_frame(const Camera& camera, const glm::mat4& view_matrix)
 {
     SGE_PROFILE_FUNCTION();
 
-    auto view_projection = camera.get_view_projection();
-    camera_buffer_->set_data(&view_projection, sizeof(view_projection));
+    auto view_projection = camera.projection() * glm::inverse(view_matrix);
+    camera_buffer_->set_data(glm::value_ptr(view_projection),
+                             sizeof(view_projection));
 }
 
 void Renderer::submit(const std::shared_ptr<Shader>& shader,

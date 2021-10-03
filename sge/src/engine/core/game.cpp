@@ -30,6 +30,8 @@ Game::Game()
     Log::init();
     Renderer::init();
     Renderer2D::init();
+
+    on_created();
 }
 
 void Game::run()
@@ -49,20 +51,16 @@ void Game::run()
             continue;
         }
 
-        if (active_scene_) {
-            active_scene_->update(timer.fixed_time_step());
-        }
-
         Input::update();
+
+        update(timer.fixed_time_step());
 
         window_->begin_imgui_rendering();
         render_imgui();
         window_->end_imgui_rendering();
 
         while (timer.game_needs_updating()) {
-            if (active_scene_) {
-                active_scene_->fixed_update();
-            }
+            fixed_update();
 
             timer.use_unprocessed_time();
 
@@ -110,9 +108,7 @@ bool Game::handle_window_resize(WindowResizeEvent& event)
     auto height = event.height();
 
     Renderer::set_viewport(0, 0, width, height);
-    if (active_scene_) {
-        active_scene_->on_window_resized(width, height);
-    }
+    on_viewport_resize(width, height);
 
     return false;
 }
@@ -127,16 +123,6 @@ bool Game::handle_window_restore([[maybe_unused]] WindowRestoreEvent& event)
 {
     minimized_ = false;
     return true;
-}
-
-void Game::set_active_scene(std::unique_ptr<Scene>& scene)
-{
-    active_scene_ = std::move(scene);
-}
-
-std::unique_ptr<Scene>& Game::active_scene()
-{
-    return active_scene_;
 }
 
 } // namespace SGE

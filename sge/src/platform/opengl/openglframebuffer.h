@@ -18,6 +18,8 @@ class OpenGLFramebuffer : public Framebuffer
 
     FramebufferConfig config_;
 
+    void initialize();
+
   public:
     OpenGLFramebuffer(const FramebufferConfig& config);
     ~OpenGLFramebuffer();
@@ -29,6 +31,8 @@ class OpenGLFramebuffer : public Framebuffer
 
     void bind() const override;
     void unbind() const override;
+
+    void resize(std::uint32_t width, std::uint32_t height) override;
 
     std::uint32_t colour_attachment_buffer_id() const override
     {

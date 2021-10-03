@@ -15,7 +15,6 @@ namespace SGE
 
 class WindowCloseEvent;
 class WindowResizeEvent;
-class Scene;
 
 class Game
 {
@@ -23,7 +22,6 @@ class Game
     // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
     static Game* instance_;
 
-    std::unique_ptr<Scene> active_scene_;
     std::unique_ptr<Window> window_;
 
     bool running_   = true;
@@ -60,12 +58,28 @@ class Game
     {
     }
 
-    void set_active_scene(std::unique_ptr<Scene>& scene);
-    std::unique_ptr<Scene>& active_scene();
+    virtual void on_viewport_resize([[maybe_unused]] const std::size_t width,
+                                    [[maybe_unused]] const std::size_t height)
+    {
+    }
+
+    virtual void on_created()
+    {
+    }
 
     const Window& window() const
     {
         return *window_;
+    }
+
+    Window& window()
+    {
+        return *window_;
+    }
+
+    void shutdown()
+    {
+        running_ = false;
     }
 
     static Game& get()

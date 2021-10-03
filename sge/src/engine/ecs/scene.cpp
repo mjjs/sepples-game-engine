@@ -1,5 +1,6 @@
 #include "engine/ecs/scene.h"
 
+#include "engine/core/log.h"
 #include "engine/ecs/components/cameracomponent.h"
 #include "engine/ecs/components/cppscriptcomponent.h"
 #include "engine/ecs/components/meshrenderercomponent.h"
@@ -9,6 +10,8 @@
 #include "engine/ecs/gameobject.h"
 #include "engine/rendering/renderer.h"
 
+#include <cstdint>
+
 namespace SGE
 {
 
@@ -16,16 +19,22 @@ void Scene::update(float delta)
 {
     script_update(delta);
 
-    // TODO: Make sure there is only one camera
-    // (or better, support multiple cameras and have a MAIN camera)
-    auto cameras      = components_.view<CameraComponent>();
-    auto scene_camera = cameras.get<CameraComponent>(cameras.front());
+    auto group = components_.group<CameraComponent, TransformComponent>();
+    for (const auto game_object : group) {
+        auto [camera, transform] =
+            group.get<CameraComponent, TransformComponent>(game_object);
 
-    Renderer::prepare_frame(scene_camera.camera());
+        if (camera.camera().primary()) {
+            Renderer::prepare_frame(camera.camera(),
+                                    transform.transform().get_transformation());
+
+            break;
+        }
+    }
 
     auto meshes = components_.view<MeshRendererComponent, TransformComponent>();
 
-    for (const auto& game_object : meshes) {
+    for (const auto game_object : meshes) {
         auto [mesh_component, transform_component] =
             meshes.get<MeshRendererComponent, TransformComponent>(game_object);
 
@@ -36,7 +45,7 @@ void Scene::update(float delta)
     auto models =
         components_.view<ModelRendererComponent, TransformComponent>();
 
-    for (const auto& game_object : models) {
+    for (const auto game_object : models) {
         auto [model_component, transform_component] =
             models.get<ModelRendererComponent, TransformComponent>(game_object);
 
@@ -50,9 +59,12 @@ void Scene::fixed_update()
     script_fixed_update();
 }
 
-void Scene::on_window_resized(const unsigned int width,
-                              const unsigned int height)
+void Scene::on_window_resized(const std::uint32_t width,
+                              const std::uint32_t height)
 {
+    viewport_width_  = width;
+    viewport_height_ = height;
+
     auto cameras = components_.view<CameraComponent>();
     for (const auto& game_object : cameras) {
         auto& camera = cameras.get<CameraComponent>(game_object);
@@ -64,10 +76,15 @@ GameObject Scene::add_game_object(const std::string& tag)
 {
     auto game_object = GameObject{components_.create(), this};
 
-    game_object.add_component<TagComponent>(tag);
+    game_object.add_component<TagComponent>(get_unique_name(tag));
     game_object.add_component<TransformComponent>();
 
     return game_object;
+}
+
+void Scene::remove_game_object(GameObject game_object)
+{
+    components_.destroy(game_object);
 }
 
 void Scene::script_update(const float delta)
@@ -100,6 +117,36 @@ void Scene::script_fixed_update()
 
         script.instance->fixed_update();
     });
+}
+
+std::string Scene::get_unique_name(const std::string& name)
+{
+    std::uint32_t index = 1;
+
+    if (!reserved_names_.contains(name)) {
+        reserved_names_[name] = index;
+        return name;
+    }
+
+    index                 = reserved_names_[name];
+    reserved_names_[name] = index + 1;
+
+    return name + "_" + std::to_string(index);
+}
+
+GameObject Scene::get_primary_camera()
+{
+    auto group = components_.group<CameraComponent, TransformComponent>();
+    for (const auto game_object_id : group) {
+        auto [camera, transform] =
+            group.get<CameraComponent, TransformComponent>(game_object_id);
+
+        if (camera.camera().primary()) {
+            return GameObject{game_object_id, this};
+        }
+    }
+
+    return GameObject{};
 }
 
 } // namespace SGE

@@ -10,6 +10,7 @@
 #include <backends/imgui_impl_sdl.h>
 #include <glad/glad.h>
 #include <imgui.h>
+#include <imguizmo/ImGuizmo.h>
 #include <utility>
 
 namespace SGE
@@ -50,14 +51,12 @@ void LinuxImguiRenderer::start_rendering() const
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
+    ImGuizmo::BeginFrame();
 }
 
-std::pair<float, float> LinuxImguiRenderer::end_rendering() const
+void LinuxImguiRenderer::end_rendering() const
 {
     ImGuiIO& io = ImGui::GetIO();
-
-    float x = io.DisplaySize.x;
-    float y = io.DisplaySize.y;
 
     const auto& window = Game::get().window();
 
@@ -76,19 +75,21 @@ std::pair<float, float> LinuxImguiRenderer::end_rendering() const
 
         SDL_GL_MakeCurrent(sdl_window, sdl_context);
     }
-
-    return {x, y};
 }
 
 bool LinuxImguiRenderer::handle_event(SDL_Event& event) const
 {
-    ImGuiIO& io  = ImGui::GetIO();
-    bool handled = (static_cast<int>(io.WantCaptureMouse) |
-                    static_cast<int>(io.WantCaptureKeyboard)) != 0;
+    if (block_events_) {
+        //        ImGuiIO& io  = ImGui::GetIO();
+        //        bool handled = (static_cast<int>(io.WantCaptureMouse) |
+        //                        static_cast<int>(io.WantCaptureKeyboard)) !=
+        //                        0;
 
-    ImGui_ImplSDL2_ProcessEvent(&event);
+        ImGui_ImplSDL2_ProcessEvent(&event);
+        return true;
+    }
 
-    return handled;
+    return false;
 }
 
 } // namespace SGE

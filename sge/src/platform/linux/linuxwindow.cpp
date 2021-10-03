@@ -150,7 +150,7 @@ void LinuxWindow::dispatch_window_event(const SDL_WindowEvent& event)
         break;
     }
 
-    case SDL_WINDOWEVENT_SIZE_CHANGED: {
+    case SDL_WINDOWEVENT_RESIZED: {
         auto width  = event.data1;
         auto height = event.data2;
 
@@ -207,12 +207,7 @@ void LinuxWindow::begin_imgui_rendering()
 
 void LinuxWindow::end_imgui_rendering()
 {
-    auto [width, height] = imgui_renderer_->end_rendering();
-
-    WindowResizeEvent event{static_cast<unsigned int>(width),
-                            static_cast<unsigned int>(height)};
-
-    event_callback_(event);
+    imgui_renderer_->end_rendering();
 }
 
 } // namespace SGE

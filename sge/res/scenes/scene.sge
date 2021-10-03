@@ -1,0 +1,37 @@
+# SGE Scene
+Scene:
+  Name: Scene Name
+  GameObjects:
+    - GameObject: <insert uuid here>
+      TagComponent:
+        Tag: camera
+      TransformComponent:
+        Position: [0, 0, 0]
+        Rotation: [0, 0, 0, 1]
+        Scale: [1, 1, 1]
+        EulerHints: [0, 0, 0]
+      CameraComponent:
+        ProjectionType: 0
+        Fov: 75
+        AspectRatio: 0
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 0.00999999978
+        OrthographicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: -1
+    - GameObject: <insert uuid here>
+      TagComponent:
+        Tag: floor
+      TransformComponent:
+        Position: [0, 0, 0]
+        Rotation: [0, 0, 0, 1]
+        Scale: [1, 1, 1]
+        EulerHints: [0, 0, 0]
+    - GameObject: <insert uuid here>
+      TagComponent:
+        Tag: backpack
+      TransformComponent:
+        Position: [0, 0, 0]
+        Rotation: [0, 0, 0, 1]
+        Scale: [1, 1, 1]
+        EulerHints: [0, 0, 0]

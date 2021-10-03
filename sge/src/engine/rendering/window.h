@@ -28,9 +28,10 @@ class Window
     Window& operator=(const Window&) = delete;
     Window& operator=(const Window&&) = delete;
 
-    virtual void update()                = 0;
-    virtual void begin_imgui_rendering() = 0;
-    virtual void end_imgui_rendering()   = 0;
+    virtual void update()                                  = 0;
+    virtual void begin_imgui_rendering()                   = 0;
+    virtual void end_imgui_rendering()                     = 0;
+    virtual void set_block_imgui_events(bool should_block) = 0;
 
     virtual std::uint32_t width() const     = 0;
     virtual std::uint32_t height() const    = 0;
