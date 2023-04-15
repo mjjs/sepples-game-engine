@@ -3,7 +3,7 @@
 
 #include "engine/imgui/imguirenderer.h"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <utility>
 
 namespace SGE
@@ -18,9 +18,9 @@ class LinuxImguiRenderer : public ImguiRenderer
     LinuxImguiRenderer(SDL_Window* window, void* context);
     ~LinuxImguiRenderer();
 
-    LinuxImguiRenderer(const LinuxImguiRenderer&)  = delete;
-    LinuxImguiRenderer(const LinuxImguiRenderer&&) = delete;
-    LinuxImguiRenderer& operator=(const LinuxImguiRenderer&) = delete;
+    LinuxImguiRenderer(const LinuxImguiRenderer&)             = delete;
+    LinuxImguiRenderer(const LinuxImguiRenderer&&)            = delete;
+    LinuxImguiRenderer& operator=(const LinuxImguiRenderer&)  = delete;
     LinuxImguiRenderer& operator=(const LinuxImguiRenderer&&) = delete;
 
     void start_rendering() const override;

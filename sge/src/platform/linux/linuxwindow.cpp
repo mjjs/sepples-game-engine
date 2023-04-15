@@ -15,7 +15,7 @@
 #include "engine/event/windowrestoreevent.h"
 #include "engine/imgui/imguirenderer.h"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <stdexcept>
 
 namespace SGE
@@ -26,6 +26,7 @@ LinuxWindow::LinuxWindow(const std::string& title, std::uint32_t width,
     : width_{width}, height_{height}, title_{title}
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        LOG_ERROR(SDL_GetError());
         throw std::runtime_error("SDL init failed");
     }
 
@@ -39,6 +40,7 @@ LinuxWindow::LinuxWindow(const std::string& title, std::uint32_t width,
                                SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
     if (window_ == nullptr) {
+        LOG_ERROR(SDL_GetError());
         throw std::runtime_error("Could not create SDL window");
     }
 

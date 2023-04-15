@@ -1,5 +1,5 @@
 CXX = clang++
-ARCHIVER = llvm-ar-11
+ARCHIVER = llvm-ar
 CPPFLAGS ?= -std=c++20 -g
 # Uncomment for debugging
 #CPPFLAGS += -Wall -Wextra -Wpedantic
@@ -21,7 +21,7 @@ OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 GLAD_STATIC_LIB =   glad/libglad.a
 SPDLOG_STATIC_LIB = spdlog/build/libspdlog.a
 SDL_STATIC_LIB =    sdl/build/libSDL2.a
-ASSIMP_STATIC_LIB = assimp/build/lib/libassimp.a
+ASSIMP_STATIC_LIB = assimp/lib/libassimp.a
 
 STATIC_LIBS = $(GLAD_STATIC_LIB) $(SPDLOG_STATIC_LIB) $(SDL_STATIC_LIB) $(ASSIMP_STATIC_LIB)
 
@@ -36,11 +36,10 @@ $(SPDLOG_STATIC_LIB):
 
 $(SDL_STATIC_LIB):
 	$(MKDIR_P) sdl/build
-	cd sdl/build && cmake .. && $(MAKE) -j
+	cd sdl/build && cmake .. -DCMAKE_BUILD_TYPE=Release && cmake --build . --config Release --parallel
 
 $(ASSIMP_STATIC_LIB):
-	$(MKDIR_P) assimp/build
-	cd assimp/build && cmake -D BUILD_SHARED_LIBS=OFF .. && $(MAKE) -j
+	cd assimp && cmake -D CMAKE_CXX_FLAGS="-Wno-error=array-bounds" -D BUILD_SHARED_LIBS=OFF . && $(MAKE) -j
 
 .PHONY: clean run deps
 

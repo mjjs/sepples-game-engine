@@ -24,10 +24,11 @@ Game::Game()
 {
     instance_ = this;
 
+    Log::init();
+
     window_ = Window::create();
     window_->set_event_callback(BIND_EVENT_MEMBER_FN(Game::handle_event));
 
-    Log::init();
     Renderer::init();
     Renderer2D::init();
 

@@ -1,5 +1,5 @@
 CXX = clang++
-ARCHIVER = llvm-ar-11
+ARCHIVER = llvm-ar
 CPPFLAGS ?= -Wall -Wextra -Wpedantic -std=c++20 -g
 
 BUILD_DIR ?= build
@@ -32,7 +32,7 @@ VENDOR_INCLUDES += $(VENDOR_DIR)/spdlog/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/glad/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/assimp/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/entt/single_include/entt
-VENDOR_INCLUDES += $(VENDOR_DIR)/glm/glm
+VENDOR_INCLUDES += $(VENDOR_DIR)/glm
 VENDOR_INCLUDES += $(VENDOR_DIR)/imgui
 VENDOR_INCLUDES += $(VENDOR_DIR)/sdl/include
 VENDOR_INCLUDES += $(VENDOR_DIR)/yaml-cpp/include
@@ -47,7 +47,7 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 # LIBRARIES
 LIBS = dl SDL2 assimp glad spdlog pthread z
-VENDOR_LIB_PATHS = $(VENDOR_DIR)/spdlog/build $(VENDOR_DIR)/glad $(VENDOR_DIR)/assimp/build/lib $(VENDOR_DIR)/sdl/build
+VENDOR_LIB_PATHS = $(VENDOR_DIR)/spdlog/build $(VENDOR_DIR)/glad $(VENDOR_DIR)/assimp/lib $(VENDOR_DIR)/sdl/build
 LDFLAGS = $(addprefix -l,$(LIBS)) $(addprefix -L,$(VENDOR_LIB_PATHS))
 
 $(BUILD_DIR)/$(TARGET): $(OBJS) vendor

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-llvm-ar-11 -M <<EOF
+llvm-ar -M <<EOF
     CREATE build/libsge.a
     ADDLIB build/libsge.a
     ADDLIB ../vendor/spdlog/build/libspdlog.a

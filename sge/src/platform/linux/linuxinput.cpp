@@ -7,8 +7,8 @@
 #include "engine/event/mousemovedevent.h"
 #include "engine/event/mousescrolledevent.h"
 
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_keyboard.h>
+#include <SDL_events.h>
+#include <SDL_keyboard.h>
 #include <cstdint>
 #include <unordered_set>
 #include <utility>

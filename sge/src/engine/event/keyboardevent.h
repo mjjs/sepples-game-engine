@@ -3,7 +3,7 @@
 
 #include "engine/event/event.h"
 
-#include <SDL2/SDL_keycode.h>
+#include <SDL_keycode.h>
 #include <string>
 
 namespace SGE

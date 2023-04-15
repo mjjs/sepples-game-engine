@@ -5,7 +5,7 @@
 #include "engine/core/game.h"
 #include "engine/core/log.h"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <backends/imgui_impl_opengl3.h>
 #include <backends/imgui_impl_sdl.h>
 #include <glad/glad.h>

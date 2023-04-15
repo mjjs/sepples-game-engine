@@ -3,7 +3,7 @@
 
 #include "engine/rendering/renderingcontext.h"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <memory>
 
 namespace SGE
