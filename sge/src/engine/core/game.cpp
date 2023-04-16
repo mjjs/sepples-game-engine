@@ -18,12 +18,8 @@
 namespace SGE
 {
 
-Game* Game::instance_ = nullptr; // NOLINT
-
 Game::Game()
 {
-    instance_ = this;
-
     Log::init();
 
     window_ = Window::create();

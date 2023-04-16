@@ -19,9 +19,6 @@ class WindowResizeEvent;
 class Game
 {
   private:
-    // NOLINTNEXTLINE(cppcoreguidelines-avoid-non-const-global-variables)
-    static Game* instance_;
-
     std::unique_ptr<Window> window_;
 
     bool running_   = true;
@@ -41,10 +38,10 @@ class Game
     Game();
     virtual ~Game() = default;
 
-    Game(const Game&) = delete;
-    Game(Game&&)      = delete;
+    Game(const Game&)            = delete;
+    Game(Game&&)                 = delete;
     Game& operator=(const Game&) = delete;
-    Game& operator=(Game&&) = delete;
+    Game& operator=(Game&&)      = delete;
 
     virtual void update([[maybe_unused]] float delta)
     {
@@ -80,11 +77,6 @@ class Game
     void shutdown()
     {
         running_ = false;
-    }
-
-    static Game& get()
-    {
-        return *instance_;
     }
 };
 

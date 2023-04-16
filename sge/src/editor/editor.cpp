@@ -158,7 +158,7 @@ void Editor::render_imgui()
             }
 
             if (ImGui::MenuItem("Quit")) {
-                get().shutdown();
+                this->shutdown();
             }
 
             ImGui::EndMenu();
@@ -171,7 +171,7 @@ void Editor::render_imgui()
     game_object_properties_panel_->render_imgui();
 
     ImGui::Begin("Scene");
-    get().window().set_block_imgui_events(!ImGui::IsWindowFocused() &&
+    this->window().set_block_imgui_events(!ImGui::IsWindowFocused() &&
                                           !ImGui::IsWindowHovered());
 
     auto [width, height] = ImGui::GetContentRegionAvail();

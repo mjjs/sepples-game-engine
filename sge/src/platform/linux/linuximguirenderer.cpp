@@ -8,6 +8,7 @@
 #include <SDL.h>
 #include <backends/imgui_impl_opengl3.h>
 #include <backends/imgui_impl_sdl.h>
+#include <cstdint>
 #include <glad/glad.h>
 #include <imgui.h>
 #include <imguizmo/ImGuizmo.h>
@@ -54,14 +55,13 @@ void LinuxImguiRenderer::start_rendering() const
     ImGuizmo::BeginFrame();
 }
 
-void LinuxImguiRenderer::end_rendering() const
+void LinuxImguiRenderer::end_rendering(const std::uint32_t width,
+                                       const std::uint32_t height) const
 {
     ImGuiIO& io = ImGui::GetIO();
 
-    const auto& window = Game::get().window();
-
-    io.DisplaySize = ImVec2{static_cast<float>(window.width()),
-                            static_cast<float>(window.height())};
+    io.DisplaySize =
+        ImVec2{static_cast<float>(width), static_cast<float>(height)};
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

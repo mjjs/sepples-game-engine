@@ -37,11 +37,11 @@ class LinuxWindow : public Window
                 std::uint32_t width      = default_window_width,
                 std::uint32_t height     = default_window_height);
 
-    ~LinuxWindow();
+    ~LinuxWindow() override;
 
-    LinuxWindow(const LinuxWindow&)  = delete;
-    LinuxWindow(const LinuxWindow&&) = delete;
-    LinuxWindow& operator=(const LinuxWindow&) = delete;
+    LinuxWindow(const LinuxWindow&)             = delete;
+    LinuxWindow(const LinuxWindow&&)            = delete;
+    LinuxWindow& operator=(const LinuxWindow&)  = delete;
     LinuxWindow& operator=(const LinuxWindow&&) = delete;
 
     void update() override;

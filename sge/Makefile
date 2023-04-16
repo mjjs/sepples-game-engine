@@ -50,7 +50,7 @@ LIBS = dl SDL2 assimp glad spdlog pthread z
 VENDOR_LIB_PATHS = $(VENDOR_DIR)/spdlog/build $(VENDOR_DIR)/glad $(VENDOR_DIR)/assimp/lib $(VENDOR_DIR)/sdl/build
 LDFLAGS = $(addprefix -l,$(LIBS)) $(addprefix -L,$(VENDOR_LIB_PATHS))
 
-$(BUILD_DIR)/$(TARGET): $(OBJS) vendor
+$(BUILD_DIR)/$(TARGET): vendor $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
 
 $(BUILD_DIR)/%.cpp.o: %.cpp

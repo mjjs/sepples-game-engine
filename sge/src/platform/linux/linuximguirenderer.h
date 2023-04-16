@@ -4,6 +4,7 @@
 #include "engine/imgui/imguirenderer.h"
 
 #include <SDL.h>
+#include <cstdint>
 #include <utility>
 
 namespace SGE
@@ -24,7 +25,8 @@ class LinuxImguiRenderer : public ImguiRenderer
     LinuxImguiRenderer& operator=(const LinuxImguiRenderer&&) = delete;
 
     void start_rendering() const override;
-    void end_rendering() const override;
+    void end_rendering(std::uint32_t width,
+                       std::uint32_t height) const override;
 
     bool handle_event(SDL_Event& event) const;
     void set_event_blocking(bool should_block) override

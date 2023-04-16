@@ -209,7 +209,7 @@ void LinuxWindow::begin_imgui_rendering()
 
 void LinuxWindow::end_imgui_rendering()
 {
-    imgui_renderer_->end_rendering();
+    imgui_renderer_->end_rendering(width_, height_);
 }
 
 } // namespace SGE
